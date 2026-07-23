@@ -68,6 +68,18 @@ const art = {
   lushGolemCutout: new Image(),
   lavaGolem: new Image(),
   lavaGolemCutout: new Image(),
+  oceanBoss: new Image(),
+  iceBoss: new Image(),
+  iceMinion: new Image(),
+  lavaMinion: new Image(),
+  lavaTank: new Image(),
+  oceanMinion: new Image(),
+  oceanTank: new Image(),
+  lushMinion: new Image(),
+  lushTank: new Image(),
+  woodBoss: new Image(),
+  woodMinion: new Image(),
+  lushCave: new Image(),
 };
 
 function createLushGolemCutout(source) {
@@ -188,7 +200,7 @@ function createLavaGolemCutout(source) {
 function preloadArt() {
   const sources = {
     roomRuins: 'assets/room-ruins.svg',
-    hero: 'assets/hero.svg',
+    hero: 'assets/hero.png',
     walker: 'assets/walker.svg',
     runner: 'assets/runner.svg',
     brute: 'assets/brute.svg',
@@ -200,8 +212,20 @@ function preloadArt() {
     burrower: 'assets/burrower.svg',
     arcaneOrb: 'assets/arcane-orb.svg',
     reaper: 'assets/reaper.svg',
-    lushGolem: 'assets/lushgolom.png',
-    lavaGolem: 'assets/lava golem.png',
+    lushGolem: 'assets/boss1-lushgolem.png',
+    lavaGolem: 'assets/boss2-lavagolem.png',
+    oceanBoss: 'assets/boss3-oceanboss.png',
+    iceBoss: 'assets/boss4-iceboss.png',
+    iceMinion: 'assets/ice minion.png',
+    lavaMinion: 'assets/lavaminion.png',
+    lavaTank: 'assets/lavatank.png',
+    oceanMinion: 'assets/oceanminion.png',
+    oceanTank: 'assets/oceantank.png',
+    lushMinion: 'assets/lushminion.png',
+    lushTank: 'assets/lushtank.png',
+    woodBoss: 'assets/boss10-woodboss.png',
+    woodMinion: 'assets/woodminion.png',
+    lushCave: 'assets/lushcave.png',
   };
 
   Object.entries(sources).forEach(([key, src]) => {
@@ -507,6 +531,7 @@ function findRoomPath(start, goal) {
 }
 
 function getEnemyNavigationTarget(enemy) {
+  if (enemy.bossMinion) return player;
   const containingRoom = getContainingRoom(enemy);
   const startRoom = containingRoom || getNearestRoom(enemy);
   const goalRoom = getContainingRoom(player) || getNearestRoom(player);
@@ -574,7 +599,7 @@ function resolveRoomCollision(entity, nextX, nextY) {
   const candidate = { x: nextX, y: nextY };
 
   // Boss fights use the entire arena and ignore the dungeon room walls.
-  if (state.boss && entity === player) {
+  if (state.boss && (entity === player || entity.bossMinion)) {
     candidate.x = clamp(
       candidate.x,
       state.bossArena.x + entity.radius,
@@ -741,13 +766,16 @@ function spawnEnemiesForWave() {
 function spawnBoss() {
   const isFirstBoss = state.bossDefeated === 0;
   const isSecondBoss = state.bossDefeated === 1;
+  const isThirdBoss = state.bossDefeated === 2;
+  const isFourthBoss = state.bossDefeated === 3;
+  const isTenthBoss = state.bossDefeated === 9;
   const bossTier = state.bossDefeated + 1;
   const bossHealth = 470 + bossTier * 230 + Math.max(0, bossTier - 2) * 90;
   const bossDamage = 14 + bossTier * 5 + Math.max(0, bossTier - 2) * 1.5;
   state.boss = {
     x: world.width / 2,
     y: world.height / 2,
-    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : 36,
+    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isTenthBoss ? 58 : 36,
     health: bossHealth,
     maxHealth: bossHealth,
     damage: bossDamage,
@@ -755,13 +783,15 @@ function spawnBoss() {
     cooldown: 1.1,
     attackWindup: 0,
     attackWindupTotal: 0.38,
-    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : 'slam',
+    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isTenthBoss ? 'woodSlam' : 'slam',
     attackPulse: 0,
     hitFlash: 0,
     movePhase: 0,
     facingX: -1,
     defeatedTimer: 0,
-    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : 'standard',
+    halfHealthMinionSummoned: false,
+    nextWoodMinionThreshold: 0.9,
+    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isTenthBoss ? 'woodBoss' : 'standard',
   };
   player.x = world.width / 2 - 150;
   player.y = world.height / 2;
@@ -772,6 +802,7 @@ function spawnBoss() {
     protector.target = null;
   });
   setMessage(`Boss arena reached. Defeat the boss to gain stronger loot.`);
+  if (state.boss.variant === 'iceBoss') summonIceMinion(state.boss, 'opening');
 }
 
 function startNextWave() {
@@ -890,7 +921,7 @@ function handleInput(dt) {
   const moveY = dy / len;
 
   let speed = player.speed;
-  if (keys.has('shift') && player.stamina > 0) {
+  if (keys.has('g') && player.stamina > 0) {
     speed *= 1.55;
     player.stamina = clamp(player.stamina - 20 * dt, 0, 100);
   } else {
@@ -988,7 +1019,8 @@ function tryAttack() {
     state.boss.hitFlash = 0.2;
     state.boss.x += player.facing.x * 10;
     state.boss.y += player.facing.y * 10;
-    spawnBurst(state.boss.x, state.boss.y, 8, state.boss.variant === 'lavaGolem' ? '#fb923c' : '#fca5a5', 120);
+    const bossHitColor = state.boss.variant === 'lavaGolem' ? '#fb923c' : state.boss.variant === 'oceanBoss' ? '#67e8f9' : state.boss.variant === 'iceBoss' ? '#dbeafe' : state.boss.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
+    spawnBurst(state.boss.x, state.boss.y, 8, bossHitColor, 120);
   }
 }
 
@@ -1151,6 +1183,58 @@ function updateCrates(dt) {
   }
 }
 
+function summonIceMinion(boss, phase) {
+  const angle = phase === 'opening' ? -0.7 : 2.4;
+  const health = 78 + boss.tier * 11;
+  state.enemies.push({
+    x: clamp(boss.x + Math.cos(angle) * 125, state.bossArena.x + 19, state.bossArena.x + state.bossArena.w - 19),
+    y: clamp(boss.y + Math.sin(angle) * 125, state.bossArena.y + 19, state.bossArena.y + state.bossArena.h - 19),
+    radius: 19,
+    speed: 108,
+    health,
+    maxHealth: health,
+    damage: 9 + boss.tier * 1.4,
+    type: 'iceMinion',
+    bossMinion: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.6,
+    hitFlash: 0,
+    lunge: 0,
+    movePhase: Math.random() * Math.PI * 2,
+    elite: false,
+  });
+  spawnBurst(boss.x, boss.y, 30, '#dbeafe', 165);
+  setMessage(phase === 'opening'
+    ? 'Iceboss enters with an Ice Minion!'
+    : 'Iceboss reached half health and summoned another Ice Minion!');
+}
+
+function summonWoodMinion(boss) {
+  const angle = Math.random() * Math.PI * 2;
+  const health = 65 + boss.tier * 9;
+  state.enemies.push({
+    x: clamp(boss.x + Math.cos(angle) * 115, state.bossArena.x + 18, state.bossArena.x + state.bossArena.w - 18),
+    y: clamp(boss.y + Math.sin(angle) * 115, state.bossArena.y + 18, state.bossArena.y + state.bossArena.h - 18),
+    radius: 18,
+    speed: 112,
+    health,
+    maxHealth: health,
+    damage: 8 + boss.tier * 1.3,
+    type: 'woodMinion',
+    bossMinion: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.5 + Math.random() * 0.4,
+    hitFlash: 0,
+    lunge: 0,
+    movePhase: Math.random() * Math.PI * 2,
+    elite: false,
+  });
+  spawnBurst(boss.x, boss.y, 30, '#a3e635', 170);
+  setMessage(`Woodboss lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Woodminion!`);
+}
+
 function updateBoss(dt) {
   if (!state.boss) return;
   const boss = state.boss;
@@ -1163,6 +1247,16 @@ function updateBoss(dt) {
     state.boss = null;
     startNextWave();
     return;
+  }
+  if (boss.variant === 'iceBoss' && !boss.halfHealthMinionSummoned && boss.health <= boss.maxHealth * 0.5) {
+    boss.halfHealthMinionSummoned = true;
+    summonIceMinion(boss, 'halfHealth');
+  }
+  if (boss.variant === 'woodBoss') {
+    while (boss.nextWoodMinionThreshold >= 0.1 && boss.health <= boss.maxHealth * boss.nextWoodMinionThreshold) {
+      summonWoodMinion(boss);
+      boss.nextWoodMinionThreshold = Math.round((boss.nextWoodMinionThreshold - 0.1) * 10) / 10;
+    }
   }
 
   const combatants = [player, ...player.protectors].filter((target) => target.health > 0);
@@ -1188,14 +1282,15 @@ function updateBoss(dt) {
     boss.attackWindup -= dt;
     if (boss.attackWindup <= 0) {
       boss.attackPulse = 1;
-      const effectColor = boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : '#fb7185';
+      const effectColor = boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'woodBoss' ? '#84cc16' : '#fb7185';
 
       if (boss.attackType.includes('Dash')) {
-        const dashDistance = boss.attackType === 'flameDash' ? 260 : 190 + boss.tier * 8;
+        const dashDistance = boss.attackType === 'flameDash' ? 260 : boss.attackType === 'waterDash' ? 240 : boss.attackType === 'frostDash' ? 225 : 190 + boss.tier * 8;
         boss.x = clamp(boss.x + dirX * dashDistance, state.bossArena.x + boss.radius, state.bossArena.x + state.bossArena.w - boss.radius);
         boss.y = clamp(boss.y + dirY * dashDistance, state.bossArena.y + boss.radius, state.bossArena.y + state.bossArena.h - boss.radius);
         if (distance(boss, attackTarget) < boss.radius + attackTarget.radius + 65) {
-          applyCombatDamage(attackTarget, boss.damage * (boss.attackType === 'flameDash' ? 1.3 : 1.1));
+          const dashDamage = boss.attackType === 'flameDash' ? 1.3 : boss.attackType === 'waterDash' ? 1.2 : boss.attackType === 'frostDash' ? 1.25 : 1.1;
+          applyCombatDamage(attackTarget, boss.damage * dashDamage);
         }
         spawnBurst(boss.x, boss.y, 24, effectColor, 180);
         state.shake = 10;
@@ -1203,16 +1298,16 @@ function updateBoss(dt) {
         boss.health = clamp(boss.health + boss.maxHealth * 0.07, 0, boss.maxHealth);
         spawnBurst(boss.x, boss.y, 42, '#86efac', 155);
         state.shake = 5;
-      } else if (boss.attackType === 'thornRing' || boss.attackType === 'eruption' || boss.attackType === 'nova') {
-        const attackRadius = boss.attackType === 'thornRing' ? 165 : boss.attackType === 'eruption' ? 285 : 210 + boss.tier * 8;
-        const damageScale = boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'eruption' ? 1.05 : 0.75;
+      } else if (boss.attackType === 'thornRing' || boss.attackType === 'eruption' || boss.attackType === 'tidalWave' || boss.attackType === 'blizzard' || boss.attackType === 'nova') {
+        const attackRadius = boss.attackType === 'thornRing' ? 165 : boss.attackType === 'eruption' ? 285 : boss.attackType === 'tidalWave' ? 250 : boss.attackType === 'blizzard' ? 265 : 210 + boss.tier * 8;
+        const damageScale = boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'eruption' ? 1.05 : boss.attackType === 'tidalWave' ? 0.9 : boss.attackType === 'blizzard' ? 0.95 : 0.75;
         for (const victim of [player, ...player.protectors]) {
           if (distance(boss, victim) <= attackRadius) applyCombatDamage(victim, boss.damage * damageScale);
         }
         spawnBurst(boss.x, boss.y, 38, effectColor, 230);
         state.shake = 14;
       } else if (len < boss.radius + attackTarget.radius + 75) {
-        const slamScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : 1.25;
+        const slamScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
         applyCombatDamage(attackTarget, boss.damage * slamScale);
         spawnBurst(attackTarget.x, attackTarget.y, 20, effectColor, 145);
         state.shake = 16;
@@ -1234,10 +1329,16 @@ function updateBoss(dt) {
         boss.attackType = attackRoll < 0.5 ? 'rootSlam' : attackRoll < 0.84 ? 'thornRing' : 'healingBloom';
       } else if (boss.variant === 'lavaGolem') {
         boss.attackType = attackRoll < 0.42 ? 'hammerSlam' : attackRoll < 0.73 ? 'flameDash' : 'eruption';
+      } else if (boss.variant === 'oceanBoss') {
+        boss.attackType = attackRoll < 0.4 ? 'tideSlam' : attackRoll < 0.7 ? 'waterDash' : 'tidalWave';
+      } else if (boss.variant === 'iceBoss') {
+        boss.attackType = attackRoll < 0.4 ? 'iceSlam' : attackRoll < 0.7 ? 'frostDash' : 'blizzard';
+      } else if (boss.variant === 'woodBoss') {
+        boss.attackType = attackRoll < 0.62 ? 'woodSlam' : 'thornRing';
       } else {
         boss.attackType = attackRoll < 0.36 ? 'slam' : attackRoll < 0.68 ? 'Dash' : 'nova';
       }
-      const radialAttack = ['thornRing', 'healingBloom', 'eruption', 'nova'].includes(boss.attackType);
+      const radialAttack = ['thornRing', 'healingBloom', 'eruption', 'tidalWave', 'blizzard', 'nova'].includes(boss.attackType);
       boss.attackWindupTotal = radialAttack ? 0.9 : boss.attackType.includes('Dash') ? 0.58 : 0.46;
       boss.attackWindup = boss.attackWindupTotal;
       boss.cooldown = Math.max(0.85, (radialAttack ? 2.15 : 1.55) - boss.tier * 0.07);
@@ -1341,9 +1442,30 @@ function showMainMenu() {
 
 function drawRoom(room) {
   const theme = room.theme;
-  // Deliberately plain rooms keep enemies, exits and loot easy to read.
   ctx.fillStyle = theme.room;
   ctx.fillRect(room.x, room.y, room.w, room.h);
+  if (theme.name === 'Verdant Ruins' && art.lushCave.complete && art.lushCave.naturalWidth > 0) {
+    const interiorX = room.x + wallThickness;
+    const interiorY = room.y + wallThickness;
+    const interiorW = room.w - wallThickness * 2;
+    const interiorH = room.h - wallThickness * 2;
+    const imageRatio = art.lushCave.naturalWidth / art.lushCave.naturalHeight;
+    const roomRatio = interiorW / interiorH;
+    let sourceX = 0;
+    let sourceY = 0;
+    let sourceW = art.lushCave.naturalWidth;
+    let sourceH = art.lushCave.naturalHeight;
+    if (imageRatio > roomRatio) {
+      sourceW = sourceH * roomRatio;
+      sourceX = (art.lushCave.naturalWidth - sourceW) / 2;
+    } else {
+      sourceH = sourceW / roomRatio;
+      sourceY = (art.lushCave.naturalHeight - sourceH) / 2;
+    }
+    ctx.drawImage(art.lushCave, sourceX, sourceY, sourceW, sourceH, interiorX, interiorY, interiorW, interiorH);
+    ctx.fillStyle = 'rgba(14, 40, 20, 0.18)';
+    ctx.fillRect(interiorX, interiorY, interiorW, interiorH);
+  }
 
   ctx.fillStyle = theme.wall;
   ctx.fillRect(room.x, room.y, room.w, wallThickness);
@@ -1456,6 +1578,16 @@ function drawEnemy(enemy) {
   const bob = Math.abs(motion) * (floating ? 8 : 3) - enemy.lunge * 5;
   const squashX = 1 + Math.abs(motion) * 0.07 - enemy.lunge * 0.14;
   const squashY = 1 - Math.abs(motion) * 0.06 + enemy.lunge * 0.18;
+  const fastWeakTypes = ['runner', 'crawler'];
+  const slowTypes = ['walker', 'brute', 'spitter', 'sentinel'];
+  const themedRole = fastWeakTypes.includes(enemy.type) ? 'Minion' : slowTypes.includes(enemy.type) ? 'Tank' : null;
+  let themedVariant = enemy.type;
+
+  if (themedRole) {
+    if (world.themeIndex === 2) themedVariant = `lava${themedRole}`;
+    if (world.themeIndex === 0) themedVariant = `lush${themedRole}`;
+    if (world.themeIndex === 1 || world.themeIndex === 3) themedVariant = `ocean${themedRole}`;
+  }
 
   drawActorSprite({
     x: enemy.x,
@@ -1468,7 +1600,7 @@ function drawEnemy(enemy) {
     outlineColor: '#f8fafc',
     stride,
     bob,
-    variant: enemy.type,
+    variant: themedVariant,
     health: enemy.health,
     maxHealth: enemy.maxHealth,
     elite: enemy.elite,
@@ -1501,7 +1633,7 @@ function drawBoss(boss) {
   if (boss.hitFlash > 0) ctx.filter = 'brightness(2.4) saturate(0)';
 
   if (boss.attackWindup > 0) {
-    const warningColor = boss.variant === 'lavaGolem' ? '249, 115, 22' : boss.variant === 'lushGolem' ? '74, 222, 128' : '251, 113, 133';
+    const warningColor = boss.variant === 'lavaGolem' ? '249, 115, 22' : boss.variant === 'lushGolem' ? '74, 222, 128' : boss.variant === 'oceanBoss' ? '56, 189, 248' : boss.variant === 'iceBoss' ? '191, 219, 254' : boss.variant === 'woodBoss' ? '132, 204, 22' : '251, 113, 133';
     ctx.save();
     ctx.filter = 'none';
     if (isSlamAttack) {
@@ -1600,6 +1732,87 @@ function drawBoss(boss) {
       ctx.beginPath();
       ctx.arc(-44, 22, 10 + windup * 20, 0, Math.PI * 2);
       ctx.fill();
+    }
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'oceanBoss' && art.oceanBoss.complete && art.oceanBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#38bdf8';
+    ctx.shadowBlur = 30 + windup * 42 + pulse * 20;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.oceanBoss, -98, -86, 196, 158);
+
+    ctx.filter = 'none';
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
+    ctx.fillRect(-52, -94, 104, 8);
+    const healthGradient = ctx.createLinearGradient(-52, 0, 52, 0);
+    healthGradient.addColorStop(0, '#0369a1');
+    healthGradient.addColorStop(1, '#67e8f9');
+    ctx.fillStyle = healthGradient;
+    ctx.fillRect(-52, -94, 104 * (boss.health / boss.maxHealth), 8);
+
+    if (windup > 0) {
+      ctx.strokeStyle = `rgba(103, 232, 249, ${0.4 + windup * 0.6})`;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.arc(0, 12, 28 + windup * 42, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'iceBoss' && art.iceBoss.complete && art.iceBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#bfdbfe';
+    ctx.shadowBlur = 32 + windup * 44 + pulse * 20;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.iceBoss, -100, -88, 200, 160);
+
+    ctx.filter = 'none';
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
+    ctx.fillRect(-53, -96, 106, 8);
+    const healthGradient = ctx.createLinearGradient(-53, 0, 53, 0);
+    healthGradient.addColorStop(0, '#2563eb');
+    healthGradient.addColorStop(1, '#e0f2fe');
+    ctx.fillStyle = healthGradient;
+    ctx.fillRect(-53, -96, 106 * (boss.health / boss.maxHealth), 8);
+
+    if (windup > 0) {
+      ctx.strokeStyle = `rgba(219, 234, 254, ${0.4 + windup * 0.6})`;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.arc(0, 10, 30 + windup * 44, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'woodBoss' && art.woodBoss.complete && art.woodBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#84cc16';
+    ctx.shadowBlur = 32 + windup * 40 + pulse * 20;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.woodBoss, -102, -90, 204, 164);
+
+    ctx.filter = 'none';
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
+    ctx.fillRect(-54, -98, 108, 8);
+    const healthGradient = ctx.createLinearGradient(-54, 0, 54, 0);
+    healthGradient.addColorStop(0, '#3f6212');
+    healthGradient.addColorStop(1, '#bef264');
+    ctx.fillStyle = healthGradient;
+    ctx.fillRect(-54, -98, 108 * (boss.health / boss.maxHealth), 8);
+
+    if (windup > 0) {
+      ctx.strokeStyle = `rgba(190, 242, 100, ${0.4 + windup * 0.6})`;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.arc(0, 10, 30 + windup * 46, 0, Math.PI * 2);
+      ctx.stroke();
     }
     ctx.restore();
     return;
@@ -1770,7 +1983,9 @@ function drawBackground() {
   }
 
   if (!state.boss) for (const crate of state.crates) drawCrate(crate);
-  if (!state.boss) for (const enemy of state.enemies) drawEnemy(enemy);
+  for (const enemy of state.enemies) {
+    if (!state.boss || enemy.bossMinion) drawEnemy(enemy);
+  }
   if (state.boss) drawBoss(state.boss);
   drawGuardians();
   drawPlayer();

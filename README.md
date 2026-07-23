@@ -19,7 +19,7 @@ http://localhost:8000/
 ## Controls
 
 - `W`, `A`, `S`, `D` — move
-- `Shift` — sprint
+- `G` — sprint
 - `Space` — attack
 - `F` — hold near a crate to open it
 - `E` — summon protector

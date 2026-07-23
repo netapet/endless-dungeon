@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Endless Dungeon Prototype</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <aside class="controls-key" aria-label="Game controls">
+      <div class="high-score">High Score: Wave <b id="highScoreValue">1</b></div>
+      <strong>Controls</strong>
+      <span><kbd>WASD</kbd> Move</span>
+      <span><kbd>Shift</kbd> Sprint</span>
+      <span><kbd>Space</kbd> Attack</span>
+      <span><kbd>F</kbd> Open crate</span>
+      <span><kbd>E</kbd> Protector</span>
+      <span><kbd>R</kbd> Shield</span>
+      <span><kbd>Esc</kbd> Pause</span>
+      <span><kbd>Q</kbd> Bandage</span>
+    </aside>
+    <div class="hud-shell">
+      <div class="hud-left">
+        <div class="stat"><span>Wave</span><strong id="waveValue">1</strong></div>
+        <div class="stat"><span>Health</span><strong id="healthValue">100</strong></div>
+        <div class="stat"><span>Food</span><strong id="foodValue">100</strong></div>
+        <div class="stat"><span>Hydration</span><strong id="hydrationValue">100</strong></div>
+        <div class="stat"><span>Stamina</span><strong id="staminaValue">100</strong></div>
+        <div class="stat"><span>Bandages</span><strong id="bandageValue">0</strong></div>
+      </div>
+      <div class="hud-right">
+        <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
+        <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
+        <div class="stat"><span>Bosses</span><strong id="bossValue">0</strong></div>
+        <div class="stat"><span>Theme</span><strong id="themeValue">Forest</strong></div>
+      </div>
+    </div>
+
+    <div id="messageBox" class="message-box hidden"></div>
+    <div id="lootHighlight" class="loot-highlight hidden"></div>
+    <div id="pauseOverlay" class="overlay hidden">
+      <div class="overlay-card pause-card">
+        <h1>Paused</h1>
+        <p>Press <kbd>Esc</kbd> to continue</p>
+      </div>
+    </div>
+    <div id="overlay" class="overlay">
+      <div class="overlay-card">
+        <h1>Endless Dungeon</h1>
+        <p>Explore rooms, open crates, survive waves, and defeat the boss.</p>
+        <div class="menu-high-score">High Score: Wave <strong id="menuHighScoreValue">1</strong></div>
+        <div class="controls-grid">
+          <span>WASD: Move</span>
+          <span>Shift: Sprint</span>
+          <span>Space: Attack</span>
+          <span>F: Open crate</span>
+          <span>E: Protector</span>
+          <span>R: Shield</span>
+          <span>Esc: Pause</span>
+          <span>Q: Use bandage</span>
+        </div>
+        <button id="startButton">Start Run</button>
+      </div>
+    </div>
+    <canvas id="gameCanvas" width="1600" height="900"></canvas>
+
+    <script src="js/game.js"></script>
+  </body>
+</html>

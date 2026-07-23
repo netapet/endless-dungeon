@@ -29,6 +29,7 @@
         <div class="stat"><span>Bandages</span><strong id="bandageValue">0</strong></div>
       </div>
       <div class="hud-right">
+        <div class="stat enemy-stat"><span>Enemies Left in Wave</span><strong id="enemyValue">0</strong></div>
         <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
         <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
         <div class="stat"><span>Bosses</span><strong id="bossValue">0</strong></div>
@@ -42,6 +43,18 @@
       <div class="overlay-card pause-card">
         <h1>Paused</h1>
         <p>Press <kbd>Esc</kbd> to continue</p>
+      </div>
+    </div>
+    <div id="challengeOverlay" class="overlay hidden">
+      <div class="overlay-card challenge-card">
+        <div class="challenge-kicker">Rare Encounter</div>
+        <h1>Forbidden Chamber</h1>
+        <p>A powerful enemy waits beyond the sealed doors. Enter and defeat it to claim the chamber—or turn back while you still can.</p>
+        <div class="challenge-warning">Once entered, every exit remains sealed until the guardian falls.</div>
+        <div class="challenge-actions">
+          <button id="acceptChallengeButton"><kbd>Enter</kbd> Enter the Chamber</button>
+          <button id="declineChallengeButton"><kbd>Esc</kbd> Leave It Sealed</button>
+        </div>
       </div>
     </div>
     <div id="overlay" class="overlay">

@@ -86,16 +86,18 @@ body {
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(980px, calc(100vw - 20px));
+  width: calc(100vw - 24px);
   z-index: 3;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
   pointer-events: none;
 }
 
 .controls-key {
   position: fixed;
-  top: 12px;
+  top: 82px;
   left: 12px;
   z-index: 4;
   display: grid;
@@ -169,6 +171,30 @@ body {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.hud-left {
+  justify-content: flex-start;
+}
+
+.hud-right {
+  justify-content: flex-end;
+  padding-right: 164px;
+}
+
+.enemy-stat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 154px;
+  border-color: rgba(248, 113, 113, 0.58);
+  background: linear-gradient(180deg, rgba(69, 10, 10, 0.92), rgba(24, 5, 9, 0.84));
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.enemy-stat strong {
+  color: #fca5a5;
+  font-size: 22px;
 }
 
 .stat {
@@ -245,6 +271,75 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.1);
+}
+
+.challenge-card {
+  width: min(560px, calc(100vw - 40px));
+  border-color: rgba(251, 191, 36, 0.65);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(127, 29, 29, 0.4), transparent 48%),
+    linear-gradient(180deg, rgba(31, 18, 26, 0.98), rgba(8, 8, 18, 0.99));
+  box-shadow: 0 0 45px rgba(239, 68, 68, 0.2), 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+.challenge-kicker {
+  margin-bottom: 8px;
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.challenge-card h1 {
+  color: #fef3c7;
+}
+
+.challenge-card p {
+  line-height: 1.6;
+}
+
+.challenge-warning {
+  margin: 20px 0;
+  padding: 12px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: 10px;
+  background: rgba(127, 29, 29, 0.18);
+  color: #fecaca;
+  font-size: 13px;
+}
+
+.challenge-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.challenge-actions button {
+  padding: 11px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.challenge-actions kbd {
+  margin-right: 6px;
+  padding: 2px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 11px;
+}
+
+#acceptChallengeButton {
+  background: linear-gradient(135deg, #dc2626, #f59e0b);
+}
+
+#declineChallengeButton {
+  background: rgba(51, 65, 85, 0.9);
 }
 
 @keyframes loot-pop {

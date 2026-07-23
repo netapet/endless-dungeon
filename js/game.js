@@ -13,6 +13,7 @@ const hud = {
   hydration: document.getElementById('hydrationValue'),
   stamina: document.getElementById('staminaValue'),
   bandage: document.getElementById('bandageValue'),
+  enemy: document.getElementById('enemyValue'),
   protector: document.getElementById('protectorValue'),
   shield: document.getElementById('shieldValue'),
   boss: document.getElementById('bossValue'),
@@ -21,6 +22,9 @@ const hud = {
 const messageBox = document.getElementById('messageBox');
 const lootHighlight = document.getElementById('lootHighlight');
 const pauseOverlay = document.getElementById('pauseOverlay');
+const challengeOverlay = document.getElementById('challengeOverlay');
+const acceptChallengeButton = document.getElementById('acceptChallengeButton');
+const declineChallengeButton = document.getElementById('declineChallengeButton');
 const highScoreValue = document.getElementById('highScoreValue');
 const menuHighScoreValue = document.getElementById('menuHighScoreValue');
 let lootHighlightTimer = null;
@@ -80,6 +84,15 @@ const art = {
   woodBoss: new Image(),
   woodMinion: new Image(),
   lushCave: new Image(),
+  cyanRoom: new Image(),
+  lavaRoom: new Image(),
+  waterRoom: new Image(),
+  crate: new Image(),
+  openCrate: new Image(),
+  lushArena: new Image(),
+  lavaArena: new Image(),
+  waterArena: new Image(),
+  iceArena: new Image(),
 };
 
 function createLushGolemCutout(source) {
@@ -217,7 +230,7 @@ function preloadArt() {
     oceanBoss: 'assets/boss3-oceanboss.png',
     iceBoss: 'assets/boss4-iceboss.png',
     iceMinion: 'assets/ice minion.png',
-    lavaMinion: 'assets/lavaminion.png',
+    lavaMinion: 'assets/lava minion.png',
     lavaTank: 'assets/lavatank.png',
     oceanMinion: 'assets/oceanminion.png',
     oceanTank: 'assets/oceantank.png',
@@ -226,6 +239,15 @@ function preloadArt() {
     woodBoss: 'assets/boss10-woodboss.png',
     woodMinion: 'assets/woodminion.png',
     lushCave: 'assets/lushcave.png',
+    cyanRoom: 'assets/cyan room.png',
+    lavaRoom: 'assets/lavaroom.png',
+    waterRoom: 'assets/water room.png',
+    crate: 'assets/crate.png',
+    openCrate: 'assets/open crate.png',
+    lushArena: 'assets/lusharena.png',
+    lavaArena: 'assets/lavaarena.png',
+    waterArena: 'assets/water arena.png',
+    iceArena: 'assets/icearena.png',
   };
 
   Object.entries(sources).forEach(([key, src]) => {
@@ -342,6 +364,12 @@ const state = {
   started: false,
   paused: false,
   shake: 0,
+  teleportTimer: 0,
+  teleportDuration: 3,
+  teleportMoved: false,
+  teleportTarget: null,
+  challengePromptOpen: false,
+  pendingChallengeRoom: null,
 };
 
 function setMessage(text) {
@@ -884,33 +912,48 @@ function applyCombatDamage(victim, amount) {
 }
 
 function maybeOpenChallengeRoom() {
-  if (state.boss) return;
+  if (state.boss || state.challengePromptOpen) return;
   for (const room of state.challengeRooms) {
     if (player.x > room.x && player.x < room.x + room.w && player.y > room.y && player.y < room.y + room.h) {
       if (room.challengeResolved) continue;
-      const accept = window.confirm('A special room appears. Enter the challenge? The doors will remain sealed until the special enemy is defeated.');
       room.challengeResolved = true;
-      if (accept) {
-        room.challengeAccepted = true;
-        room.locked = true;
-        const elite = createEnemy(room, state.wave + 10);
-        elite.health *= 3;
-        elite.maxHealth = elite.health;
-        elite.damage *= 2.7;
-        elite.radius += 8;
-        elite.elite = true;
-        elite.specialEnemy = true;
-        elite.specialRoom = room;
-        room.specialEnemy = elite;
-        state.enemies.push(elite);
-        setMessage('Special room locked! Defeat the special enemy to reopen every door.');
-      } else {
-        room.challenge = false;
-        room.rare = false;
-        setMessage('Challenge declined. This is now a normal room.');
-      }
+      state.challengePromptOpen = true;
+      state.pendingChallengeRoom = room;
+      keys.clear();
+      challengeOverlay.classList.remove('hidden');
+      break;
     }
   }
+}
+
+function resolveChallengeChoice(accept) {
+  const room = state.pendingChallengeRoom;
+  if (!room) return;
+
+  if (accept) {
+    room.challengeAccepted = true;
+    room.locked = true;
+    const elite = createEnemy(room, state.wave + 10);
+    elite.health *= 3;
+    elite.maxHealth = elite.health;
+    elite.damage *= 2.7;
+    elite.radius += 8;
+    elite.elite = true;
+    elite.specialEnemy = true;
+    elite.specialRoom = room;
+    room.specialEnemy = elite;
+    state.enemies.push(elite);
+    setMessage('The chamber seals shut. Defeat its guardian to escape!');
+  } else {
+    room.challenge = false;
+    room.rare = false;
+    setMessage('You leave the Forbidden Chamber undisturbed.');
+  }
+
+  state.challengePromptOpen = false;
+  state.pendingChallengeRoom = null;
+  keys.clear();
+  challengeOverlay.classList.add('hidden');
 }
 
 function handleInput(dt) {
@@ -930,7 +973,14 @@ function handleInput(dt) {
 
   const proposedX = player.x + moveX * speed * dt;
   const proposedY = player.y + moveY * speed * dt;
-  const safePosition = resolveRoomCollision(player, proposedX, proposedY);
+  const currentRoom = getContainingRoom(player);
+  let safePosition;
+  if (currentRoom?.locked) {
+    const horizontalMove = resolveRoomCollision(player, proposedX, player.y);
+    safePosition = resolveRoomCollision(player, horizontalMove.x, proposedY);
+  } else {
+    safePosition = resolveRoomCollision(player, proposedX, proposedY);
+  }
   player.x = safePosition.x;
   player.y = safePosition.y;
 
@@ -980,6 +1030,49 @@ function spawnBurst(x, y, count, color, speed = 50) {
   }
 }
 
+function startBossTeleport() {
+  state.teleportTimer = state.teleportDuration;
+  state.teleportMoved = false;
+  state.teleportTarget = 'boss';
+  keys.clear();
+  spawnBurst(player.x, player.y, 34, '#67e8f9', 150);
+  setMessage('Wave cleared! Teleporting to the boss arena...');
+}
+
+function startWaveTeleport() {
+  state.teleportTimer = state.teleportDuration;
+  state.teleportMoved = false;
+  state.teleportTarget = 'wave';
+  keys.clear();
+  spawnBurst(player.x, player.y, 42, '#a5f3fc', 175);
+  setMessage('Boss defeated! Teleporting to the next wave...');
+}
+
+function updateBossTeleport(dt) {
+  if (state.teleportTimer <= 0) return;
+
+  state.teleportTimer = Math.max(0, state.teleportTimer - dt);
+  const elapsed = state.teleportDuration - state.teleportTimer;
+  if (!state.teleportMoved && elapsed >= state.teleportDuration / 2) {
+    state.teleportMoved = true;
+    if (state.teleportTarget === 'wave') {
+      startNextWave();
+    } else {
+      spawnBoss();
+    }
+    spawnBurst(player.x, player.y, 42, '#a5f3fc', 175);
+    state.shake = 9;
+  }
+
+  if (state.teleportTimer === 0) {
+    keys.clear();
+    setMessage(state.teleportTarget === 'wave'
+      ? `Teleport complete. Wave ${state.wave} begins!`
+      : 'Teleport complete. Defeat the boss!');
+    state.teleportTarget = null;
+  }
+}
+
 function isInsideAttackArc(target, range) {
   const dx = target.x - player.x;
   const dy = target.y - player.y;
@@ -997,7 +1090,7 @@ function isInsideAttackArc(target, range) {
 function tryAttack() {
   if (player.attackCooldown > 0) return;
   player.attackCooldown = 0.42;
-  player.attackDuration = 0.16;
+  player.attackDuration = 0.24;
   spawnBurst(player.x + player.facing.x * 24, player.y + player.facing.y * 24, 7, '#f8fafc', 80);
 
   for (const enemy of state.enemies) {
@@ -1009,6 +1102,7 @@ function tryAttack() {
       spawnBurst(enemy.x, enemy.y, 4, '#fb7185', 70);
       if (enemy.health <= 0) {
         enemy.dead = true;
+        enemy.deathTimer = 0.55;
         spawnBurst(enemy.x, enemy.y, 14, '#f97316', 120);
       }
     }
@@ -1026,7 +1120,10 @@ function tryAttack() {
 
 function updateEnemies(dt) {
   for (const enemy of state.enemies) {
-    if (enemy.dead) continue;
+    if (enemy.dead) {
+      enemy.deathTimer = Math.max(0, (enemy.deathTimer ?? 0.55) - dt);
+      continue;
+    }
 
     const navigationTarget = getEnemyNavigationTarget(enemy);
     const dx = navigationTarget.x - enemy.x;
@@ -1072,20 +1169,19 @@ function updateEnemies(dt) {
   }
 
   for (const enemy of state.enemies) {
-    if (enemy.dead && enemy.specialEnemy && enemy.specialRoom?.locked) {
+    if (enemy.dead && enemy.deathTimer <= 0 && enemy.specialEnemy && enemy.specialRoom?.locked) {
       enemy.specialRoom.locked = false;
       enemy.specialRoom.specialEnemy = null;
       setMessage('Special enemy defeated! Every door is open again.');
     }
   }
 
-  state.enemies = state.enemies.filter((enemy) => !enemy.dead);
+  state.enemies = state.enemies.filter((enemy) => !enemy.dead || enemy.deathTimer > 0);
 
   if (state.enemies.length === 0 && !state.boss && !state.roomCleared) {
     state.roomCleared = true;
     state.bossArenaOpen = false;
-    setMessage('Wave cleared! Entering the boss arena...');
-    spawnBoss();
+    startBossTeleport();
   }
 
 }
@@ -1100,11 +1196,10 @@ function updateProtectors(dt) {
   protector.attackCooldown = Math.max(0, protector.attackCooldown - dt);
 
   const possibleTargets = state.enemies.filter((enemy) => !enemy.dead && distance(protector, enemy) <= 850);
-  if (state.boss && state.boss.health > 0 && distance(protector, state.boss) <= 850) possibleTargets.push(state.boss);
 
   const mustProtectPlayer = player.health < player.maxHealth * 0.5;
-  let target = null;
-  if (!mustProtectPlayer && possibleTargets.length > 0) {
+  let target = state.boss && state.boss.health > 0 ? state.boss : null;
+  if (!target && !mustProtectPlayer && possibleTargets.length > 0) {
     target = possibleTargets.reduce((strongest, enemy) => {
       const strength = enemy.maxHealth + enemy.damage * 6;
       const strongestScore = strongest.maxHealth + strongest.damage * 6;
@@ -1145,7 +1240,11 @@ function updateProtectors(dt) {
     target.health -= damage;
     if ('hitFlash' in target) target.hitFlash = 0.18;
     spawnBurst(target.x, target.y, 7, '#60a5fa', 85);
-    if (target.health <= 0 && target !== state.boss) target.dead = true;
+    if (target.health <= 0 && target !== state.boss) {
+      target.dead = true;
+      target.deathTimer = 0.55;
+      spawnBurst(target.x, target.y, 14, '#60a5fa', 120);
+    }
   }
   }
 }
@@ -1243,9 +1342,29 @@ function updateBoss(dt) {
     return;
   }
   if (boss.health <= 0) {
-    rewardBossLoot();
-    state.boss = null;
-    startNextWave();
+    if (!boss.defeated) {
+      rewardBossLoot();
+      boss.health = 0;
+      boss.defeated = true;
+      boss.deathTimer = 1.8;
+      boss.deathBurstTimer = 0;
+      boss.attackWindup = 0;
+      spawnBurst(boss.x, boss.y, 90, '#fef3c7', 260);
+      state.shake = 18;
+      setMessage('Boss defeated!');
+    }
+    boss.deathTimer = Math.max(0, boss.deathTimer - dt);
+    boss.deathBurstTimer -= dt;
+    if (boss.deathBurstTimer <= 0 && boss.deathTimer > 0) {
+      boss.deathBurstTimer = 0.12;
+      const burstColor = boss.variant === 'lavaGolem' ? '#fb923c'
+        : boss.variant === 'oceanBoss' ? '#67e8f9'
+          : boss.variant === 'iceBoss' ? '#dbeafe'
+            : boss.variant === 'lushGolem' ? '#86efac'
+              : '#fef3c7';
+      spawnBurst(boss.x, boss.y, 12, burstColor, 210);
+    }
+    if (boss.deathTimer === 0) startWaveTeleport();
     return;
   }
   if (boss.variant === 'iceBoss' && !boss.halfHealthMinionSummoned && boss.health <= boss.maxHealth * 0.5) {
@@ -1408,6 +1527,12 @@ function resetRun() {
   state.bossArenaOpen = false;
   state.particles = [];
   state.shake = 0;
+  state.teleportTimer = 0;
+  state.teleportMoved = false;
+  state.teleportTarget = null;
+  state.challengePromptOpen = false;
+  state.pendingChallengeRoom = null;
+  challengeOverlay.classList.add('hidden');
 
   player.x = 180;
   player.y = 180;
@@ -1440,30 +1565,47 @@ function showMainMenu() {
   overlay.classList.remove('hidden');
 }
 
+function drawImageCover(image, x, y, width, height) {
+  const imageRatio = image.naturalWidth / image.naturalHeight;
+  const targetRatio = width / height;
+  let sourceX = 0;
+  let sourceY = 0;
+  let sourceW = image.naturalWidth;
+  let sourceH = image.naturalHeight;
+  if (imageRatio > targetRatio) {
+    sourceW = sourceH * targetRatio;
+    sourceX = (image.naturalWidth - sourceW) / 2;
+  } else {
+    sourceH = sourceW / targetRatio;
+    sourceY = (image.naturalHeight - sourceH) / 2;
+  }
+  ctx.drawImage(image, sourceX, sourceY, sourceW, sourceH, x, y, width, height);
+}
+
 function drawRoom(room) {
   const theme = room.theme;
   ctx.fillStyle = theme.room;
   ctx.fillRect(room.x, room.y, room.w, room.h);
-  if (theme.name === 'Verdant Ruins' && art.lushCave.complete && art.lushCave.naturalWidth > 0) {
+  const roomArtwork = theme.name === 'Verdant Ruins'
+    ? art.lushCave
+    : theme.name === 'Sunken Shrine'
+      ? art.cyanRoom
+    : theme.name === 'Cinder Keep'
+      ? art.lavaRoom
+      : theme.name === 'Moonwood'
+        ? art.waterRoom
+        : null;
+  if (roomArtwork?.complete && roomArtwork.naturalWidth > 0) {
     const interiorX = room.x + wallThickness;
     const interiorY = room.y + wallThickness;
     const interiorW = room.w - wallThickness * 2;
     const interiorH = room.h - wallThickness * 2;
-    const imageRatio = art.lushCave.naturalWidth / art.lushCave.naturalHeight;
-    const roomRatio = interiorW / interiorH;
-    let sourceX = 0;
-    let sourceY = 0;
-    let sourceW = art.lushCave.naturalWidth;
-    let sourceH = art.lushCave.naturalHeight;
-    if (imageRatio > roomRatio) {
-      sourceW = sourceH * roomRatio;
-      sourceX = (art.lushCave.naturalWidth - sourceW) / 2;
-    } else {
-      sourceH = sourceW / roomRatio;
-      sourceY = (art.lushCave.naturalHeight - sourceH) / 2;
-    }
-    ctx.drawImage(art.lushCave, sourceX, sourceY, sourceW, sourceH, interiorX, interiorY, interiorW, interiorH);
-    ctx.fillStyle = 'rgba(14, 40, 20, 0.18)';
+    drawImageCover(roomArtwork, interiorX, interiorY, interiorW, interiorH);
+    ctx.fillStyle = theme.name === 'Cinder Keep'
+      ? 'rgba(54, 12, 4, 0.12)'
+      : theme.name === 'Sunken Shrine' || theme.name === 'Moonwood'
+        ? 'rgba(4, 24, 54, 0.12)'
+        : 'rgba(14, 40, 20, 0.18)';
     ctx.fillRect(interiorX, interiorY, interiorW, interiorH);
   }
 
@@ -1499,21 +1641,18 @@ function drawCrate(crate) {
 
   ctx.fillStyle = 'rgba(15, 23, 42, 0.4)';
   ctx.beginPath();
-  ctx.ellipse(0, 16, 22, 8, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, 18, 25, 8, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = crate.isOpen ? '#7c3aed' : '#8b5e34';
-  ctx.fillRect(-18, -12, 36, 26);
-  ctx.strokeStyle = 'rgba(255,255,255,0.26)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(-18, -12, 36, 26);
-
-  ctx.fillStyle = '#eab308';
-  ctx.fillRect(-8, -8, 16, 6);
-  ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(-10, -2, 20, 3);
-  ctx.fillStyle = '#4b5563';
-  ctx.fillRect(-4, -2, 8, 14);
+  const crateArtwork = crate.isOpen ? art.openCrate : art.crate;
+  if (crateArtwork.complete && crateArtwork.naturalWidth > 0) {
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(crateArtwork, -30, -30, 60, 60);
+  } else {
+    ctx.fillStyle = crate.isOpen ? '#7c3aed' : '#8b5e34';
+    ctx.fillRect(-18, -12, 36, 26);
+  }
 
   if (!crate.isOpen && crate.openProgress > 0) {
     ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
@@ -1538,6 +1677,7 @@ function drawActorSprite({
   squashX = 1,
   squashY = 1,
   hitFlash = 0,
+  deathProgress = 0,
 }) {
   const spriteKey = variant === 'hero' ? 'hero' : variant;
   const sprite = art[spriteKey];
@@ -1548,8 +1688,13 @@ function drawActorSprite({
 
   ctx.save();
   ctx.translate(x, y + bob);
-  ctx.rotate(stride * 0.004);
-  ctx.scale((facingX < 0 ? -1 : 1) * scale * squashX, scale * squashY);
+  ctx.globalAlpha = 1 - deathProgress;
+  ctx.rotate(stride * 0.004 + deathProgress * Math.PI * 1.6);
+  const facingScale = variant === 'hero'
+    ? (facingX < 0 ? 1 : -1)
+    : (facingX < 0 ? -1 : 1);
+  const deathScale = 1 - deathProgress * 0.82;
+  ctx.scale(facingScale * scale * squashX * deathScale, scale * squashY * deathScale);
   ctx.shadowColor = elite ? '#f59e0b' : 'rgba(10, 18, 30, 0.65)';
   ctx.shadowBlur = elite ? 24 : 14;
   ctx.fillStyle = 'rgba(15, 23, 42, 0.45)';
@@ -1565,13 +1710,18 @@ function drawActorSprite({
   ctx.drawImage(sprite, -42, -62, 84, 100);
   ctx.restore();
 
-  ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(x - 18, y - 48, 36, 4);
-  ctx.fillStyle = '#22c55e';
-  ctx.fillRect(x - 18, y - 48, 36 * (health / maxHealth), 4);
+  if (deathProgress === 0) {
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(x - 18, y - 48, 36, 4);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(x - 18, y - 48, 36 * (health / maxHealth), 4);
+  }
 }
 
 function drawEnemy(enemy) {
+  const deathProgress = enemy.dead
+    ? 1 - Math.max(0, enemy.deathTimer) / 0.55
+    : 0;
   const motion = Math.sin(enemy.movePhase || 0);
   const stride = motion * (enemy.type === 'crawler' ? 15 : 9);
   const floating = enemy.type === 'wraith' || enemy.type === 'arcaneOrb';
@@ -1608,6 +1758,7 @@ function drawEnemy(enemy) {
     squashX,
     squashY,
     hitFlash: enemy.hitFlash,
+    deathProgress,
   });
 }
 
@@ -1621,12 +1772,17 @@ function drawBoss(boss) {
   const slamCrouch = isSlamAttack ? charge : 0;
   const dashLean = isDashAttack ? charge : 0;
   const novaCharge = !isSlamAttack && !isDashAttack ? charge : 0;
+  const deathProgress = boss.defeated
+    ? 1 - Math.max(0, boss.deathTimer) / 1.8
+    : 0;
   ctx.save();
   ctx.translate(boss.x, boss.y + Math.abs(walk) * 4 - pulse * 7 + slamCrouch * 9 - novaCharge * 5);
-  ctx.rotate(walk * 0.035 + dashLean * 0.16);
+  ctx.globalAlpha = 1 - deathProgress;
+  ctx.rotate(walk * 0.035 + dashLean * 0.16 + deathProgress * Math.PI * 2.5);
+  const deathScale = 1 - deathProgress * 0.9;
   ctx.scale(
-    (boss.facingX < 0 ? -1 : 1) * (1 + pulse * 0.18 + dashLean * 0.15 - slamCrouch * 0.08),
-    1 - pulse * 0.1 + slamCrouch * 0.16 + novaCharge * 0.1,
+    (boss.facingX < 0 ? -1 : 1) * (1 + pulse * 0.18 + dashLean * 0.15 - slamCrouch * 0.08) * deathScale,
+    (1 - pulse * 0.1 + slamCrouch * 0.16 + novaCharge * 0.1) * deathScale,
   );
   ctx.shadowColor = '#f87171';
   ctx.shadowBlur = 24 + windup * 24;
@@ -1882,7 +2038,15 @@ function drawBoss(boss) {
 function drawPlayer() {
   const stride = Math.sin(performance.now() * 0.012) * 7;
   const bob = Math.sin(performance.now() * 0.012) * 2;
+  const teleportProgress = state.teleportTimer > 0
+    ? 1 - state.teleportTimer / state.teleportDuration
+    : 0;
+  const teleportVisibility = state.teleportTimer > 0
+    ? Math.abs(teleportProgress - 0.5) * 2
+    : 1;
 
+  ctx.save();
+  ctx.globalAlpha = teleportVisibility;
   drawActorSprite({
     x: player.x,
     y: player.y,
@@ -1898,6 +2062,7 @@ function drawPlayer() {
     health: player.health,
     maxHealth: player.maxHealth,
     facingX: player.facing.x,
+    scale: 0.55 + teleportVisibility * 0.45,
   });
 
   if (player.shieldActive) {
@@ -1915,6 +2080,32 @@ function drawPlayer() {
     ctx.stroke();
     ctx.restore();
   }
+  ctx.restore();
+}
+
+function drawTeleportEffect() {
+  if (state.teleportTimer <= 0) return;
+  const progress = 1 - state.teleportTimer / state.teleportDuration;
+  const phase = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
+  const ringRadius = 34 + phase * 105;
+
+  ctx.save();
+  ctx.translate(player.x, player.y);
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.shadowColor = '#67e8f9';
+  ctx.shadowBlur = 28;
+  for (let ring = 0; ring < 3; ring += 1) {
+    ctx.strokeStyle = `rgba(103, 232, 249, ${0.75 - ring * 0.18})`;
+    ctx.lineWidth = 6 - ring;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, ringRadius + ring * 18, 18 + phase * 22, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.fillStyle = `rgba(165, 243, 252, ${0.18 + phase * 0.3})`;
+  ctx.beginPath();
+  ctx.arc(0, 0, 28 + phase * 45, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
 }
 
 function drawGuardians() {
@@ -1947,7 +2138,7 @@ function drawParticles() {
 function drawBackground() {
   const theme = world.themes[world.themeIndex] || world.themes[0];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = theme.bg;
+  ctx.fillStyle = state.boss ? '#000' : theme.bg;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const shakeX = state.started ? (Math.random() - 0.5) * state.shake : 0;
@@ -1975,6 +2166,20 @@ function drawBackground() {
   if (state.boss) {
     ctx.fillStyle = '#2f2f47';
     ctx.fillRect(state.bossArena.x, state.bossArena.y, state.bossArena.w, state.bossArena.h);
+    const arenaArt = state.boss.variant === 'lushGolem'
+      ? art.lushArena
+      : state.boss.variant === 'lavaGolem'
+        ? art.lavaArena
+        : state.boss.variant === 'oceanBoss'
+          ? art.waterArena
+          : state.boss.variant === 'iceBoss'
+            ? art.iceArena
+            : null;
+    if (arenaArt?.complete && arenaArt.naturalWidth > 0) {
+      drawImageCover(arenaArt, state.bossArena.x, state.bossArena.y, state.bossArena.w, state.bossArena.h);
+      ctx.fillStyle = 'rgba(2, 6, 23, 0.16)';
+      ctx.fillRect(state.bossArena.x, state.bossArena.y, state.bossArena.w, state.bossArena.h);
+    }
   }
 
   if (state.bossArenaOpen) {
@@ -1988,26 +2193,81 @@ function drawBackground() {
   }
   if (state.boss) drawBoss(state.boss);
   drawGuardians();
+  drawTeleportEffect();
   drawPlayer();
   drawParticles();
 
   if (player.attackDuration > 0) {
     const attackAngle = Math.atan2(player.facing.y, player.facing.x);
-    ctx.strokeStyle = '#f8fafc';
-    ctx.lineWidth = 4;
+    const attackProgress = 1 - player.attackDuration / 0.24;
+    const attackRadius = 68 + player.weaponLevel * 8;
+    const sweepAngle = attackAngle - 58 * Math.PI / 180 + attackProgress * 116 * Math.PI / 180;
+    ctx.save();
+    ctx.shadowColor = '#67e8f9';
+    ctx.shadowBlur = 22;
+    ctx.fillStyle = `rgba(103, 232, 249, ${0.2 * (1 - attackProgress)})`;
+    ctx.beginPath();
+    ctx.moveTo(player.x, player.y);
+    ctx.arc(
+      player.x,
+      player.y,
+      attackRadius,
+      attackAngle - 58 * Math.PI / 180,
+      sweepAngle,
+    );
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = `rgba(255, 255, 255, ${0.95 - attackProgress * 0.35})`;
+    ctx.lineWidth = 10 - attackProgress * 4;
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.arc(
       player.x,
       player.y,
-      60 + player.weaponLevel * 8,
-      attackAngle - 50 * Math.PI / 180,
-      attackAngle + 50 * Math.PI / 180,
+      attackRadius,
+      sweepAngle - 34 * Math.PI / 180,
+      sweepAngle,
     );
     ctx.stroke();
+
+    ctx.strokeStyle = `rgba(34, 211, 238, ${0.8 - attackProgress * 0.45})`;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(
+      player.x,
+      player.y,
+      attackRadius - 10,
+      sweepAngle - 42 * Math.PI / 180,
+      sweepAngle,
+    );
+    ctx.stroke();
+
+    ctx.strokeStyle = '#fef3c7';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(
+      player.x + Math.cos(sweepAngle) * 24,
+      player.y + Math.sin(sweepAngle) * 24,
+    );
+    ctx.lineTo(
+      player.x + Math.cos(sweepAngle) * attackRadius,
+      player.y + Math.sin(sweepAngle) * attackRadius,
+    );
+    ctx.stroke();
+    ctx.restore();
   }
 
   ctx.restore();
+
+  if (state.teleportTimer > 0) {
+    const progress = 1 - state.teleportTimer / state.teleportDuration;
+    const flash = Math.max(0, 1 - Math.abs(progress - 0.5) * 7);
+    if (flash > 0) {
+      ctx.fillStyle = `rgba(207, 250, 254, ${flash * 0.72})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  }
 }
 
 function drawUI() {
@@ -2017,6 +2277,7 @@ function drawUI() {
   hud.hydration.textContent = Math.round(player.hydration);
   hud.stamina.textContent = Math.round(player.stamina);
   hud.bandage.textContent = String(player.inventory.bandage);
+  hud.enemy.textContent = String(state.enemies.filter((enemy) => !enemy.dead).length + (state.boss ? 1 : 0));
   hud.protector.textContent = `${player.protectors.length} (${player.inventory.protectorShard} shards)`;
   hud.shield.textContent = String(player.inventory.shieldShard);
   hud.boss.textContent = String(state.bossDefeated);
@@ -2046,19 +2307,24 @@ function loop(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.03);
   lastTime = timestamp;
 
-  if (state.started && !state.isGameOver && !state.paused) {
-    handleInput(dt);
-    updateCrates(dt);
-    maybeOpenChallengeRoom();
-    updateEnemies(dt);
-    updateProtectors(dt);
-    updateBoss(dt);
-    updateParticles(dt);
-    maybeBossPortal();
+  if (state.started && !state.isGameOver && !state.paused && !state.challengePromptOpen) {
+    if (state.teleportTimer > 0) {
+      updateBossTeleport(dt);
+      updateParticles(dt);
+    } else {
+      handleInput(dt);
+      updateCrates(dt);
+      maybeOpenChallengeRoom();
+      updateEnemies(dt);
+      updateProtectors(dt);
+      updateBoss(dt);
+      updateParticles(dt);
+      maybeBossPortal();
 
-    if (player.health <= 0) die();
+      if (player.health <= 0) die();
 
-    if (keys.has(' ')) tryAttack();
+      if (keys.has(' ')) tryAttack();
+    }
   }
 
   if (state.shake > 0) {
@@ -2071,9 +2337,18 @@ function loop(timestamp) {
 }
 
 startButton.addEventListener('click', startGame);
+acceptChallengeButton.addEventListener('click', () => resolveChallengeChoice(true));
+declineChallengeButton.addEventListener('click', () => resolveChallengeChoice(false));
 
 window.addEventListener('keydown', (event) => {
   const key = event.key.toLowerCase();
+  if (state.challengePromptOpen) {
+    if (key === 'enter' || key === 'escape') {
+      event.preventDefault();
+      if (!event.repeat) resolveChallengeChoice(key === 'enter');
+    }
+    return;
+  }
   if (key === 'escape') {
     event.preventDefault();
     togglePause();

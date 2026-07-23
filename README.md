@@ -37,7 +37,5 @@ To publish on GitHub Pages:
 2. Upload these files.
 3. In the repository settings, enable GitHub Pages from the `main` branch.
 4. Your site will be available at:
+https://netapet.github.io/endless-dungeon/
 
-```text
-https://<your-user-name>.github.io/<your-repo-name>/
-```

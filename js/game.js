@@ -5,6 +5,50 @@ const startButton = document.getElementById('startButton');
 const overlayTitle = overlay.querySelector('h1');
 const overlayText = overlay.querySelector('p');
 const controlsGrid = overlay.querySelector('.controls-grid');
+const heroProverb = document.getElementById('heroProverb');
+
+const heroProverbs = [
+  '“A steady blade outlives a reckless heart.”',
+  '“The darkest room still fears a carried flame.”',
+  '“Count your scars; each one is a lesson that missed your grave.”',
+  '“A locked door tests courage, but an open one tests wisdom.”',
+  '“The dungeon grows hungry whenever the hero grows careless.”',
+  '“Steel wins a battle; patience survives the next one.”',
+  '“A hero who watches the shadows never fights alone.”',
+  '“Take what the fallen learned, and leave what made them fall.”',
+  '“Even monsters hesitate when the wounded stand again.”',
+  '“The final step is only impossible before you take it.”',
+];
+
+const fallenHeroProverbs = [
+  '"My ribs are playing a victory song, but none of them know the tune."',
+  '"If the dungeon wanted my blood, it should have brought a larger bucket."',
+  '"Never trust a staircase that has already tasted one boot."',
+  '"I have been hit so hard that tomorrow apologized."',
+  '"A ringing helmet means the ghosts are applauding."',
+  '"The trick to surviving is falling down in a direction that looks intentional."',
+  '"My sword is sharp, my plan is missing, and somehow we continue."',
+  '"When your knees begin negotiating, let your elbows lead."',
+  '"Every monster has a weakness; sometimes it is being struck repeatedly."',
+  '"I left my dignity three rooms back. It was slowing me down."',
+  '"Blood inside the body is tradition, not law."',
+  '"If both eyes still point forward, the battle was educational."',
+  '"The floor and I are old friends. It catches me often."',
+  '"A cracked shield is just armour with ventilation."',
+  '"Victory is what you call limping away before anyone checks the details."',
+];
+
+function getRandomHeroProverb() {
+  return heroProverbs[Math.floor(Math.random() * heroProverbs.length)];
+}
+
+function getRandomFallenHeroProverb() {
+  return fallenHeroProverbs[Math.floor(Math.random() * fallenHeroProverbs.length)];
+}
+
+function showRandomHeroProverb() {
+  heroProverb.textContent = getRandomHeroProverb();
+}
 
 const hud = {
   wave: document.getElementById('waveValue'),
@@ -16,7 +60,6 @@ const hud = {
   enemy: document.getElementById('enemyValue'),
   protector: document.getElementById('protectorValue'),
   shield: document.getElementById('shieldValue'),
-  boss: document.getElementById('bossValue'),
   theme: document.getElementById('themeValue'),
 };
 const messageBox = document.getElementById('messageBox');
@@ -541,6 +584,7 @@ function showWaveSplash() {
   state.threatSplashOpen = true;
   keys.clear();
   waveSplashTitle.textContent = `Wave ${state.wave}`;
+  waveSplashText.classList.remove('hero-splash-proverb');
   waveSplashEnemies.replaceChildren();
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
   const strongestDamage = livingEnemies.reduce((highest, enemy) => Math.max(highest, enemy.damage || 0), 0);
@@ -587,6 +631,7 @@ function showBossSplash() {
   };
   state.threatSplashOpen = true;
   keys.clear();
+  waveSplashText.classList.remove('hero-splash-proverb');
   waveSplashTitle.textContent = details.name;
   waveSplashEnemies.replaceChildren();
   const image = document.createElement('img');
@@ -597,6 +642,23 @@ function showBossSplash() {
   waveSplashEnemies.appendChild(image);
   waveSplashText.textContent = `${details.warning} It has ${Math.ceil(state.boss.maxHealth)} health and can deal ${Math.ceil(state.boss.damage)} base damage when it catches you.`;
   waveSplashWarning.textContent = 'The arena offers nowhere to hide. Learn its attacks or die beneath them.';
+  waveSplash.classList.remove('hidden');
+}
+
+function showHeroVictorySplash() {
+  state.pendingWaveSplash = false;
+  state.threatSplashOpen = true;
+  keys.clear();
+  waveSplashTitle.textContent = 'The Hero Endures';
+  waveSplashEnemies.replaceChildren();
+  const image = document.createElement('img');
+  image.src = 'assets/hero.png';
+  image.alt = 'The victorious hero';
+  image.classList.add('hero-head-image');
+  waveSplashEnemies.appendChild(image);
+  waveSplashText.classList.add('hero-splash-proverb');
+  waveSplashText.textContent = getRandomFallenHeroProverb();
+  waveSplashWarning.textContent = `Boss defeated. Wave ${state.wave} waits beyond the darkness.`;
   waveSplash.classList.remove('hidden');
 }
 
@@ -1202,7 +1264,12 @@ function updateBossTeleport(dt) {
     setMessage(state.teleportTarget === 'wave'
       ? `Teleport complete. Wave ${state.wave} begins!`
       : 'Teleport complete. Defeat the boss!');
-    if (state.teleportTarget === 'wave' && state.pendingWaveSplash) showWaveSplash();
+    if (state.teleportTarget === 'wave' && state.pendingWaveSplash) {
+      const healthRatio = player.health / player.maxHealth;
+      const heroSplashChance = healthRatio <= 0.2 ? 0.8 : healthRatio <= 0.35 ? 0.45 : 0;
+      if (Math.random() < heroSplashChance) showHeroVictorySplash();
+      else showWaveSplash();
+    }
     if (state.teleportTarget === 'boss') showBossSplash();
     state.teleportTarget = null;
   }
@@ -1647,6 +1714,7 @@ function die() {
   updateHighScore(state.wave);
   overlayTitle.textContent = 'You Died';
   overlayText.textContent = `You reached wave ${state.wave} and defeated ${state.bossDefeated} boss${state.bossDefeated === 1 ? '' : 'es'}.`;
+  heroProverb.textContent = getRandomFallenHeroProverb();
   controlsGrid.style.display = 'none';
   startButton.style.display = 'none';
   overlay.classList.remove('hidden');
@@ -1711,11 +1779,12 @@ function resetRun() {
 
 function showMainMenu() {
   resetRun();
+  showRandomHeroProverb();
   overlayTitle.textContent = 'Endless Dungeon';
   overlayText.textContent = 'Explore rooms, open crates, survive waves, and defeat the boss.';
   controlsGrid.style.display = 'grid';
   startButton.style.display = '';
-  startButton.textContent = 'Start Run';
+  startButton.textContent = 'Press any key to begin';
   overlay.classList.remove('hidden');
 }
 
@@ -2445,13 +2514,14 @@ function drawUI() {
   hud.enemy.textContent = String(state.enemies.filter((enemy) => !enemy.dead).length + (state.boss ? 1 : 0));
   hud.protector.textContent = `${player.protectors.length} (${player.inventory.protectorShard} shards)`;
   hud.shield.textContent = String(player.inventory.shieldShard);
-  hud.boss.textContent = String(state.bossDefeated);
+  hud.theme.closest('.stat').classList.toggle('hidden', !state.developerMode);
 
   const updateResourceWarning = (element, value, lowAt, criticalAt) => {
     const card = element.closest('.stat');
     card.classList.toggle('resource-low', value <= lowAt && value > criticalAt);
     card.classList.toggle('resource-critical', value <= criticalAt);
   };
+  updateResourceWarning(hud.health, player.health, player.maxHealth * 0.5, player.maxHealth * 0.25);
   updateResourceWarning(hud.food, player.food, 50, 25);
   updateResourceWarning(hud.hydration, player.hydration, 50, 25);
   updateResourceWarning(hud.stamina, player.stamina, 35, 15);
@@ -2513,7 +2583,6 @@ function loop(timestamp) {
   requestAnimationFrame(loop);
 }
 
-startButton.addEventListener('click', startGame);
 acceptChallengeButton.addEventListener('click', () => resolveChallengeChoice(true));
 declineChallengeButton.addEventListener('click', () => resolveChallengeChoice(false));
 
@@ -2540,6 +2609,11 @@ window.addEventListener('keydown', (event) => {
     }
     return;
   }
+  if (!state.started && !state.isGameOver && !overlay.classList.contains('hidden')) {
+    event.preventDefault();
+    if (!event.repeat) startGame();
+    return;
+  }
   if (key === 'escape') {
     event.preventDefault();
     togglePause();
@@ -2547,9 +2621,6 @@ window.addEventListener('keydown', (event) => {
   }
   if (state.paused) return;
   keys.add(key);
-  if (!state.started && key === 'enter') {
-    startGame();
-  }
   if (key === 'f') {
     setMessage('Hold F for 2 seconds near a crate to open it.');
   }
@@ -2577,4 +2648,5 @@ createRooms();
 placePlayerInFirstRoom();
 spawnEnemiesForWave();
 updateHighScore(state.wave);
+showRandomHeroProverb();
 requestAnimationFrame(loop);

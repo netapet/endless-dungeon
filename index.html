@@ -32,8 +32,7 @@
         <div class="stat enemy-stat"><span>Enemies Left in Wave</span><strong id="enemyValue">0</strong></div>
         <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
         <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
-        <div class="stat"><span>Bosses</span><strong id="bossValue">0</strong></div>
-        <div class="stat"><span>Theme</span><strong id="themeValue">Forest</strong></div>
+        <div class="stat theme-stat hidden"><span>Theme</span><strong id="themeValue">Forest</strong></div>
       </div>
     </div>
 
@@ -72,6 +71,7 @@
         <h1>Endless Dungeon</h1>
         <img class="menu-hero" src="assets/hero.png" alt="Dungeon hero" />
         <p>Explore rooms, open crates, survive waves, and defeat the boss.</p>
+        <p id="heroProverb" class="hero-proverb">“A steady blade outlives a reckless heart.”</p>
         <div class="menu-high-score">High Score: Wave <strong id="menuHighScoreValue">1</strong></div>
         <div class="controls-grid">
           <span>WASD: Move</span>
@@ -83,7 +83,7 @@
           <span>Esc: Pause</span>
           <span>Q: Use bandage</span>
         </div>
-        <button id="startButton">Start Run</button>
+        <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
       </div>
     </div>
     <canvas id="gameCanvas" width="1600" height="900"></canvas>

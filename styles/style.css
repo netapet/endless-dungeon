@@ -61,6 +61,118 @@ body {
   opacity: 0.85;
 }
 
+.menu-hero {
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  width: 285px;
+  height: calc(100% - 20px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.55));
+  pointer-events: none;
+}
+
+.main-menu-card {
+  position: relative;
+  width: min(840px, calc(100vw - 40px));
+  min-height: 430px;
+  padding-right: 300px;
+}
+
+.main-menu-card > :not(.menu-hero) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 700px) {
+  .main-menu-card {
+    min-height: 0;
+    padding-right: 28px;
+  }
+
+  .menu-hero {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 190px;
+    height: 210px;
+    margin: -8px auto 4px;
+  }
+}
+
+.wave-splash {
+  background:
+    radial-gradient(circle at center, rgba(127, 29, 29, 0.3), transparent 55%),
+    rgba(0, 0, 0, 0.9);
+}
+
+.wave-splash-card {
+  width: min(820px, calc(100vw - 40px));
+  padding: 28px;
+  text-align: center;
+}
+
+.wave-splash-kicker {
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.wave-splash-card h1 {
+  margin: 5px 0 8px;
+  color: #fff1f2;
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  text-shadow: 0 0 28px rgba(239, 68, 68, 0.65);
+}
+
+.wave-splash-enemies {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.wave-splash-enemies img {
+  width: min(260px, 32vw);
+  height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 24px rgba(248, 113, 113, 0.5));
+}
+
+.wave-splash-card p {
+  max-width: 680px;
+  margin: 4px auto 12px;
+  color: #fecaca;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.wave-splash-warning {
+  color: #fef3c7;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.continue-prompt {
+  margin-top: 24px;
+  color: #fff;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  animation: continue-flash 0.8s steps(2, end) infinite;
+}
+
+@keyframes continue-flash {
+  50% { opacity: 0.2; }
+}
+
 .controls-grid {
   margin: 18px 0 20px;
   display: grid;
@@ -220,6 +332,27 @@ body {
   font-size: 18px;
 }
 
+.stat.resource-low {
+  border-color: rgba(250, 204, 21, 0.72);
+  background: linear-gradient(180deg, rgba(66, 50, 5, 0.92), rgba(30, 23, 4, 0.84));
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.2);
+}
+
+.stat.resource-low strong {
+  color: #fde047;
+}
+
+.stat.resource-critical {
+  border-color: rgba(248, 113, 113, 0.82);
+  background: linear-gradient(180deg, rgba(69, 10, 10, 0.94), rgba(32, 5, 8, 0.88));
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  animation: resource-pulse 0.9s ease-in-out infinite alternate;
+}
+
+.stat.resource-critical strong {
+  color: #fca5a5;
+}
+
 .message-box {
   position: fixed;
   bottom: 24px;
@@ -345,6 +478,11 @@ body {
 @keyframes loot-pop {
   from { transform: translateX(24px) scale(0.85); opacity: 0; }
   to { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+@keyframes resource-pulse {
+  from { filter: brightness(0.9); }
+  to { filter: brightness(1.25); }
 }
 
 .hidden {

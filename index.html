@@ -69,7 +69,11 @@
     <div id="overlay" class="overlay">
       <div class="overlay-card main-menu-card">
         <h1>Endless Dungeon</h1>
-        <img class="menu-hero" src="assets/hero.png" alt="Dungeon hero" />
+        <button id="openArmoryButton" class="menu-hero-button" aria-label="Customize hero">
+          <img id="menuHero" class="menu-hero" src="assets/player/armor/male-wayfarer-portrait.png" alt="Dungeon hero" />
+          <span class="menu-hero-hint">Click hero to customize</span>
+          <span id="gearNotification" class="gear-notification hidden" aria-label="New gear available"></span>
+        </button>
         <p>Explore rooms, open crates, survive waves, and defeat the boss.</p>
         <p id="heroProverb" class="hero-proverb">“A steady blade outlives a reckless heart.”</p>
         <div class="menu-high-score">High Score: Wave <strong id="menuHighScoreValue">1</strong></div>
@@ -84,6 +88,50 @@
           <span>Q: Use bandage</span>
         </div>
         <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
+      </div>
+    </div>
+    <div id="armoryOverlay" class="overlay hidden">
+      <div class="overlay-card armory-card">
+        <div class="armory-kicker">Hero Armory</div>
+        <h1>Choose Your Battle Gear</h1>
+        <p>Armor remains unlocked between runs. Select a set to wear into the dungeon.</p>
+        <div id="armorGrid" class="armor-grid"></div>
+        <h2 class="armory-section-title">Blades</h2>
+        <p>Choose which unlocked sword the hero carries into battle.</p>
+        <div id="weaponGrid" class="armor-grid weapon-grid"></div>
+        <button id="closeArmoryButton" class="armory-close">Return to the fire</button>
+        <div id="gearPreview" class="gear-preview hidden" role="dialog" aria-modal="true" aria-labelledby="gearPreviewName">
+          <div class="gear-preview-card">
+            <div id="gearPreviewType" class="armory-kicker"></div>
+            <img id="gearPreviewImage" src="" alt="">
+            <div class="gear-preview-copy">
+              <h1 id="gearPreviewName"></h1>
+              <p id="gearPreviewUnlock"></p>
+              <div id="gearPreviewStats" class="gear-preview-stats"></div>
+              <div class="gear-preview-actions">
+                <button id="applyGearButton" class="gear-preview-apply">Apply</button>
+                <button id="cancelGearButton" class="gear-preview-cancel">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="genderOverlay" class="overlay hidden">
+      <div class="overlay-card gender-card">
+        <div class="armory-kicker">Choose Your Hero</div>
+        <h1>Who Enters the Dungeon?</h1>
+        <p>This choice sets your character appearance and is remembered for future runs.</p>
+        <div class="gender-options">
+          <button id="chooseMaleButton">
+            <img src="assets/player/armor/male-wayfarer-portrait.png" alt="Male hero">
+            <strong>Male Hero</strong>
+          </button>
+          <button id="chooseFemaleButton">
+            <img src="assets/player/armor/female-wayfarer-combat.png" alt="Female hero">
+            <strong>Female Hero</strong>
+          </button>
+        </div>
       </div>
     </div>
     <canvas id="gameCanvas" width="1600" height="900"></canvas>

@@ -6,6 +6,192 @@ const overlayTitle = overlay.querySelector('h1');
 const overlayText = overlay.querySelector('p');
 const controlsGrid = overlay.querySelector('.controls-grid');
 const heroProverb = document.getElementById('heroProverb');
+const menuHero = document.getElementById('menuHero');
+const openArmoryButton = document.getElementById('openArmoryButton');
+const armoryOverlay = document.getElementById('armoryOverlay');
+const armorGrid = document.getElementById('armorGrid');
+const weaponGrid = document.getElementById('weaponGrid');
+const closeArmoryButton = document.getElementById('closeArmoryButton');
+const gearNotification = document.getElementById('gearNotification');
+const genderOverlay = document.getElementById('genderOverlay');
+const chooseMaleButton = document.getElementById('chooseMaleButton');
+const chooseFemaleButton = document.getElementById('chooseFemaleButton');
+const gearPreview = document.getElementById('gearPreview');
+const gearPreviewType = document.getElementById('gearPreviewType');
+const gearPreviewImage = document.getElementById('gearPreviewImage');
+const gearPreviewName = document.getElementById('gearPreviewName');
+const gearPreviewUnlock = document.getElementById('gearPreviewUnlock');
+const gearPreviewStats = document.getElementById('gearPreviewStats');
+const applyGearButton = document.getElementById('applyGearButton');
+const cancelGearButton = document.getElementById('cancelGearButton');
+
+const armorSets = [
+  { id: 'wayfarer', name: "Wayfarer's Resolve", boss: 0, portrait: 'assets/player/armor/male-wayfarer-portrait.png', combat: 'assets/player/armor/male-wayfarer-combat.png', femalePortrait: 'assets/player/armor/female-wayfarer-combat.png', femaleCombat: 'assets/player/armor/female-wayfarer-combat.png', defense: 0, health: 0, stamina: 0 },
+  { id: 'leather', name: 'Thornhide Vanguard', boss: 1, portrait: 'assets/player/armor/male-leather-portrait.png', combat: 'assets/player/armor/male-leather-combat.png', femalePortrait: 'assets/player/armor/female-leather-combat.png', femaleCombat: 'assets/player/armor/female-leather-combat.png', defense: 8, health: 10, stamina: 5 },
+  { id: 'lightPlate', name: 'Silverwind Harness', boss: 5, portrait: 'assets/player/armor/male-light-plate-portrait.png', combat: 'assets/player/armor/male-light-plate-combat.png', femalePortrait: 'assets/player/armor/female-light-plate-combat.png', femaleCombat: 'assets/player/armor/female-light-plate-combat.png', defense: 16, health: 20, stamina: 10 },
+  { id: 'heavyPlate', name: 'Iron Bastion Plate', boss: 8, portrait: 'assets/player/armor/male-heavy-plate-portrait.png', combat: 'assets/player/armor/male-heavy-plate-combat.png', femalePortrait: 'assets/player/armor/female-heavy-plate-combat.png', femaleCombat: 'assets/player/armor/female-heavy-plate-combat.png', defense: 24, health: 35, stamina: 15 },
+  { id: 'dragonPlate', name: 'Wyrmscale Eclipse', boss: 10, portrait: 'assets/player/armor/male-dragon-plate-portrait.png', combat: 'assets/player/armor/male-dragon-plate-combat.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat.png', defense: 32, health: 50, stamina: 20 },
+  { id: 'royalArmor', name: 'Crownward Regalia', boss: 20, portrait: 'assets/player/armor/male-royal-armor-portrait.png', combat: 'assets/player/armor/male-royal-armor-combat.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat.png', defense: 40, health: 70, stamina: 25 },
+  { id: 'worldforged', name: 'Worldforged Aegis', boss: 25, portrait: 'assets/player/armor/male-worldforged-portrait.png', combat: 'assets/player/armor/male-worldforged-combat.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat.png', defense: 50, health: 100, stamina: 35 },
+];
+
+const weaponSets = [
+  { id: 'lavaBlade', name: 'Cinderfang', boss: 2, portrait: 'assets/player/weapons/lava-blade-portrait.png', combat: 'assets/player/weapons/lava-blade-combat.png', damage: 4, reach: 2 },
+  { id: 'broadSword', name: 'Oathkeeper Broadblade', boss: 4, portrait: 'assets/player/weapons/broad-sword.png', combat: 'assets/player/weapons/broad-sword.png', damage: 8, reach: 4 },
+  { id: 'diamondSword', name: 'Diamondheart Greatsword', boss: 7, portrait: 'assets/player/weapons/diamond-sword-portrait.png', combat: 'assets/player/weapons/diamond-sword-combat.png', damage: 15, reach: 8 },
+  { id: 'emeraldSword', name: 'Emerald Sovereign', boss: 27, portrait: 'assets/player/weapons/emerald-sword-portrait.png', combat: 'assets/player/weapons/emerald-sword-combat.png', damage: 24, reach: 12 },
+];
+const starterWeapon = { id: 'starterBlade', name: 'Starter Blade', boss: 0, damage: 0, reach: 0 };
+
+let unlockedArmor = new Set(['wayfarer']);
+let equippedArmorId = 'wayfarer';
+let unlockedWeapons = new Set();
+let equippedWeaponId = 'starterBlade';
+let unseenGear = new Set();
+let selectedGender = null;
+let pendingGearChoice = null;
+try {
+  selectedGender = window.localStorage.getItem('endlessDungeonGender');
+  const savedArmor = JSON.parse(window.localStorage.getItem('endlessDungeonArmor') || '[]');
+  unlockedArmor = new Set(['wayfarer', ...savedArmor]);
+  const savedEquipped = window.localStorage.getItem('endlessDungeonEquippedArmor');
+  if (savedEquipped && unlockedArmor.has(savedEquipped)) equippedArmorId = savedEquipped;
+  const savedWeapons = JSON.parse(window.localStorage.getItem('endlessDungeonWeapons') || '[]');
+  unlockedWeapons = new Set(savedWeapons);
+  const savedWeapon = window.localStorage.getItem('endlessDungeonEquippedWeapon');
+  if (savedWeapon && unlockedWeapons.has(savedWeapon)) equippedWeaponId = savedWeapon;
+  unseenGear = new Set(JSON.parse(window.localStorage.getItem('endlessDungeonUnseenGear') || '[]'));
+  if (window.localStorage.getItem('endlessDungeonWeaponMilestones') !== 'v2') {
+    unlockedWeapons.delete('broadSword');
+    unlockedWeapons.delete('diamondSword');
+    equippedWeaponId = 'starterBlade';
+    window.localStorage.setItem('endlessDungeonWeaponMilestones', 'v2');
+    window.localStorage.setItem('endlessDungeonWeapons', JSON.stringify([...unlockedWeapons]));
+    window.localStorage.setItem('endlessDungeonEquippedWeapon', equippedWeaponId);
+  }
+} catch (error) {
+  unlockedArmor = new Set(['wayfarer']);
+}
+
+function getEquippedArmor() {
+  return armorSets.find((armor) => armor.id === equippedArmorId) || armorSets[0];
+}
+
+function getEquippedWeapon() {
+  return weaponSets.find((weapon) => weapon.id === equippedWeaponId) || starterWeapon;
+}
+
+function saveArmorCollection() {
+  try {
+    window.localStorage.setItem('endlessDungeonArmor', JSON.stringify([...unlockedArmor]));
+    window.localStorage.setItem('endlessDungeonEquippedArmor', equippedArmorId);
+    window.localStorage.setItem('endlessDungeonWeapons', JSON.stringify([...unlockedWeapons]));
+    window.localStorage.setItem('endlessDungeonEquippedWeapon', equippedWeaponId);
+    window.localStorage.setItem('endlessDungeonUnseenGear', JSON.stringify([...unseenGear]));
+    if (selectedGender) window.localStorage.setItem('endlessDungeonGender', selectedGender);
+  } catch (error) {
+    // Armor still works for the current browser session.
+  }
+}
+
+function updateGearNotification() {
+  gearNotification.classList.toggle('hidden', unseenGear.size === 0);
+}
+
+function closeGearPreview() {
+  pendingGearChoice = null;
+  gearPreview.classList.add('hidden');
+}
+
+function showGearPreview(type, gear, image) {
+  pendingGearChoice = { type, gear };
+  gearPreviewType.textContent = type === 'armor' ? 'Armor Selection' : 'Weapon Selection';
+  gearPreviewImage.src = image;
+  gearPreviewImage.alt = gear.name;
+  gearPreviewName.textContent = gear.name;
+  gearPreviewUnlock.textContent = gear.boss === 0
+    ? 'The equipment your journey began with.'
+    : `Reward for defeating Boss ${gear.boss}.`;
+  gearPreviewStats.innerHTML = type === 'armor'
+    ? `<strong>Damage reduction: ${gear.defense}%</strong><strong>Maximum health: +${gear.health}</strong><strong>Maximum stamina: +${gear.stamina}</strong>`
+    : `<strong>Attack damage: +${gear.damage}%</strong><strong>Attack reach: +${gear.reach}</strong>`;
+  applyGearButton.textContent = 'Apply';
+  gearPreview.classList.remove('hidden');
+}
+
+function applyPendingGearChoice() {
+  if (!pendingGearChoice) return;
+  const { type, gear } = pendingGearChoice;
+  if (type === 'armor') {
+    equippedArmorId = gear.id;
+    applyEquippedArmor(false);
+  } else {
+    equippedWeaponId = gear.id;
+  }
+  saveArmorCollection();
+  closeGearPreview();
+  renderArmory();
+}
+
+function renderArmory() {
+  armorGrid.replaceChildren();
+  for (const armor of armorSets) {
+    const unlocked = unlockedArmor.has(armor.id);
+    const armorPortrait = selectedGender === 'female' ? armor.femalePortrait : armor.portrait;
+    const option = document.createElement('button');
+    option.className = `armor-option${unlocked ? '' : ' locked'}${equippedArmorId === armor.id ? ' selected' : ''}`;
+    option.disabled = !unlocked;
+    option.innerHTML = `
+      ${unseenGear.has(`armor:${armor.id}`) ? '<em class="new-gear-label">NEW</em>' : ''}
+      <img src="${armorPortrait}" alt="${armor.name}">
+      <strong>${unlocked ? armor.name : `Defeat Boss ${armor.boss}`}</strong>
+      <span>Defense ${armor.defense}% · Health +${armor.health} · Stamina +${armor.stamina}</span>
+    `;
+    if (unlocked) option.addEventListener('click', () => showGearPreview('armor', armor, armorPortrait));
+    armorGrid.appendChild(option);
+  }
+  weaponGrid.replaceChildren();
+  for (const weapon of weaponSets) {
+    const unlocked = unlockedWeapons.has(weapon.id);
+    const option = document.createElement('button');
+    option.className = `armor-option${unlocked ? '' : ' locked'}${equippedWeaponId === weapon.id ? ' selected' : ''}`;
+    option.disabled = !unlocked;
+    option.innerHTML = `
+      ${unseenGear.has(`weapon:${weapon.id}`) ? '<em class="new-gear-label">NEW</em>' : ''}
+      <img src="${weapon.portrait}" alt="${weapon.name}">
+      <strong>${unlocked ? weapon.name : `Defeat Boss ${weapon.boss}`}</strong>
+      <span>Damage +${weapon.damage}% · Reach +${weapon.reach}</span>
+    `;
+    if (unlocked) option.addEventListener('click', () => showGearPreview('weapon', weapon, weapon.portrait));
+    weaponGrid.appendChild(option);
+  }
+}
+
+function applyEquippedArmor(refill = true) {
+  const armor = getEquippedArmor();
+  player.maxHealth = 100 + armor.health;
+  player.maxStamina = 100 + armor.stamina;
+  player.armorLevel = 1 + armor.defense / 8;
+  if (refill) {
+    player.health = player.maxHealth;
+    player.stamina = player.maxStamina;
+  } else {
+    player.health = Math.min(player.health, player.maxHealth);
+    player.stamina = Math.min(player.stamina, player.maxStamina);
+  }
+  const combatArt = selectedGender === 'female' ? armor.femaleCombat : armor.combat;
+  const portraitArt = selectedGender === 'female' ? armor.femalePortrait : armor.portrait;
+  art.hero.src = combatArt;
+  menuHero.src = portraitArt;
+  menuHero.alt = armor.name;
+}
+
+function chooseGender(gender) {
+  selectedGender = gender;
+  saveArmorCollection();
+  applyEquippedArmor(true);
+  genderOverlay.classList.add('hidden');
+}
 
 const heroProverbs = [
   '“A steady blade outlives a reckless heart.”',
@@ -73,6 +259,7 @@ const waveSplashTitle = document.getElementById('waveSplashTitle');
 const waveSplashEnemies = document.getElementById('waveSplashEnemies');
 const waveSplashText = document.getElementById('waveSplashText');
 const waveSplashWarning = document.getElementById('waveSplashWarning');
+const waveSplashContinuePrompt = waveSplash.querySelector('.continue-prompt');
 const highScoreValue = document.getElementById('highScoreValue');
 const menuHighScoreValue = document.getElementById('menuHighScoreValue');
 let lootHighlightTimer = null;
@@ -117,9 +304,7 @@ const art = {
   arcaneOrb: new Image(),
   reaper: new Image(),
   lushGolem: new Image(),
-  lushGolemCutout: new Image(),
   lavaGolem: new Image(),
-  lavaGolemCutout: new Image(),
   oceanBoss: new Image(),
   iceBoss: new Image(),
   iceMinion: new Image(),
@@ -131,176 +316,85 @@ const art = {
   lushTank: new Image(),
   woodBoss: new Image(),
   woodMinion: new Image(),
+  skeletonBoss: new Image(),
+  skeletonMinion: new Image(),
+  skeletonTank: new Image(),
+  skeletonSpider: new Image(),
+  skeletonOrb: new Image(),
+  sandBoss: new Image(),
   lushCave: new Image(),
   cyanRoom: new Image(),
   lavaRoom: new Image(),
   waterRoom: new Image(),
+  skeletonRoom: new Image(),
   crate: new Image(),
   openCrate: new Image(),
   lushArena: new Image(),
   lavaArena: new Image(),
   waterArena: new Image(),
   iceArena: new Image(),
+  skeletonArena: new Image(),
+  sandArena: new Image(),
+  diamondSword: new Image(),
+  broadSword: new Image(),
+  emeraldSword: new Image(),
+  lavaBlade: new Image(),
 };
-
-function createLushGolemCutout(source) {
-  const cutoutCanvas = document.createElement('canvas');
-  cutoutCanvas.width = source.naturalWidth;
-  cutoutCanvas.height = source.naturalHeight;
-  const cutoutContext = cutoutCanvas.getContext('2d', { willReadFrequently: true });
-  cutoutContext.drawImage(source, 0, 0);
-  const imageData = cutoutContext.getImageData(0, 0, cutoutCanvas.width, cutoutCanvas.height);
-  const { data } = imageData;
-  const width = cutoutCanvas.width;
-  const height = cutoutCanvas.height;
-  const visited = new Uint8Array(width * height);
-  const queue = new Int32Array(width * height);
-  let queueStart = 0;
-  let queueEnd = 0;
-
-  function addBackgroundPixel(x, y) {
-    if (x < 0 || y < 0 || x >= width || y >= height) return;
-    const pixel = y * width + x;
-    if (visited[pixel]) return;
-    const offset = pixel * 4;
-    const red = data[offset];
-    const green = data[offset + 1];
-    const blue = data[offset + 2];
-    const brightest = Math.max(red, green, blue);
-    const darkest = Math.min(red, green, blue);
-    // The source background is connected, near-black, and low saturation.
-    if (brightest > 62 || brightest - darkest > 30) return;
-    visited[pixel] = 1;
-    queue[queueEnd] = pixel;
-    queueEnd += 1;
-  }
-
-  for (let x = 0; x < width; x += 1) {
-    addBackgroundPixel(x, 0);
-    addBackgroundPixel(x, height - 1);
-  }
-  for (let y = 0; y < height; y += 1) {
-    addBackgroundPixel(0, y);
-    addBackgroundPixel(width - 1, y);
-  }
-
-  while (queueStart < queueEnd) {
-    const pixel = queue[queueStart];
-    queueStart += 1;
-    const x = pixel % width;
-    const y = Math.floor(pixel / width);
-    data[pixel * 4 + 3] = 0;
-    addBackgroundPixel(x - 1, y);
-    addBackgroundPixel(x + 1, y);
-    addBackgroundPixel(x, y - 1);
-    addBackgroundPixel(x, y + 1);
-  }
-
-  cutoutContext.putImageData(imageData, 0, 0);
-  art.lushGolemCutout.src = cutoutCanvas.toDataURL('image/png');
-}
-
-function createLavaGolemCutout(source) {
-  const cutoutCanvas = document.createElement('canvas');
-  cutoutCanvas.width = source.naturalWidth;
-  cutoutCanvas.height = source.naturalHeight;
-  const cutoutContext = cutoutCanvas.getContext('2d', { willReadFrequently: true });
-  cutoutContext.drawImage(source, 0, 0);
-  const imageData = cutoutContext.getImageData(0, 0, cutoutCanvas.width, cutoutCanvas.height);
-  const { data } = imageData;
-  const width = cutoutCanvas.width;
-  const height = cutoutCanvas.height;
-  const visited = new Uint8Array(width * height);
-  const queue = new Int32Array(width * height);
-  let queueStart = 0;
-  let queueEnd = 0;
-
-  function addPixel(x, y, parentPixel = -1) {
-    if (x < 0 || y < 0 || x >= width || y >= height) return;
-    const pixel = y * width + x;
-    if (visited[pixel]) return;
-    const offset = pixel * 4;
-    const brightness = Math.max(data[offset], data[offset + 1], data[offset + 2]);
-    if (brightness > 108) return;
-    if (parentPixel >= 0) {
-      const parentOffset = parentPixel * 4;
-      const difference = Math.abs(data[offset] - data[parentOffset])
-        + Math.abs(data[offset + 1] - data[parentOffset + 1])
-        + Math.abs(data[offset + 2] - data[parentOffset + 2]);
-      if (difference > 16) return;
-    }
-    visited[pixel] = 1;
-    queue[queueEnd] = pixel;
-    queueEnd += 1;
-  }
-
-  for (let x = 0; x < width; x += 1) {
-    addPixel(x, 0);
-    addPixel(x, height - 1);
-  }
-  for (let y = 0; y < height; y += 1) {
-    addPixel(0, y);
-    addPixel(width - 1, y);
-  }
-  while (queueStart < queueEnd) {
-    const pixel = queue[queueStart];
-    queueStart += 1;
-    const x = pixel % width;
-    const y = Math.floor(pixel / width);
-    data[pixel * 4 + 3] = 0;
-    addPixel(x - 1, y, pixel);
-    addPixel(x + 1, y, pixel);
-    addPixel(x, y - 1, pixel);
-    addPixel(x, y + 1, pixel);
-  }
-
-  cutoutContext.putImageData(imageData, 0, 0);
-  art.lavaGolemCutout.src = cutoutCanvas.toDataURL('image/png');
-}
 
 function preloadArt() {
   const sources = {
-    roomRuins: 'assets/room-ruins.svg',
-    hero: 'assets/hero.png',
-    walker: 'assets/walker.svg',
-    runner: 'assets/runner.svg',
-    brute: 'assets/brute.svg',
-    spitter: 'assets/spitter.svg',
-    assassin: 'assets/assassin.svg',
-    crawler: 'assets/crawler.svg',
-    sentinel: 'assets/sentinel.svg',
-    wraith: 'assets/wraith.svg',
-    burrower: 'assets/burrower.svg',
-    arcaneOrb: 'assets/arcane-orb.svg',
-    reaper: 'assets/reaper.svg',
-    lushGolem: 'assets/boss1-lushgolem.png',
-    lavaGolem: 'assets/boss2-lavagolem.png',
-    oceanBoss: 'assets/boss3-oceanboss.png',
-    iceBoss: 'assets/boss4-iceboss.png',
-    iceMinion: 'assets/ice minion.png',
-    lavaMinion: 'assets/lava minion.png',
-    lavaTank: 'assets/lavatank.png',
-    oceanMinion: 'assets/oceanminion.png',
-    oceanTank: 'assets/oceantank.png',
-    lushMinion: 'assets/lushminion.png',
-    lushTank: 'assets/lushtank.png',
-    woodBoss: 'assets/boss10-woodboss.png',
-    woodMinion: 'assets/woodminion.png',
-    lushCave: 'assets/lushcave.png',
-    cyanRoom: 'assets/cyan room.png',
-    lavaRoom: 'assets/lavaroom.png',
-    waterRoom: 'assets/water room.png',
-    crate: 'assets/crate.png',
-    openCrate: 'assets/open crate.png',
-    lushArena: 'assets/lusharena.png',
-    lavaArena: 'assets/lavaarena.png',
-    waterArena: 'assets/water arena.png',
-    iceArena: 'assets/icearena.png',
+    roomRuins: 'assets/worlds/rooms/ruins.svg',
+    hero: 'assets/player/armor/male-worldforged-portrait.png',
+    walker: 'assets/enemies/generic/walker.svg',
+    runner: 'assets/enemies/generic/runner.svg',
+    brute: 'assets/enemies/generic/brute.svg',
+    spitter: 'assets/enemies/generic/spitter.svg',
+    assassin: 'assets/enemies/generic/assassin.svg',
+    crawler: 'assets/enemies/generic/crawler.svg',
+    sentinel: 'assets/enemies/generic/sentinel.svg',
+    wraith: 'assets/enemies/generic/wraith.svg',
+    burrower: 'assets/enemies/generic/burrower.svg',
+    arcaneOrb: 'assets/enemies/generic/arcane-orb.svg',
+    reaper: 'assets/enemies/generic/reaper.svg',
+    lushGolem: 'assets/enemies/bosses/lush-golem.png',
+    lavaGolem: 'assets/enemies/bosses/lava-golem.png',
+    oceanBoss: 'assets/enemies/bosses/ocean-boss.png',
+    iceBoss: 'assets/enemies/bosses/ice-boss.png',
+    iceMinion: 'assets/enemies/units/ice-minion.png',
+    lavaMinion: 'assets/enemies/units/lava-minion.png',
+    lavaTank: 'assets/enemies/units/lava-tank.png',
+    oceanMinion: 'assets/enemies/units/ocean-minion.png',
+    oceanTank: 'assets/enemies/units/ocean-tank.png',
+    lushMinion: 'assets/enemies/units/lush-minion.png',
+    lushTank: 'assets/enemies/units/lush-tank.png',
+    woodBoss: 'assets/enemies/bosses/wood-boss.png',
+    woodMinion: 'assets/enemies/units/wood-minion.png',
+    skeletonBoss: 'assets/enemies/bosses/skeleton-warlord.png',
+    skeletonMinion: 'assets/enemies/units/skeleton-minion.png',
+    skeletonTank: 'assets/enemies/units/skeleton-tank.png',
+    skeletonSpider: 'assets/enemies/units/skeleton-spider.png',
+    skeletonOrb: 'assets/enemies/units/skeleton-orb.png',
+    sandBoss: 'assets/enemies/bosses/sand-tyrant.png',
+    lushCave: 'assets/worlds/rooms/lush-cave.png',
+    cyanRoom: 'assets/worlds/rooms/cyan-room.png',
+    lavaRoom: 'assets/worlds/rooms/lava-room.png',
+    waterRoom: 'assets/worlds/rooms/water-room.png',
+    skeletonRoom: 'assets/worlds/rooms/skeleton-room.png',
+    crate: 'assets/props/crate-closed.png',
+    openCrate: 'assets/props/crate-open.png',
+    lushArena: 'assets/worlds/arenas/lush-arena.png',
+    lavaArena: 'assets/worlds/arenas/lava-arena.png',
+    waterArena: 'assets/worlds/arenas/water-arena.png',
+    iceArena: 'assets/worlds/arenas/ice-arena.png',
+    skeletonArena: 'assets/worlds/arenas/skeleton-arena.png',
+    sandArena: 'assets/worlds/arenas/sand-arena.png',
+    diamondSword: 'assets/player/weapons/diamond-sword-combat.png',
+    broadSword: 'assets/player/weapons/broad-sword.png',
+    emeraldSword: 'assets/player/weapons/emerald-sword-combat.png',
+    lavaBlade: 'assets/player/weapons/lava-blade-combat.png',
   };
 
   Object.entries(sources).forEach(([key, src]) => {
-    if (key === 'lushGolem') art[key].addEventListener('load', () => createLushGolemCutout(art[key]), { once: true });
-    if (key === 'lavaGolem') art[key].addEventListener('load', () => createLavaGolemCutout(art[key]), { once: true });
     art[key].src = src;
   });
 }
@@ -317,6 +411,7 @@ const player = {
   food: 100,
   hydration: 100,
   stamina: 100,
+  maxStamina: 100,
   attackCooldown: 0,
   attackDuration: 0,
   facing: { x: 1, y: 0 },
@@ -391,6 +486,16 @@ const world = {
       glow: '#ffe0fb',
       shadow: '#090312',
     },
+    {
+      name: 'Bony Ruins',
+      bg: '#090b0b',
+      room: '#595342',
+      accent: '#67e8f9',
+      floor: '#746d58',
+      wall: '#27251f',
+      glow: '#a5f3fc',
+      shadow: '#050606',
+    },
   ],
 };
 
@@ -422,6 +527,7 @@ const state = {
   foodWarningShown: false,
   waterWarningShown: false,
   threatSplashOpen: false,
+  gearChoiceOpen: false,
   pendingWaveSplash: false,
 };
 
@@ -443,12 +549,18 @@ function distance(a, b) {
 }
 
 function getTheme() {
+  // Boss five belongs to the Bony Ruins; always introduce its biome first.
+  if (state.bossDefeated === 4) {
+    world.themeIndex = 5;
+    return world.themes[5];
+  }
   const rareRoll = Math.random();
   if (rareRoll < state.rareThemeChance) {
     world.themeIndex = 4;
     return world.themes[4];
   }
-  world.themeIndex = Math.floor(Math.random() * (world.themes.length - 1));
+  const standardThemes = [0, 1, 2, 3, 5];
+  world.themeIndex = standardThemes[Math.floor(Math.random() * standardThemes.length)];
   return world.themes[world.themeIndex];
 }
 
@@ -570,13 +682,19 @@ function getEnemySplashArt(enemy) {
   const minionTypes = ['runner', 'crawler'];
   const tankTypes = ['walker', 'brute', 'spitter', 'sentinel'];
   const role = minionTypes.includes(enemy.type) ? 'minion' : tankTypes.includes(enemy.type) ? 'tank' : null;
-  if (role && world.themeIndex === 0) return `assets/lush${role}.png`;
-  if (role && world.themeIndex === 2) return role === 'minion' ? 'assets/lava minion.png' : 'assets/lavatank.png';
-  if (role && (world.themeIndex === 1 || world.themeIndex === 3)) return `assets/ocean${role}.png`;
+  if (role && world.themeIndex === 0) return `assets/enemies/units/lush-${role}.png`;
+  if (role && world.themeIndex === 2) return role === 'minion' ? 'assets/enemies/units/lava-minion.png' : 'assets/enemies/units/lava-tank.png';
+  if (role && (world.themeIndex === 1 || world.themeIndex === 3)) return `assets/enemies/units/ocean-${role}.png`;
+  if (world.themeIndex === 5) {
+    if (enemy.type === 'crawler') return 'assets/enemies/units/skeleton-spider.png';
+    if (enemy.type === 'arcaneOrb') return 'assets/enemies/units/skeleton-orb.png';
+    if (role === 'minion') return 'assets/enemies/units/skeleton-minion.png';
+    if (role === 'tank') return 'assets/enemies/units/skeleton-tank.png';
+  }
   const genericArt = {
-    arcaneOrb: 'assets/arcane-orb.svg',
+    arcaneOrb: 'assets/enemies/generic/arcane-orb.svg',
   };
-  return genericArt[enemy.type] || `assets/${enemy.type}.svg`;
+  return genericArt[enemy.type] || `assets/enemies/generic/${enemy.type}.svg`;
 }
 
 function showWaveSplash() {
@@ -618,15 +736,17 @@ function showWaveSplash() {
 function showBossSplash() {
   if (!state.boss) return;
   const bossDetails = {
-    lushGolem: { name: 'Lush Golem', image: 'assets/boss1-lushgolem.png', warning: 'Its roots can crush you in place, and its healing bloom can undo your hard-earned damage.' },
-    lavaGolem: { name: 'Lava Golem', image: 'assets/boss2-lavagolem.png', warning: 'Its hammer slams break defenses, while eruptions can engulf almost the entire arena.' },
-    oceanBoss: { name: 'Ocean Boss', image: 'assets/boss3-oceanboss.png', warning: 'Its tidal attacks sweep across the arena and leave nowhere safe to stand still.' },
-    iceBoss: { name: 'Ice Boss', image: 'assets/boss4-iceboss.png', warning: 'Its blizzards punish hesitation, and more Ice Minions arrive as the battle drags on.' },
-    woodBoss: { name: 'Wood Boss', image: 'assets/boss10-woodboss.png', warning: 'It summons reinforcements as it weakens, turning one monster into an advancing horde.' },
+    lushGolem: { name: 'Lush Golem', image: 'assets/enemies/bosses/lush-golem.png', warning: 'Its roots can crush you in place, and its healing bloom can undo your hard-earned damage.' },
+    lavaGolem: { name: 'Lava Golem', image: 'assets/enemies/bosses/lava-golem.png', warning: 'Its hammer slams break defenses, while eruptions can engulf almost the entire arena.' },
+    oceanBoss: { name: 'Ocean Boss', image: 'assets/enemies/bosses/ocean-boss.png', warning: 'Its tidal attacks sweep across the arena and leave nowhere safe to stand still.' },
+    iceBoss: { name: 'Ice Boss', image: 'assets/enemies/bosses/ice-boss.png', warning: 'Its blizzards punish hesitation, and more Ice Minions arrive as the battle drags on.' },
+    skeletonWarlord: { name: 'Skeleton Warlord', image: 'assets/enemies/bosses/skeleton-warlord.png', warning: 'This crowned butcher raises four Skeleton Orbs as its health falls, crowding the arena with hungry dead.' },
+    sandBoss: { name: 'Sand Tyrant', image: 'assets/enemies/bosses/sand-tyrant.png', warning: 'The buried king commands three Skeleton Minions and five Skeleton Orbs, raising another servant whenever its strength breaks.' },
+    woodBoss: { name: 'Wood Boss', image: 'assets/enemies/bosses/wood-boss.png', warning: 'It summons reinforcements as it weakens, turning one monster into an advancing horde.' },
   };
   const details = bossDetails[state.boss.variant] || {
     name: 'Dungeon Guardian',
-    image: 'assets/brute.svg',
+    image: 'assets/enemies/generic/brute.svg',
     warning: 'It grows more dangerous with every victory you have taken from the dungeon.',
   };
   state.threatSplashOpen = true;
@@ -635,9 +755,7 @@ function showBossSplash() {
   waveSplashTitle.textContent = details.name;
   waveSplashEnemies.replaceChildren();
   const image = document.createElement('img');
-  image.src = state.boss.variant === 'lushGolem' && art.lushGolemCutout.src
-    ? art.lushGolemCutout.src
-    : details.image;
+  image.src = details.image;
   image.alt = details.name;
   waveSplashEnemies.appendChild(image);
   waveSplashText.textContent = `${details.warning} It has ${Math.ceil(state.boss.maxHealth)} health and can deal ${Math.ceil(state.boss.damage)} base damage when it catches you.`;
@@ -652,18 +770,26 @@ function showHeroVictorySplash() {
   waveSplashTitle.textContent = 'The Hero Endures';
   waveSplashEnemies.replaceChildren();
   const image = document.createElement('img');
-  image.src = 'assets/hero.png';
+  image.src = 'assets/player/armor/male-worldforged-portrait.png';
   image.alt = 'The victorious hero';
   image.classList.add('hero-head-image');
   waveSplashEnemies.appendChild(image);
   waveSplashText.classList.add('hero-splash-proverb');
   waveSplashText.textContent = getRandomFallenHeroProverb();
-  waveSplashWarning.textContent = `Boss defeated. Wave ${state.wave} waits beyond the darkness.`;
+  state.gearChoiceOpen = unseenGear.size > 0;
+  waveSplashWarning.textContent = state.gearChoiceOpen
+    ? `New gear recovered. Wave ${state.wave} waits beyond the darkness.`
+    : `Boss defeated. Wave ${state.wave} waits beyond the darkness.`;
+  waveSplashContinuePrompt.textContent = state.gearChoiceOpen
+    ? 'Press C to customize · Any other key to continue'
+    : 'Press any key to continue';
   waveSplash.classList.remove('hidden');
 }
 
 function closeThreatSplash() {
   state.threatSplashOpen = false;
+  state.gearChoiceOpen = false;
+  waveSplashContinuePrompt.textContent = 'Press any key to continue';
   keys.clear();
   waveSplash.classList.add('hidden');
 }
@@ -958,6 +1084,8 @@ function spawnBoss() {
   const isSecondBoss = state.bossDefeated === 1;
   const isThirdBoss = state.bossDefeated === 2;
   const isFourthBoss = state.bossDefeated === 3;
+  const isFifthBoss = state.bossDefeated === 4;
+  const isSixthBoss = state.bossDefeated === 5;
   const isTenthBoss = state.bossDefeated === 9;
   const bossTier = state.bossDefeated + 1;
   const bossHealth = 470 + bossTier * 230 + Math.max(0, bossTier - 2) * 90;
@@ -965,7 +1093,7 @@ function spawnBoss() {
   state.boss = {
     x: world.width / 2,
     y: world.height / 2,
-    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isTenthBoss ? 58 : 36,
+    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isFifthBoss ? 57 : isSixthBoss ? 58 : isTenthBoss ? 58 : 36,
     health: bossHealth,
     maxHealth: bossHealth,
     damage: bossDamage,
@@ -973,7 +1101,7 @@ function spawnBoss() {
     cooldown: 1.1,
     attackWindup: 0,
     attackWindupTotal: 0.38,
-    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isTenthBoss ? 'woodSlam' : 'slam',
+    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isFifthBoss ? 'boneSlam' : isSixthBoss ? 'sandSlam' : isTenthBoss ? 'woodSlam' : 'slam',
     attackPulse: 0,
     hitFlash: 0,
     movePhase: 0,
@@ -981,7 +1109,11 @@ function spawnBoss() {
     defeatedTimer: 0,
     halfHealthMinionSummoned: false,
     nextWoodMinionThreshold: 0.9,
-    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isTenthBoss ? 'woodBoss' : 'standard',
+    nextSkeletonOrbThreshold: 0.8,
+    skeletonOrbsSummoned: 0,
+    nextSandSummonThreshold: 0.9,
+    sandSummonsCompleted: 0,
+    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isFifthBoss ? 'skeletonWarlord' : isSixthBoss ? 'sandBoss' : isTenthBoss ? 'woodBoss' : 'standard',
   };
   player.x = world.width / 2 - 150;
   player.y = world.height / 2;
@@ -1018,10 +1150,27 @@ function startNextWave() {
 }
 
 function rewardBossLoot() {
+  const defeatedBossNumber = state.bossDefeated + 1;
   for (let i = 0; i < 10; i += 1) {
     applyLoot(randomLoot());
   }
   state.bossDefeated += 1;
+  const unlockedSet = armorSets.find((armor) => armor.boss === defeatedBossNumber);
+  if (unlockedSet && !unlockedArmor.has(unlockedSet.id)) {
+    unlockedArmor.add(unlockedSet.id);
+    unseenGear.add(`armor:${unlockedSet.id}`);
+    saveArmorCollection();
+    updateGearNotification();
+    setMessage(`${unlockedSet.name} unlocked in the Hero Armory!`);
+  }
+  const unlockedWeapon = weaponSets.find((weapon) => weapon.boss === defeatedBossNumber);
+  if (unlockedWeapon && !unlockedWeapons.has(unlockedWeapon.id)) {
+    unlockedWeapons.add(unlockedWeapon.id);
+    unseenGear.add(`weapon:${unlockedWeapon.id}`);
+    saveArmorCollection();
+    updateGearNotification();
+    setMessage(`${unlockedWeapon.name} unlocked in the Hero Armory!`);
+  }
   if (state.bossDefeated % 5 === 0) {
     player.weaponLevel += 1;
     player.armorLevel += 1;
@@ -1073,7 +1222,8 @@ function applyCombatDamage(victim, amount) {
     state.shake = Math.max(state.shake, 2);
     return false;
   }
-  victim.health -= amount;
+  const armorReduction = victim === player ? getEquippedArmor().defense / 100 : 0;
+  victim.health -= amount * (1 - armorReduction);
   return true;
 }
 
@@ -1132,9 +1282,9 @@ function handleInput(dt) {
   let speed = player.speed;
   if (keys.has('g') && player.stamina > 0) {
     speed *= 1.55;
-    player.stamina = clamp(player.stamina - 20 * dt, 0, 100);
+    player.stamina = clamp(player.stamina - 20 * dt, 0, player.maxStamina);
   } else {
-    player.stamina = clamp(player.stamina + 13 * dt, 0, 100);
+    player.stamina = clamp(player.stamina + 13 * dt, 0, player.maxStamina);
   }
 
   const proposedX = player.x + moveX * speed * dt;
@@ -1208,23 +1358,6 @@ function spawnBurst(x, y, count, color, speed = 50) {
   }
 }
 
-function spawnBloodBurst(x, y, count = 10, forceX = 0, forceY = -35) {
-  const bloodColors = ['#ef4444', '#dc2626', '#991b1b', '#7f1d1d'];
-  for (let i = 0; i < count; i += 1) {
-    state.particles.push({
-      x,
-      y,
-      vx: forceX + rand(-115, 115),
-      vy: forceY + rand(-125, 55),
-      life: rand(0.38, 0.85),
-      age: 0,
-      color: bloodColors[Math.floor(Math.random() * bloodColors.length)],
-      size: rand(2.5, 6),
-      blood: true,
-    });
-  }
-}
-
 function startBossTeleport() {
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
@@ -1293,31 +1426,31 @@ function tryAttack() {
   if (player.attackCooldown > 0) return;
   player.attackCooldown = 0.42;
   player.attackDuration = 0.24;
+  const equippedWeapon = getEquippedWeapon();
+  const damageMultiplier = 1 + equippedWeapon.damage / 100;
   spawnBurst(player.x + player.facing.x * 24, player.y + player.facing.y * 24, 7, '#f8fafc', 80);
 
   for (const enemy of state.enemies) {
-    if (!enemy.dead && isInsideAttackArc(enemy, 70 + player.weaponLevel * 8)) {
-      enemy.health -= 18 + player.weaponLevel * 4;
+    if (!enemy.dead && isInsideAttackArc(enemy, 70 + player.weaponLevel * 8 + equippedWeapon.reach)) {
+      enemy.health -= (18 + player.weaponLevel * 4) * damageMultiplier;
       enemy.hitFlash = 0.18;
       enemy.x += player.facing.x * 18;
       enemy.y += player.facing.y * 18;
       spawnBurst(enemy.x, enemy.y, 4, '#fb7185', 70);
-      spawnBloodBurst(enemy.x, enemy.y, 11, player.facing.x * 85, player.facing.y * 55 - 30);
       if (enemy.health <= 0) {
         enemy.dead = true;
         enemy.deathTimer = 0.55;
         spawnBurst(enemy.x, enemy.y, 14, '#f97316', 120);
-        spawnBloodBurst(enemy.x, enemy.y, 24, player.facing.x * 110, -70);
       }
     }
   }
 
-  if (state.boss && isInsideAttackArc(state.boss, 88 + player.weaponLevel * 5)) {
-    state.boss.health -= 22 + player.weaponLevel * 5;
+  if (state.boss && isInsideAttackArc(state.boss, 88 + player.weaponLevel * 5 + equippedWeapon.reach)) {
+    state.boss.health -= (22 + player.weaponLevel * 5) * damageMultiplier;
     state.boss.hitFlash = 0.2;
     state.boss.x += player.facing.x * 10;
     state.boss.y += player.facing.y * 10;
-    const bossHitColor = state.boss.variant === 'lavaGolem' ? '#fb923c' : state.boss.variant === 'oceanBoss' ? '#67e8f9' : state.boss.variant === 'iceBoss' ? '#dbeafe' : state.boss.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
+    const bossHitColor = state.boss.variant === 'lavaGolem' ? '#fb923c' : state.boss.variant === 'oceanBoss' ? '#67e8f9' : state.boss.variant === 'iceBoss' ? '#dbeafe' : state.boss.variant === 'skeletonWarlord' ? '#a5f3fc' : state.boss.variant === 'sandBoss' ? '#fbbf24' : state.boss.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
     spawnBurst(state.boss.x, state.boss.y, 8, bossHitColor, 120);
   }
 }
@@ -1363,7 +1496,6 @@ function updateEnemies(dt) {
         const damageLanded = applyCombatDamage(victim, enemy.damage);
         state.shake = Math.max(state.shake, 5);
         spawnBurst(victim.x, victim.y, 7, damageLanded ? '#f87171' : '#67e8f9', 75);
-        if (damageLanded) spawnBloodBurst(victim.x, victim.y, 8, dirX * 45, dirY * 35 - 25);
         if (victim !== player && victim.health <= 0) {
           spawnBurst(victim.x, victim.y, 18, '#60a5fa', 110);
           player.protectors = player.protectors.filter((protector) => protector !== victim);
@@ -1445,12 +1577,10 @@ function updateProtectors(dt) {
     target.health -= damage;
     if ('hitFlash' in target) target.hitFlash = 0.18;
     spawnBurst(target.x, target.y, 7, '#60a5fa', 85);
-    if (target !== state.boss) spawnBloodBurst(target.x, target.y, 9, 0, -45);
     if (target.health <= 0 && target !== state.boss) {
       target.dead = true;
       target.deathTimer = 0.55;
       spawnBurst(target.x, target.y, 14, '#60a5fa', 120);
-      spawnBloodBurst(target.x, target.y, 22, 0, -80);
     }
   }
   }
@@ -1461,7 +1591,6 @@ function updateParticles(dt) {
     particle.age += dt;
     particle.x += particle.vx * dt;
     particle.y += particle.vy * dt;
-    if (particle.blood) particle.vy += 210 * dt;
     particle.vx *= 0.98;
     particle.vy *= 0.98;
     return particle.age < particle.life;
@@ -1542,6 +1671,63 @@ function summonWoodMinion(boss) {
   setMessage(`Woodboss lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Woodminion!`);
 }
 
+function summonSkeletonOrb(boss) {
+  const summonNumber = boss.skeletonOrbsSummoned + 1;
+  const angle = (summonNumber - 1) * (Math.PI / 2) + Math.PI / 4;
+  const health = 58 + boss.tier * 9;
+  state.enemies.push({
+    x: clamp(boss.x + Math.cos(angle) * 150, state.bossArena.x + 20, state.bossArena.x + state.bossArena.w - 20),
+    y: clamp(boss.y + Math.sin(angle) * 150, state.bossArena.y + 20, state.bossArena.y + state.bossArena.h - 20),
+    radius: 18,
+    speed: 112,
+    health,
+    maxHealth: health,
+    damage: 9 + boss.tier * 1.35,
+    type: 'skeletonOrb',
+    bossMinion: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.55,
+    hitFlash: 0,
+    lunge: 0,
+    movePhase: Math.random() * Math.PI * 2,
+    elite: false,
+  });
+  boss.skeletonOrbsSummoned = summonNumber;
+  spawnBurst(boss.x, boss.y, 34, '#67e8f9', 185);
+  setMessage(`The Skeleton Warlord raises Skeleton Orb ${summonNumber} of 4!`);
+}
+
+function summonSandServant(boss) {
+  const summonPlan = ['skeletonOrb', 'skeletonMinion', 'skeletonOrb', 'skeletonOrb', 'skeletonMinion', 'skeletonOrb', 'skeletonMinion', 'skeletonOrb'];
+  const type = summonPlan[boss.sandSummonsCompleted];
+  if (!type) return;
+  const angle = boss.sandSummonsCompleted * (Math.PI * 0.75);
+  const isOrb = type === 'skeletonOrb';
+  const health = (isOrb ? 62 : 82) + boss.tier * 9;
+  state.enemies.push({
+    x: clamp(boss.x + Math.cos(angle) * 155, state.bossArena.x + 20, state.bossArena.x + state.bossArena.w - 20),
+    y: clamp(boss.y + Math.sin(angle) * 155, state.bossArena.y + 20, state.bossArena.y + state.bossArena.h - 20),
+    radius: isOrb ? 18 : 20,
+    speed: isOrb ? 114 : 102,
+    health,
+    maxHealth: health,
+    damage: (isOrb ? 9 : 11) + boss.tier * 1.3,
+    type,
+    bossMinion: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.55,
+    hitFlash: 0,
+    lunge: 0,
+    movePhase: Math.random() * Math.PI * 2,
+    elite: false,
+  });
+  boss.sandSummonsCompleted += 1;
+  spawnBurst(boss.x, boss.y, 32, '#fbbf24', 180);
+  setMessage(`The Sand Tyrant summons ${isOrb ? 'a Skeleton Orb' : 'a Skeleton Minion'}!`);
+}
+
 function updateBoss(dt) {
   if (!state.boss) return;
   const boss = state.boss;
@@ -1569,6 +1755,7 @@ function updateBoss(dt) {
         : boss.variant === 'oceanBoss' ? '#67e8f9'
           : boss.variant === 'iceBoss' ? '#dbeafe'
             : boss.variant === 'lushGolem' ? '#86efac'
+              : boss.variant === 'skeletonWarlord' ? '#67e8f9'
               : '#fef3c7';
       spawnBurst(boss.x, boss.y, 12, burstColor, 210);
     }
@@ -1583,6 +1770,18 @@ function updateBoss(dt) {
     while (boss.nextWoodMinionThreshold >= 0.1 && boss.health <= boss.maxHealth * boss.nextWoodMinionThreshold) {
       summonWoodMinion(boss);
       boss.nextWoodMinionThreshold = Math.round((boss.nextWoodMinionThreshold - 0.1) * 10) / 10;
+    }
+  }
+  if (boss.variant === 'skeletonWarlord') {
+    while (boss.skeletonOrbsSummoned < 4 && boss.health <= boss.maxHealth * boss.nextSkeletonOrbThreshold) {
+      summonSkeletonOrb(boss);
+      boss.nextSkeletonOrbThreshold = Math.round((boss.nextSkeletonOrbThreshold - 0.2) * 10) / 10;
+    }
+  }
+  if (boss.variant === 'sandBoss') {
+    while (boss.sandSummonsCompleted < 8 && boss.health <= boss.maxHealth * boss.nextSandSummonThreshold) {
+      summonSandServant(boss);
+      boss.nextSandSummonThreshold = Math.round((boss.nextSandSummonThreshold - 0.1) * 10) / 10;
     }
   }
 
@@ -1608,7 +1807,7 @@ function updateBoss(dt) {
     boss.attackWindup -= dt;
     if (boss.attackWindup <= 0) {
       boss.attackPulse = 1;
-      const effectColor = boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'woodBoss' ? '#84cc16' : '#fb7185';
+      const effectColor = boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'skeletonWarlord' ? '#67e8f9' : boss.variant === 'sandBoss' ? '#fbbf24' : boss.variant === 'woodBoss' ? '#84cc16' : '#fb7185';
 
       if (boss.attackType.includes('Dash')) {
         const dashDistance = boss.attackType === 'flameDash' ? 260 : boss.attackType === 'waterDash' ? 240 : boss.attackType === 'frostDash' ? 225 : 190 + boss.tier * 8;
@@ -1634,7 +1833,7 @@ function updateBoss(dt) {
         spawnBurst(boss.x, boss.y, 38, effectColor, 230);
         state.shake = 14;
       } else if (len < boss.radius + attackTarget.radius + 75) {
-        const slamScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
+        const slamScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
         applyCombatDamage(attackTarget, boss.damage * slamScale);
         spawnBurst(attackTarget.x, attackTarget.y, 20, effectColor, 145);
         state.shake = 16;
@@ -1663,6 +1862,10 @@ function updateBoss(dt) {
         boss.attackType = attackRoll < 0.4 ? 'tideSlam' : attackRoll < 0.7 ? 'waterDash' : 'tidalWave';
       } else if (boss.variant === 'iceBoss') {
         boss.attackType = attackRoll < 0.4 ? 'iceSlam' : attackRoll < 0.7 ? 'frostDash' : 'blizzard';
+      } else if (boss.variant === 'skeletonWarlord') {
+        boss.attackType = attackRoll < 0.5 ? 'boneSlam' : attackRoll < 0.76 ? 'Dash' : 'nova';
+      } else if (boss.variant === 'sandBoss') {
+        boss.attackType = attackRoll < 0.48 ? 'sandSlam' : attackRoll < 0.72 ? 'Dash' : 'nova';
       } else if (boss.variant === 'woodBoss') {
         boss.attackType = attackRoll < 0.62 ? 'woodSlam' : 'thornRing';
       } else {
@@ -1751,16 +1954,17 @@ function resetRun() {
   state.foodWarningShown = false;
   state.waterWarningShown = false;
   state.threatSplashOpen = false;
+  state.gearChoiceOpen = false;
   state.pendingWaveSplash = false;
   challengeOverlay.classList.add('hidden');
   waveSplash.classList.add('hidden');
 
   player.x = 180;
   player.y = 180;
-  player.health = player.maxHealth;
+  applyEquippedArmor(true);
   player.food = 100;
   player.hydration = 100;
-  player.stamina = 100;
+  player.stamina = player.maxStamina;
   player.attackCooldown = 0;
   player.attackDuration = 0;
   player.facing = { x: 1, y: 0 };
@@ -1769,7 +1973,6 @@ function resetRun() {
   player.shieldTimer = 0;
   player.protectors = [];
   player.weaponLevel = 1;
-  player.armorLevel = 1;
 
   createRooms();
   placePlayerInFirstRoom();
@@ -1817,6 +2020,8 @@ function drawRoom(room) {
       ? art.lavaRoom
       : theme.name === 'Moonwood'
         ? art.waterRoom
+        : theme.name === 'Bony Ruins'
+          ? art.skeletonRoom
         : null;
   if (roomArtwork?.complete && roomArtwork.naturalWidth > 0) {
     const interiorX = room.x + wallThickness;
@@ -1948,7 +2153,7 @@ function drawEnemy(enemy) {
     : 0;
   const motion = Math.sin(enemy.movePhase || 0);
   const stride = motion * (enemy.type === 'crawler' ? 15 : 9);
-  const floating = enemy.type === 'wraith' || enemy.type === 'arcaneOrb';
+  const floating = enemy.type === 'wraith' || enemy.type === 'arcaneOrb' || enemy.type === 'skeletonOrb';
   const bob = Math.abs(motion) * (floating ? 8 : 3) - enemy.lunge * 5;
   const squashX = 1 + Math.abs(motion) * 0.07 - enemy.lunge * 0.14;
   const squashY = 1 - Math.abs(motion) * 0.06 + enemy.lunge * 0.18;
@@ -1961,7 +2166,11 @@ function drawEnemy(enemy) {
     if (world.themeIndex === 2) themedVariant = `lava${themedRole}`;
     if (world.themeIndex === 0) themedVariant = `lush${themedRole}`;
     if (world.themeIndex === 1 || world.themeIndex === 3) themedVariant = `ocean${themedRole}`;
+    if (world.themeIndex === 5) themedVariant = themedRole === 'Minion' ? 'skeletonMinion' : 'skeletonTank';
   }
+  if (world.themeIndex === 5 && enemy.type === 'crawler') themedVariant = 'skeletonSpider';
+  if (world.themeIndex === 5 && enemy.type === 'arcaneOrb') themedVariant = 'skeletonOrb';
+  if (enemy.type === 'skeletonOrb') themedVariant = 'skeletonOrb';
 
   drawActorSprite({
     x: enemy.x,
@@ -2013,7 +2222,7 @@ function drawBoss(boss) {
   if (boss.hitFlash > 0) ctx.filter = 'brightness(2.4) saturate(0)';
 
   if (boss.attackWindup > 0) {
-    const warningColor = boss.variant === 'lavaGolem' ? '249, 115, 22' : boss.variant === 'lushGolem' ? '74, 222, 128' : boss.variant === 'oceanBoss' ? '56, 189, 248' : boss.variant === 'iceBoss' ? '191, 219, 254' : boss.variant === 'woodBoss' ? '132, 204, 22' : '251, 113, 133';
+    const warningColor = boss.variant === 'lavaGolem' ? '249, 115, 22' : boss.variant === 'lushGolem' ? '74, 222, 128' : boss.variant === 'oceanBoss' ? '56, 189, 248' : boss.variant === 'iceBoss' ? '191, 219, 254' : boss.variant === 'skeletonWarlord' ? '103, 232, 249' : boss.variant === 'sandBoss' ? '251, 191, 36' : boss.variant === 'woodBoss' ? '132, 204, 22' : '251, 113, 133';
     ctx.save();
     ctx.filter = 'none';
     if (isSlamAttack) {
@@ -2062,12 +2271,12 @@ function drawBoss(boss) {
     ctx.restore();
   }
 
-  if (boss.variant === 'lushGolem' && art.lushGolemCutout.complete && art.lushGolemCutout.naturalWidth > 0) {
+  if (boss.variant === 'lushGolem' && art.lushGolem.complete && art.lushGolem.naturalWidth > 0) {
     ctx.shadowColor = '#4ade80';
     ctx.shadowBlur = 22 + windup * 30;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.lushGolemCutout, -92, -78, 184, 148);
+    ctx.drawImage(art.lushGolem, -92, -78, 184, 148);
 
     ctx.filter = 'none';
     ctx.fillStyle = 'rgba(2, 6, 23, 0.9)';
@@ -2167,6 +2376,51 @@ function drawBoss(boss) {
       ctx.arc(0, 10, 30 + windup * 44, 0, Math.PI * 2);
       ctx.stroke();
     }
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'skeletonWarlord' && art.skeletonBoss.complete && art.skeletonBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#67e8f9';
+    ctx.shadowBlur = 34 + windup * 44 + pulse * 22;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.skeletonBoss, -104, -92, 208, 168);
+
+    ctx.filter = 'none';
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
+    ctx.fillRect(-55, -100, 110, 8);
+    const healthGradient = ctx.createLinearGradient(-55, 0, 55, 0);
+    healthGradient.addColorStop(0, '#a16207');
+    healthGradient.addColorStop(1, '#67e8f9');
+    ctx.fillStyle = healthGradient;
+    ctx.fillRect(-55, -100, 110 * (boss.health / boss.maxHealth), 8);
+
+    if (windup > 0) {
+      ctx.strokeStyle = `rgba(103, 232, 249, ${0.4 + windup * 0.6})`;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.arc(0, 8, 31 + windup * 46, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'sandBoss' && art.sandBoss.complete && art.sandBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#fbbf24';
+    ctx.shadowBlur = 34 + windup * 44 + pulse * 22;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.sandBoss, -106, -94, 212, 172);
+    ctx.filter = 'none';
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
+    ctx.fillRect(-56, -102, 112, 8);
+    const healthGradient = ctx.createLinearGradient(-56, 0, 56, 0);
+    healthGradient.addColorStop(0, '#92400e');
+    healthGradient.addColorStop(1, '#fde68a');
+    ctx.fillStyle = healthGradient;
+    ctx.fillRect(-56, -102, 112 * (boss.health / boss.maxHealth), 8);
     ctx.restore();
     return;
   }
@@ -2289,6 +2543,40 @@ function drawPlayer() {
     scale: 0.55 + teleportVisibility * 0.45,
   });
 
+  const equippedSwordArt = equippedWeaponId === 'diamondSword'
+    ? art.diamondSword
+    : equippedWeaponId === 'broadSword'
+      ? art.broadSword
+      : equippedWeaponId === 'emeraldSword'
+        ? art.emeraldSword
+        : equippedWeaponId === 'lavaBlade'
+          ? art.lavaBlade
+      : null;
+  if (equippedSwordArt?.complete && equippedSwordArt.naturalWidth > 0) {
+    ctx.save();
+    ctx.translate(player.x, player.y - 16 + bob);
+    if (player.attackDuration > 0) {
+      const attackProgress = 1 - player.attackDuration / 0.24;
+      const attackAngle = Math.atan2(player.facing.y, player.facing.x);
+      const swordAngle = attackAngle - 58 * Math.PI / 180 + attackProgress * 116 * Math.PI / 180;
+      ctx.rotate(swordAngle - Math.PI / 2);
+    } else {
+      // Weapon art points downward; rotate it so the blade rests upright in both hands.
+      ctx.rotate(Math.PI);
+    }
+    ctx.shadowColor = equippedWeaponId === 'emeraldSword'
+      ? '#34d399'
+      : equippedWeaponId === 'lavaBlade'
+        ? '#f97316'
+      : equippedWeaponId === 'diamondSword'
+        ? '#bfdbfe'
+        : '#fca5a5';
+    ctx.shadowBlur = 14;
+    // The guard sits at the pivot, making the blade—not the whole hero—the moving part.
+    ctx.drawImage(equippedSwordArt, -13, -24, 26, 92);
+    ctx.restore();
+  }
+
   if (player.shieldActive) {
     const pulse = Math.sin(performance.now() * 0.012) * 2;
     ctx.save();
@@ -2354,17 +2642,7 @@ function drawParticles() {
   for (const particle of state.particles) {
     ctx.globalAlpha = 1 - particle.age / particle.life;
     ctx.fillStyle = particle.color;
-    if (particle.blood) {
-      ctx.save();
-      ctx.translate(particle.x, particle.y);
-      ctx.rotate(Math.atan2(particle.vy, particle.vx));
-      ctx.beginPath();
-      ctx.ellipse(0, 0, particle.size * 1.8, particle.size * 0.65, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    } else {
-      ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
-    }
+    ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
   }
   ctx.globalAlpha = 1;
 }
@@ -2408,6 +2686,10 @@ function drawBackground() {
           ? art.waterArena
           : state.boss.variant === 'iceBoss'
             ? art.iceArena
+            : state.boss.variant === 'skeletonWarlord'
+              ? art.skeletonArena
+              : state.boss.variant === 'sandBoss'
+                ? art.sandArena
             : null;
     if (arenaArt?.complete && arenaArt.naturalWidth > 0) {
       drawImageCover(arenaArt, state.bossArena.x, state.bossArena.y, state.bossArena.w, state.bossArena.h);
@@ -2434,7 +2716,7 @@ function drawBackground() {
   if (player.attackDuration > 0) {
     const attackAngle = Math.atan2(player.facing.y, player.facing.x);
     const attackProgress = 1 - player.attackDuration / 0.24;
-    const attackRadius = 68 + player.weaponLevel * 8;
+    const attackRadius = 68 + player.weaponLevel * 8 + getEquippedWeapon().reach;
     const sweepAngle = attackAngle - 58 * Math.PI / 180 + attackProgress * 116 * Math.PI / 180;
     ctx.save();
     ctx.shadowColor = '#67e8f9';
@@ -2552,7 +2834,7 @@ function loop(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.03);
   lastTime = timestamp;
 
-  if (state.started && !state.isGameOver && !state.paused && !state.challengePromptOpen) {
+  if (state.started && !state.isGameOver && !state.paused && !state.challengePromptOpen && armoryOverlay.classList.contains('hidden')) {
     if (state.threatSplashOpen) {
       updateParticles(dt);
     } else if (state.teleportTimer > 0) {
@@ -2585,12 +2867,45 @@ function loop(timestamp) {
 
 acceptChallengeButton.addEventListener('click', () => resolveChallengeChoice(true));
 declineChallengeButton.addEventListener('click', () => resolveChallengeChoice(false));
+openArmoryButton.addEventListener('click', () => {
+  renderArmory();
+  armoryOverlay.classList.remove('hidden');
+  unseenGear.clear();
+  saveArmorCollection();
+  updateGearNotification();
+});
+closeArmoryButton.addEventListener('click', () => armoryOverlay.classList.add('hidden'));
+applyGearButton.addEventListener('click', applyPendingGearChoice);
+cancelGearButton.addEventListener('click', closeGearPreview);
+chooseMaleButton.addEventListener('click', () => chooseGender('male'));
+chooseFemaleButton.addEventListener('click', () => chooseGender('female'));
 
 window.addEventListener('keydown', (event) => {
   const key = event.key.toLowerCase();
+  if (!genderOverlay.classList.contains('hidden')) {
+    event.preventDefault();
+    return;
+  }
+  if (!armoryOverlay.classList.contains('hidden')) {
+    if (key === 'escape') {
+      if (!gearPreview.classList.contains('hidden')) closeGearPreview();
+      else armoryOverlay.classList.add('hidden');
+    }
+    event.preventDefault();
+    return;
+  }
   if (state.threatSplashOpen) {
     event.preventDefault();
-    if (!event.repeat) closeThreatSplash();
+    if (!event.repeat && state.gearChoiceOpen && key === 'c') {
+      closeThreatSplash();
+      renderArmory();
+      armoryOverlay.classList.remove('hidden');
+      unseenGear.clear();
+      saveArmorCollection();
+      updateGearNotification();
+    } else if (!event.repeat) {
+      closeThreatSplash();
+    }
     return;
   }
   if (event.ctrlKey && event.shiftKey && key === 'd' && !event.repeat) {
@@ -2649,4 +2964,7 @@ placePlayerInFirstRoom();
 spawnEnemiesForWave();
 updateHighScore(state.wave);
 showRandomHeroProverb();
+applyEquippedArmor(true);
+updateGearNotification();
+if (!selectedGender) genderOverlay.classList.remove('hidden');
 requestAnimationFrame(loop);

@@ -79,11 +79,13 @@ Implemented unique bosses:
 2. Lava Golem
 3. Ocean Boss
 4. Ice Boss
+5. Skeleton Warlord
+6. Sand Tyrant
 10. Wood Boss
 
 Missing:
 
-- Bosses 6–9 need identities, artwork, arenas, minions, attacks, threat text, death effects, balance, and rewards.
+- Bosses 7–9 need identities, artwork, arenas, minions, attacks, threat text, death effects, balance, and rewards.
 - Bosses 11 onward currently fall back to the generic boss.
 - The generic boss threat screen still uses `brute.svg`.
 
@@ -101,7 +103,7 @@ Every new boss requires:
 - Reward choice.
 - Balance pass.
 
-### Boss 5 — The Stormbound Titan
+### Future boss idea — The Stormbound Titan
 
 - Setting: ruined tower platform surrounded by a black electrical storm.
 - Appearance: cracked stone armour leaking electricity.

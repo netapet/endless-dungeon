@@ -24,6 +24,12 @@ const gearPreviewUnlock = document.getElementById('gearPreviewUnlock');
 const gearPreviewStats = document.getElementById('gearPreviewStats');
 const applyGearButton = document.getElementById('applyGearButton');
 const cancelGearButton = document.getElementById('cancelGearButton');
+const heroNameInput = document.getElementById('heroNameInput');
+const randomizeHeroNameButton = document.getElementById('randomizeHeroNameButton');
+const openHighScoresButton = document.getElementById('openHighScoresButton');
+const highScoresOverlay = document.getElementById('highScoresOverlay');
+const highScoresList = document.getElementById('highScoresList');
+const closeHighScoresButton = document.getElementById('closeHighScoresButton');
 
 const armorSets = [
   { id: 'wayfarer', name: "Wayfarer's Resolve", boss: 0, portrait: 'assets/player/armor/male-wayfarer-portrait.png', combat: 'assets/player/armor/male-wayfarer-combat.png', femalePortrait: 'assets/player/armor/female-wayfarer-combat.png', femaleCombat: 'assets/player/armor/female-wayfarer-combat.png', defense: 0, health: 0, stamina: 0 },
@@ -51,7 +57,8 @@ let unseenGear = new Set();
 let selectedGender = null;
 let pendingGearChoice = null;
 try {
-  selectedGender = window.localStorage.getItem('endlessDungeonGender');
+  window.localStorage.removeItem('endlessDungeonGender');
+  window.localStorage.removeItem('endlessDungeonHeroName');
   const savedArmor = JSON.parse(window.localStorage.getItem('endlessDungeonArmor') || '[]');
   unlockedArmor = new Set(['wayfarer', ...savedArmor]);
   const savedEquipped = window.localStorage.getItem('endlessDungeonEquippedArmor');
@@ -88,7 +95,6 @@ function saveArmorCollection() {
     window.localStorage.setItem('endlessDungeonWeapons', JSON.stringify([...unlockedWeapons]));
     window.localStorage.setItem('endlessDungeonEquippedWeapon', equippedWeaponId);
     window.localStorage.setItem('endlessDungeonUnseenGear', JSON.stringify([...unseenGear]));
-    if (selectedGender) window.localStorage.setItem('endlessDungeonGender', selectedGender);
   } catch (error) {
     // Armor still works for the current browser session.
   }
@@ -188,6 +194,9 @@ function applyEquippedArmor(refill = true) {
 
 function chooseGender(gender) {
   selectedGender = gender;
+  currentHeroName = generateHeroName();
+  heroNameInput.value = currentHeroName;
+  equippedArmorId = 'wayfarer';
   saveArmorCollection();
   applyEquippedArmor(true);
   genderOverlay.classList.add('hidden');
@@ -263,25 +272,194 @@ const waveSplashContinuePrompt = waveSplash.querySelector('.continue-prompt');
 const highScoreValue = document.getElementById('highScoreValue');
 const menuHighScoreValue = document.getElementById('menuHighScoreValue');
 let lootHighlightTimer = null;
+let deathScreenReady = false;
 
-let highScore = 1;
-try {
-  highScore = Math.max(1, Number(window.localStorage.getItem('endlessDungeonHighScore')) || 1);
-} catch (error) {
-  highScore = 1;
+const heroNameSuggestions = {
+  male: [
+    'Alistair the Almost',
+    'Banksy the Brave',
+    'Bartholomew the Barely Prepared',
+    'Basil the Bold',
+    'Cedric the Conquered',
+    'Dexter the Daring',
+    'Edgar the Unexpired',
+    'Finn the Frequently Fortunate',
+    'Gareth the Gallant',
+    'Gideon the Grim',
+    'Hector the Hard-to-Kill',
+    'Jasper the UnJust',
+    'Leopold the Last-to-Leave',
+    'Milo the Mournful',
+    'Mordecai the Mildly Concerned',
+    'Orson the Unshaken',
+    'Percival the Persistent',
+    'Quentin the Quick',
+    'Rufus the Relentless',
+    'Silas the Steadfast',
+    'Tristan the Trampled',
+    'Xander the Extremely Ready',
+    'Yorick the Yet Living',
+  ],
+  female: [
+    'Bridget the Broken',
+    'Cassandra the Cursed',
+    'Cleo the Cunning',
+    'Daphne the Dungeonwise',
+    'Delilah the Doomed',
+    'Freya the Fearless',
+    'Iris the Ironhearted',
+    'Kora the Keen',
+    'Luna the Last Standing',
+    'Mabel the Merciless',
+    'Mina the Mourned',
+    'Nora the Nimble',
+    'Ophelia the Overwhelmed',
+    'Tilda the Tenacious',
+    'Una the Unyielding',
+    'Vesper the Valiant',
+    'Wanda the Watchful',
+    'Zelda the Over Zealous',
+    'Astrid the Absolutely Certain',
+    'Beatrix the Battlewise',
+    'Greta the Gravedigger',
+    'Gwendolyn the Grim',
+    'Phoebe the Phenomenally Prepared',
+  ],
+};
+const highScoresStorageKey = 'endlessDungeonHighScores';
+const leaderboardLimit = 10;
+let highScores = [];
+let currentHeroName = '';
+let latestRunId = null;
+
+function generateHeroName() {
+  const suggestions = selectedGender
+    ? heroNameSuggestions[selectedGender]
+    : [...heroNameSuggestions.male, ...heroNameSuggestions.female];
+  const alternatives = suggestions.filter((name) => name !== currentHeroName);
+  return alternatives[Math.floor(Math.random() * alternatives.length)] || suggestions[0];
 }
 
-function updateHighScore(wave = state?.wave || 1) {
-  if (wave > highScore) {
-    highScore = wave;
-    try {
-      window.localStorage.setItem('endlessDungeonHighScore', String(highScore));
-    } catch (error) {
-      // The score still works for this session if browser storage is unavailable.
-    }
+function cleanHeroName(name) {
+  return String(name || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 28);
+}
+
+function sortHighScores(scores) {
+  return [...scores].sort((a, b) => (
+    b.wave - a.wave
+    || b.bosses - a.bosses
+    || a.recordedAt - b.recordedAt
+  ));
+}
+
+function saveLeaderboard() {
+  try {
+    window.localStorage.setItem(highScoresStorageKey, JSON.stringify(highScores));
+  } catch (error) {
+    // The leaderboard still works for this session if browser storage is unavailable.
   }
-  highScoreValue.textContent = String(highScore);
-  menuHighScoreValue.textContent = String(highScore);
+}
+
+function loadLeaderboard() {
+  try {
+    const savedScores = JSON.parse(window.localStorage.getItem(highScoresStorageKey) || '[]');
+    if (Array.isArray(savedScores)) {
+      highScores = savedScores
+        .filter((entry) => (
+          entry
+          && Number.isFinite(Number(entry.wave))
+          && Number(entry.wave) >= 1
+          && cleanHeroName(entry.name)
+        ))
+        .map((entry, index) => ({
+          id: String(entry.id || `saved-${index}`),
+          name: cleanHeroName(entry.name),
+          wave: Math.max(1, Math.floor(Number(entry.wave))),
+          bosses: Math.max(0, Math.floor(Number(entry.bosses) || 0)),
+          recordedAt: Number(entry.recordedAt) || Date.now() + index,
+        }));
+    }
+    const legacyHighScore = Math.floor(Number(window.localStorage.getItem('endlessDungeonHighScore')) || 1);
+    if (highScores.length === 0 && legacyHighScore > 1) {
+      highScores.push({
+        id: 'legacy-best',
+        name: 'Eldric the Enduring',
+        wave: legacyHighScore,
+        bosses: 0,
+        recordedAt: Date.now() - 1,
+      });
+    }
+  } catch (error) {
+    highScores = [];
+  }
+  highScores = sortHighScores(highScores).slice(0, leaderboardLimit);
+  if (!currentHeroName) currentHeroName = generateHeroName();
+  heroNameInput.value = currentHeroName;
+  saveLeaderboard();
+}
+
+function updateHighScoreDisplay() {
+  const bestWave = highScores[0]?.wave || 1;
+  highScoreValue.textContent = String(bestWave);
+  menuHighScoreValue.textContent = String(bestWave);
+}
+
+function renderHighScores() {
+  highScoresList.replaceChildren();
+  if (highScores.length === 0) {
+    const empty = document.createElement('li');
+    empty.className = 'high-scores-empty';
+    empty.textContent = 'No names are carved here yet. Be the first.';
+    highScoresList.appendChild(empty);
+    return;
+  }
+  highScores.forEach((entry) => {
+    const item = document.createElement('li');
+    if (entry.id === latestRunId) item.classList.add('latest-run');
+
+    const hero = document.createElement('div');
+    hero.className = 'high-score-hero';
+    const name = document.createElement('strong');
+    name.textContent = entry.name;
+    const details = document.createElement('span');
+    const date = new Date(entry.recordedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    details.textContent = `${entry.bosses} boss${entry.bosses === 1 ? '' : 'es'} defeated · ${date}`;
+    hero.append(name, details);
+
+    const wave = document.createElement('div');
+    wave.className = 'high-score-wave';
+    wave.textContent = `WAVE ${entry.wave}`;
+    item.append(hero, wave);
+    highScoresList.appendChild(item);
+  });
+}
+
+function recordCompletedRun(wave, bosses) {
+  const entry = {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    name: currentHeroName,
+    wave: Math.max(1, Math.floor(Number(wave) || 1)),
+    bosses: Math.max(0, Math.floor(Number(bosses) || 0)),
+    recordedAt: Date.now(),
+  };
+  const ranked = sortHighScores([...highScores, entry]);
+  const rank = ranked.findIndex((score) => score.id === entry.id) + 1;
+  highScores = ranked.slice(0, leaderboardLimit);
+  latestRunId = highScores.some((score) => score.id === entry.id) ? entry.id : null;
+  saveLeaderboard();
+  updateHighScoreDisplay();
+  renderHighScores();
+  return rank <= leaderboardLimit ? rank : null;
+}
+
+function saveHeroName() {
+  const editedName = cleanHeroName(heroNameInput.value);
+  currentHeroName = editedName || generateHeroName();
+  heroNameInput.value = currentHeroName;
+  saveLeaderboard();
 }
 
 const wallThickness = 20;
@@ -524,6 +702,7 @@ const state = {
   challengePromptOpen: false,
   pendingChallengeRoom: null,
   developerMode: false,
+  closeZoom: false,
   foodWarningShown: false,
   waterWarningShown: false,
   threatSplashOpen: false,
@@ -610,11 +789,11 @@ function createRooms() {
   state.challengeRooms = [];
 
   const theme = getTheme();
-  const roomWidth = 680;
-  const roomHeight = 420;
+  const roomWidth = 820;
+  const roomHeight = 540;
   const columns = 4;
   const rows = Math.ceil(state.maxRooms / columns);
-  const gap = 80;
+  const gap = 90;
   let roomIndex = 0;
 
   for (let gy = 0; gy < rows; gy += 1) {
@@ -705,7 +884,6 @@ function showWaveSplash() {
   waveSplashText.classList.remove('hero-splash-proverb');
   waveSplashEnemies.replaceChildren();
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
-  const strongestDamage = livingEnemies.reduce((highest, enemy) => Math.max(highest, enemy.damage || 0), 0);
   const enemyThreats = {
     walker: 'Walkers claw forward without fear, tearing at anything they can drag to the floor.',
     runner: 'Runners rush exposed flesh, striking before their victims can turn to face them.',
@@ -728,8 +906,8 @@ function showWaveSplash() {
     image.alt = `${formatLootName(featuredEnemy.type)} approaching this wave`;
     waveSplashEnemies.appendChild(image);
   }
-  waveSplashText.textContent = `${livingEnemies.length} enemies are hunting you. ${randomDescription} Strongest hit: about ${Math.ceil(strongestDamage)} damage.`;
-  waveSplashWarning.textContent = 'Stay moving. Watch the doors. Do not let them surround you.';
+  waveSplashText.textContent = randomDescription;
+  waveSplashWarning.textContent = '';
   waveSplash.classList.remove('hidden');
 }
 
@@ -758,8 +936,8 @@ function showBossSplash() {
   image.src = details.image;
   image.alt = details.name;
   waveSplashEnemies.appendChild(image);
-  waveSplashText.textContent = `${details.warning} It has ${Math.ceil(state.boss.maxHealth)} health and can deal ${Math.ceil(state.boss.damage)} base damage when it catches you.`;
-  waveSplashWarning.textContent = 'The arena offers nowhere to hide. Learn its attacks or die beneath them.';
+  waveSplashText.textContent = details.warning;
+  waveSplashWarning.textContent = '';
   waveSplash.classList.remove('hidden');
 }
 
@@ -900,15 +1078,48 @@ function getProtectorNavigationTarget(protector, target) {
   return { x: startRoom.x + startRoom.w / 2, y: startRoom.y - gap };
 }
 
-function doorBlocked(room, side, position) {
+function doorBlocked(room, side, position, radius = 0) {
   if (room.locked) return true;
   if (!room.doorways[side]) return true;
-  const doorHalf = doorWidth / 2;
+  const doorHalf = Math.max(0, doorWidth / 2 - radius);
   const doorCenter = side === 'top' || side === 'bottom'
     ? room.x + room.w / 2
     : room.y + room.h / 2;
   const insideDoor = position > doorCenter - doorHalf && position < doorCenter + doorHalf;
   return !insideDoor;
+}
+
+function getContainingCorridor(entity) {
+  const radius = entity.radius || 0;
+  for (const room of state.rooms) {
+    if (room.doorways.right) {
+      const neighbor = state.rooms.find((candidate) => candidate.gx === room.gx + 1 && candidate.gy === room.gy);
+      if (neighbor) {
+        const minX = room.x + room.w;
+        const maxX = neighbor.x;
+        const centerY = room.y + room.h / 2;
+        const minY = centerY - doorWidth / 2 + radius;
+        const maxY = centerY + doorWidth / 2 - radius;
+        if (entity.x >= minX && entity.x <= maxX && entity.y >= minY && entity.y <= maxY) {
+          return { orientation: 'horizontal', minX, maxX, minY, maxY, room, neighbor };
+        }
+      }
+    }
+    if (room.doorways.bottom) {
+      const neighbor = state.rooms.find((candidate) => candidate.gx === room.gx && candidate.gy === room.gy + 1);
+      if (neighbor) {
+        const minY = room.y + room.h;
+        const maxY = neighbor.y;
+        const centerX = room.x + room.w / 2;
+        const minX = centerX - doorWidth / 2 + radius;
+        const maxX = centerX + doorWidth / 2 - radius;
+        if (entity.x >= minX && entity.x <= maxX && entity.y >= minY && entity.y <= maxY) {
+          return { orientation: 'vertical', minX, maxX, minY, maxY, room, neighbor };
+        }
+      }
+    }
+  }
+  return null;
 }
 
 function resolveRoomCollision(entity, nextX, nextY) {
@@ -932,8 +1143,12 @@ function resolveRoomCollision(entity, nextX, nextY) {
   const room = getContainingRoom(entity);
 
   if (!room) {
-    candidate.x = clamp(candidate.x, 0, world.width);
-    candidate.y = clamp(candidate.y, 0, world.height);
+    const candidateRoom = getContainingRoom(candidate);
+    const corridor = getContainingCorridor(entity) || getContainingCorridor(candidate);
+    if (candidateRoom && !candidateRoom.locked && corridor) return candidate;
+    if (!corridor) return { x: entity.x, y: entity.y };
+    candidate.x = clamp(candidate.x, corridor.minX, corridor.maxX);
+    candidate.y = clamp(candidate.y, corridor.minY, corridor.maxY);
     return candidate;
   }
 
@@ -943,16 +1158,16 @@ function resolveRoomCollision(entity, nextX, nextY) {
   const topWall = candidate.y - entity.radius < room.y + wallThickness;
   const bottomWall = candidate.y + entity.radius > room.y + room.h - wallThickness;
 
-  if (leftWall && doorBlocked(room, 'left', candidate.y)) {
+  if (leftWall && doorBlocked(room, 'left', candidate.y, entity.radius)) {
     candidate.x = room.x + wallThickness + entity.radius;
   }
-  if (rightWall && doorBlocked(room, 'right', candidate.y)) {
+  if (rightWall && doorBlocked(room, 'right', candidate.y, entity.radius)) {
     candidate.x = room.x + room.w - wallThickness - entity.radius;
   }
-  if (topWall && doorBlocked(room, 'top', candidate.x)) {
+  if (topWall && doorBlocked(room, 'top', candidate.x, entity.radius)) {
     candidate.y = room.y + wallThickness + entity.radius;
   }
-  if (bottomWall && doorBlocked(room, 'bottom', candidate.x)) {
+  if (bottomWall && doorBlocked(room, 'bottom', candidate.x, entity.radius)) {
     candidate.y = room.y + room.h - wallThickness - entity.radius;
   }
 
@@ -990,7 +1205,15 @@ function createEnemy(room, index) {
     attackTimer: rand(0, 0.45),
     hitFlash: 0,
     lunge: 0,
+    retreatTimer: 0,
+    retreatFromX: null,
+    retreatFromY: null,
     movePhase: Math.random() * Math.PI * 2,
+    spawnRoom: room,
+    aggro: false,
+    idleMoveTimer: 0,
+    idleTargetX: null,
+    idleTargetY: null,
     elite: Math.random() < Math.min(0.18, Math.max(0, state.wave - 2) * 0.015),
   };
 
@@ -1071,10 +1294,14 @@ function createEnemy(room, index) {
 
 function spawnEnemiesForWave() {
   state.enemies = [];
-  const count = Math.min(32, state.wave <= 3 ? (3 + state.wave) * 2 : 3 + Math.ceil(state.wave * 1.5));
+  const originalCount = Math.min(32, state.wave <= 3 ? (3 + state.wave) * 2 : 3 + Math.ceil(state.wave * 1.5));
+  const count = Math.min(64, originalCount * 2);
   for (let i = 0; i < count; i += 1) {
     const room = state.rooms[i % state.rooms.length];
     const enemy = createEnemy(room, i);
+    // Half begin hunting immediately; the other half wander in their rooms
+    // until the hero approaches or attacks them.
+    enemy.aggro = i % 2 === 0;
     state.enemies.push(enemy);
   }
 }
@@ -1129,7 +1356,6 @@ function spawnBoss() {
 
 function startNextWave() {
   state.wave += 1;
-  updateHighScore(state.wave);
   state.maxRooms += 1;
   createRooms();
   spawnEnemiesForWave();
@@ -1192,6 +1418,7 @@ function createProtector() {
     health: player.maxHealth,
     maxHealth: player.maxHealth,
     attackCooldown: 0,
+    bossRetreatTimer: 0,
     target: null,
   });
   setMessage(`Protector summoned! You now have ${player.protectors.length}.`);
@@ -1385,8 +1612,15 @@ function updateBossTeleport(dt) {
     state.teleportMoved = true;
     if (state.teleportTarget === 'wave') {
       startNextWave();
+      const healthRatio = player.health / player.maxHealth;
+      const heroSplashChance = healthRatio <= 0.2 ? 0.8 : healthRatio <= 0.35 ? 0.45 : 0;
+      if (Math.random() < heroSplashChance) showHeroVictorySplash();
+      else showWaveSplash();
     } else {
       spawnBoss();
+      // Pause at the invisible midpoint: the hero has left the dungeon, but
+      // does not materialize in the arena until the warning is dismissed.
+      showBossSplash();
     }
     spawnBurst(player.x, player.y, 42, '#a5f3fc', 175);
     state.shake = 9;
@@ -1397,13 +1631,6 @@ function updateBossTeleport(dt) {
     setMessage(state.teleportTarget === 'wave'
       ? `Teleport complete. Wave ${state.wave} begins!`
       : 'Teleport complete. Defeat the boss!');
-    if (state.teleportTarget === 'wave' && state.pendingWaveSplash) {
-      const healthRatio = player.health / player.maxHealth;
-      const heroSplashChance = healthRatio <= 0.2 ? 0.8 : healthRatio <= 0.35 ? 0.45 : 0;
-      if (Math.random() < heroSplashChance) showHeroVictorySplash();
-      else showWaveSplash();
-    }
-    if (state.teleportTarget === 'boss') showBossSplash();
     state.teleportTarget = null;
   }
 }
@@ -1432,6 +1659,7 @@ function tryAttack() {
 
   for (const enemy of state.enemies) {
     if (!enemy.dead && isInsideAttackArc(enemy, 70 + player.weaponLevel * 8 + equippedWeapon.reach)) {
+      enemy.aggro = true;
       enemy.health -= (18 + player.weaponLevel * 4) * damageMultiplier;
       enemy.hitFlash = 0.18;
       enemy.x += player.facing.x * 18;
@@ -1456,9 +1684,68 @@ function tryAttack() {
 }
 
 function updateEnemies(dt) {
+  const playerRoom = getContainingRoom(player);
   for (const enemy of state.enemies) {
     if (enemy.dead) {
       enemy.deathTimer = Math.max(0, (enemy.deathTimer ?? 0.55) - dt);
+      continue;
+    }
+
+    const enemyRoom = enemy.spawnRoom || getContainingRoom(enemy);
+    if (
+      enemy.bossMinion
+      || playerRoom === enemyRoom
+      || distance(enemy, player) <= 300
+    ) {
+      enemy.aggro = true;
+    }
+
+    enemy.hitFlash = Math.max(0, enemy.hitFlash - dt);
+    enemy.attackTimer = Math.max(0, enemy.attackTimer - dt);
+    enemy.lunge = Math.max(0, enemy.lunge - dt * 5);
+    enemy.retreatTimer = Math.max(0, (enemy.retreatTimer || 0) - dt);
+
+    if (!enemy.aggro) {
+      enemy.idleMoveTimer = Math.max(0, (enemy.idleMoveTimer || 0) - dt);
+      const idleTargetDistance = enemy.idleTargetX == null
+        ? 0
+        : Math.hypot(enemy.idleTargetX - enemy.x, enemy.idleTargetY - enemy.y);
+      if (enemyRoom && (enemy.idleMoveTimer <= 0 || idleTargetDistance < 10)) {
+        const padding = enemy.radius + 28;
+        enemy.idleTargetX = rand(enemyRoom.x + padding, enemyRoom.x + enemyRoom.w - padding);
+        enemy.idleTargetY = rand(enemyRoom.y + padding, enemyRoom.y + enemyRoom.h - padding);
+        enemy.idleMoveTimer = rand(1.4, 3.2);
+      }
+      if (enemy.idleTargetX != null) {
+        const idleDx = enemy.idleTargetX - enemy.x;
+        const idleDy = enemy.idleTargetY - enemy.y;
+        const idleDistance = Math.hypot(idleDx, idleDy) || 1;
+        const idleSpeed = Math.min(38, enemy.speed * 0.28);
+        const step = Math.min(idleDistance, idleSpeed * dt);
+        enemy.x += (idleDx / idleDistance) * step;
+        enemy.y += (idleDy / idleDistance) * step;
+        if (Math.abs(idleDx) > 1) enemy.facingX = idleDx;
+      }
+      enemy.movePhase += dt * 1.8;
+      continue;
+    }
+
+    if (enemy.retreatTimer > 0 && enemy.retreatFromX != null) {
+      const retreatDx = enemy.x - enemy.retreatFromX;
+      const retreatDy = enemy.y - enemy.retreatFromY;
+      const retreatDistance = Math.hypot(retreatDx, retreatDy) || 1;
+      const retreatSpeed = enemy.speed * 1.25;
+      const retreatX = enemy.x + (retreatDx / retreatDistance) * retreatSpeed * dt;
+      const retreatY = enemy.y + (retreatDy / retreatDistance) * retreatSpeed * dt;
+      if (state.boss && enemy.bossMinion) {
+        enemy.x = clamp(retreatX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
+        enemy.y = clamp(retreatY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
+      } else {
+        const safeRetreat = resolveRoomCollision(enemy, retreatX, retreatY);
+        enemy.x = safeRetreat.x;
+        enemy.y = safeRetreat.y;
+      }
+      enemy.movePhase += dt * (enemy.speed / 18);
       continue;
     }
 
@@ -1470,29 +1757,47 @@ function updateEnemies(dt) {
     const dirY = dy / len;
 
     enemy.movePhase += dt * (enemy.speed / 24);
-    enemy.hitFlash = Math.max(0, enemy.hitFlash - dt);
-    enemy.attackTimer = Math.max(0, enemy.attackTimer - dt);
-    enemy.lunge = Math.max(0, enemy.lunge - dt * 5);
 
     const weave = enemy.type === 'crawler' ? 75 : enemy.type === 'arcaneOrb' ? 52 : 24;
     const sideX = -dirY * Math.sin(enemy.movePhase) * weave;
     const sideY = dirX * Math.sin(enemy.movePhase) * weave;
     const nextX = enemy.x + (dirX * enemy.speed + sideX) * dt;
     const nextY = enemy.y + (dirY * enemy.speed + sideY) * dt;
-    const safe = resolveRoomCollision(enemy, nextX, nextY);
-    enemy.x = safe.x;
-    enemy.y = safe.y;
+    if (state.boss && enemy.bossMinion) {
+      enemy.x = clamp(nextX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
+      enemy.y = clamp(nextY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
+    } else {
+      const safe = resolveRoomCollision(enemy, nextX, nextY);
+      enemy.x = safe.x;
+      enemy.y = safe.y;
+    }
 
     const nearbyProtector = player.protectors
-      .filter((protector) => distance(enemy, protector) < enemy.radius + protector.radius + 4)
+      .filter((protector) => distance(enemy, protector) < enemy.radius + protector.radius + 24)
       .sort((a, b) => distance(enemy, a) - distance(enemy, b))[0] || null;
     const protectorInRange = Boolean(nearbyProtector);
-    const playerInRange = distance(enemy, player) < enemy.radius + player.radius + 4;
+    const playerInRange = distance(enemy, player) < enemy.radius + player.radius + 24;
     if (protectorInRange || playerInRange) {
       if (enemy.attackTimer <= 0) {
         enemy.attackTimer = enemy.type === 'runner' || enemy.type === 'crawler' ? 0.55 : enemy.type === 'reaper' ? 1.15 : 0.85;
         enemy.lunge = 1;
         const victim = protectorInRange ? nearbyProtector : player;
+        const attackDx = victim.x - enemy.x;
+        const attackDy = victim.y - enemy.y;
+        const attackDistance = Math.hypot(attackDx, attackDy) || 1;
+        const lungeX = enemy.x + (attackDx / attackDistance) * Math.min(14, attackDistance);
+        const lungeY = enemy.y + (attackDy / attackDistance) * Math.min(14, attackDistance);
+        if (state.boss && enemy.bossMinion) {
+          enemy.x = clamp(lungeX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
+          enemy.y = clamp(lungeY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
+        } else {
+          const safeLunge = resolveRoomCollision(enemy, lungeX, lungeY);
+          enemy.x = safeLunge.x;
+          enemy.y = safeLunge.y;
+        }
+        enemy.retreatTimer = 0.34;
+        enemy.retreatFromX = victim.x;
+        enemy.retreatFromY = victim.y;
         const damageLanded = applyCombatDamage(victim, enemy.damage);
         state.shake = Math.max(state.shake, 5);
         spawnBurst(victim.x, victim.y, 7, damageLanded ? '#f87171' : '#67e8f9', 75);
@@ -1531,12 +1836,18 @@ function updateProtectors(dt) {
   protector.maxHealth = player.maxHealth;
   protector.health = Math.min(protector.health, protector.maxHealth);
   protector.attackCooldown = Math.max(0, protector.attackCooldown - dt);
+  protector.bossRetreatTimer = Math.max(0, (protector.bossRetreatTimer || 0) - dt);
 
-  const possibleTargets = state.enemies.filter((enemy) => !enemy.dead && distance(protector, enemy) <= 850);
+  const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
+  const possibleTargets = livingEnemies.filter((enemy) => distance(protector, enemy) <= 850);
 
   const mustProtectPlayer = player.health < player.maxHealth * 0.5;
   let target = state.boss && state.boss.health > 0 ? state.boss : null;
-  if (!target && !mustProtectPlayer && possibleTargets.length > 0) {
+  if (!target && mustProtectPlayer && livingEnemies.length > 0) {
+    target = livingEnemies.reduce((closest, enemy) => (
+      distance(player, enemy) < distance(player, closest) ? enemy : closest
+    ), livingEnemies[0]);
+  } else if (!target && possibleTargets.length > 0) {
     target = possibleTargets.reduce((strongest, enemy) => {
       const strength = enemy.maxHealth + enemy.damage * 6;
       const strongestScore = strongest.maxHealth + strongest.damage * 6;
@@ -1545,19 +1856,36 @@ function updateProtectors(dt) {
   }
   protector.target = target;
 
-  const destination = target
-    ? getProtectorNavigationTarget(protector, target)
-    : {
+  const retreatingFromBoss = state.boss
+    && target === state.boss
+    && protector.bossRetreatTimer > 0;
+  const bossSeparation = retreatingFromBoss
+    ? Math.hypot(protector.x - target.x, protector.y - target.y) || 1
+    : 1;
+  const destination = retreatingFromBoss
+    ? {
+      x: target.x + ((protector.x - target.x) / bossSeparation) * 230,
+      y: target.y + ((protector.y - target.y) / bossSeparation) * 230,
+    }
+    : state.boss && target === state.boss
+      ? target
+    : target
+      ? getProtectorNavigationTarget(protector, target)
+      : {
       x: player.x + Math.cos(protectorIndex * 1.9) * 46,
       y: player.y + Math.sin(protectorIndex * 1.9) * 46,
     };
   const dx = destination.x - protector.x;
   const dy = destination.y - protector.y;
   const targetDistance = Math.hypot(dx, dy) || 1;
-  const stopDistance = target ? protector.radius + (target.radius || 16) : 12;
+  const stopDistance = retreatingFromBoss
+    ? 14
+    : target
+      ? protector.radius + (target.radius || 16)
+      : 12;
 
   if (targetDistance > stopDistance) {
-    const speed = player.speed * (target ? 1.15 : 1.35);
+    const speed = player.speed * (retreatingFromBoss ? 1.3 : target ? 1.15 : 1.35);
     const nextX = protector.x + (dx / targetDistance) * speed * dt;
     const nextY = protector.y + (dy / targetDistance) * speed * dt;
     if (state.boss) {
@@ -1571,10 +1899,12 @@ function updateProtectors(dt) {
   }
 
   const touchingTarget = target && distance(protector, target) <= protector.radius + (target.radius || 16);
-  if (touchingTarget && protector.attackCooldown <= 0) {
+  if (!retreatingFromBoss && touchingTarget && protector.attackCooldown <= 0) {
     protector.attackCooldown = 0.42;
     const damage = 18 + player.weaponLevel * 4;
     target.health -= damage;
+    if (target === state.boss) protector.bossRetreatTimer = 1.15;
+    else target.aggro = true;
     if ('hitFlash' in target) target.hitFlash = 0.18;
     spawnBurst(target.x, target.y, 7, '#60a5fa', 85);
     if (target.health <= 0 && target !== state.boss) {
@@ -1785,14 +2115,10 @@ function updateBoss(dt) {
     }
   }
 
-  const combatants = [player, ...player.protectors].filter((target) => target.health > 0);
-  const nearestTarget = combatants.reduce((nearest, target) => (
-    distance(boss, target) < distance(boss, nearest) ? target : nearest
-  ), combatants[0]);
-  if (boss.attackWindup <= 0 || !boss.attackTarget || boss.attackTarget.health <= 0) {
-    boss.attackTarget = nearestTarget;
-  }
-  const attackTarget = boss.attackTarget || player;
+  // Protectors can intercept ordinary enemies, but they never pull the boss's
+  // attention away from the hero.
+  boss.attackTarget = player;
+  const attackTarget = player;
   const dx = attackTarget.x - boss.x;
   const dy = attackTarget.y - boss.y;
   const len = Math.hypot(dx, dy) || 1;
@@ -1914,16 +2240,23 @@ function die() {
   pauseOverlay.classList.add('hidden');
   keys.clear();
   player.health = 0;
-  updateHighScore(state.wave);
+  const leaderboardRank = recordCompletedRun(state.wave, state.bossDefeated);
   overlayTitle.textContent = 'You Died';
-  overlayText.textContent = `You reached wave ${state.wave} and defeated ${state.bossDefeated} boss${state.bossDefeated === 1 ? '' : 'es'}.`;
+  overlayText.textContent = `${currentHeroName} reached wave ${state.wave} and defeated ${state.bossDefeated} boss${state.bossDefeated === 1 ? '' : 'es'}.${leaderboardRank ? ` Hall of Heroes rank: #${leaderboardRank}.` : ''}`;
   heroProverb.textContent = getRandomFallenHeroProverb();
   controlsGrid.style.display = 'none';
-  startButton.style.display = 'none';
+  openArmoryButton.disabled = true;
+  openArmoryButton.tabIndex = -1;
+  openArmoryButton.classList.add('portrait-only');
+  openArmoryButton.setAttribute('aria-label', 'Fallen hero');
+  startButton.style.display = '';
+  startButton.textContent = 'Press any key to continue';
   overlay.classList.remove('hidden');
   messageBox.classList.add('hidden');
-
-  window.setTimeout(showMainMenu, 2600);
+  deathScreenReady = false;
+  window.setTimeout(() => {
+    deathScreenReady = true;
+  }, 1500);
 }
 
 function resetRun() {
@@ -1946,6 +2279,7 @@ function resetRun() {
   state.bossArenaOpen = false;
   state.particles = [];
   state.shake = 0;
+  state.closeZoom = false;
   state.teleportTimer = 0;
   state.teleportMoved = false;
   state.teleportTarget = null;
@@ -1982,16 +2316,26 @@ function resetRun() {
 
 function showMainMenu() {
   resetRun();
+  selectedGender = null;
+  currentHeroName = '';
+  heroNameInput.value = '';
   showRandomHeroProverb();
   overlayTitle.textContent = 'Endless Dungeon';
   overlayText.textContent = 'Explore rooms, open crates, survive waves, and defeat the boss.';
   controlsGrid.style.display = 'grid';
+  openArmoryButton.disabled = false;
+  openArmoryButton.tabIndex = 0;
+  openArmoryButton.classList.remove('portrait-only');
+  openArmoryButton.setAttribute('aria-label', 'Customize hero');
   startButton.style.display = '';
   startButton.textContent = 'Press any key to begin';
   overlay.classList.remove('hidden');
+  genderOverlay.classList.remove('hidden');
 }
 
 function drawImageCover(image, x, y, width, height) {
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
   const imageRatio = image.naturalWidth / image.naturalHeight;
   const targetRatio = width / height;
   let sourceX = 0;
@@ -2043,6 +2387,10 @@ function drawRoom(room) {
   ctx.fillRect(room.x, room.y, wallThickness, room.h);
   ctx.fillRect(room.x + room.w - wallThickness, room.y, wallThickness, room.h);
 
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(room.x + 16, room.y + 16, room.w - 32, room.h - 32);
+
   // Cut visible holes only where a connected room exists.
   ctx.fillStyle = theme.room;
   if (!room.locked && room.doorways.top) ctx.fillRect(room.x + room.w / 2 - doorWidth / 2, room.y, doorWidth, wallThickness);
@@ -2055,10 +2403,6 @@ function drawRoom(room) {
     ctx.lineWidth = 5;
     ctx.strokeRect(room.x + wallThickness / 2, room.y + wallThickness / 2, room.w - wallThickness, room.h - wallThickness);
   }
-
-  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(room.x + 16, room.y + 16, room.w - 32, room.h - 32);
 }
 
 function drawCrate(crate) {
@@ -2195,6 +2539,21 @@ function drawEnemy(enemy) {
   });
 }
 
+function drawBossHealthBar(boss, x, y, width, height, startColor, endColor = startColor) {
+  ctx.save();
+  ctx.scale(boss.facingX < 0 ? 1 : -1, 1);
+  ctx.filter = 'none';
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
+  ctx.fillRect(x, y, width, height);
+  const healthGradient = ctx.createLinearGradient(x, 0, x + width, 0);
+  healthGradient.addColorStop(0, startColor);
+  healthGradient.addColorStop(1, endColor);
+  ctx.fillStyle = healthGradient;
+  ctx.fillRect(x, y, width * clamp(boss.health / boss.maxHealth, 0, 1), height);
+  ctx.restore();
+}
+
 function drawBoss(boss) {
   const walk = Math.sin(boss.movePhase || 0);
   const windup = boss.attackWindup > 0 ? boss.attackWindup / (boss.attackWindupTotal || 0.38) : 0;
@@ -2213,9 +2572,10 @@ function drawBoss(boss) {
   ctx.globalAlpha = 1 - deathProgress;
   ctx.rotate(walk * 0.035 + dashLean * 0.16 + deathProgress * Math.PI * 2.5);
   const deathScale = 1 - deathProgress * 0.9;
+  const bossVisualScale = 1.4;
   ctx.scale(
-    (boss.facingX < 0 ? 1 : -1) * (1 + pulse * 0.18 + dashLean * 0.15 - slamCrouch * 0.08) * deathScale,
-    (1 - pulse * 0.1 + slamCrouch * 0.16 + novaCharge * 0.1) * deathScale,
+    (boss.facingX < 0 ? 1 : -1) * (1 + pulse * 0.18 + dashLean * 0.15 - slamCrouch * 0.08) * deathScale * bossVisualScale,
+    (1 - pulse * 0.1 + slamCrouch * 0.16 + novaCharge * 0.1) * deathScale * bossVisualScale,
   );
   ctx.shadowColor = '#f87171';
   ctx.shadowBlur = 24 + windup * 24;
@@ -2278,11 +2638,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.lushGolem, -92, -78, 184, 148);
 
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.9)';
-    ctx.fillRect(-48, -86, 96, 8);
-    ctx.fillStyle = '#4ade80';
-    ctx.fillRect(-48, -86, 96 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -48, -86, 96, 8, '#4ade80');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(74, 222, 128, ${0.35 + windup * 0.65})`;
@@ -2302,14 +2658,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.lavaGolem, -94, -82, 188, 154);
 
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
-    ctx.fillRect(-50, -90, 100, 8);
-    const healthGradient = ctx.createLinearGradient(-50, 0, 50, 0);
-    healthGradient.addColorStop(0, '#dc2626');
-    healthGradient.addColorStop(1, '#f97316');
-    ctx.fillStyle = healthGradient;
-    ctx.fillRect(-50, -90, 100 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -50, -90, 100, 8, '#dc2626', '#f97316');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(249, 115, 22, ${0.4 + windup * 0.6})`;
@@ -2333,14 +2682,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.oceanBoss, -98, -86, 196, 158);
 
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
-    ctx.fillRect(-52, -94, 104, 8);
-    const healthGradient = ctx.createLinearGradient(-52, 0, 52, 0);
-    healthGradient.addColorStop(0, '#0369a1');
-    healthGradient.addColorStop(1, '#67e8f9');
-    ctx.fillStyle = healthGradient;
-    ctx.fillRect(-52, -94, 104 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -52, -94, 104, 8, '#0369a1', '#67e8f9');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(103, 232, 249, ${0.4 + windup * 0.6})`;
@@ -2360,14 +2702,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.iceBoss, -100, -88, 200, 160);
 
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
-    ctx.fillRect(-53, -96, 106, 8);
-    const healthGradient = ctx.createLinearGradient(-53, 0, 53, 0);
-    healthGradient.addColorStop(0, '#2563eb');
-    healthGradient.addColorStop(1, '#e0f2fe');
-    ctx.fillStyle = healthGradient;
-    ctx.fillRect(-53, -96, 106 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -53, -96, 106, 8, '#2563eb', '#e0f2fe');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(219, 234, 254, ${0.4 + windup * 0.6})`;
@@ -2387,14 +2722,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.skeletonBoss, -104, -92, 208, 168);
 
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
-    ctx.fillRect(-55, -100, 110, 8);
-    const healthGradient = ctx.createLinearGradient(-55, 0, 55, 0);
-    healthGradient.addColorStop(0, '#a16207');
-    healthGradient.addColorStop(1, '#67e8f9');
-    ctx.fillStyle = healthGradient;
-    ctx.fillRect(-55, -100, 110 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -55, -100, 110, 8, '#a16207', '#67e8f9');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(103, 232, 249, ${0.4 + windup * 0.6})`;
@@ -2413,14 +2741,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.sandBoss, -106, -94, 212, 172);
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
-    ctx.fillRect(-56, -102, 112, 8);
-    const healthGradient = ctx.createLinearGradient(-56, 0, 56, 0);
-    healthGradient.addColorStop(0, '#92400e');
-    healthGradient.addColorStop(1, '#fde68a');
-    ctx.fillStyle = healthGradient;
-    ctx.fillRect(-56, -102, 112 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -56, -102, 112, 8, '#92400e', '#fde68a');
     ctx.restore();
     return;
   }
@@ -2432,14 +2753,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.woodBoss, -102, -90, 204, 164);
 
-    ctx.filter = 'none';
-    ctx.fillStyle = 'rgba(2, 6, 23, 0.92)';
-    ctx.fillRect(-54, -98, 108, 8);
-    const healthGradient = ctx.createLinearGradient(-54, 0, 54, 0);
-    healthGradient.addColorStop(0, '#3f6212');
-    healthGradient.addColorStop(1, '#bef264');
-    ctx.fillStyle = healthGradient;
-    ctx.fillRect(-54, -98, 108 * (boss.health / boss.maxHealth), 8);
+    drawBossHealthBar(boss, -54, -98, 108, 8, '#3f6212', '#bef264');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(190, 242, 100, ${0.4 + windup * 0.6})`;
@@ -2490,10 +2804,7 @@ function drawBoss(boss) {
   ctx.lineTo(40 + windup * 18 + pulse * 22, 20 - windup * 24);
   ctx.stroke();
 
-  ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(-36, -54, 72, 6);
-  ctx.fillStyle = '#22c55e';
-  ctx.fillRect(-36, -54, 72 * (boss.health / boss.maxHealth), 6);
+  drawBossHealthBar(boss, -36, -54, 72, 6, '#22c55e');
 
   ctx.strokeStyle = '#f97316';
   ctx.lineWidth = 3;
@@ -2649,6 +2960,15 @@ function drawParticles() {
 
 function drawBackground() {
   const theme = world.themes[world.themeIndex] || world.themes[0];
+  const baseCameraZoom = Math.min(canvas.width / 1280, canvas.height / 720);
+  const overviewZoom = clamp(
+    baseCameraZoom + (state.boss ? 0.25 : 0),
+    1.25,
+    state.boss ? 2 : 1.75,
+  );
+  const cameraZoom = state.closeZoom
+    ? Math.min(overviewZoom * 1.5, state.boss ? 3.1 : 2.8)
+    : overviewZoom;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = state.boss ? '#000' : theme.bg;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -2658,16 +2978,36 @@ function drawBackground() {
 
   ctx.save();
   ctx.translate(shakeX, shakeY);
-  ctx.translate(-player.x + canvas.width / 2, -player.y + canvas.height / 2);
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.scale(cameraZoom, cameraZoom);
+  ctx.translate(-player.x, -player.y);
 
   // Plain corridors make the route between neighboring rooms unmistakable.
   for (const room of state.boss ? [] : state.rooms) {
     ctx.fillStyle = room.theme.room;
     if (room.doorways.right) {
-      ctx.fillRect(room.x + room.w, room.y + room.h / 2 - doorWidth / 2, 80, doorWidth);
+      const neighbor = state.rooms.find((candidate) => candidate.gx === room.gx + 1 && candidate.gy === room.gy);
+      if (neighbor) {
+        const corridorX = room.x + room.w - wallThickness;
+        ctx.fillRect(
+          corridorX,
+          room.y + room.h / 2 - doorWidth / 2,
+          neighbor.x + wallThickness - corridorX,
+          doorWidth,
+        );
+      }
     }
     if (room.doorways.bottom) {
-      ctx.fillRect(room.x + room.w / 2 - doorWidth / 2, room.y + room.h, doorWidth, 80);
+      const neighbor = state.rooms.find((candidate) => candidate.gx === room.gx && candidate.gy === room.gy + 1);
+      if (neighbor) {
+        const corridorY = room.y + room.h - wallThickness;
+        ctx.fillRect(
+          room.x + room.w / 2 - doorWidth / 2,
+          corridorY,
+          doorWidth,
+          neighbor.y + wallThickness - corridorY,
+        );
+      }
     }
   }
 
@@ -2879,11 +3219,56 @@ applyGearButton.addEventListener('click', applyPendingGearChoice);
 cancelGearButton.addEventListener('click', closeGearPreview);
 chooseMaleButton.addEventListener('click', () => chooseGender('male'));
 chooseFemaleButton.addEventListener('click', () => chooseGender('female'));
+heroNameInput.addEventListener('input', () => {
+  const editedName = cleanHeroName(heroNameInput.value);
+  if (editedName) {
+    currentHeroName = editedName;
+    saveLeaderboard();
+  }
+});
+heroNameInput.addEventListener('blur', saveHeroName);
+randomizeHeroNameButton.addEventListener('click', () => {
+  currentHeroName = generateHeroName();
+  heroNameInput.value = currentHeroName;
+  saveLeaderboard();
+});
+openHighScoresButton.addEventListener('click', () => {
+  saveHeroName();
+  renderHighScores();
+  highScoresOverlay.classList.remove('hidden');
+});
+closeHighScoresButton.addEventListener('click', () => highScoresOverlay.classList.add('hidden'));
 
 window.addEventListener('keydown', (event) => {
   const key = event.key.toLowerCase();
+  const mainMenuOpen = !state.started
+    && !state.isGameOver
+    && !overlay.classList.contains('hidden')
+    && highScoresOverlay.classList.contains('hidden')
+    && armoryOverlay.classList.contains('hidden')
+    && genderOverlay.classList.contains('hidden');
+  if (mainMenuOpen && key === 'escape') {
+    event.preventDefault();
+    if (!event.repeat) {
+      heroNameInput.blur();
+      genderOverlay.classList.remove('hidden');
+    }
+    return;
+  }
+  if (event.target === heroNameInput) {
+    if (key === 'enter') {
+      event.preventDefault();
+      heroNameInput.blur();
+    }
+    return;
+  }
   if (!genderOverlay.classList.contains('hidden')) {
     event.preventDefault();
+    return;
+  }
+  if (!highScoresOverlay.classList.contains('hidden')) {
+    event.preventDefault();
+    if (!event.repeat && (key === 'escape' || key === 'enter')) highScoresOverlay.classList.add('hidden');
     return;
   }
   if (!armoryOverlay.classList.contains('hidden')) {
@@ -2892,6 +3277,11 @@ window.addEventListener('keydown', (event) => {
       else armoryOverlay.classList.add('hidden');
     }
     event.preventDefault();
+    return;
+  }
+  if (state.isGameOver && !overlay.classList.contains('hidden')) {
+    event.preventDefault();
+    if (deathScreenReady && !event.repeat) showMainMenu();
     return;
   }
   if (state.threatSplashOpen) {
@@ -2936,6 +3326,10 @@ window.addEventListener('keydown', (event) => {
   }
   if (state.paused) return;
   keys.add(key);
+  if (key === 'l' && state.started && !event.repeat) {
+    state.closeZoom = !state.closeZoom;
+    setMessage(state.closeZoom ? 'Close-up view enabled.' : 'Overview enabled.');
+  }
   if (key === 'f') {
     setMessage('Hold F for 2 seconds near a crate to open it.');
   }
@@ -2962,9 +3356,11 @@ canvas.height = window.innerHeight;
 createRooms();
 placePlayerInFirstRoom();
 spawnEnemiesForWave();
-updateHighScore(state.wave);
+loadLeaderboard();
+updateHighScoreDisplay();
+renderHighScores();
 showRandomHeroProverb();
 applyEquippedArmor(true);
 updateGearNotification();
-if (!selectedGender) genderOverlay.classList.remove('hidden');
+genderOverlay.classList.remove('hidden');
 requestAnimationFrame(loop);

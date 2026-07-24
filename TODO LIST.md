@@ -17,6 +17,9 @@
 3. Create illustrated sword-swing frames/effects to replace the temporary white attack arc.
 4. Replace standard SVG enemies with full picture sprites.
 5. Preserve the SVG set for Retro Mode.
+6. emerald-sword-portrait and lava-blade-portrait have a white background, instead of transparent
+7. we want a dark theme where the rooms are hardly lit, and you can only see the hero and creatures slightly by torchlight that they carry. it doesn't have to be real lighting effect, if that's out of this scope.
+8. work with themes. png to create more creatures per theme, from those small thumbnails.
 
 ### Fixes and small improvements
 
@@ -130,6 +133,7 @@ Every new boss requires:
 
 ## Combat and player progression
 
+- Add a Creature Compendium screen with portraits, health, damage, attacks, behaviour, and discovered-enemy details.
 - Add brief hit-stop to strong impacts.
 - Improve knockback for the hero, enemies, protectors, and bosses.
 - Add floating numbers for damage, critical hits, blocked damage, and healing.

@@ -8,7 +8,7 @@
   </head>
   <body>
     <aside class="controls-key" aria-label="Game controls">
-      <div class="high-score">High Score: Wave <b id="highScoreValue">1</b></div>
+      <div class="high-score">Leaderboard: Wave <b id="highScoreValue">1</b></div>
       <strong>Controls</strong>
       <span><kbd>WASD</kbd> Move</span>
       <span><kbd>G</kbd> Sprint</span>
@@ -16,6 +16,7 @@
       <span><kbd>F</kbd> Open crate</span>
       <span><kbd>E</kbd> Protector</span>
       <span><kbd>R</kbd> Shield</span>
+      <span><kbd>L</kbd> Zoom in/out</span>
       <span><kbd>Esc</kbd> Pause</span>
       <span><kbd>Q</kbd> Bandage</span>
     </aside>
@@ -76,7 +77,17 @@
         </button>
         <p>Explore rooms, open crates, survive waves, and defeat the boss.</p>
         <p id="heroProverb" class="hero-proverb">“A steady blade outlives a reckless heart.”</p>
-        <div class="menu-high-score">High Score: Wave <strong id="menuHighScoreValue">1</strong></div>
+        <div class="hero-name-editor">
+          <label for="heroNameInput">Hero name</label>
+          <div class="hero-name-controls">
+            <input id="heroNameInput" type="text" maxlength="28" autocomplete="off" spellcheck="false" aria-describedby="heroNameHint">
+            <button id="randomizeHeroNameButton" type="button" aria-label="Generate another hero name" title="Generate another hero name">↻</button>
+          </div>
+          <small id="heroNameHint">Keep the suggested legend or write your own.</small>
+        </div>
+        <button id="openHighScoresButton" class="menu-high-score" type="button">
+          Hall of Heroes · Best Wave <strong id="menuHighScoreValue">1</strong>
+        </button>
         <div class="controls-grid">
           <span>WASD: Move</span>
           <span>G: Sprint</span>
@@ -84,10 +95,20 @@
           <span>F: Open crate</span>
           <span>E: Protector</span>
           <span>R: Shield</span>
+          <span>L: Zoom in/out</span>
           <span>Esc: Pause</span>
           <span>Q: Use bandage</span>
         </div>
         <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
+      </div>
+    </div>
+    <div id="highScoresOverlay" class="overlay high-scores-overlay hidden">
+      <div class="overlay-card high-scores-card">
+        <div class="high-scores-kicker">Endless Dungeon Records</div>
+        <h1>Hall of Heroes</h1>
+        <p>The ten legends who travelled furthest into the dark.</p>
+        <ol id="highScoresList" class="high-scores-list"></ol>
+        <button id="closeHighScoresButton" class="high-scores-close" type="button">Return to the fire</button>
       </div>
     </div>
     <div id="armoryOverlay" class="overlay hidden">
@@ -121,7 +142,7 @@
       <div class="overlay-card gender-card">
         <div class="armory-kicker">Choose Your Hero</div>
         <h1>Who Enters the Dungeon?</h1>
-        <p>This choice sets your character appearance and is remembered for future runs.</p>
+        <p>Choose who enters this run. A fitting heroic name awaits on the next screen.</p>
         <div class="gender-options">
           <button id="chooseMaleButton">
             <img src="assets/player/armor/male-wayfarer-portrait.png" alt="Male hero">

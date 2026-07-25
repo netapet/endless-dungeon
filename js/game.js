@@ -80,14 +80,17 @@ try {
   unlockedArmor = new Set(['wayfarer']);
 }
 
+// Resolves the currently equipped armour, falling back to the starter set.
 function getEquippedArmor() {
   return armorSets.find((armor) => armor.id === equippedArmorId) || armorSets[0];
 }
 
+// Resolves the current weapon, including the always-available starter blade.
 function getEquippedWeapon() {
   return weaponSets.find((weapon) => weapon.id === equippedWeaponId) || starterWeapon;
 }
 
+// Persists unlocked and equipped gear while keeping run-specific choices temporary.
 function saveArmorCollection() {
   try {
     window.localStorage.setItem('endlessDungeonArmor', JSON.stringify([...unlockedArmor]));
@@ -100,15 +103,18 @@ function saveArmorCollection() {
   }
 }
 
+// Shows the armory notification whenever newly unlocked gear is unseen.
 function updateGearNotification() {
   gearNotification.classList.toggle('hidden', unseenGear.size === 0);
 }
 
+// Closes the gear comparison without changing equipment.
 function closeGearPreview() {
   pendingGearChoice = null;
   gearPreview.classList.add('hidden');
 }
 
+// Opens a comparison card before the player equips a selected item.
 function showGearPreview(type, gear, image) {
   pendingGearChoice = { type, gear };
   gearPreviewType.textContent = type === 'armor' ? 'Armor Selection' : 'Weapon Selection';
@@ -125,6 +131,7 @@ function showGearPreview(type, gear, image) {
   gearPreview.classList.remove('hidden');
 }
 
+// Equips the item currently displayed in the comparison card.
 function applyPendingGearChoice() {
   if (!pendingGearChoice) return;
   const { type, gear } = pendingGearChoice;
@@ -139,6 +146,7 @@ function applyPendingGearChoice() {
   renderArmory();
 }
 
+// Rebuilds the armour and weapon grids from the current unlock state.
 function renderArmory() {
   armorGrid.replaceChildren();
   for (const armor of armorSets) {
@@ -173,6 +181,7 @@ function renderArmory() {
   }
 }
 
+// Applies armour stats and artwork, optionally restoring health and stamina.
 function applyEquippedArmor(refill = true) {
   const armor = getEquippedArmor();
   player.maxHealth = 100 + armor.health;
@@ -192,6 +201,7 @@ function applyEquippedArmor(refill = true) {
   menuHero.alt = armor.name;
 }
 
+// Starts each run with a fresh gender choice, suggested name, and basic armour.
 function chooseGender(gender) {
   selectedGender = gender;
   currentHeroName = generateHeroName();
@@ -233,20 +243,24 @@ const fallenHeroProverbs = [
   '"Victory is what you call limping away before anyone checks the details."',
 ];
 
+// Picks one hopeful proverb for the main menu.
 function getRandomHeroProverb() {
   return heroProverbs[Math.floor(Math.random() * heroProverbs.length)];
 }
 
+// Picks one mournful proverb for defeat or close-call victory.
 function getRandomFallenHeroProverb() {
   return fallenHeroProverbs[Math.floor(Math.random() * fallenHeroProverbs.length)];
 }
 
+// Refreshes the proverb displayed beneath the hero menu.
 function showRandomHeroProverb() {
   heroProverb.textContent = getRandomHeroProverb();
 }
 
 const hud = {
   wave: document.getElementById('waveValue'),
+  score: document.getElementById('scoreValue'),
   health: document.getElementById('healthValue'),
   food: document.getElementById('foodValue'),
   hydration: document.getElementById('hydrationValue'),
@@ -332,6 +346,7 @@ let highScores = [];
 let currentHeroName = '';
 let latestRunId = null;
 
+// Picks a different suggested hero name from the selected gender list.
 function generateHeroName() {
   const suggestions = selectedGender
     ? heroNameSuggestions[selectedGender]
@@ -340,6 +355,7 @@ function generateHeroName() {
   return alternatives[Math.floor(Math.random() * alternatives.length)] || suggestions[0];
 }
 
+// Normalizes custom hero names for safe display and storage.
 function cleanHeroName(name) {
   return String(name || '')
     .replace(/\s+/g, ' ')
@@ -347,14 +363,17 @@ function cleanHeroName(name) {
     .slice(0, 28);
 }
 
+// Ranks arcade entries by score, then wave, bosses, and earliest timestamp.
 function sortHighScores(scores) {
   return [...scores].sort((a, b) => (
-    b.wave - a.wave
+    b.score - a.score
+    || b.wave - a.wave
     || b.bosses - a.bosses
     || a.recordedAt - b.recordedAt
   ));
 }
 
+// Persists the current top-ten list in browser-local storage.
 function saveLeaderboard() {
   try {
     window.localStorage.setItem(highScoresStorageKey, JSON.stringify(highScores));
@@ -363,6 +382,7 @@ function saveLeaderboard() {
   }
 }
 
+// Loads, validates, migrates, and trims locally stored leaderboard entries.
 function loadLeaderboard() {
   try {
     const savedScores = JSON.parse(window.localStorage.getItem(highScoresStorageKey) || '[]');
@@ -377,6 +397,7 @@ function loadLeaderboard() {
         .map((entry, index) => ({
           id: String(entry.id || `saved-${index}`),
           name: cleanHeroName(entry.name),
+          score: Math.max(0, Math.floor(Number(entry.score) || 0)),
           wave: Math.max(1, Math.floor(Number(entry.wave))),
           bosses: Math.max(0, Math.floor(Number(entry.bosses) || 0)),
           recordedAt: Number(entry.recordedAt) || Date.now() + index,
@@ -387,6 +408,7 @@ function loadLeaderboard() {
       highScores.push({
         id: 'legacy-best',
         name: 'Eldric the Enduring',
+        score: 0,
         wave: legacyHighScore,
         bosses: 0,
         recordedAt: Date.now() - 1,
@@ -401,12 +423,14 @@ function loadLeaderboard() {
   saveLeaderboard();
 }
 
+// Updates menu and controls-panel labels with the best arcade score.
 function updateHighScoreDisplay() {
-  const bestWave = highScores[0]?.wave || 1;
-  highScoreValue.textContent = String(bestWave);
-  menuHighScoreValue.textContent = String(bestWave);
+  const bestScore = highScores[0]?.score || 0;
+  highScoreValue.textContent = bestScore.toLocaleString();
+  menuHighScoreValue.textContent = bestScore.toLocaleString();
 }
 
+// Rebuilds the Hall of Heroes list without injecting stored text as HTML.
 function renderHighScores() {
   highScoresList.replaceChildren();
   if (highScores.length === 0) {
@@ -426,21 +450,23 @@ function renderHighScores() {
     name.textContent = entry.name;
     const details = document.createElement('span');
     const date = new Date(entry.recordedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-    details.textContent = `${entry.bosses} boss${entry.bosses === 1 ? '' : 'es'} defeated · ${date}`;
+    details.textContent = `Wave ${entry.wave} · ${entry.bosses} boss${entry.bosses === 1 ? '' : 'es'} · ${date}`;
     hero.append(name, details);
 
     const wave = document.createElement('div');
     wave.className = 'high-score-wave';
-    wave.textContent = `WAVE ${entry.wave}`;
+    wave.textContent = `${entry.score.toLocaleString()} PTS`;
     item.append(hero, wave);
     highScoresList.appendChild(item);
   });
 }
 
-function recordCompletedRun(wave, bosses) {
+// Inserts a finished run and returns its rank when it reaches the top ten.
+function recordCompletedRun(score, wave, bosses) {
   const entry = {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     name: currentHeroName,
+    score: Math.max(0, Math.floor(Number(score) || 0)),
     wave: Math.max(1, Math.floor(Number(wave) || 1)),
     bosses: Math.max(0, Math.floor(Number(bosses) || 0)),
     recordedAt: Date.now(),
@@ -455,6 +481,7 @@ function recordCompletedRun(wave, bosses) {
   return rank <= leaderboardLimit ? rank : null;
 }
 
+// Commits an edited name or replaces an empty value with a suggestion.
 function saveHeroName() {
   const editedName = cleanHeroName(heroNameInput.value);
   currentHeroName = editedName || generateHeroName();
@@ -470,6 +497,7 @@ const keys = new Set();
 const art = {
   roomRuins: new Image(),
   hero: new Image(),
+  retroHero: new Image(),
   walker: new Image(),
   runner: new Image(),
   brute: new Image(),
@@ -519,10 +547,12 @@ const art = {
   lavaBlade: new Image(),
 };
 
+// Starts loading every reusable image asset before the animation loop begins.
 function preloadArt() {
   const sources = {
     roomRuins: 'assets/worlds/rooms/ruins.svg',
     hero: 'assets/player/armor/male-worldforged-portrait.png',
+    retroHero: 'assets/player/base-hero.svg',
     walker: 'assets/enemies/generic/walker.svg',
     runner: 'assets/enemies/generic/runner.svg',
     brute: 'assets/enemies/generic/brute.svg',
@@ -679,6 +709,7 @@ const world = {
 
 const state = {
   wave: 1,
+  score: 0,
   maxRooms: 8,
   enemies: [],
   crates: [],
@@ -703,6 +734,7 @@ const state = {
   pendingChallengeRoom: null,
   developerMode: false,
   closeZoom: false,
+  retroMode: false,
   foodWarningShown: false,
   waterWarningShown: false,
   threatSplashOpen: false,
@@ -710,23 +742,51 @@ const state = {
   pendingWaveSplash: false,
 };
 
+// Displays a short gameplay notification above the canvas.
 function setMessage(text) {
   messageBox.textContent = text;
   messageBox.classList.remove('hidden');
 }
 
+// Restricts a number to an inclusive range.
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
+// Returns a random floating-point value inside a range.
 function rand(min, max) {
   return min + Math.random() * (max - min);
 }
 
+// Measures straight-line distance between two positioned objects.
 function distance(a, b) {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
+// Converts enemy combat stats into a rounded arcade point value.
+function getEnemyScore(enemy) {
+  const baseScore = enemy.maxHealth * 0.65
+    + enemy.damage * 5
+    + enemy.speed * 0.35
+    + enemy.radius * 1.5;
+  const eliteMultiplier = enemy.elite ? 1.75 : 1;
+  const minionMultiplier = enemy.bossMinion ? 1.25 : 1;
+  return Math.max(10, Math.round(baseScore * eliteMultiplier * minionMultiplier / 5) * 5);
+}
+
+// Awards kill points once, regardless of who landed the finishing blow.
+function awardEnemyScore(enemy) {
+  if (enemy.scoreAwarded) return;
+  enemy.scoreAwarded = true;
+  state.score += getEnemyScore(enemy);
+}
+
+// Awards each successive boss another thousand points.
+function getBossScore(boss) {
+  return boss.tier * 1000;
+}
+
+// Selects the next biome, including rare Retro Mode and fixed boss-five routing.
 function getTheme() {
   // Boss five belongs to the Bony Ruins; always introduce its biome first.
   if (state.bossDefeated === 4) {
@@ -743,6 +803,7 @@ function getTheme() {
   return world.themes[world.themeIndex];
 }
 
+// Rolls one weighted crate reward.
 function randomLoot() {
   const roll = Math.random();
   if (roll < 0.35) return 'food';
@@ -752,6 +813,7 @@ function randomLoot() {
   return 'shieldShard';
 }
 
+// Applies one crate reward directly to resources or stored inventory.
 function applyLoot(item) {
   if (item === 'food') {
     player.food = clamp(player.food + 15, 0, 100);
@@ -773,6 +835,7 @@ function applyLoot(item) {
   }
 }
 
+// Creates the full grid connections available to a room before pruning.
 function makeDoorways(room) {
   const roomIndex = room.gy * 4 + room.gx;
   const roomInside = { top: false, right: false, bottom: false, left: false };
@@ -783,17 +846,68 @@ function makeDoorways(room) {
   return roomInside;
 }
 
+// Removes random redundant connections while preserving one connected dungeon.
+function removeRandomCorridors() {
+  const edges = [];
+  for (const room of state.rooms) {
+    if (room.doorways.right) {
+      const neighbor = state.rooms.find((candidate) => candidate.gx === room.gx + 1 && candidate.gy === room.gy);
+      if (neighbor) edges.push({ room, neighbor, roomSide: 'right', neighborSide: 'left' });
+    }
+    if (room.doorways.bottom) {
+      const neighbor = state.rooms.find((candidate) => candidate.gx === room.gx && candidate.gy === room.gy + 1);
+      if (neighbor) edges.push({ room, neighbor, roomSide: 'bottom', neighborSide: 'top' });
+    }
+  }
+
+  const shuffledEdges = [...edges].sort(() => Math.random() - 0.5);
+  const roomsWithRemovedExit = new Set();
+  const targetRemovals = Math.max(1, Math.ceil(state.rooms.length / 3));
+  let removed = 0;
+
+  for (const edge of shuffledEdges) {
+    if (removed >= targetRemovals) break;
+    if (roomsWithRemovedExit.has(edge.room) || roomsWithRemovedExit.has(edge.neighbor)) continue;
+
+    edge.room.doorways[edge.roomSide] = false;
+    edge.neighbor.doorways[edge.neighborSide] = false;
+
+    const visited = new Set([state.rooms[0]]);
+    const queue = [state.rooms[0]];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      for (const neighbor of getRoomNeighbors(current)) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    if (visited.size === state.rooms.length) {
+      roomsWithRemovedExit.add(edge.room);
+      roomsWithRemovedExit.add(edge.neighbor);
+      removed += 1;
+    } else {
+      edge.room.doorways[edge.roomSide] = true;
+      edge.neighbor.doorways[edge.neighborSide] = true;
+    }
+  }
+}
+
+// Generates room geometry, loot, challenges, corridors, biome state, and arena bounds.
 function createRooms() {
   state.rooms = [];
   state.crates = [];
   state.challengeRooms = [];
 
   const theme = getTheme();
-  const roomWidth = 820;
-  const roomHeight = 540;
+  state.retroMode = world.themeIndex === 4;
+  const roomWidth = 900;
+  const roomHeight = 580;
   const columns = 4;
   const rows = Math.ceil(state.maxRooms / columns);
-  const gap = 90;
+  const gap = 50;
   let roomIndex = 0;
 
   for (let gy = 0; gy < rows; gy += 1) {
@@ -839,6 +953,8 @@ function createRooms() {
     }
   }
 
+  removeRandomCorridors();
+
   state.bossArena = {
     x: world.width / 2 - 1100,
     y: world.height / 2 - 875,
@@ -850,6 +966,7 @@ function createRooms() {
   setMessage(`Wave ${state.wave} begins. Explore the rooms, open crates, and survive.`);
 }
 
+// Centers the hero in the dungeon's starting room.
 function placePlayerInFirstRoom() {
   const firstRoom = state.rooms[0];
   if (!firstRoom) return;
@@ -857,6 +974,7 @@ function placePlayerInFirstRoom() {
   player.y = firstRoom.y + firstRoom.h / 2;
 }
 
+// Chooses a themed splash portrait when available and an SVG fallback otherwise.
 function getEnemySplashArt(enemy) {
   const minionTypes = ['runner', 'crawler'];
   const tankTypes = ['walker', 'brute', 'spitter', 'sentinel'];
@@ -876,11 +994,12 @@ function getEnemySplashArt(enemy) {
   return genericArt[enemy.type] || `assets/enemies/generic/${enemy.type}.svg`;
 }
 
+// Pauses at a new wave to introduce one featured threat in a single sentence.
 function showWaveSplash() {
   state.pendingWaveSplash = false;
   state.threatSplashOpen = true;
   keys.clear();
-  waveSplashTitle.textContent = `Wave ${state.wave}`;
+  waveSplashTitle.textContent = state.retroMode ? `Wave ${state.wave} · Retro Mode` : `Wave ${state.wave}`;
   waveSplashText.classList.remove('hero-splash-proverb');
   waveSplashEnemies.replaceChildren();
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
@@ -898,8 +1017,10 @@ function showWaveSplash() {
     reaper: 'Reapers swing for the neck and do not stop when their target falls.',
   };
   const featuredEnemy = livingEnemies[Math.floor(Math.random() * livingEnemies.length)];
-  const randomDescription = enemyThreats[featuredEnemy?.type]
-    || 'Something unknown is stalking this level, hungry for anything still alive.';
+  const randomDescription = state.retroMode
+    ? "The dungeon throws you back to the '90s, when heroes were pixels and every monster had sharp edges."
+    : enemyThreats[featuredEnemy?.type]
+      || 'Something unknown is stalking this level, hungry for anything still alive.';
   if (featuredEnemy) {
     const image = document.createElement('img');
     image.src = getEnemySplashArt(featuredEnemy);
@@ -911,6 +1032,7 @@ function showWaveSplash() {
   waveSplash.classList.remove('hidden');
 }
 
+// Presents the incoming boss at the invisible midpoint of the teleport.
 function showBossSplash() {
   if (!state.boss) return;
   const bossDetails = {
@@ -935,12 +1057,14 @@ function showBossSplash() {
   const image = document.createElement('img');
   image.src = details.image;
   image.alt = details.name;
+  image.classList.add('boss-splash-image');
   waveSplashEnemies.appendChild(image);
   waveSplashText.textContent = details.warning;
   waveSplashWarning.textContent = '';
   waveSplash.classList.remove('hidden');
 }
 
+// Shows a fallen-hero proverb and any newly unlocked gear after a boss victory.
 function showHeroVictorySplash() {
   state.pendingWaveSplash = false;
   state.threatSplashOpen = true;
@@ -964,6 +1088,7 @@ function showHeroVictorySplash() {
   waveSplash.classList.remove('hidden');
 }
 
+// Resumes the paused transition after a threat screen is dismissed.
 function closeThreatSplash() {
   state.threatSplashOpen = false;
   state.gearChoiceOpen = false;
@@ -972,10 +1097,12 @@ function closeThreatSplash() {
   waveSplash.classList.add('hidden');
 }
 
+// Returns the room containing an entity, or null while it is in a corridor.
 function getContainingRoom(entity) {
   return state.rooms.find((room) => entity.x >= room.x && entity.x <= room.x + room.w && entity.y >= room.y && entity.y <= room.y + room.h) || null;
 }
 
+// Finds the closest room centre when an entity is between rooms.
 function getNearestRoom(entity) {
   let nearest = null;
   let nearestDistance = Infinity;
@@ -991,6 +1118,7 @@ function getNearestRoom(entity) {
   return nearest;
 }
 
+// Returns currently open orthogonal neighbors for graph traversal.
 function getRoomNeighbors(room) {
   return state.rooms.filter((candidate) => {
     if (room.locked || candidate.locked) return false;
@@ -1004,6 +1132,7 @@ function getRoomNeighbors(room) {
   });
 }
 
+// Uses breadth-first search to find a valid room-to-room route.
 function findRoomPath(start, goal) {
   if (!start || !goal || start === goal) return start ? [start] : [];
   const frontier = [start];
@@ -1024,6 +1153,7 @@ function findRoomPath(start, goal) {
   return path;
 }
 
+// Guides an aggro enemy through the next doorway toward the hero.
 function getEnemyNavigationTarget(enemy) {
   if (enemy.bossMinion) return player;
   const containingRoom = getContainingRoom(enemy);
@@ -1057,6 +1187,7 @@ function getEnemyNavigationTarget(enemy) {
   return { x: startRoom.x + startRoom.w / 2, y: startRoom.y - gap };
 }
 
+// Guides a protector through the room graph toward its chosen target.
 function getProtectorNavigationTarget(protector, target) {
   const containingRoom = getContainingRoom(protector);
   const startRoom = containingRoom || getNearestRoom(protector);
@@ -1078,6 +1209,7 @@ function getProtectorNavigationTarget(protector, target) {
   return { x: startRoom.x + startRoom.w / 2, y: startRoom.y - gap };
 }
 
+// Tests whether an entity can cross a particular wall at its current offset.
 function doorBlocked(room, side, position, radius = 0) {
   if (room.locked) return true;
   if (!room.doorways[side]) return true;
@@ -1089,6 +1221,7 @@ function doorBlocked(room, side, position, radius = 0) {
   return !insideDoor;
 }
 
+// Identifies the traversable corridor bounds currently containing an entity.
 function getContainingCorridor(entity) {
   const radius = entity.radius || 0;
   for (const room of state.rooms) {
@@ -1122,6 +1255,7 @@ function getContainingCorridor(entity) {
   return null;
 }
 
+// Clamps a proposed move to room walls, open doors, corridors, and world bounds.
 function resolveRoomCollision(entity, nextX, nextY) {
   const candidate = { x: nextX, y: nextY };
 
@@ -1176,6 +1310,7 @@ function resolveRoomCollision(entity, nextX, nextY) {
   return candidate;
 }
 
+// Builds one wave-scaled enemy with a weighted type and combat profile.
 function createEnemy(room, index) {
   const easyTypes = ['walker', 'runner'];
   const mediumTypes = ['crawler', 'spitter', 'burrower', 'arcaneOrb'];
@@ -1292,6 +1427,7 @@ function createEnemy(room, index) {
   return base;
 }
 
+// Doubles the wave roster, making half immediate hunters and half room patrols.
 function spawnEnemiesForWave() {
   state.enemies = [];
   const originalCount = Math.min(32, state.wave <= 3 ? (3 + state.wave) * 2 : 3 + Math.ceil(state.wave * 1.5));
@@ -1306,6 +1442,7 @@ function spawnEnemiesForWave() {
   }
 }
 
+// Creates the next tiered boss and places the party inside its arena.
 function spawnBoss() {
   const isFirstBoss = state.bossDefeated === 0;
   const isSecondBoss = state.bossDefeated === 1;
@@ -1331,6 +1468,19 @@ function spawnBoss() {
     attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isFifthBoss ? 'boneSlam' : isSixthBoss ? 'sandSlam' : isTenthBoss ? 'woodSlam' : 'slam',
     attackPulse: 0,
     hitFlash: 0,
+    lungeTimer: 0,
+    lungeDuration: 0,
+    lungeRemaining: 0,
+    lungeDirX: 0,
+    lungeDirY: 0,
+    lungeDamageScale: 1,
+    lungeHitRange: 75,
+    lungeEffectColor: '#fb7185',
+    lungeIsDash: false,
+    retreatTimer: 0,
+    retreatDelay: 0,
+    retreatFromX: null,
+    retreatFromY: null,
     movePhase: 0,
     facingX: -1,
     defeatedTimer: 0,
@@ -1354,6 +1504,7 @@ function spawnBoss() {
   if (state.boss.variant === 'iceBoss') summonIceMinion(state.boss, 'opening');
 }
 
+// Advances progression and prepares the next connected dungeon off-screen.
 function startNextWave() {
   state.wave += 1;
   state.maxRooms += 1;
@@ -1375,8 +1526,10 @@ function startNextWave() {
   state.pendingWaveSplash = true;
 }
 
+// Awards rising boss points, loot, unlocks, and periodic equipment upgrades.
 function rewardBossLoot() {
   const defeatedBossNumber = state.bossDefeated + 1;
+  state.score += getBossScore(state.boss);
   for (let i = 0; i < 10; i += 1) {
     applyLoot(randomLoot());
   }
@@ -1404,6 +1557,7 @@ function rewardBossLoot() {
   }
 }
 
+// Converts five shards into a persistent allied protector for the current run.
 function createProtector() {
   if (player.inventory.protectorShard < 5) {
     setMessage('Need 5 protector shards to summon a protector.');
@@ -1424,6 +1578,7 @@ function createProtector() {
   setMessage(`Protector summoned! You now have ${player.protectors.length}.`);
 }
 
+// Consumes shield shards to block all incoming damage for a short duration.
 function activateShield() {
   if (player.shieldActive) {
     setMessage(`Shield already active for ${Math.ceil(player.shieldTimer)} more seconds.`);
@@ -1439,7 +1594,27 @@ function activateShield() {
   setMessage('Shield activated for 7 seconds.');
 }
 
-function applyCombatDamage(victim, amount) {
+// Pushes the hero away from a hit source without bypassing collision boundaries.
+function knockHeroAwayFrom(attacker, knockbackDistance) {
+  const dx = player.x - attacker.x;
+  const dy = player.y - attacker.y;
+  const separation = Math.hypot(dx, dy);
+  const awayX = separation > 0 ? dx / separation : Math.sign(attacker.facingX || 1);
+  const awayY = separation > 0 ? dy / separation : 0;
+  const nextX = player.x + awayX * knockbackDistance;
+  const nextY = player.y + awayY * knockbackDistance;
+  if (state.boss) {
+    player.x = clamp(nextX, state.bossArena.x + player.radius, state.bossArena.x + state.bossArena.w - player.radius);
+    player.y = clamp(nextY, state.bossArena.y + player.radius, state.bossArena.y + state.bossArena.h - player.radius);
+  } else {
+    const safe = resolveRoomCollision(player, nextX, nextY);
+    player.x = safe.x;
+    player.y = safe.y;
+  }
+}
+
+// Applies invulnerability, shields, armour reduction, damage, and hero knockback.
+function applyCombatDamage(victim, amount, attacker = null) {
   if (victim === player && state.developerMode) {
     player.health = Math.max(1, player.health);
     return false;
@@ -1451,9 +1626,13 @@ function applyCombatDamage(victim, amount) {
   }
   const armorReduction = victim === player ? getEquippedArmor().defense / 100 : 0;
   victim.health -= amount * (1 - armorReduction);
+  if (victim === player && attacker) {
+    knockHeroAwayFrom(attacker, attacker === state.boss ? 28 : 14);
+  }
   return true;
 }
 
+// Opens the accept-or-decline prompt on first entry to a rare room.
 function maybeOpenChallengeRoom() {
   if (state.boss || state.challengePromptOpen) return;
   for (const room of state.challengeRooms) {
@@ -1469,6 +1648,7 @@ function maybeOpenChallengeRoom() {
   }
 }
 
+// Either seals in a powered-up guardian or dismisses the room challenge.
 function resolveChallengeChoice(accept) {
   const room = state.pendingChallengeRoom;
   if (!room) return;
@@ -1499,6 +1679,7 @@ function resolveChallengeChoice(accept) {
   challengeOverlay.classList.add('hidden');
 }
 
+// Converts held movement keys into collision-safe movement and resource drain.
 function handleInput(dt) {
   const dx = (keys.has('d') ? 1 : 0) - (keys.has('a') ? 1 : 0);
   const dy = (keys.has('s') ? 1 : 0) - (keys.has('w') ? 1 : 0);
@@ -1556,6 +1737,7 @@ function handleInput(dt) {
 
 }
 
+// Consumes one stored bandage when the hero has missing health.
 function useBandage() {
   if (player.inventory.bandage <= 0) {
     setMessage('You do not have any stored bandages.');
@@ -1570,6 +1752,7 @@ function useBandage() {
   setMessage('Stored bandage used: +30 health.');
 }
 
+// Emits a lightweight radial particle burst for combat and transitions.
 function spawnBurst(x, y, count, color, speed = 50) {
   for (let i = 0; i < count; i += 1) {
     state.particles.push({
@@ -1585,6 +1768,7 @@ function spawnBurst(x, y, count, color, speed = 50) {
   }
 }
 
+// Begins the fade-out from a cleared dungeon toward its boss encounter.
 function startBossTeleport() {
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
@@ -1594,6 +1778,7 @@ function startBossTeleport() {
   setMessage('Wave cleared! Teleporting to the boss arena...');
 }
 
+// Begins the fade-out from a defeated boss toward the next wave.
 function startWaveTeleport() {
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
@@ -1603,6 +1788,7 @@ function startWaveTeleport() {
   setMessage('Boss defeated! Teleporting to the next wave...');
 }
 
+// Pauses teleportation at invisibility for a splash, then completes arrival.
 function updateBossTeleport(dt) {
   if (state.teleportTimer <= 0) return;
 
@@ -1635,6 +1821,7 @@ function updateBossTeleport(dt) {
   }
 }
 
+// Tests range and the hero's forward-facing melee cone.
 function isInsideAttackArc(target, range) {
   const dx = target.x - player.x;
   const dy = target.y - player.y;
@@ -1649,6 +1836,7 @@ function isInsideAttackArc(target, range) {
   return directionDot >= Math.cos(50 * Math.PI / 180);
 }
 
+// Performs one hero swing against enemies and bosses inside the attack arc.
 function tryAttack() {
   if (player.attackCooldown > 0) return;
   player.attackCooldown = 0.42;
@@ -1666,6 +1854,7 @@ function tryAttack() {
       enemy.y += player.facing.y * 18;
       spawnBurst(enemy.x, enemy.y, 4, '#fb7185', 70);
       if (enemy.health <= 0) {
+        awardEnemyScore(enemy);
         enemy.dead = true;
         enemy.deathTimer = 0.55;
         spawnBurst(enemy.x, enemy.y, 14, '#f97316', 120);
@@ -1683,6 +1872,7 @@ function tryAttack() {
   }
 }
 
+// Runs enemy patrol, persistent aggro, navigation, lunge, strike, and retreat AI.
 function updateEnemies(dt) {
   const playerRoom = getContainingRoom(player);
   for (const enemy of state.enemies) {
@@ -1798,7 +1988,7 @@ function updateEnemies(dt) {
         enemy.retreatTimer = 0.34;
         enemy.retreatFromX = victim.x;
         enemy.retreatFromY = victim.y;
-        const damageLanded = applyCombatDamage(victim, enemy.damage);
+        const damageLanded = applyCombatDamage(victim, enemy.damage, enemy);
         state.shake = Math.max(state.shake, 5);
         spawnBurst(victim.x, victim.y, 7, damageLanded ? '#f87171' : '#67e8f9', 75);
         if (victim !== player && victim.health <= 0) {
@@ -1828,6 +2018,7 @@ function updateEnemies(dt) {
 
 }
 
+// Assigns protector priorities and drives interception or boss attack runs.
 function updateProtectors(dt) {
   if (player.protectors.length === 0) return;
   for (let protectorIndex = 0; protectorIndex < player.protectors.length; protectorIndex += 1) {
@@ -1908,6 +2099,7 @@ function updateProtectors(dt) {
     if ('hitFlash' in target) target.hitFlash = 0.18;
     spawnBurst(target.x, target.y, 7, '#60a5fa', 85);
     if (target.health <= 0 && target !== state.boss) {
+      awardEnemyScore(target);
       target.dead = true;
       target.deathTimer = 0.55;
       spawnBurst(target.x, target.y, 14, '#60a5fa', 120);
@@ -1916,6 +2108,7 @@ function updateProtectors(dt) {
   }
 }
 
+// Advances particle motion and discards expired effects.
 function updateParticles(dt) {
   state.particles = state.particles.filter((particle) => {
     particle.age += dt;
@@ -1927,6 +2120,7 @@ function updateParticles(dt) {
   });
 }
 
+// Tracks hold-to-open progress and dispenses completed crate rewards.
 function updateCrates(dt) {
   for (const crate of state.crates) {
     if (crate.isOpen) continue;
@@ -1949,6 +2143,7 @@ function updateCrates(dt) {
   }
 }
 
+// Adds an ice reinforcement at an opening or half-health phase.
 function summonIceMinion(boss, phase) {
   const angle = phase === 'opening' ? -0.7 : 2.4;
   const health = 78 + boss.tier * 11;
@@ -1976,6 +2171,7 @@ function summonIceMinion(boss, phase) {
     : 'Iceboss reached half health and summoned another Ice Minion!');
 }
 
+// Adds one increasingly frequent reinforcement for the Wood Boss.
 function summonWoodMinion(boss) {
   const angle = Math.random() * Math.PI * 2;
   const health = 65 + boss.tier * 9;
@@ -2001,6 +2197,7 @@ function summonWoodMinion(boss) {
   setMessage(`Woodboss lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Woodminion!`);
 }
 
+// Raises one of the Skeleton Warlord's health-threshold orbs.
 function summonSkeletonOrb(boss) {
   const summonNumber = boss.skeletonOrbsSummoned + 1;
   const angle = (summonNumber - 1) * (Math.PI / 2) + Math.PI / 4;
@@ -2028,6 +2225,7 @@ function summonSkeletonOrb(boss) {
   setMessage(`The Skeleton Warlord raises Skeleton Orb ${summonNumber} of 4!`);
 }
 
+// Advances the Sand Tyrant's scripted minion-and-orb summon sequence.
 function summonSandServant(boss) {
   const summonPlan = ['skeletonOrb', 'skeletonMinion', 'skeletonOrb', 'skeletonOrb', 'skeletonMinion', 'skeletonOrb', 'skeletonMinion', 'skeletonOrb'];
   const type = summonPlan[boss.sandSummonsCompleted];
@@ -2058,6 +2256,7 @@ function summonSandServant(boss) {
   setMessage(`The Sand Tyrant summons ${isOrb ? 'a Skeleton Orb' : 'a Skeleton Minion'}!`);
 }
 
+// Runs boss phases, animated attacks, damage, retreat, summons, and death.
 function updateBoss(dt) {
   if (!state.boss) return;
   const boss = state.boss;
@@ -2127,9 +2326,32 @@ function updateBoss(dt) {
   boss.movePhase += dt * 5;
   boss.hitFlash = Math.max(0, boss.hitFlash - dt);
   boss.attackPulse = Math.max(0, boss.attackPulse - dt * 4);
+  boss.retreatTimer = Math.max(0, (boss.retreatTimer || 0) - dt);
+  boss.retreatDelay = Math.max(0, (boss.retreatDelay || 0) - dt);
   boss.cooldown -= dt;
 
-  if (boss.attackWindup > 0) {
+  if (boss.lungeTimer > 0) {
+    boss.lungeTimer = Math.max(0, boss.lungeTimer - dt);
+    boss.attackPulse = Math.max(boss.attackPulse, 0.65);
+    const lungeSpeed = boss.lungeRemaining / Math.max(dt, boss.lungeTimer + dt);
+    const lungeStep = Math.min(boss.lungeRemaining, lungeSpeed * dt);
+    boss.x = clamp(boss.x + boss.lungeDirX * lungeStep, state.bossArena.x + boss.radius, state.bossArena.x + state.bossArena.w - boss.radius);
+    boss.y = clamp(boss.y + boss.lungeDirY * lungeStep, state.bossArena.y + boss.radius, state.bossArena.y + state.bossArena.h - boss.radius);
+    boss.lungeRemaining = Math.max(0, boss.lungeRemaining - lungeStep);
+    if (boss.lungeTimer === 0 || boss.lungeRemaining === 0) {
+      if (distance(boss, attackTarget) < boss.radius + attackTarget.radius + boss.lungeHitRange) {
+        applyCombatDamage(attackTarget, boss.damage * boss.lungeDamageScale, boss);
+        spawnBurst(attackTarget.x, attackTarget.y, boss.lungeIsDash ? 14 : 20, boss.lungeEffectColor, 155);
+      }
+      spawnBurst(boss.x, boss.y, boss.lungeIsDash ? 24 : 10, boss.lungeEffectColor, 180);
+      state.shake = boss.lungeIsDash ? 10 : 16;
+      boss.retreatTimer = boss.lungeIsDash ? 0.3 : 0.36;
+      boss.retreatDelay = 0.1;
+      boss.retreatFromX = attackTarget.x;
+      boss.retreatFromY = attackTarget.y;
+    }
+    return;
+  } else if (boss.attackWindup > 0) {
     boss.attackWindup -= dt;
     if (boss.attackWindup <= 0) {
       boss.attackPulse = 1;
@@ -2138,14 +2360,15 @@ function updateBoss(dt) {
       if (boss.attackType.includes('Dash')) {
         const dashDistance = boss.attackType === 'flameDash' ? 260 : boss.attackType === 'waterDash' ? 240 : boss.attackType === 'frostDash' ? 225 : 190 + boss.tier * 8;
         if (Math.abs(dirX) > 0.05) boss.facingX = dirX;
-        boss.x = clamp(boss.x + dirX * dashDistance, state.bossArena.x + boss.radius, state.bossArena.x + state.bossArena.w - boss.radius);
-        boss.y = clamp(boss.y + dirY * dashDistance, state.bossArena.y + boss.radius, state.bossArena.y + state.bossArena.h - boss.radius);
-        if (distance(boss, attackTarget) < boss.radius + attackTarget.radius + 65) {
-          const dashDamage = boss.attackType === 'flameDash' ? 1.3 : boss.attackType === 'waterDash' ? 1.2 : boss.attackType === 'frostDash' ? 1.25 : 1.1;
-          applyCombatDamage(attackTarget, boss.damage * dashDamage);
-        }
-        spawnBurst(boss.x, boss.y, 24, effectColor, 180);
-        state.shake = 10;
+        boss.lungeDuration = 0.24;
+        boss.lungeTimer = boss.lungeDuration;
+        boss.lungeRemaining = dashDistance;
+        boss.lungeDirX = dirX;
+        boss.lungeDirY = dirY;
+        boss.lungeDamageScale = boss.attackType === 'flameDash' ? 1.3 : boss.attackType === 'waterDash' ? 1.2 : boss.attackType === 'frostDash' ? 1.25 : 1.1;
+        boss.lungeHitRange = 65;
+        boss.lungeEffectColor = effectColor;
+        boss.lungeIsDash = true;
       } else if (boss.attackType === 'healingBloom') {
         boss.health = clamp(boss.health + boss.maxHealth * 0.07, 0, boss.maxHealth);
         spawnBurst(boss.x, boss.y, 42, '#86efac', 155);
@@ -2154,15 +2377,21 @@ function updateBoss(dt) {
         const attackRadius = boss.attackType === 'thornRing' ? 165 : boss.attackType === 'eruption' ? 285 : boss.attackType === 'tidalWave' ? 250 : boss.attackType === 'blizzard' ? 265 : 210 + boss.tier * 8;
         const damageScale = boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'eruption' ? 1.05 : boss.attackType === 'tidalWave' ? 0.9 : boss.attackType === 'blizzard' ? 0.95 : 0.75;
         for (const victim of [player, ...player.protectors]) {
-          if (distance(boss, victim) <= attackRadius) applyCombatDamage(victim, boss.damage * damageScale);
+          if (distance(boss, victim) <= attackRadius) applyCombatDamage(victim, boss.damage * damageScale, boss);
         }
         spawnBurst(boss.x, boss.y, 38, effectColor, 230);
         state.shake = 14;
-      } else if (len < boss.radius + attackTarget.radius + 75) {
-        const slamScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
-        applyCombatDamage(attackTarget, boss.damage * slamScale);
-        spawnBurst(attackTarget.x, attackTarget.y, 20, effectColor, 145);
-        state.shake = 16;
+      } else {
+        const lungeDistance = Math.min(58, Math.max(0, len - boss.radius - attackTarget.radius + 18));
+        boss.lungeDuration = 0.2;
+        boss.lungeTimer = boss.lungeDuration;
+        boss.lungeRemaining = lungeDistance;
+        boss.lungeDirX = dirX;
+        boss.lungeDirY = dirY;
+        boss.lungeDamageScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
+        boss.lungeHitRange = 75;
+        boss.lungeEffectColor = effectColor;
+        boss.lungeIsDash = false;
       }
 
       const defeatedProtectors = player.protectors.filter((protector) => protector.health <= 0);
@@ -2171,14 +2400,24 @@ function updateBoss(dt) {
       if (attackTarget.health <= 0) boss.attackTarget = null;
     }
   } else {
-    const orbit = Math.sin(boss.movePhase * 0.7) * 36;
-    const speed = boss.cooldown < 0.35 ? 125 : 72;
-    const movementX = dirX * speed - dirY * orbit;
-    const movementY = dirY * speed + dirX * orbit;
+    const recovering = boss.retreatTimer > 0;
+    const retreating = recovering && boss.retreatDelay <= 0 && boss.retreatFromX != null;
+    const retreatDx = retreating ? boss.x - boss.retreatFromX : 0;
+    const retreatDy = retreating ? boss.y - boss.retreatFromY : 0;
+    const retreatLength = Math.hypot(retreatDx, retreatDy) || 1;
+    const orbit = retreating ? 0 : Math.sin(boss.movePhase * 0.7) * 36;
+    const speed = retreating ? 145 : boss.cooldown < 0.35 ? 125 : 72;
+    const closingDistance = boss.radius + attackTarget.radius + 34;
+    const movementX = retreating
+      ? (retreatDx / retreatLength) * speed
+      : !recovering && len > closingDistance ? dirX * speed - dirY * orbit : 0;
+    const movementY = retreating
+      ? (retreatDy / retreatLength) * speed
+      : !recovering && len > closingDistance ? dirY * speed + dirX * orbit : 0;
     if (Math.abs(movementX) > 3) boss.facingX = movementX;
-    boss.x += movementX * dt;
-    boss.y += movementY * dt;
-    if (boss.cooldown <= 0 && len < 430) {
+    boss.x = clamp(boss.x + movementX * dt, state.bossArena.x + boss.radius, state.bossArena.x + state.bossArena.w - boss.radius);
+    boss.y = clamp(boss.y + movementY * dt, state.bossArena.y + boss.radius, state.bossArena.y + state.bossArena.h - boss.radius);
+    if (!recovering && boss.cooldown <= 0 && len < 430) {
       const attackRoll = Math.random();
       if (boss.variant === 'lushGolem') {
         boss.attackType = attackRoll < 0.5 ? 'rootSlam' : attackRoll < 0.84 ? 'thornRing' : 'healingBloom';
@@ -2205,10 +2444,12 @@ function updateBoss(dt) {
   }
 }
 
+// Converts internal camelCase item IDs into readable labels.
 function formatLootName(item) {
   return item.replace(/([A-Z])/g, ' $1').replace(/^./, (letter) => letter.toUpperCase());
 }
 
+// Summarizes a crate's rewards in the temporary loot notification.
 function showLootHighlight(items) {
   const totals = new Map();
   for (const item of items) totals.set(item, (totals.get(item) || 0) + 1);
@@ -2221,6 +2462,7 @@ function showLootHighlight(items) {
   lootHighlightTimer = window.setTimeout(() => lootHighlight.classList.add('hidden'), 3000);
 }
 
+// Freezes or resumes active gameplay and clears held keys.
 function togglePause() {
   if (!state.started || state.isGameOver) return;
   state.paused = !state.paused;
@@ -2228,6 +2470,7 @@ function togglePause() {
   pauseOverlay.classList.toggle('hidden', !state.paused);
 }
 
+// Finalizes the run, records its rank, and prepares the delayed death screen.
 function die() {
   if (state.developerMode) {
     player.health = Math.max(1, player.health);
@@ -2240,9 +2483,9 @@ function die() {
   pauseOverlay.classList.add('hidden');
   keys.clear();
   player.health = 0;
-  const leaderboardRank = recordCompletedRun(state.wave, state.bossDefeated);
+  const leaderboardRank = recordCompletedRun(state.score, state.wave, state.bossDefeated);
   overlayTitle.textContent = 'You Died';
-  overlayText.textContent = `${currentHeroName} reached wave ${state.wave} and defeated ${state.bossDefeated} boss${state.bossDefeated === 1 ? '' : 'es'}.${leaderboardRank ? ` Hall of Heroes rank: #${leaderboardRank}.` : ''}`;
+  overlayText.textContent = `${currentHeroName} scored ${state.score.toLocaleString()} points, reached wave ${state.wave}, and defeated ${state.bossDefeated} boss${state.bossDefeated === 1 ? '' : 'es'}.${leaderboardRank ? ` Hall of Heroes rank: #${leaderboardRank}.` : ''}`;
   heroProverb.textContent = getRandomFallenHeroProverb();
   controlsGrid.style.display = 'none';
   openArmoryButton.disabled = true;
@@ -2259,8 +2502,10 @@ function die() {
   }, 1500);
 }
 
+// Restores all run-only state while preserving unlocks and leaderboard data.
 function resetRun() {
   state.wave = 1;
+  state.score = 0;
   state.maxRooms = 8;
   state.enemies = [];
   state.crates = [];
@@ -2314,6 +2559,7 @@ function resetRun() {
   messageBox.classList.add('hidden');
 }
 
+// Returns from a finished run to fresh gender and name selection.
 function showMainMenu() {
   resetRun();
   selectedGender = null;
@@ -2333,6 +2579,7 @@ function showMainMenu() {
   genderOverlay.classList.remove('hidden');
 }
 
+// Draws an image edge-to-edge with centered cropping and high-quality scaling.
 function drawImageCover(image, x, y, width, height) {
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
@@ -2352,6 +2599,7 @@ function drawImageCover(image, x, y, width, height) {
   ctx.drawImage(image, sourceX, sourceY, sourceW, sourceH, x, y, width, height);
 }
 
+// Renders room artwork, walls, doorway cuts, and challenge lock borders.
 function drawRoom(room) {
   const theme = room.theme;
   ctx.fillStyle = theme.room;
@@ -2405,6 +2653,7 @@ function drawRoom(room) {
   }
 }
 
+// Renders crate state, shadow, and hold-to-open progress.
 function drawCrate(crate) {
   ctx.save();
   ctx.translate(crate.x, crate.y);
@@ -2435,6 +2684,7 @@ function drawCrate(crate) {
   ctx.restore();
 }
 
+// Draws one anchored actor sprite with facing, motion, damage, and health state.
 function drawActorSprite({
   x,
   y,
@@ -2451,7 +2701,11 @@ function drawActorSprite({
   hitFlash = 0,
   deathProgress = 0,
 }) {
-  const spriteKey = variant === 'hero' ? 'hero' : variant;
+  const spriteKey = variant === 'hero' && state.retroMode && !state.boss
+    ? 'retroHero'
+    : variant === 'hero'
+      ? 'hero'
+      : variant;
   const sprite = art[spriteKey];
 
   if (!sprite || !sprite.complete || sprite.naturalWidth === 0) {
@@ -2491,6 +2745,7 @@ function drawActorSprite({
   }
 }
 
+// Maps an enemy to themed artwork and animation deformation before drawing.
 function drawEnemy(enemy) {
   const deathProgress = enemy.dead
     ? 1 - Math.max(0, enemy.deathTimer) / 0.55
@@ -2539,6 +2794,7 @@ function drawEnemy(enemy) {
   });
 }
 
+// Counter-flips an embedded boss health bar so it always reads left to right.
 function drawBossHealthBar(boss, x, y, width, height, startColor, endColor = startColor) {
   ctx.save();
   ctx.scale(boss.facingX < 0 ? 1 : -1, 1);
@@ -2554,6 +2810,7 @@ function drawBossHealthBar(boss, x, y, width, height, startColor, endColor = sta
   ctx.restore();
 }
 
+// Renders boss-specific art with wind-up, lunge, hit, and death animation.
 function drawBoss(boss) {
   const walk = Math.sin(boss.movePhase || 0);
   const windup = boss.attackWindup > 0 ? boss.attackWindup / (boss.attackWindupTotal || 0.38) : 0;
@@ -2561,8 +2818,11 @@ function drawBoss(boss) {
   const pulse = boss.attackPulse || 0;
   const isSlamAttack = boss.attackType.toLowerCase().includes('slam');
   const isDashAttack = boss.attackType.toLowerCase().includes('dash');
+  const lungeMotion = boss.lungeTimer > 0
+    ? Math.sin((1 - boss.lungeTimer / (boss.lungeDuration || 0.2)) * Math.PI)
+    : 0;
   const slamCrouch = isSlamAttack ? charge : 0;
-  const dashLean = isDashAttack ? charge : 0;
+  const dashLean = isDashAttack ? Math.max(charge, lungeMotion) : lungeMotion * 0.35;
   const novaCharge = !isSlamAttack && !isDashAttack ? charge : 0;
   const deathProgress = boss.defeated
     ? 1 - Math.max(0, boss.deathTimer) / 1.8
@@ -2824,6 +3084,7 @@ function drawBoss(boss) {
   ctx.restore();
 }
 
+// Renders normal or Retro hero art, weapon animation, shield, and teleport fade.
 function drawPlayer() {
   const stride = Math.sin(performance.now() * 0.012) * 7;
   const bob = Math.sin(performance.now() * 0.012) * 2;
@@ -2863,7 +3124,7 @@ function drawPlayer() {
         : equippedWeaponId === 'lavaBlade'
           ? art.lavaBlade
       : null;
-  if (equippedSwordArt?.complete && equippedSwordArt.naturalWidth > 0) {
+  if ((!state.retroMode || state.boss) && equippedSwordArt?.complete && equippedSwordArt.naturalWidth > 0) {
     ctx.save();
     ctx.translate(player.x, player.y - 16 + bob);
     if (player.attackDuration > 0) {
@@ -2906,6 +3167,7 @@ function drawPlayer() {
   ctx.restore();
 }
 
+// Draws expanding energy rings around the hero during teleportation.
 function drawTeleportEffect() {
   if (state.teleportTimer <= 0) return;
   const progress = 1 - state.teleportTimer / state.teleportDuration;
@@ -2931,6 +3193,7 @@ function drawTeleportEffect() {
   ctx.restore();
 }
 
+// Draws every protector with its own health bar.
 function drawGuardians() {
   for (const protector of player.protectors) {
   ctx.save();
@@ -2949,6 +3212,7 @@ function drawGuardians() {
   }
 }
 
+// Draws all active particles using their remaining lifetime as opacity.
 function drawParticles() {
   for (const particle of state.particles) {
     ctx.globalAlpha = 1 - particle.age / particle.life;
@@ -2958,6 +3222,7 @@ function drawParticles() {
   ctx.globalAlpha = 1;
 }
 
+// Composes the camera, dungeon or arena, actors, effects, and attack arc.
 function drawBackground() {
   const theme = world.themes[world.themeIndex] || world.themes[0];
   const baseCameraZoom = Math.min(canvas.width / 1280, canvas.height / 720);
@@ -3126,8 +3391,10 @@ function drawBackground() {
   }
 }
 
+// Synchronizes HUD values, developer fields, and low-resource warnings.
 function drawUI() {
   hud.wave.textContent = String(state.wave);
+  hud.score.textContent = state.score.toLocaleString();
   hud.health.textContent = Math.round(player.health);
   hud.food.textContent = Math.round(player.food);
   hud.hydration.textContent = Math.round(player.hydration);
@@ -3149,6 +3416,7 @@ function drawUI() {
   updateResourceWarning(hud.stamina, player.stamina, 35, 15);
 }
 
+// Activates the legacy arena portal when that transition path is enabled.
 function maybeBossPortal() {
   if (!state.bossArenaOpen) return;
   const portalX = world.width / 2 - 40;
@@ -3161,6 +3429,7 @@ function maybeBossPortal() {
   }
 }
 
+// Leaves the menu and opens the first wave introduction.
 function startGame() {
   state.started = true;
   state.paused = false;
@@ -3170,6 +3439,7 @@ function startGame() {
   showWaveSplash();
 }
 
+// Advances the appropriate game state, renders one frame, and schedules the next.
 function loop(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.03);
   lastTime = timestamp;
@@ -3239,6 +3509,7 @@ openHighScoresButton.addEventListener('click', () => {
 });
 closeHighScoresButton.addEventListener('click', () => highScoresOverlay.classList.add('hidden'));
 
+// Routes keyboard presses through overlays before active gameplay controls.
 window.addEventListener('keydown', (event) => {
   const key = event.key.toLowerCase();
   const mainMenuOpen = !state.started
@@ -3342,10 +3613,12 @@ window.addEventListener('keydown', (event) => {
   }
 });
 
+// Releases held gameplay inputs when their keys are lifted.
 window.addEventListener('keyup', (event) => {
   keys.delete(event.key.toLowerCase());
 });
 
+// Keeps the canvas backing size synchronized with the browser viewport.
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;

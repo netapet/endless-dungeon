@@ -431,6 +431,12 @@ body {
   filter: drop-shadow(0 0 24px rgba(248, 113, 113, 0.5));
 }
 
+.wave-splash-enemies img.boss-splash-image {
+  width: min(600px, 72vw);
+  height: min(52vh, 480px);
+  filter: drop-shadow(0 0 38px rgba(248, 113, 113, 0.68));
+}
+
 .wave-splash-enemies img.hero-head-image {
   width: 380px;
   height: 200px;

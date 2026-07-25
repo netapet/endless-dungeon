@@ -21,6 +21,17 @@
 7. we want a dark theme where the rooms are hardly lit, and you can only see the hero and creatures slightly by torchlight that they carry. it doesn't have to be real lighting effect, if that's out of this scope.
 8. work with themes. png to create more creatures per theme, from those small thumbnails.
 
+### Minimum combat animation artwork
+
+- Give every active figure at least two compatible gameplay frames:
+  - Neutral/recovery pose: hands or weapon lowered.
+  - Attack/impact pose: hands, claws, staff, or weapon raised or extended.
+- Keep framing, scale, anchor point, facing direction, lighting, and transparency consistent between frames so the game can swap them without visible jumping.
+- Use the two frames to create a readable strike cycle: ready, attack, then recover.
+- Give important bosses additional frames for wind-up, rage transformation, special attacks, and death where practical.
+- Keep UI portraits separate from gameplay animation frames.
+- Use consistent filenames such as `creature-id-idle.png`, `creature-id-attack.png`, and `creature-id-windup.png`.
+
 ### Fixes and small improvements
 
 - Add sprint exhaustion: after Stamina reaches zero, sprinting remains disabled until it recovers past a sensible threshold.
@@ -134,6 +145,11 @@ Every new boss requires:
 ## Combat and player progression
 
 - Add a Creature Compendium screen with portraits, health, damage, attacks, behaviour, and discovered-enemy details.
+- Add a temporary Hero Growth mode:
+  - Trigger it through a rare potion or another item the hero must discover.
+  - Make the hero visibly grow and become stronger for only a few seconds.
+  - Clearly telegraph when the effect is about to expire.
+  - Decide whether growth increases damage, reach, knockback, defence, or some combination.
 - Add brief hit-stop to strong impacts.
 - Improve knockback for the hero, enemies, protectors, and bosses.
 - Add floating numbers for damage, critical hits, blocked damage, and healing.
@@ -213,6 +229,18 @@ Every new boss requires:
 - Consider revival or healing abilities.
 
 ## Difficulty and game structure
+
+### Future combat modes
+
+- Add a Street Fighter Mode for selected boss encounters:
+  - Switch from the usual top-down arena to a dramatic side-view fight.
+  - Adapt movement, attacks, collision, camera framing, health bars, and boss telegraphs to the side-view format.
+  - Decide whether this is a special mode, a rare encounter, or a presentation used by particular bosses.
+- Add low-health Boss Rage phases:
+  - Make the boss shake, grow dramatically, and remain at its existing low health.
+  - Increase its damage and possibly its speed, reach, knockback, or attack frequency.
+  - Give the transformation a clear warning animation before the stronger attacks begin.
+  - Create dedicated enlarged boss and rage-effect artwork before implementation.
 
 ### Difficulty
 

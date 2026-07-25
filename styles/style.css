@@ -15,13 +15,51 @@ body {
 
 #gameCanvas {
   display: block;
-  width: min(100vw, calc(100vh * 16 / 9));
-  height: min(100vh, calc(100vw * 9 / 16));
-  max-width: 100vw;
-  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   background: #000;
-  border-radius: 16px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 18px 60px rgba(0, 0, 0, 0.72);
+}
+
+.fullscreen-button {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(186, 230, 253, 0.5);
+  border-radius: 10px;
+  background: rgba(5, 10, 20, 0.82);
+  color: #e0f2fe;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.fullscreen-button:hover,
+.fullscreen-button:focus-visible {
+  border-color: #7dd3fc;
+  background: rgba(14, 24, 41, 0.96);
+  outline: none;
+}
+
+.fullscreen-exit-icon {
+  display: none;
+  font-size: 32px;
+  font-weight: 300;
+}
+
+:fullscreen .fullscreen-enter-icon {
+  display: none;
+}
+
+:fullscreen .fullscreen-exit-icon {
+  display: inline;
 }
 
 .overlay {
@@ -396,7 +434,7 @@ body {
 }
 
 .wave-splash-card {
-  width: min(820px, calc(100vw - 40px));
+  width: min(1040px, calc(100vw - 40px));
   padding: 28px;
   text-align: center;
 }
@@ -418,15 +456,15 @@ body {
 
 .wave-splash-enemies {
   display: flex;
-  min-height: 220px;
+  min-height: min(38vh, 360px);
   align-items: center;
   justify-content: center;
   gap: 20px;
 }
 
 .wave-splash-enemies img {
-  width: min(260px, 32vw);
-  height: 220px;
+  width: min(440px, 52vw);
+  height: min(38vh, 360px);
   object-fit: contain;
   filter: drop-shadow(0 0 24px rgba(248, 113, 113, 0.5));
 }

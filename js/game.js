@@ -1,5 +1,25 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const fullscreenButton = document.getElementById('fullscreenButton');
+
+// Lets the player enter or leave browser full screen without interrupting play.
+fullscreenButton.addEventListener('click', async () => {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await document.documentElement.requestFullscreen();
+    }
+  } catch {
+    setMessage('Full screen is not available in this browser.');
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  const isFullscreen = Boolean(document.fullscreenElement);
+  fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Exit full screen' : 'Enter full screen');
+  fullscreenButton.title = isFullscreen ? 'Exit full screen' : 'Enter full screen';
+});
 const overlay = document.getElementById('overlay');
 const startButton = document.getElementById('startButton');
 const overlayTitle = overlay.querySelector('h1');
@@ -620,6 +640,8 @@ const player = {
   hydration: 100,
   stamina: 100,
   maxStamina: 100,
+  sprintExhausted: false,
+  damageInvulnerability: 0,
   attackCooldown: 0,
   attackDuration: 0,
   facing: { x: 1, y: 0 },
@@ -1571,8 +1593,9 @@ function createProtector() {
     radius: 18,
     health: player.maxHealth,
     maxHealth: player.maxHealth,
+    energy: 100,
+    maxEnergy: 100,
     attackCooldown: 0,
-    bossRetreatTimer: 0,
     target: null,
   });
   setMessage(`Protector summoned! You now have ${player.protectors.length}.`);
@@ -1619,14 +1642,20 @@ function applyCombatDamage(victim, amount, attacker = null) {
     player.health = Math.max(1, player.health);
     return false;
   }
+  // Prevent overlapping enemies and boss summons from stacking several hits
+  // into the same frame and bypassing the visible health warning.
+  if (victim === player && player.damageInvulnerability > 0) {
+    return false;
+  }
   if (victim === player && player.shieldActive) {
     spawnBurst(player.x, player.y, 6, '#67e8f9', 70);
     state.shake = Math.max(state.shake, 2);
     return false;
   }
   const armorReduction = victim === player ? getEquippedArmor().defense / 100 : 0;
-  victim.health -= amount * (1 - armorReduction);
+  victim.health = Math.max(0, victim.health - amount * (1 - armorReduction));
   if (victim === player && attacker) {
+    player.damageInvulnerability = 0.4;
     knockHeroAwayFrom(attacker, attacker === state.boss ? 28 : 14);
   }
   return true;
@@ -1681,16 +1710,25 @@ function resolveChallengeChoice(accept) {
 
 // Converts held movement keys into collision-safe movement and resource drain.
 function handleInput(dt) {
+  player.damageInvulnerability = Math.max(0, player.damageInvulnerability - dt);
   const dx = (keys.has('d') ? 1 : 0) - (keys.has('a') ? 1 : 0);
   const dy = (keys.has('s') ? 1 : 0) - (keys.has('w') ? 1 : 0);
+  const isMoving = dx !== 0 || dy !== 0;
   const len = Math.hypot(dx, dy) || 1;
   const moveX = dx / len;
   const moveY = dy / len;
 
+  // Once fully drained, sprint stays disabled until enough stamina has
+  // recovered. This prevents held G from alternating boosted/recovery frames.
+  if (player.sprintExhausted && player.stamina >= player.maxStamina * 0.2) {
+    player.sprintExhausted = false;
+  }
+  const isSprinting = isMoving && keys.has('g') && !player.sprintExhausted && player.stamina > 0;
   let speed = player.speed;
-  if (keys.has('g') && player.stamina > 0) {
+  if (isSprinting) {
     speed *= 1.55;
     player.stamina = clamp(player.stamina - 20 * dt, 0, player.maxStamina);
+    if (player.stamina === 0) player.sprintExhausted = true;
   } else {
     player.stamina = clamp(player.stamina + 13 * dt, 0, player.maxStamina);
   }
@@ -2026,8 +2064,9 @@ function updateProtectors(dt) {
 
   protector.maxHealth = player.maxHealth;
   protector.health = Math.min(protector.health, protector.maxHealth);
+  protector.maxEnergy = protector.maxEnergy || 100;
+  protector.energy = clamp((protector.energy ?? protector.maxEnergy) + 12 * dt, 0, protector.maxEnergy);
   protector.attackCooldown = Math.max(0, protector.attackCooldown - dt);
-  protector.bossRetreatTimer = Math.max(0, (protector.bossRetreatTimer || 0) - dt);
 
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
   const possibleTargets = livingEnemies.filter((enemy) => distance(protector, enemy) <= 850);
@@ -2047,18 +2086,7 @@ function updateProtectors(dt) {
   }
   protector.target = target;
 
-  const retreatingFromBoss = state.boss
-    && target === state.boss
-    && protector.bossRetreatTimer > 0;
-  const bossSeparation = retreatingFromBoss
-    ? Math.hypot(protector.x - target.x, protector.y - target.y) || 1
-    : 1;
-  const destination = retreatingFromBoss
-    ? {
-      x: target.x + ((protector.x - target.x) / bossSeparation) * 230,
-      y: target.y + ((protector.y - target.y) / bossSeparation) * 230,
-    }
-    : state.boss && target === state.boss
+  const destination = state.boss && target === state.boss
       ? target
     : target
       ? getProtectorNavigationTarget(protector, target)
@@ -2069,14 +2097,12 @@ function updateProtectors(dt) {
   const dx = destination.x - protector.x;
   const dy = destination.y - protector.y;
   const targetDistance = Math.hypot(dx, dy) || 1;
-  const stopDistance = retreatingFromBoss
-    ? 14
-    : target
-      ? protector.radius + (target.radius || 16)
-      : 12;
+  const stopDistance = target
+    ? protector.radius + (target.radius || 16)
+    : 12;
 
   if (targetDistance > stopDistance) {
-    const speed = player.speed * (retreatingFromBoss ? 1.3 : target ? 1.15 : 1.35);
+    const speed = player.speed * (target ? 1.15 : 1.35);
     const nextX = protector.x + (dx / targetDistance) * speed * dt;
     const nextY = protector.y + (dy / targetDistance) * speed * dt;
     if (state.boss) {
@@ -2090,12 +2116,13 @@ function updateProtectors(dt) {
   }
 
   const touchingTarget = target && distance(protector, target) <= protector.radius + (target.radius || 16);
-  if (!retreatingFromBoss && touchingTarget && protector.attackCooldown <= 0) {
+  const attackEnergyCost = 18;
+  if (touchingTarget && protector.attackCooldown <= 0 && protector.energy >= attackEnergyCost) {
     protector.attackCooldown = 0.42;
+    protector.energy -= attackEnergyCost;
     const damage = 18 + player.weaponLevel * 4;
     target.health -= damage;
-    if (target === state.boss) protector.bossRetreatTimer = 1.15;
-    else target.aggro = true;
+    if (target !== state.boss) target.aggro = true;
     if ('hitFlash' in target) target.hitFlash = 0.18;
     spawnBurst(target.x, target.y, 7, '#60a5fa', 85);
     if (target.health <= 0 && target !== state.boss) {
@@ -2544,6 +2571,8 @@ function resetRun() {
   player.food = 100;
   player.hydration = 100;
   player.stamina = player.maxStamina;
+  player.sprintExhausted = false;
+  player.damageInvulnerability = 0;
   player.attackCooldown = 0;
   player.attackDuration = 0;
   player.facing = { x: 1, y: 0 };
@@ -2716,9 +2745,16 @@ function drawActorSprite({
   ctx.translate(x, y + bob);
   ctx.globalAlpha = 1 - deathProgress;
   ctx.rotate(stride * 0.004 + deathProgress * Math.PI * 1.6);
+  const leftFacingEnemyArt = ['skeletonMinion', 'skeletonTank', 'skeletonSpider'];
+  const enemyArtFacesLeft = leftFacingEnemyArt.includes(variant);
+  const heroArtFacesLeft = selectedGender !== 'female' || spriteKey === 'retroHero';
   const facingScale = variant === 'hero'
-    ? (facingX < 0 ? 1 : -1)
-    : (facingX < 0 ? -1 : 1);
+    ? heroArtFacesLeft
+      ? (facingX < 0 ? 1 : -1)
+      : (facingX < 0 ? -1 : 1)
+    : enemyArtFacesLeft
+      ? (facingX < 0 ? 1 : -1)
+      : (facingX < 0 ? -1 : 1);
   const deathScale = 1 - deathProgress * 0.82;
   ctx.scale(facingScale * scale * squashX * deathScale, scale * squashY * deathScale);
   ctx.shadowColor = elite ? '#f59e0b' : 'rgba(10, 18, 30, 0.65)';
@@ -3086,8 +3122,11 @@ function drawBoss(boss) {
 
 // Renders normal or Retro hero art, weapon animation, shield, and teleport fade.
 function drawPlayer() {
-  const stride = Math.sin(performance.now() * 0.012) * 7;
-  const bob = Math.sin(performance.now() * 0.012) * 2;
+  const isMoving = keys.has('w') || keys.has('a') || keys.has('s') || keys.has('d');
+  const stride = isMoving ? Math.sin(performance.now() * 0.012) * 7 : 0;
+  const bob = isMoving
+    ? Math.sin(performance.now() * 0.012) * 2
+    : Math.sin(performance.now() * 0.003) * 0.2;
   const teleportProgress = state.teleportTimer > 0
     ? 1 - state.teleportTimer / state.teleportDuration
     : 0;
@@ -3208,6 +3247,10 @@ function drawGuardians() {
   ctx.fillRect(-22, -30, 44, 5);
   ctx.fillStyle = '#60a5fa';
   ctx.fillRect(-22, -30, 44 * (protector.health / protector.maxHealth), 5);
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.fillRect(-22, -23, 44, 4);
+  ctx.fillStyle = '#facc15';
+  ctx.fillRect(-22, -23, 44 * ((protector.energy ?? 100) / (protector.maxEnergy || 100)), 4);
   ctx.restore();
   }
 }
@@ -3395,7 +3438,7 @@ function drawBackground() {
 function drawUI() {
   hud.wave.textContent = String(state.wave);
   hud.score.textContent = state.score.toLocaleString();
-  hud.health.textContent = Math.round(player.health);
+  hud.health.textContent = `${Math.round(player.health)} / ${Math.round(player.maxHealth)}`;
   hud.food.textContent = Math.round(player.food);
   hud.hydration.textContent = Math.round(player.hydration);
   hud.stamina.textContent = Math.round(player.stamina);

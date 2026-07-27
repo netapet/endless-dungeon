@@ -128,6 +128,12 @@ body {
   height: calc(100% - 28px);
   object-fit: contain;
   filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.55));
+  opacity: 1;
+  transition: opacity 120ms ease;
+}
+
+.menu-hero.portrait-loading {
+  opacity: 0;
 }
 
 .menu-hero-hint {
@@ -135,7 +141,6 @@ body {
   font: 800 11px "Courier New", monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  animation: continue-flash 0.8s steps(2, end) infinite;
 }
 
 .gear-notification {
@@ -164,6 +169,35 @@ body {
   padding-right: 300px;
 }
 
+.main-menu-card.death-menu-card {
+  min-height: 380px;
+}
+
+.main-menu-card:not(.death-menu-card) > h1 {
+  margin-bottom: 18px;
+}
+
+.main-menu-card:not(.death-menu-card) > #overlayText {
+  margin-top: 18px;
+  line-height: 1.55;
+}
+
+.main-menu-card:not(.death-menu-card) > .hero-proverb {
+  position: absolute;
+  bottom: 24px;
+  left: 28px;
+  width: calc(100% - 328px);
+  margin: 0 !important;
+}
+
+.main-menu-card:not(.death-menu-card) > .hero-name-editor {
+  margin-top: 30px;
+}
+
+.main-menu-card:not(.death-menu-card) > .menu-high-score {
+  margin-top: 28px;
+}
+
 .main-menu-card > :not(.menu-hero-button) {
   position: relative;
   z-index: 1;
@@ -182,6 +216,14 @@ body {
     width: 190px;
     height: 210px;
     margin: -8px auto 4px;
+  }
+
+  .main-menu-card:not(.death-menu-card) > .hero-proverb {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: auto;
+    margin-top: 24px !important;
   }
 }
 
@@ -454,6 +496,11 @@ body {
   text-shadow: 0 0 28px rgba(239, 68, 68, 0.65);
 }
 
+.wave-splash-card h1.ally-splash-title {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  white-space: nowrap;
+}
+
 .wave-splash-enemies {
   display: flex;
   min-height: min(38vh, 360px);
@@ -482,6 +529,27 @@ body {
   object-position: center top;
   border-radius: 50% 50% 18px 18px;
   filter: drop-shadow(0 0 32px rgba(56, 189, 248, 0.7));
+}
+
+.wave-splash-enemies img.ally-splash-image {
+  width: min(360px, 52vw);
+  height: min(34vh, 320px);
+  object-fit: contain;
+  object-position: center;
+  border-radius: 22px;
+  filter: drop-shadow(0 0 30px rgba(96, 165, 250, 0.68));
+}
+
+.wave-splash-enemies img.scout-splash-image {
+  object-fit: cover;
+  object-position: center 72%;
+}
+
+.wave-splash-enemies img.protector-splash-image {
+  width: min(420px, 58vw);
+  height: min(40vh, 380px);
+  object-fit: contain;
+  object-position: center;
 }
 
 .wave-splash-card p.hero-splash-proverb {
@@ -530,15 +598,43 @@ body {
 }
 
 .controls-grid {
-  margin: 18px 0 20px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  font-size: 0.96rem;
+  gap: 7px 12px;
+  font-size: 0.78rem;
+}
+
+.menu-controls-box {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, calc(100vw - 40px));
+  margin: 0;
+  padding: 14px;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 12px;
+  background: rgba(5, 10, 20, 0.94);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42);
+  color: #cbd5e1;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.menu-controls-box strong {
+  grid-column: 1 / -1;
+  color: #bae6fd;
+  font: 900 10px "Courier New", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 #startButton {
-  margin-top: 16px;
+  position: absolute;
+  top: calc(50% + 268px);
+  left: 50%;
+  z-index: 7;
+  margin: 0;
+  transform: translateX(-50%);
   color: #e0f2fe;
   font-family: "Courier New", monospace;
   font-size: 14px;
@@ -546,6 +642,10 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   animation: continue-flash 0.8s steps(2, end) infinite;
+}
+
+#startButton.death-continue-prompt {
+  top: calc(50% + 207px);
 }
 
 .hero-proverb {
@@ -562,6 +662,34 @@ body {
   line-height: 1.5;
   text-wrap: balance;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.death-cause-text {
+  margin: -2px 0 14px !important;
+  color: #fca5a5;
+  font: 800 1rem "Courier New", monospace;
+  letter-spacing: 0.05em;
+}
+
+.hero-proverb.death-proverb {
+  position: absolute;
+  bottom: 22px;
+  left: 28px;
+  z-index: 3;
+  width: calc(100% - 328px);
+  margin: 0 !important;
+  transform: none;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 700px) {
+  .hero-proverb.death-proverb {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: auto;
+    margin-top: 20px !important;
+  }
 }
 
 .hud-shell {
@@ -691,6 +819,37 @@ body {
   color: #fef08a;
   font-size: 21px;
   cursor: pointer;
+}
+
+.main-menu-card > .change-hero-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  width: auto;
+  margin: 0;
+  padding: 5px 7px;
+  border: 1px solid rgba(125, 211, 252, 0.38);
+  border-radius: 6px;
+  background: rgba(5, 10, 20, 0.82);
+  color: #bae6fd;
+  font: 800 11px "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.change-hero-button:hover,
+.change-hero-button:focus-visible {
+  border-color: #38bdf8;
+  background: rgba(3, 105, 161, 0.5);
+}
+
+@media (max-width: 1050px) {
+  .menu-controls-box {
+    width: min(620px, calc(100vw - 40px));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
 
 .high-scores-overlay {
@@ -925,6 +1084,27 @@ body {
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.42);
 }
 
+.message-box.critical-warning {
+  border-color: #f87171;
+  color: #fff1f2;
+  font-weight: 900;
+  animation: critical-message-flash 0.65s ease-in-out infinite alternate;
+}
+
+@keyframes critical-message-flash {
+  from {
+    transform: translateX(-50%) scale(1);
+    background: rgba(69, 10, 10, 0.92);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.38);
+  }
+
+  to {
+    transform: translateX(-50%) scale(1.045);
+    background: rgba(153, 27, 27, 0.98);
+    box-shadow: 0 0 34px rgba(248, 113, 113, 0.9);
+  }
+}
+
 .loot-highlight {
   position: fixed;
   top: 105px;
@@ -961,6 +1141,28 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.1);
+}
+
+.pause-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.pause-actions button {
+  padding: 11px 14px;
+  border: 1px solid rgba(125, 211, 252, 0.4);
+  border-radius: 9px;
+  background: rgba(12, 74, 110, 0.5);
+  color: #e0f2fe;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pause-actions .pause-quit-button {
+  border-color: rgba(248, 113, 113, 0.48);
+  background: rgba(127, 29, 29, 0.42);
+  color: #fecaca;
 }
 
 .challenge-card {

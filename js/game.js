@@ -23,7 +23,8 @@ document.addEventListener('fullscreenchange', () => {
 const overlay = document.getElementById('overlay');
 const startButton = document.getElementById('startButton');
 const overlayTitle = overlay.querySelector('h1');
-const overlayText = overlay.querySelector('p');
+const overlayText = document.getElementById('overlayText');
+const deathCauseText = document.getElementById('deathCauseText');
 const controlsGrid = overlay.querySelector('.controls-grid');
 const heroProverb = document.getElementById('heroProverb');
 const menuHero = document.getElementById('menuHero');
@@ -45,20 +46,22 @@ const gearPreviewStats = document.getElementById('gearPreviewStats');
 const applyGearButton = document.getElementById('applyGearButton');
 const cancelGearButton = document.getElementById('cancelGearButton');
 const heroNameInput = document.getElementById('heroNameInput');
+const heroNameEditor = document.querySelector('.hero-name-editor');
 const randomizeHeroNameButton = document.getElementById('randomizeHeroNameButton');
+const changeHeroButton = document.getElementById('changeHeroButton');
 const openHighScoresButton = document.getElementById('openHighScoresButton');
 const highScoresOverlay = document.getElementById('highScoresOverlay');
 const highScoresList = document.getElementById('highScoresList');
 const closeHighScoresButton = document.getElementById('closeHighScoresButton');
 
 const armorSets = [
-  { id: 'wayfarer', name: "Wayfarer's Resolve", boss: 0, portrait: 'assets/player/armor/male-wayfarer-portrait.png', combat: 'assets/player/armor/male-wayfarer-combat.png', femalePortrait: 'assets/player/armor/female-wayfarer-combat.png', femaleCombat: 'assets/player/armor/female-wayfarer-combat.png', defense: 0, health: 0, stamina: 0 },
-  { id: 'leather', name: 'Thornhide Vanguard', boss: 1, portrait: 'assets/player/armor/male-leather-portrait.png', combat: 'assets/player/armor/male-leather-combat.png', femalePortrait: 'assets/player/armor/female-leather-combat.png', femaleCombat: 'assets/player/armor/female-leather-combat.png', defense: 8, health: 10, stamina: 5 },
-  { id: 'lightPlate', name: 'Silverwind Harness', boss: 5, portrait: 'assets/player/armor/male-light-plate-portrait.png', combat: 'assets/player/armor/male-light-plate-combat.png', femalePortrait: 'assets/player/armor/female-light-plate-combat.png', femaleCombat: 'assets/player/armor/female-light-plate-combat.png', defense: 16, health: 20, stamina: 10 },
-  { id: 'heavyPlate', name: 'Iron Bastion Plate', boss: 8, portrait: 'assets/player/armor/male-heavy-plate-portrait.png', combat: 'assets/player/armor/male-heavy-plate-combat.png', femalePortrait: 'assets/player/armor/female-heavy-plate-combat.png', femaleCombat: 'assets/player/armor/female-heavy-plate-combat.png', defense: 24, health: 35, stamina: 15 },
-  { id: 'dragonPlate', name: 'Wyrmscale Eclipse', boss: 10, portrait: 'assets/player/armor/male-dragon-plate-portrait.png', combat: 'assets/player/armor/male-dragon-plate-combat.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat.png', defense: 32, health: 50, stamina: 20 },
-  { id: 'royalArmor', name: 'Crownward Regalia', boss: 20, portrait: 'assets/player/armor/male-royal-armor-portrait.png', combat: 'assets/player/armor/male-royal-armor-combat.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat.png', defense: 40, health: 70, stamina: 25 },
-  { id: 'worldforged', name: 'Worldforged Aegis', boss: 25, portrait: 'assets/player/armor/male-worldforged-portrait.png', combat: 'assets/player/armor/male-worldforged-combat.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat.png', defense: 50, health: 100, stamina: 35 },
+  { id: 'wayfarer', name: "Wayfarer's Resolve", boss: 0, portrait: 'assets/player/armor/male-wayfarer-portrait.png', combat: 'assets/player/armor/male-wayfarer-combat-swordless.png', femalePortrait: 'assets/player/armor/female-wayfarer-combat.png', femaleCombat: 'assets/player/armor/female-wayfarer-combat-swordless.png', defense: 0, health: 0, stamina: 0, thorns: 0 },
+  { id: 'leather', name: 'Thornhide Vanguard', boss: 1, portrait: 'assets/player/armor/male-leather-portrait.png', combat: 'assets/player/armor/male-leather-combat-swordless.png', femalePortrait: 'assets/player/armor/female-leather-combat.png', femaleCombat: 'assets/player/armor/female-leather-combat-swordless.png', defense: 8, health: 10, stamina: 5, thorns: 6 },
+  { id: 'lightPlate', name: 'Silverwind Harness', boss: 5, portrait: 'assets/player/armor/male-light-plate-portrait.png', combat: 'assets/player/armor/male-light-plate-combat-swordless.png', femalePortrait: 'assets/player/armor/female-light-plate-combat.png', femaleCombat: 'assets/player/armor/female-light-plate-combat-swordless.png', defense: 16, health: 20, stamina: 10, thorns: 10 },
+  { id: 'heavyPlate', name: 'Iron Bastion Plate', boss: 8, portrait: 'assets/player/armor/male-heavy-plate-portrait.png', combat: 'assets/player/armor/male-heavy-plate-combat-swordless.png', femalePortrait: 'assets/player/armor/female-heavy-plate-combat.png', femaleCombat: 'assets/player/armor/female-heavy-plate-combat-swordless.png', defense: 24, health: 35, stamina: 15, thorns: 15 },
+  { id: 'dragonPlate', name: 'Wyrmscale Eclipse', boss: 10, portrait: 'assets/player/armor/male-dragon-plate-portrait.png', combat: 'assets/player/armor/male-dragon-plate-combat-swordless.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat-swordless.png', defense: 32, health: 50, stamina: 20, thorns: 20 },
+  { id: 'royalArmor', name: 'Crownward Regalia', boss: 20, portrait: 'assets/player/armor/male-royal-armor-portrait.png', combat: 'assets/player/armor/male-royal-armor-combat-swordless.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat-swordless.png', defense: 40, health: 70, stamina: 25, thorns: 25 },
+  { id: 'worldforged', name: 'Worldforged Aegis', boss: 25, portrait: 'assets/player/armor/male-worldforged-portrait.png', combat: 'assets/player/armor/male-worldforged-combat-swordless.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat-swordless.png', defense: 50, health: 100, stamina: 35, thorns: 30 },
 ];
 
 const weaponSets = [
@@ -74,11 +77,11 @@ let equippedArmorId = 'wayfarer';
 let unlockedWeapons = new Set();
 let equippedWeaponId = 'starterBlade';
 let unseenGear = new Set();
-let selectedGender = null;
+let selectedGender = 'male';
 let pendingGearChoice = null;
 try {
-  window.localStorage.removeItem('endlessDungeonGender');
-  window.localStorage.removeItem('endlessDungeonHeroName');
+  const savedGender = window.localStorage.getItem('endlessDungeonGender');
+  if (savedGender === 'male' || savedGender === 'female') selectedGender = savedGender;
   const savedArmor = JSON.parse(window.localStorage.getItem('endlessDungeonArmor') || '[]');
   unlockedArmor = new Set(['wayfarer', ...savedArmor]);
   const savedEquipped = window.localStorage.getItem('endlessDungeonEquippedArmor');
@@ -145,7 +148,7 @@ function showGearPreview(type, gear, image) {
     ? 'The equipment your journey began with.'
     : `Reward for defeating Boss ${gear.boss}.`;
   gearPreviewStats.innerHTML = type === 'armor'
-    ? `<strong>Damage reduction: ${gear.defense}%</strong><strong>Maximum health: +${gear.health}</strong><strong>Maximum stamina: +${gear.stamina}</strong>`
+    ? `<strong>Damage reduction: ${gear.defense}%</strong><strong>Thorns reflection: ${gear.thorns}%</strong><strong>Maximum health: +${gear.health}</strong><strong>Maximum stamina: +${gear.stamina}</strong>`
     : `<strong>Attack damage: +${gear.damage}%</strong><strong>Attack reach: +${gear.reach}</strong>`;
   applyGearButton.textContent = 'Apply';
   gearPreview.classList.remove('hidden');
@@ -179,7 +182,7 @@ function renderArmory() {
       ${unseenGear.has(`armor:${armor.id}`) ? '<em class="new-gear-label">NEW</em>' : ''}
       <img src="${armorPortrait}" alt="${armor.name}">
       <strong>${unlocked ? armor.name : `Defeat Boss ${armor.boss}`}</strong>
-      <span>Defense ${armor.defense}% · Health +${armor.health} · Stamina +${armor.stamina}</span>
+      <span>Defense ${armor.defense}% · Thorns ${armor.thorns}% · Health +${armor.health} · Stamina +${armor.stamina}</span>
     `;
     if (unlocked) option.addEventListener('click', () => showGearPreview('armor', armor, armorPortrait));
     armorGrid.appendChild(option);
@@ -217,17 +220,25 @@ function applyEquippedArmor(refill = true) {
   const combatArt = selectedGender === 'female' ? armor.femaleCombat : armor.combat;
   const portraitArt = selectedGender === 'female' ? armor.femalePortrait : armor.portrait;
   art.hero.src = combatArt;
+  menuHero.classList.add('portrait-loading');
+  menuHero.onload = () => menuHero.classList.remove('portrait-loading');
   menuHero.src = portraitArt;
   menuHero.alt = armor.name;
+  if (menuHero.complete && menuHero.naturalWidth > 0) {
+    window.requestAnimationFrame(() => menuHero.classList.remove('portrait-loading'));
+  }
 }
 
-// Starts each run with a fresh gender choice, suggested name, and basic armour.
+// Starts each run with a fresh gender choice and name while preserving armour.
 function chooseGender(gender) {
   selectedGender = gender;
   currentHeroName = generateHeroName();
   heroNameInput.value = currentHeroName;
-  equippedArmorId = 'wayfarer';
-  saveArmorCollection();
+  try {
+    window.localStorage.setItem('endlessDungeonGender', selectedGender);
+  } catch (error) {
+    // The current session still retains the selection.
+  }
   applyEquippedArmor(true);
   genderOverlay.classList.add('hidden');
 }
@@ -288,16 +299,20 @@ const hud = {
   bandage: document.getElementById('bandageValue'),
   enemy: document.getElementById('enemyValue'),
   protector: document.getElementById('protectorValue'),
+  opener: document.getElementById('openerValue'),
   shield: document.getElementById('shieldValue'),
   theme: document.getElementById('themeValue'),
 };
 const messageBox = document.getElementById('messageBox');
 const lootHighlight = document.getElementById('lootHighlight');
 const pauseOverlay = document.getElementById('pauseOverlay');
+const resumeGameButton = document.getElementById('resumeGameButton');
+const quitGameButton = document.getElementById('quitGameButton');
 const challengeOverlay = document.getElementById('challengeOverlay');
 const acceptChallengeButton = document.getElementById('acceptChallengeButton');
 const declineChallengeButton = document.getElementById('declineChallengeButton');
 const waveSplash = document.getElementById('waveSplash');
+const waveSplashKicker = document.getElementById('waveSplashKicker');
 const waveSplashTitle = document.getElementById('waveSplashTitle');
 const waveSplashEnemies = document.getElementById('waveSplashEnemies');
 const waveSplashText = document.getElementById('waveSplashText');
@@ -530,9 +545,13 @@ const art = {
   arcaneOrb: new Image(),
   reaper: new Image(),
   lushGolem: new Image(),
+  lushGolemOverhead: new Image(),
   lavaGolem: new Image(),
+  lavaGolemOverhead: new Image(),
   oceanBoss: new Image(),
+  oceanBossOverhead: new Image(),
   iceBoss: new Image(),
+  iceBossOverhead: new Image(),
   iceMinion: new Image(),
   lavaMinion: new Image(),
   lavaTank: new Image(),
@@ -541,13 +560,16 @@ const art = {
   lushMinion: new Image(),
   lushTank: new Image(),
   woodBoss: new Image(),
+  woodBossOverhead: new Image(),
   woodMinion: new Image(),
   skeletonBoss: new Image(),
+  skeletonBossOverhead: new Image(),
   skeletonMinion: new Image(),
   skeletonTank: new Image(),
   skeletonSpider: new Image(),
   skeletonOrb: new Image(),
   sandBoss: new Image(),
+  sandBossOverhead: new Image(),
   lushCave: new Image(),
   cyanRoom: new Image(),
   lavaRoom: new Image(),
@@ -565,6 +587,10 @@ const art = {
   broadSword: new Image(),
   emeraldSword: new Image(),
   lavaBlade: new Image(),
+  protector: new Image(),
+  protectorPawSwipe: new Image(),
+  protectorBite: new Image(),
+  opener: new Image(),
 };
 
 // Starts loading every reusable image asset before the animation loop begins.
@@ -585,9 +611,13 @@ function preloadArt() {
     arcaneOrb: 'assets/enemies/generic/arcane-orb.svg',
     reaper: 'assets/enemies/generic/reaper.svg',
     lushGolem: 'assets/enemies/bosses/lush-golem.png',
+    lushGolemOverhead: 'assets/enemies/bosses/lush-golem-overhead.png',
     lavaGolem: 'assets/enemies/bosses/lava-golem.png',
+    lavaGolemOverhead: 'assets/enemies/bosses/lava-golem-overhead.png',
     oceanBoss: 'assets/enemies/bosses/ocean-boss.png',
+    oceanBossOverhead: 'assets/enemies/bosses/ocean-boss-overhead.png',
     iceBoss: 'assets/enemies/bosses/ice-boss.png',
+    iceBossOverhead: 'assets/enemies/bosses/ice-boss-overhead.png',
     iceMinion: 'assets/enemies/units/ice-minion.png',
     lavaMinion: 'assets/enemies/units/lava-minion.png',
     lavaTank: 'assets/enemies/units/lava-tank.png',
@@ -596,13 +626,16 @@ function preloadArt() {
     lushMinion: 'assets/enemies/units/lush-minion.png',
     lushTank: 'assets/enemies/units/lush-tank.png',
     woodBoss: 'assets/enemies/bosses/wood-boss.png',
+    woodBossOverhead: 'assets/enemies/bosses/wood-boss-overhead.png',
     woodMinion: 'assets/enemies/units/wood-minion.png',
     skeletonBoss: 'assets/enemies/bosses/skeleton-warlord.png',
+    skeletonBossOverhead: 'assets/enemies/bosses/skeleton-warlord-overhead.png',
     skeletonMinion: 'assets/enemies/units/skeleton-minion.png',
     skeletonTank: 'assets/enemies/units/skeleton-tank.png',
     skeletonSpider: 'assets/enemies/units/skeleton-spider.png',
     skeletonOrb: 'assets/enemies/units/skeleton-orb.png',
     sandBoss: 'assets/enemies/bosses/sand-tyrant.png',
+    sandBossOverhead: 'assets/enemies/bosses/sand-tyrant-overhead.png',
     lushCave: 'assets/worlds/rooms/lush-cave.png',
     cyanRoom: 'assets/worlds/rooms/cyan-room.png',
     lavaRoom: 'assets/worlds/rooms/lava-room.png',
@@ -620,6 +653,10 @@ function preloadArt() {
     broadSword: 'assets/player/weapons/broad-sword.png',
     emeraldSword: 'assets/player/weapons/emerald-sword-combat.png',
     lavaBlade: 'assets/player/weapons/lava-blade-combat.png',
+    protector: 'assets/helpers/protector.png',
+    protectorPawSwipe: 'assets/helpers/protector-paw-swipe.png',
+    protectorBite: 'assets/helpers/protector-bite.png',
+    opener: 'assets/helpers/scout.png',
   };
 
   Object.entries(sources).forEach(([key, src]) => {
@@ -650,6 +687,7 @@ const player = {
     water: 0,
     bandage: 0,
     protectorShard: 0,
+    openerShard: 0,
     shieldShard: 0,
   },
   shieldActive: false,
@@ -657,6 +695,7 @@ const player = {
   protectorActive: false,
   protector: null,
   protectors: [],
+  openers: [],
   weaponLevel: 1,
   armorLevel: 1,
 };
@@ -759,14 +798,16 @@ const state = {
   retroMode: false,
   foodWarningShown: false,
   waterWarningShown: false,
+  lastDeathCause: null,
   threatSplashOpen: false,
   gearChoiceOpen: false,
   pendingWaveSplash: false,
 };
 
-// Displays a short gameplay notification above the canvas.
-function setMessage(text) {
+// Displays a short gameplay notification, optionally with a critical flash.
+function setMessage(text, critical = false) {
   messageBox.textContent = text;
+  messageBox.classList.toggle('critical-warning', critical);
   messageBox.classList.remove('hidden');
 }
 
@@ -828,10 +869,11 @@ function getTheme() {
 // Rolls one weighted crate reward.
 function randomLoot() {
   const roll = Math.random();
-  if (roll < 0.35) return 'food';
-  if (roll < 0.55) return 'water';
-  if (roll < 0.72) return 'bandage';
-  if (roll < 0.86) return 'protectorShard';
+  if (roll < 0.32) return 'food';
+  if (roll < 0.5) return 'water';
+  if (roll < 0.66) return 'bandage';
+  if (roll < 0.74) return 'protectorShard';
+  if (roll < 0.9) return 'openerShard';
   return 'shieldShard';
 }
 
@@ -852,6 +894,8 @@ function applyLoot(item) {
     }
   } else if (item === 'protectorShard') {
     player.inventory.protectorShard += 1;
+  } else if (item === 'openerShard') {
+    player.inventory.openerShard += 1;
   } else if (item === 'shieldShard') {
     player.inventory.shieldShard += 1;
   }
@@ -998,8 +1042,12 @@ function placePlayerInFirstRoom() {
 
 // Chooses a themed splash portrait when available and an SVG fallback otherwise.
 function getEnemySplashArt(enemy) {
-  const minionTypes = ['runner', 'crawler'];
-  const tankTypes = ['walker', 'brute', 'spitter', 'sentinel'];
+  if (state.retroMode) {
+    const retroFilename = enemy.type === 'arcaneOrb' ? 'arcane-orb' : enemy.type;
+    return `assets/enemies/generic/${retroFilename}.svg`;
+  }
+  const minionTypes = ['runner', 'crawler', 'assassin', 'wraith', 'arcaneOrb'];
+  const tankTypes = ['walker', 'brute', 'spitter', 'sentinel', 'burrower', 'reaper'];
   const role = minionTypes.includes(enemy.type) ? 'minion' : tankTypes.includes(enemy.type) ? 'tank' : null;
   if (role && world.themeIndex === 0) return `assets/enemies/units/lush-${role}.png`;
   if (role && world.themeIndex === 2) return role === 'minion' ? 'assets/enemies/units/lava-minion.png' : 'assets/enemies/units/lava-tank.png';
@@ -1010,10 +1058,9 @@ function getEnemySplashArt(enemy) {
     if (role === 'minion') return 'assets/enemies/units/skeleton-minion.png';
     if (role === 'tank') return 'assets/enemies/units/skeleton-tank.png';
   }
-  const genericArt = {
-    arcaneOrb: 'assets/enemies/generic/arcane-orb.svg',
-  };
-  return genericArt[enemy.type] || `assets/enemies/generic/${enemy.type}.svg`;
+  return role === 'minion'
+    ? 'assets/enemies/units/lush-minion.png'
+    : 'assets/enemies/units/lush-tank.png';
 }
 
 // Pauses at a new wave to introduce one featured threat in a single sentence.
@@ -1021,9 +1068,47 @@ function showWaveSplash() {
   state.pendingWaveSplash = false;
   state.threatSplashOpen = true;
   keys.clear();
+  waveSplashKicker.textContent = 'Incoming Threat';
+  waveSplashTitle.classList.remove('ally-splash-title');
   waveSplashTitle.textContent = state.retroMode ? `Wave ${state.wave} · Retro Mode` : `Wave ${state.wave}`;
   waveSplashText.classList.remove('hero-splash-proverb');
   waveSplashEnemies.replaceChildren();
+  if (!state.retroMode && Math.random() < 0.24) {
+    const protectorSplashImages = [
+      'assets/helpers/protector.png',
+      'assets/helpers/protector-paw-swipe.png',
+      'assets/helpers/protector-bite.png',
+    ];
+    const allyDetails = Math.random() < 0.5
+      ? {
+        name: 'Protector',
+        image: protectorSplashImages[Math.floor(Math.random() * protectorSplashImages.length)],
+        alt: 'Protector wolf ready for the wave',
+        imageClass: 'protector-splash-image',
+        saying: 'Let the dungeon send its hungriest. The Protector has sharper teeth.',
+        instruction: 'Collect 5 Protector Shards, then press E to summon.',
+      }
+      : {
+        name: 'Scout',
+        image: 'assets/helpers/scout.png',
+        alt: 'Scout ready to raid the dungeon',
+        imageClass: 'scout-splash-image',
+        saying: 'The Scout runs where monsters gather. Every locked prize will be ours before their claws can close.',
+        instruction: 'Summon him with 3 Scout Shards, then press T.',
+    };
+    waveSplashKicker.textContent = 'Dungeon Ally';
+    waveSplashTitle.classList.add('ally-splash-title');
+    waveSplashTitle.textContent = `Wave ${state.wave} · ${allyDetails.name}`;
+    const allyImage = document.createElement('img');
+    allyImage.src = allyDetails.image;
+    allyImage.alt = allyDetails.alt;
+    allyImage.classList.add('ally-splash-image', allyDetails.imageClass);
+    waveSplashEnemies.appendChild(allyImage);
+    waveSplashText.textContent = allyDetails.saying;
+    waveSplashWarning.textContent = allyDetails.instruction;
+    waveSplash.classList.remove('hidden');
+    return;
+  }
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
   const enemyThreats = {
     walker: 'Walkers claw forward without fear, tearing at anything they can drag to the floor.',
@@ -1068,11 +1153,13 @@ function showBossSplash() {
   };
   const details = bossDetails[state.boss.variant] || {
     name: 'Dungeon Guardian',
-    image: 'assets/enemies/generic/brute.svg',
+    image: 'assets/player/shadow boss.png',
     warning: 'It grows more dangerous with every victory you have taken from the dungeon.',
   };
   state.threatSplashOpen = true;
   keys.clear();
+  waveSplashKicker.textContent = 'Incoming Boss';
+  waveSplashTitle.classList.remove('ally-splash-title');
   waveSplashText.classList.remove('hero-splash-proverb');
   waveSplashTitle.textContent = details.name;
   waveSplashEnemies.replaceChildren();
@@ -1091,6 +1178,8 @@ function showHeroVictorySplash() {
   state.pendingWaveSplash = false;
   state.threatSplashOpen = true;
   keys.clear();
+  waveSplashKicker.textContent = 'Victory';
+  waveSplashTitle.classList.remove('ally-splash-title');
   waveSplashTitle.textContent = 'The Hero Endures';
   waveSplashEnemies.replaceChildren();
   const image = document.createElement('img');
@@ -1175,13 +1264,25 @@ function findRoomPath(start, goal) {
   return path;
 }
 
-// Guides an aggro enemy through the next doorway toward the hero.
+// Openers deliberately draw enemy attention while they scurry between crates.
+function getEnemyPreferredTarget(enemy) {
+  const nearestOpener = player.openers
+    .filter((opener) => opener.health > 0)
+    .sort((a, b) => distance(enemy, a) - distance(enemy, b))[0];
+  if (nearestOpener) return nearestOpener;
+  return [player, ...player.protectors, ...player.openers].reduce((nearest, candidate) => (
+    distance(enemy, candidate) < distance(enemy, nearest) ? candidate : nearest
+  ), player);
+}
+
+// Guides an aggro enemy through the next doorway toward its chosen target.
 function getEnemyNavigationTarget(enemy) {
-  if (enemy.bossMinion) return player;
+  const combatTarget = getEnemyPreferredTarget(enemy);
+  if (enemy.bossMinion) return combatTarget;
   const containingRoom = getContainingRoom(enemy);
   const startRoom = containingRoom || getNearestRoom(enemy);
-  const goalRoom = getContainingRoom(player) || getNearestRoom(player);
-  if (!startRoom || !goalRoom) return player;
+  const goalRoom = getContainingRoom(combatTarget) || getNearestRoom(combatTarget);
+  if (!startRoom || !goalRoom) return combatTarget;
 
   if (goalRoom.locked && startRoom !== goalRoom) {
     enemy.navigationRoom = null;
@@ -1199,7 +1300,7 @@ function getEnemyNavigationTarget(enemy) {
   }
 
   const path = findRoomPath(startRoom, goalRoom);
-  if (path.length < 2) return player;
+  if (path.length < 2) return combatTarget;
   const nextRoom = path[1];
   enemy.navigationRoom = nextRoom;
   const gap = 44;
@@ -1522,6 +1623,12 @@ function spawnBoss() {
     protector.navigationRoom = null;
     protector.target = null;
   });
+  player.openers.forEach((opener, index) => {
+    opener.x = player.x + 42 + index * 22;
+    opener.y = player.y + 48 + (index % 2) * 26;
+    opener.navigationRoom = null;
+    opener.target = null;
+  });
   setMessage(`Boss arena reached. Defeat the boss to gain stronger loot.`);
   if (state.boss.variant === 'iceBoss') summonIceMinion(state.boss, 'opening');
 }
@@ -1541,6 +1648,12 @@ function startNextWave() {
     protector.y = player.y + 38 + Math.floor(index / 3) * 28;
     protector.navigationRoom = null;
     protector.target = null;
+  });
+  player.openers.forEach((opener, index) => {
+    opener.x = player.x - 42 - (index % 3) * 24;
+    opener.y = player.y + 42 + Math.floor(index / 3) * 26;
+    opener.navigationRoom = null;
+    opener.target = null;
   });
   player.health = clamp(player.health + 5, 0, player.maxHealth);
   player.food = clamp(player.food - 4, 0, 100);
@@ -1596,9 +1709,43 @@ function createProtector() {
     energy: 100,
     maxEnergy: 100,
     attackCooldown: 0,
+    attackPoseTimer: 0,
+    attackPose: 'paw',
+    facingX: -1,
+    retreatTimer: 0,
+    retreatFromX: null,
+    retreatFromY: null,
     target: null,
   });
   setMessage(`Protector summoned! You now have ${player.protectors.length}.`);
+}
+
+// Converts three shards into a three-hit helper that opens four crates.
+function createOpener() {
+  if (player.inventory.openerShard < 3) {
+    setMessage('Need 3 Scout Shards to summon a Scout.');
+    return;
+  }
+  player.inventory.openerShard -= 3;
+  const angle = player.openers.length * 2.1 + 0.8;
+  player.openers.push({
+    kind: 'opener',
+    x: player.x + Math.cos(angle) * 48,
+    y: player.y + Math.sin(angle) * 48,
+    radius: 16,
+    health: 3,
+    maxHealth: 3,
+    cratesOpened: 0,
+    openCooldown: 0,
+    navigationRoom: null,
+    target: null,
+    facingX: -1,
+    isMoving: false,
+    scurryPhase: 0,
+    showcaseTimer: 1.15,
+    showcaseDuration: 1.15,
+  });
+  setMessage(`Scout summoned! ${player.openers.length} active.`);
 }
 
 // Consumes shield shards to block all incoming damage for a short duration.
@@ -1638,6 +1785,10 @@ function knockHeroAwayFrom(attacker, knockbackDistance) {
 
 // Applies invulnerability, shields, armour reduction, damage, and hero knockback.
 function applyCombatDamage(victim, amount, attacker = null) {
+  if (victim.kind === 'opener') {
+    victim.health = Math.max(0, victim.health - 1);
+    return true;
+  }
   if (victim === player && state.developerMode) {
     player.health = Math.max(1, player.health);
     return false;
@@ -1653,7 +1804,30 @@ function applyCombatDamage(victim, amount, attacker = null) {
     return false;
   }
   const armorReduction = victim === player ? getEquippedArmor().defense / 100 : 0;
+  if (victim === player && attacker) {
+    const attackerName = attacker === state.boss
+      ? String(attacker.variant || 'boss').replace(/([a-z])([A-Z])/g, '$1 $2')
+      : String(attacker.type || 'enemy').replace(/([a-z])([A-Z])/g, '$1 $2');
+    state.lastDeathCause = `an attack from the ${attackerName}`;
+  }
+  const healthBeforeHit = victim.health;
   victim.health = Math.max(0, victim.health - amount * (1 - armorReduction));
+  if (victim === player && attacker && typeof attacker.health === 'number') {
+    const thornsPercent = getEquippedArmor().thorns || 0;
+    const damageTaken = healthBeforeHit - victim.health;
+    const reflectedDamage = damageTaken * thornsPercent / 100;
+    if (reflectedDamage > 0) {
+      attacker.health = Math.max(0, attacker.health - reflectedDamage);
+      if ('hitFlash' in attacker) attacker.hitFlash = Math.max(attacker.hitFlash || 0, 0.18);
+      spawnBurst(attacker.x, attacker.y, 7, '#a3e635', 95);
+      if (attacker !== state.boss && attacker.health <= 0 && !attacker.dead) {
+        awardEnemyScore(attacker);
+        attacker.dead = true;
+        attacker.deathTimer = 0.55;
+        spawnBurst(attacker.x, attacker.y, 14, '#bef264', 125);
+      }
+    }
+  }
   if (victim === player && attacker) {
     player.damageInvulnerability = 0.4;
     knockHeroAwayFrom(attacker, attacker === state.boss ? 28 : 14);
@@ -1755,18 +1929,27 @@ function handleInput(dt) {
   player.hydration = clamp(player.hydration - 1.8 * dt, 0, 100);
   if (player.food <= 25 && !state.foodWarningShown) {
     state.foodWarningShown = true;
-    setMessage('Food is critically low! Open crates to find food and restore it automatically.');
+    setMessage('Food is critically low! Open crates to find food and restore it automatically.', true);
   } else if (player.food > 40) {
     state.foodWarningShown = false;
   }
   if (player.hydration <= 25 && !state.waterWarningShown) {
     state.waterWarningShown = true;
-    setMessage('Hydration is critically low! Open crates—water loot restores hydration automatically.');
+    setMessage('Hydration is critically low! Open crates—water loot restores hydration automatically.', true);
   } else if (player.hydration > 40) {
     state.waterWarningShown = false;
   }
-  if (!state.developerMode && player.food <= 0) player.health = clamp(player.health - 1 * dt, 0, player.maxHealth);
-  if (!state.developerMode && player.hydration <= 0) player.health = clamp(player.health - 1.5 * dt, 0, player.maxHealth);
+  if (!state.foodWarningShown && !state.waterWarningShown) {
+    messageBox.classList.remove('critical-warning');
+  }
+  if (!state.developerMode && player.food <= 0) {
+    state.lastDeathCause = 'starvation';
+    player.health = clamp(player.health - 1 * dt, 0, player.maxHealth);
+  }
+  if (!state.developerMode && player.hydration <= 0) {
+    state.lastDeathCause = 'dehydration';
+    player.health = clamp(player.health - 1.5 * dt, 0, player.maxHealth);
+  }
 
   if (player.attackCooldown > 0) player.attackCooldown -= dt;
   if (player.attackDuration > 0) player.attackDuration -= dt;
@@ -1874,7 +2057,7 @@ function isInsideAttackArc(target, range) {
   return directionDot >= Math.cos(50 * Math.PI / 180);
 }
 
-// Performs one hero swing against enemies and bosses inside the attack arc.
+// Performs one swing with a fixed damage pool shared by every overlapping target.
 function tryAttack() {
   if (player.attackCooldown > 0) return;
   player.attackCooldown = 0.42;
@@ -1883,30 +2066,86 @@ function tryAttack() {
   const damageMultiplier = 1 + equippedWeapon.damage / 100;
   spawnBurst(player.x + player.facing.x * 24, player.y + player.facing.y * 24, 7, '#f8fafc', 80);
 
-  for (const enemy of state.enemies) {
-    if (!enemy.dead && isInsideAttackArc(enemy, 70 + player.weaponLevel * 8 + equippedWeapon.reach)) {
-      enemy.aggro = true;
-      enemy.health -= (18 + player.weaponLevel * 4) * damageMultiplier;
-      enemy.hitFlash = 0.18;
-      enemy.x += player.facing.x * 18;
-      enemy.y += player.facing.y * 18;
-      spawnBurst(enemy.x, enemy.y, 4, '#fb7185', 70);
-      if (enemy.health <= 0) {
-        awardEnemyScore(enemy);
-        enemy.dead = true;
-        enemy.deathTimer = 0.55;
-        spawnBurst(enemy.x, enemy.y, 14, '#f97316', 120);
+  const enemyRange = 70 + player.weaponLevel * 8 + equippedWeapon.reach;
+  const attackCandidates = state.enemies
+    .filter((enemy) => !enemy.dead && isInsideAttackArc(enemy, enemyRange));
+  if (state.boss && isInsideAttackArc(state.boss, 88 + player.weaponLevel * 5 + equippedWeapon.reach)) {
+    attackCandidates.push(state.boss);
+  }
+  attackCandidates.sort((a, b) => distance(player, a) - distance(player, b));
+  const primaryTarget = attackCandidates[0] || null;
+  const targets = primaryTarget
+    ? attackCandidates.filter((candidate) => (
+      candidate === primaryTarget
+      || distance(primaryTarget, candidate) <= primaryTarget.radius + candidate.radius + 8
+    ))
+    : [];
+  const bossOnlyHit = targets.length === 1 && targets[0] === state.boss;
+  const totalSwingDamage = (
+    bossOnlyHit ? 26 + player.weaponLevel * 6 : 21 + player.weaponLevel * 5
+  ) * damageMultiplier;
+  const damagePerTarget = targets.length > 0 ? totalSwingDamage / targets.length : 0;
+
+  for (const target of targets) {
+    target.health -= damagePerTarget;
+    target.hitFlash = target === state.boss ? 0.2 : 0.18;
+    target.x += player.facing.x * (target === state.boss ? 10 : 18);
+    target.y += player.facing.y * (target === state.boss ? 10 : 18);
+    if (target === state.boss) {
+      const bossHitColor = target.variant === 'lavaGolem' ? '#fb923c' : target.variant === 'oceanBoss' ? '#67e8f9' : target.variant === 'iceBoss' ? '#dbeafe' : target.variant === 'skeletonWarlord' ? '#a5f3fc' : target.variant === 'sandBoss' ? '#fbbf24' : target.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
+      spawnBurst(target.x, target.y, 8, bossHitColor, 120);
+    } else {
+      target.aggro = true;
+      spawnBurst(target.x, target.y, 4, '#fb7185', 70);
+      if (target.health <= 0) {
+        awardEnemyScore(target);
+        target.dead = true;
+        target.deathTimer = 0.55;
+        spawnBurst(target.x, target.y, 14, '#f97316', 120);
       }
     }
   }
+}
 
-  if (state.boss && isInsideAttackArc(state.boss, 88 + player.weaponLevel * 5 + equippedWeapon.reach)) {
-    state.boss.health -= (22 + player.weaponLevel * 5) * damageMultiplier;
-    state.boss.hitFlash = 0.2;
-    state.boss.x += player.facing.x * 10;
-    state.boss.y += player.facing.y * 10;
-    const bossHitColor = state.boss.variant === 'lavaGolem' ? '#fb923c' : state.boss.variant === 'oceanBoss' ? '#67e8f9' : state.boss.variant === 'iceBoss' ? '#dbeafe' : state.boss.variant === 'skeletonWarlord' ? '#a5f3fc' : state.boss.variant === 'sandBoss' ? '#fbbf24' : state.boss.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
-    spawnBurst(state.boss.x, state.boss.y, 8, bossHitColor, 120);
+// Keeps living enemies from occupying the same space and multiplying one hit.
+function separateOverlappingEnemies() {
+  const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
+  for (let firstIndex = 0; firstIndex < livingEnemies.length; firstIndex += 1) {
+    for (let secondIndex = firstIndex + 1; secondIndex < livingEnemies.length; secondIndex += 1) {
+      const first = livingEnemies[firstIndex];
+      const second = livingEnemies[secondIndex];
+      let dx = second.x - first.x;
+      let dy = second.y - first.y;
+      let separation = Math.hypot(dx, dy);
+      const minimumSeparation = first.radius + second.radius + 4;
+      if (separation >= minimumSeparation) continue;
+      if (separation === 0) {
+        const angle = (firstIndex * 2.4 + secondIndex) % (Math.PI * 2);
+        dx = Math.cos(angle);
+        dy = Math.sin(angle);
+        separation = 1;
+      }
+      const push = (minimumSeparation - separation) / 2;
+      const pushX = dx / separation * push;
+      const pushY = dy / separation * push;
+      const firstX = first.x - pushX;
+      const firstY = first.y - pushY;
+      const secondX = second.x + pushX;
+      const secondY = second.y + pushY;
+      if (state.boss && first.bossMinion && second.bossMinion) {
+        first.x = clamp(firstX, state.bossArena.x + first.radius, state.bossArena.x + state.bossArena.w - first.radius);
+        first.y = clamp(firstY, state.bossArena.y + first.radius, state.bossArena.y + state.bossArena.h - first.radius);
+        second.x = clamp(secondX, state.bossArena.x + second.radius, state.bossArena.x + state.bossArena.w - second.radius);
+        second.y = clamp(secondY, state.bossArena.y + second.radius, state.bossArena.y + state.bossArena.h - second.radius);
+      } else {
+        const firstSafe = resolveRoomCollision(first, firstX, firstY);
+        const secondSafe = resolveRoomCollision(second, secondX, secondY);
+        first.x = firstSafe.x;
+        first.y = firstSafe.y;
+        second.x = secondSafe.x;
+        second.y = secondSafe.y;
+      }
+    }
   }
 }
 
@@ -1920,10 +2159,13 @@ function updateEnemies(dt) {
     }
 
     const enemyRoom = enemy.spawnRoom || getContainingRoom(enemy);
+    const helperNearby = player.protectors.some((helper) => distance(enemy, helper) <= 300)
+      || player.openers.some((opener) => distance(enemy, opener) <= 600);
     if (
       enemy.bossMinion
       || playerRoom === enemyRoom
       || distance(enemy, player) <= 300
+      || helperNearby
     ) {
       enemy.aggro = true;
     }
@@ -2000,16 +2242,16 @@ function updateEnemies(dt) {
       enemy.y = safe.y;
     }
 
-    const nearbyProtector = player.protectors
-      .filter((protector) => distance(enemy, protector) < enemy.radius + protector.radius + 24)
+    const nearbyHelper = [...player.protectors, ...player.openers]
+      .filter((helper) => distance(enemy, helper) < enemy.radius + helper.radius + 24)
       .sort((a, b) => distance(enemy, a) - distance(enemy, b))[0] || null;
-    const protectorInRange = Boolean(nearbyProtector);
+    const helperInRange = Boolean(nearbyHelper);
     const playerInRange = distance(enemy, player) < enemy.radius + player.radius + 24;
-    if (protectorInRange || playerInRange) {
+    if (helperInRange || playerInRange) {
       if (enemy.attackTimer <= 0) {
         enemy.attackTimer = enemy.type === 'runner' || enemy.type === 'crawler' ? 0.55 : enemy.type === 'reaper' ? 1.15 : 0.85;
         enemy.lunge = 1;
-        const victim = protectorInRange ? nearbyProtector : player;
+        const victim = helperInRange ? nearbyHelper : player;
         const attackDx = victim.x - enemy.x;
         const attackDy = victim.y - enemy.y;
         const attackDistance = Math.hypot(attackDx, attackDy) || 1;
@@ -2031,12 +2273,19 @@ function updateEnemies(dt) {
         spawnBurst(victim.x, victim.y, 7, damageLanded ? '#f87171' : '#67e8f9', 75);
         if (victim !== player && victim.health <= 0) {
           spawnBurst(victim.x, victim.y, 18, '#60a5fa', 110);
-          player.protectors = player.protectors.filter((protector) => protector !== victim);
-          setMessage('Your protector was defeated.');
+          if (victim.kind === 'opener') {
+            player.openers = player.openers.filter((opener) => opener !== victim);
+            setMessage('Your Scout was defeated after three hits.');
+          } else {
+            player.protectors = player.protectors.filter((protector) => protector !== victim);
+            setMessage('Your protector was defeated.');
+          }
         }
       }
     }
   }
+
+  separateOverlappingEnemies();
 
   for (const enemy of state.enemies) {
     if (enemy.dead && enemy.deathTimer <= 0 && enemy.specialEnemy && enemy.specialRoom?.locked) {
@@ -2067,6 +2316,8 @@ function updateProtectors(dt) {
   protector.maxEnergy = protector.maxEnergy || 100;
   protector.energy = clamp((protector.energy ?? protector.maxEnergy) + 12 * dt, 0, protector.maxEnergy);
   protector.attackCooldown = Math.max(0, protector.attackCooldown - dt);
+  protector.attackPoseTimer = Math.max(0, (protector.attackPoseTimer || 0) - dt);
+  protector.retreatTimer = Math.max(0, (protector.retreatTimer || 0) - dt);
 
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
   const possibleTargets = livingEnemies.filter((enemy) => distance(protector, enemy) <= 850);
@@ -2085,6 +2336,26 @@ function updateProtectors(dt) {
     });
   }
   protector.target = target;
+  if (target && Math.abs(target.x - protector.x) > 2) {
+    protector.facingX = target.x - protector.x;
+  }
+
+  if (protector.retreatTimer > 0 && protector.retreatFromX != null) {
+    const retreatDx = protector.x - protector.retreatFromX;
+    const retreatDy = protector.y - protector.retreatFromY;
+    const retreatDistance = Math.hypot(retreatDx, retreatDy) || 1;
+    const nextX = protector.x + (retreatDx / retreatDistance) * player.speed * 1.45 * dt;
+    const nextY = protector.y + (retreatDy / retreatDistance) * player.speed * 1.45 * dt;
+    if (state.boss) {
+      protector.x = clamp(nextX, state.bossArena.x + protector.radius, state.bossArena.x + state.bossArena.w - protector.radius);
+      protector.y = clamp(nextY, state.bossArena.y + protector.radius, state.bossArena.y + state.bossArena.h - protector.radius);
+    } else {
+      const safe = resolveRoomCollision(protector, nextX, nextY);
+      protector.x = safe.x;
+      protector.y = safe.y;
+    }
+    continue;
+  }
 
   const destination = state.boss && target === state.boss
       ? target
@@ -2118,8 +2389,18 @@ function updateProtectors(dt) {
   const touchingTarget = target && distance(protector, target) <= protector.radius + (target.radius || 16);
   const attackEnergyCost = 18;
   if (touchingTarget && protector.attackCooldown <= 0 && protector.energy >= attackEnergyCost) {
-    protector.attackCooldown = 0.42;
+    protector.attackCooldown = 0.62;
     protector.energy -= attackEnergyCost;
+    protector.attackPose = Math.random() < 0.5 ? 'paw' : 'bite';
+    protector.attackPoseTimer = 0.3;
+    const lungeDx = target.x - protector.x;
+    const lungeDy = target.y - protector.y;
+    const lungeDistance = Math.hypot(lungeDx, lungeDy) || 1;
+    protector.x += (lungeDx / lungeDistance) * 12;
+    protector.y += (lungeDy / lungeDistance) * 12;
+    protector.retreatTimer = 0.3;
+    protector.retreatFromX = target.x;
+    protector.retreatFromY = target.y;
     const damage = 18 + player.weaponLevel * 4;
     target.health -= damage;
     if (target !== state.boss) target.aggro = true;
@@ -2133,6 +2414,72 @@ function updateProtectors(dt) {
     }
   }
   }
+}
+
+// Opens one crate and grants all of its stored rewards.
+function openCrate(crate) {
+  if (crate.isOpen) return;
+  crate.openProgress = 2;
+  crate.isOpen = true;
+  crate.rewards.forEach(applyLoot);
+  showLootHighlight(crate.rewards);
+}
+
+// Sends each Opener scurrying to the nearest closed crate until it has opened four.
+function updateOpeners(dt) {
+  for (const opener of player.openers) {
+    opener.openCooldown = Math.max(0, opener.openCooldown - dt);
+    opener.scurryPhase = (opener.scurryPhase || 0) + dt * (opener.isMoving ? 18 : 4);
+    if ((opener.showcaseTimer || 0) > 0) {
+      opener.showcaseTimer = Math.max(0, opener.showcaseTimer - dt);
+      opener.isMoving = false;
+      opener.target = null;
+      continue;
+    }
+    const closedCrates = state.crates.filter((crate) => (
+      !crate.isOpen && !getContainingRoom(crate)?.locked
+    ));
+    if (closedCrates.length === 0) {
+      opener.target = null;
+      opener.isMoving = false;
+      continue;
+    }
+    const target = closedCrates.reduce((nearest, crate) => (
+      distance(opener, crate) < distance(opener, nearest) ? crate : nearest
+    ), closedCrates[0]);
+    opener.target = target;
+    if (Math.abs(target.x - opener.x) > 2) opener.facingX = target.x - opener.x;
+
+    const destination = getProtectorNavigationTarget(opener, target);
+    const dx = destination.x - opener.x;
+    const dy = destination.y - opener.y;
+    const destinationDistance = Math.hypot(dx, dy) || 1;
+    const stopDistance = opener.radius + target.radius + 8;
+    if (distance(opener, target) > stopDistance) {
+      opener.isMoving = true;
+      const scurrySpeed = player.speed * 1.3;
+      const nextX = opener.x + (dx / destinationDistance) * scurrySpeed * dt;
+      const nextY = opener.y + (dy / destinationDistance) * scurrySpeed * dt;
+      const safe = resolveRoomCollision(opener, nextX, nextY);
+      opener.x = safe.x;
+      opener.y = safe.y;
+    } else {
+      opener.isMoving = false;
+      if (opener.openCooldown <= 0) {
+        openCrate(target);
+        opener.cratesOpened += 1;
+        opener.openCooldown = 0.5;
+        spawnBurst(target.x, target.y, 10, '#f59e0b', 90);
+      }
+    }
+  }
+
+  const completed = player.openers.filter((opener) => opener.cratesOpened >= 4);
+  for (const opener of completed) {
+    spawnBurst(opener.x, opener.y, 18, '#fbbf24', 120);
+    setMessage('A Scout finished opening four crates and headed home.');
+  }
+  player.openers = player.openers.filter((opener) => opener.health > 0 && opener.cratesOpened < 4);
 }
 
 // Advances particle motion and discards expired effects.
@@ -2155,10 +2502,7 @@ function updateCrates(dt) {
       if (keys.has('f')) {
         crate.openProgress += dt;
         if (crate.openProgress >= 2) {
-          crate.openProgress = 2;
-          crate.isOpen = true;
-          crate.rewards.forEach(applyLoot);
-          showLootHighlight(crate.rewards);
+          openCrate(crate);
           setMessage('Crate opened! Four items collected.');
         }
       } else {
@@ -2341,10 +2685,9 @@ function updateBoss(dt) {
     }
   }
 
-  // Protectors can intercept ordinary enemies, but they never pull the boss's
-  // attention away from the hero.
+  // Bosses also choose the nearest hero-side target, so helpers can be attacked.
   boss.attackTarget = player;
-  const attackTarget = player;
+  const attackTarget = getEnemyPreferredTarget(boss);
   const dx = attackTarget.x - boss.x;
   const dy = attackTarget.y - boss.y;
   const len = Math.hypot(dx, dy) || 1;
@@ -2403,7 +2746,7 @@ function updateBoss(dt) {
       } else if (boss.attackType === 'thornRing' || boss.attackType === 'eruption' || boss.attackType === 'tidalWave' || boss.attackType === 'blizzard' || boss.attackType === 'nova') {
         const attackRadius = boss.attackType === 'thornRing' ? 165 : boss.attackType === 'eruption' ? 285 : boss.attackType === 'tidalWave' ? 250 : boss.attackType === 'blizzard' ? 265 : 210 + boss.tier * 8;
         const damageScale = boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'eruption' ? 1.05 : boss.attackType === 'tidalWave' ? 0.9 : boss.attackType === 'blizzard' ? 0.95 : 0.75;
-        for (const victim of [player, ...player.protectors]) {
+        for (const victim of [player, ...player.protectors, ...player.openers]) {
           if (distance(boss, victim) <= attackRadius) applyCombatDamage(victim, boss.damage * damageScale, boss);
         }
         spawnBurst(boss.x, boss.y, 38, effectColor, 230);
@@ -2424,6 +2767,9 @@ function updateBoss(dt) {
       const defeatedProtectors = player.protectors.filter((protector) => protector.health <= 0);
       if (defeatedProtectors.length > 0) setMessage(`${defeatedProtectors.length} protector${defeatedProtectors.length === 1 ? '' : 's'} defeated by the boss.`);
       player.protectors = player.protectors.filter((protector) => protector.health > 0);
+      const defeatedOpeners = player.openers.filter((opener) => opener.health <= 0);
+      if (defeatedOpeners.length > 0) setMessage(`${defeatedOpeners.length} Scout${defeatedOpeners.length === 1 ? '' : 's'} defeated after three hits.`);
+      player.openers = player.openers.filter((opener) => opener.health > 0);
       if (attackTarget.health <= 0) boss.attackTarget = null;
     }
   } else {
@@ -2437,10 +2783,14 @@ function updateBoss(dt) {
     const closingDistance = boss.radius + attackTarget.radius + 34;
     const movementX = retreating
       ? (retreatDx / retreatLength) * speed
-      : !recovering && len > closingDistance ? dirX * speed - dirY * orbit : 0;
+      : !recovering && len > closingDistance
+        ? dirX * speed - dirY * orbit
+        : !recovering ? -dirY * 58 : 0;
     const movementY = retreating
       ? (retreatDy / retreatLength) * speed
-      : !recovering && len > closingDistance ? dirY * speed + dirX * orbit : 0;
+      : !recovering && len > closingDistance
+        ? dirY * speed + dirX * orbit
+        : !recovering ? dirX * 58 : 0;
     if (Math.abs(movementX) > 3) boss.facingX = movementX;
     boss.x = clamp(boss.x + movementX * dt, state.bossArena.x + boss.radius, state.bossArena.x + state.bossArena.w - boss.radius);
     boss.y = clamp(boss.y + movementY * dt, state.bossArena.y + boss.radius, state.bossArena.y + state.bossArena.h - boss.radius);
@@ -2473,6 +2823,7 @@ function updateBoss(dt) {
 
 // Converts internal camelCase item IDs into readable labels.
 function formatLootName(item) {
+  if (item === 'openerShard') return 'Scout Shard';
   return item.replace(/([A-Z])/g, ' $1').replace(/^./, (letter) => letter.toUpperCase());
 }
 
@@ -2510,10 +2861,18 @@ function die() {
   pauseOverlay.classList.add('hidden');
   keys.clear();
   player.health = 0;
+  const deathCause = state.lastDeathCause || 'wounds sustained in the dungeon';
   const leaderboardRank = recordCompletedRun(state.score, state.wave, state.bossDefeated);
   overlayTitle.textContent = 'You Died';
+  deathCauseText.textContent = `by ${deathCause}`;
+  deathCauseText.classList.remove('hidden');
   overlayText.textContent = `${currentHeroName} scored ${state.score.toLocaleString()} points, reached wave ${state.wave}, and defeated ${state.bossDefeated} boss${state.bossDefeated === 1 ? '' : 'es'}.${leaderboardRank ? ` Hall of Heroes rank: #${leaderboardRank}.` : ''}`;
   heroProverb.textContent = getRandomFallenHeroProverb();
+  heroProverb.classList.add('death-proverb');
+  overlay.querySelector('.main-menu-card').classList.add('death-menu-card');
+  heroNameEditor.classList.add('hidden');
+  changeHeroButton.classList.add('hidden');
+  openHighScoresButton.classList.add('hidden');
   controlsGrid.style.display = 'none';
   openArmoryButton.disabled = true;
   openArmoryButton.tabIndex = -1;
@@ -2521,6 +2880,7 @@ function die() {
   openArmoryButton.setAttribute('aria-label', 'Fallen hero');
   startButton.style.display = '';
   startButton.textContent = 'Press any key to continue';
+  startButton.classList.add('death-continue-prompt');
   overlay.classList.remove('hidden');
   messageBox.classList.add('hidden');
   deathScreenReady = false;
@@ -2559,6 +2919,7 @@ function resetRun() {
   state.pendingChallengeRoom = null;
   state.foodWarningShown = false;
   state.waterWarningShown = false;
+  state.lastDeathCause = null;
   state.threatSplashOpen = false;
   state.gearChoiceOpen = false;
   state.pendingWaveSplash = false;
@@ -2576,10 +2937,11 @@ function resetRun() {
   player.attackCooldown = 0;
   player.attackDuration = 0;
   player.facing = { x: 1, y: 0 };
-  player.inventory = { food: 0, water: 0, bandage: 0, protectorShard: 0, shieldShard: 0 };
+  player.inventory = { food: 0, water: 0, bandage: 0, protectorShard: 0, openerShard: 0, shieldShard: 0 };
   player.shieldActive = false;
   player.shieldTimer = 0;
   player.protectors = [];
+  player.openers = [];
   player.weaponLevel = 1;
 
   createRooms();
@@ -2588,15 +2950,19 @@ function resetRun() {
   messageBox.classList.add('hidden');
 }
 
-// Returns from a finished run to fresh gender and name selection.
+// Returns from a finished run while preserving the current hero and equipment.
 function showMainMenu() {
   resetRun();
-  selectedGender = null;
-  currentHeroName = '';
-  heroNameInput.value = '';
   showRandomHeroProverb();
   overlayTitle.textContent = 'Endless Dungeon';
+  deathCauseText.classList.add('hidden');
+  deathCauseText.textContent = '';
   overlayText.textContent = 'Explore rooms, open crates, survive waves, and defeat the boss.';
+  heroProverb.classList.remove('death-proverb');
+  overlay.querySelector('.main-menu-card').classList.remove('death-menu-card');
+  heroNameEditor.classList.remove('hidden');
+  changeHeroButton.classList.remove('hidden');
+  openHighScoresButton.classList.remove('hidden');
   controlsGrid.style.display = 'grid';
   openArmoryButton.disabled = false;
   openArmoryButton.tabIndex = 0;
@@ -2604,8 +2970,8 @@ function showMainMenu() {
   openArmoryButton.setAttribute('aria-label', 'Customize hero');
   startButton.style.display = '';
   startButton.textContent = 'Press any key to begin';
+  startButton.classList.remove('death-continue-prompt');
   overlay.classList.remove('hidden');
-  genderOverlay.classList.remove('hidden');
 }
 
 // Draws an image edge-to-edge with centered cropping and high-quality scaling.
@@ -2747,11 +3113,8 @@ function drawActorSprite({
   ctx.rotate(stride * 0.004 + deathProgress * Math.PI * 1.6);
   const leftFacingEnemyArt = ['skeletonMinion', 'skeletonTank', 'skeletonSpider'];
   const enemyArtFacesLeft = leftFacingEnemyArt.includes(variant);
-  const heroArtFacesLeft = selectedGender !== 'female' || spriteKey === 'retroHero';
   const facingScale = variant === 'hero'
-    ? heroArtFacesLeft
-      ? (facingX < 0 ? 1 : -1)
-      : (facingX < 0 ? -1 : 1)
+    ? (facingX < 0 ? 1 : -1)
     : enemyArtFacesLeft
       ? (facingX < 0 ? 1 : -1)
       : (facingX < 0 ? -1 : 1);
@@ -2792,8 +3155,8 @@ function drawEnemy(enemy) {
   const bob = Math.abs(motion) * (floating ? 8 : 3) - enemy.lunge * 5;
   const squashX = 1 + Math.abs(motion) * 0.07 - enemy.lunge * 0.14;
   const squashY = 1 - Math.abs(motion) * 0.06 + enemy.lunge * 0.18;
-  const fastWeakTypes = ['runner', 'crawler'];
-  const slowTypes = ['walker', 'brute', 'spitter', 'sentinel'];
+  const fastWeakTypes = ['runner', 'crawler', 'assassin', 'wraith', 'arcaneOrb'];
+  const slowTypes = ['walker', 'brute', 'spitter', 'sentinel', 'burrower', 'reaper'];
   const themedRole = fastWeakTypes.includes(enemy.type) ? 'Minion' : slowTypes.includes(enemy.type) ? 'Tank' : null;
   let themedVariant = enemy.type;
 
@@ -2851,6 +3214,9 @@ function drawBoss(boss) {
   const walk = Math.sin(boss.movePhase || 0);
   const windup = boss.attackWindup > 0 ? boss.attackWindup / (boss.attackWindupTotal || 0.38) : 0;
   const charge = boss.attackWindup > 0 ? 1 - windup : 0;
+  // Attack poses belong to active gameplay only; boss introductions stay neutral.
+  const isOverheadPose = boss.attackWindup > 0 && !state.threatSplashOpen;
+  const overheadLift = isOverheadPose ? charge * 7 : 0;
   const pulse = boss.attackPulse || 0;
   const isSlamAttack = boss.attackType.toLowerCase().includes('slam');
   const isDashAttack = boss.attackType.toLowerCase().includes('dash');
@@ -2864,14 +3230,14 @@ function drawBoss(boss) {
     ? 1 - Math.max(0, boss.deathTimer) / 1.8
     : 0;
   ctx.save();
-  ctx.translate(boss.x, boss.y + Math.abs(walk) * 4 - pulse * 7 + slamCrouch * 9 - novaCharge * 5);
+  ctx.translate(boss.x, boss.y + Math.abs(walk) * 4 - pulse * 7 + slamCrouch * 9 - novaCharge * 5 - overheadLift);
   ctx.globalAlpha = 1 - deathProgress;
   ctx.rotate(walk * 0.035 + dashLean * 0.16 + deathProgress * Math.PI * 2.5);
   const deathScale = 1 - deathProgress * 0.9;
   const bossVisualScale = 1.4;
   ctx.scale(
-    (boss.facingX < 0 ? 1 : -1) * (1 + pulse * 0.18 + dashLean * 0.15 - slamCrouch * 0.08) * deathScale * bossVisualScale,
-    (1 - pulse * 0.1 + slamCrouch * 0.16 + novaCharge * 0.1) * deathScale * bossVisualScale,
+    (boss.facingX < 0 ? 1 : -1) * deathScale * bossVisualScale,
+    (1 + pulse * 0.025 + slamCrouch * 0.055 + novaCharge * 0.035) * deathScale * bossVisualScale,
   );
   ctx.shadowColor = '#f87171';
   ctx.shadowBlur = 24 + windup * 24;
@@ -2928,11 +3294,13 @@ function drawBoss(boss) {
   }
 
   if (boss.variant === 'lushGolem' && art.lushGolem.complete && art.lushGolem.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.lushGolemOverhead.complete && art.lushGolemOverhead.naturalWidth > 0
+      ? art.lushGolemOverhead : art.lushGolem;
     ctx.shadowColor = '#4ade80';
     ctx.shadowBlur = 22 + windup * 30;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.lushGolem, -92, -78, 184, 148);
+    ctx.drawImage(sprite, -92, -78, 184, 148);
 
     drawBossHealthBar(boss, -48, -86, 96, 8, '#4ade80');
 
@@ -2948,11 +3316,13 @@ function drawBoss(boss) {
   }
 
   if (boss.variant === 'lavaGolem' && art.lavaGolem.complete && art.lavaGolem.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.lavaGolemOverhead.complete && art.lavaGolemOverhead.naturalWidth > 0
+      ? art.lavaGolemOverhead : art.lavaGolem;
     ctx.shadowColor = '#f97316';
     ctx.shadowBlur = 28 + windup * 38 + pulse * 18;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.lavaGolem, -94, -82, 188, 154);
+    ctx.drawImage(sprite, -94, -82, 188, 154);
 
     drawBossHealthBar(boss, -50, -90, 100, 8, '#dc2626', '#f97316');
 
@@ -2972,11 +3342,13 @@ function drawBoss(boss) {
   }
 
   if (boss.variant === 'oceanBoss' && art.oceanBoss.complete && art.oceanBoss.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.oceanBossOverhead.complete && art.oceanBossOverhead.naturalWidth > 0
+      ? art.oceanBossOverhead : art.oceanBoss;
     ctx.shadowColor = '#38bdf8';
     ctx.shadowBlur = 30 + windup * 42 + pulse * 20;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.oceanBoss, -98, -86, 196, 158);
+    ctx.drawImage(sprite, -98, -86, 196, 158);
 
     drawBossHealthBar(boss, -52, -94, 104, 8, '#0369a1', '#67e8f9');
 
@@ -2992,11 +3364,13 @@ function drawBoss(boss) {
   }
 
   if (boss.variant === 'iceBoss' && art.iceBoss.complete && art.iceBoss.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.iceBossOverhead.complete && art.iceBossOverhead.naturalWidth > 0
+      ? art.iceBossOverhead : art.iceBoss;
     ctx.shadowColor = '#bfdbfe';
     ctx.shadowBlur = 32 + windup * 44 + pulse * 20;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.iceBoss, -100, -88, 200, 160);
+    ctx.drawImage(sprite, -100, -88, 200, 160);
 
     drawBossHealthBar(boss, -53, -96, 106, 8, '#2563eb', '#e0f2fe');
 
@@ -3012,11 +3386,13 @@ function drawBoss(boss) {
   }
 
   if (boss.variant === 'skeletonWarlord' && art.skeletonBoss.complete && art.skeletonBoss.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.skeletonBossOverhead.complete && art.skeletonBossOverhead.naturalWidth > 0
+      ? art.skeletonBossOverhead : art.skeletonBoss;
     ctx.shadowColor = '#67e8f9';
     ctx.shadowBlur = 34 + windup * 44 + pulse * 22;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.skeletonBoss, -104, -92, 208, 168);
+    ctx.drawImage(sprite, -104, -92, 208, 168);
 
     drawBossHealthBar(boss, -55, -100, 110, 8, '#a16207', '#67e8f9');
 
@@ -3032,22 +3408,26 @@ function drawBoss(boss) {
   }
 
   if (boss.variant === 'sandBoss' && art.sandBoss.complete && art.sandBoss.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.sandBossOverhead.complete && art.sandBossOverhead.naturalWidth > 0
+      ? art.sandBossOverhead : art.sandBoss;
     ctx.shadowColor = '#fbbf24';
     ctx.shadowBlur = 34 + windup * 44 + pulse * 22;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.sandBoss, -106, -94, 212, 172);
+    ctx.drawImage(sprite, -106, -94, 212, 172);
     drawBossHealthBar(boss, -56, -102, 112, 8, '#92400e', '#fde68a');
     ctx.restore();
     return;
   }
 
   if (boss.variant === 'woodBoss' && art.woodBoss.complete && art.woodBoss.naturalWidth > 0) {
+    const sprite = isOverheadPose && art.woodBossOverhead.complete && art.woodBossOverhead.naturalWidth > 0
+      ? art.woodBossOverhead : art.woodBoss;
     ctx.shadowColor = '#84cc16';
     ctx.shadowBlur = 32 + windup * 40 + pulse * 20;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(art.woodBoss, -102, -90, 204, 164);
+    ctx.drawImage(sprite, -102, -90, 204, 164);
 
     drawBossHealthBar(boss, -54, -98, 108, 8, '#3f6212', '#bef264');
 
@@ -3162,18 +3542,24 @@ function drawPlayer() {
         ? art.emeraldSword
         : equippedWeaponId === 'lavaBlade'
           ? art.lavaBlade
-      : null;
+          : art.broadSword;
   if ((!state.retroMode || state.boss) && equippedSwordArt?.complete && equippedSwordArt.naturalWidth > 0) {
+    // Mirror the hand anchor with the selected character artwork so the
+    // equipped weapon remains gripped while facing either direction.
+    const heroFacingScale = player.facing.x < 0 ? 1 : -1;
+    const facingDirection = player.facing.x < 0 ? -1 : 1;
+    const handOffsetX = -18 * heroFacingScale;
     ctx.save();
-    ctx.translate(player.x, player.y - 16 + bob);
+    ctx.translate(player.x + handOffsetX, player.y - 7 + bob);
     if (player.attackDuration > 0) {
       const attackProgress = 1 - player.attackDuration / 0.24;
       const attackAngle = Math.atan2(player.facing.y, player.facing.x);
       const swordAngle = attackAngle - 58 * Math.PI / 180 + attackProgress * 116 * Math.PI / 180;
       ctx.rotate(swordAngle - Math.PI / 2);
     } else {
-      // Weapon art points downward; rotate it so the blade rests upright in both hands.
-      ctx.rotate(Math.PI);
+      // Weapon art points down from its handle; rest the blade upward and
+      // slightly toward the direction the hero is facing.
+      ctx.rotate(-facingDirection * (Math.PI - 0.32));
     }
     ctx.shadowColor = equippedWeaponId === 'emeraldSword'
       ? '#34d399'
@@ -3183,8 +3569,8 @@ function drawPlayer() {
         ? '#bfdbfe'
         : '#fca5a5';
     ctx.shadowBlur = 14;
-    // The guard sits at the pivot, making the blade—not the whole hero—the moving part.
-    ctx.drawImage(equippedSwordArt, -13, -24, 26, 92);
+    // The source handle occupies the top tenth of each weapon image.
+    ctx.drawImage(equippedSwordArt, -12, -9, 24, 86);
     ctx.restore();
   }
 
@@ -3232,26 +3618,85 @@ function drawTeleportEffect() {
   ctx.restore();
 }
 
-// Draws every protector with its own health bar.
+// Draws every Protector with neutral, paw-swipe, or bite artwork.
 function drawGuardians() {
   for (const protector of player.protectors) {
-  ctx.save();
-  ctx.translate(protector.x, protector.y);
-  ctx.shadowColor = '#60a5fa';
-  ctx.shadowBlur = 16;
-  ctx.fillStyle = '#60a5fa';
-  ctx.beginPath();
-  ctx.arc(0, 0, protector.radius, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-  ctx.fillRect(-22, -30, 44, 5);
-  ctx.fillStyle = '#60a5fa';
-  ctx.fillRect(-22, -30, 44 * (protector.health / protector.maxHealth), 5);
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-  ctx.fillRect(-22, -23, 44, 4);
-  ctx.fillStyle = '#facc15';
-  ctx.fillRect(-22, -23, 44 * ((protector.energy ?? 100) / (protector.maxEnergy || 100)), 4);
-  ctx.restore();
+    if (state.retroMode) {
+      ctx.save();
+      ctx.translate(protector.x, protector.y);
+      ctx.shadowColor = '#60a5fa';
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = '#60a5fa';
+      ctx.beginPath();
+      ctx.arc(0, 0, protector.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+      ctx.fillRect(protector.x - 22, protector.y - 30, 44, 5);
+      ctx.fillStyle = '#60a5fa';
+      ctx.fillRect(protector.x - 22, protector.y - 30, 44 * (protector.health / protector.maxHealth), 5);
+      continue;
+    }
+    const attackArt = protector.attackPose === 'bite' ? art.protectorBite : art.protectorPawSwipe;
+    const sprite = protector.attackPoseTimer > 0 ? attackArt : art.protector;
+    ctx.save();
+    ctx.translate(protector.x, protector.y);
+    ctx.scale(protector.facingX < 0 ? 1 : -1, 1);
+    ctx.shadowColor = '#60a5fa';
+    ctx.shadowBlur = 16;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    if (sprite === art.protector) {
+      ctx.drawImage(sprite, -39, -34, 78, 74);
+    } else {
+      ctx.drawImage(sprite, -42, -36, 84, 78);
+    }
+    ctx.restore();
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.fillRect(protector.x - 20, protector.y - 43, 40, 5);
+    ctx.fillStyle = '#60a5fa';
+    ctx.fillRect(protector.x - 20, protector.y - 43, 40 * (protector.health / protector.maxHealth), 5);
+  }
+}
+
+// Draws crate-opening helpers and their three-hit health bars.
+function drawOpeners() {
+  for (const opener of player.openers) {
+    const scurry = opener.isMoving ? Math.sin(opener.scurryPhase || 0) : 0;
+    const bob = opener.isMoving ? -Math.abs(scurry) * 5 : 0;
+    const showcaseProgress = opener.showcaseDuration
+      ? 1 - (opener.showcaseTimer || 0) / opener.showcaseDuration
+      : 1;
+    const isShowcasing = (opener.showcaseTimer || 0) > 0;
+    const showcaseScale = isShowcasing
+      ? 0.55 + Math.min(1, showcaseProgress / 0.42) * 0.45
+        + Math.sin(showcaseProgress * Math.PI * 3) * 0.06
+      : 1;
+    const danceX = isShowcasing ? Math.sin(showcaseProgress * Math.PI * 4) * 9 : 0;
+    const danceY = isShowcasing ? -Math.abs(Math.sin(showcaseProgress * Math.PI * 5)) * 5 : 0;
+    ctx.save();
+    ctx.translate(opener.x + danceX, opener.y + bob + danceY);
+    ctx.rotate(opener.isMoving ? scurry * 0.055 : 0);
+    ctx.scale((opener.facingX < 0 ? 1 : -1) * showcaseScale, showcaseScale);
+    ctx.shadowBlur = 0;
+    if (state.retroMode) {
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.arc(0, 0, opener.radius, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (art.opener.complete && art.opener.naturalWidth > 0) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      // Crop the source header so its AI label never enters the game.
+      ctx.drawImage(art.opener, 0, 55, 1024, 950, -38, -48, 76, 86);
+    }
+    ctx.restore();
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.fillRect(opener.x - 20, opener.y - 55, 40, 5);
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(opener.x - 20, opener.y - 55, 40 * (opener.health / opener.maxHealth), 5);
   }
 }
 
@@ -3357,6 +3802,7 @@ function drawBackground() {
   }
   if (state.boss) drawBoss(state.boss);
   drawGuardians();
+  drawOpeners();
   drawTeleportEffect();
   drawPlayer();
   drawParticles();
@@ -3445,6 +3891,7 @@ function drawUI() {
   hud.bandage.textContent = String(player.inventory.bandage);
   hud.enemy.textContent = String(state.enemies.filter((enemy) => !enemy.dead).length + (state.boss ? 1 : 0));
   hud.protector.textContent = `${player.protectors.length} (${player.inventory.protectorShard} shards)`;
+  hud.opener.textContent = `${player.openers.length} (${player.inventory.openerShard} shards)`;
   hud.shield.textContent = String(player.inventory.shieldShard);
   hud.theme.closest('.stat').classList.toggle('hidden', !state.developerMode);
 
@@ -3499,6 +3946,7 @@ function loop(timestamp) {
       maybeOpenChallengeRoom();
       updateEnemies(dt);
       updateProtectors(dt);
+      updateOpeners(dt);
       updateBoss(dt);
       updateParticles(dt);
       maybeBossPortal();
@@ -3520,6 +3968,13 @@ function loop(timestamp) {
 
 acceptChallengeButton.addEventListener('click', () => resolveChallengeChoice(true));
 declineChallengeButton.addEventListener('click', () => resolveChallengeChoice(false));
+resumeGameButton.addEventListener('click', togglePause);
+quitGameButton.addEventListener('click', () => {
+  state.paused = false;
+  state.started = false;
+  pauseOverlay.classList.add('hidden');
+  showMainMenu();
+});
 openArmoryButton.addEventListener('click', () => {
   renderArmory();
   armoryOverlay.classList.remove('hidden');
@@ -3545,6 +4000,10 @@ randomizeHeroNameButton.addEventListener('click', () => {
   heroNameInput.value = currentHeroName;
   saveLeaderboard();
 });
+changeHeroButton.addEventListener('click', () => {
+  heroNameInput.blur();
+  genderOverlay.classList.remove('hidden');
+});
 openHighScoresButton.addEventListener('click', () => {
   saveHeroName();
   renderHighScores();
@@ -3555,20 +4014,6 @@ closeHighScoresButton.addEventListener('click', () => highScoresOverlay.classLis
 // Routes keyboard presses through overlays before active gameplay controls.
 window.addEventListener('keydown', (event) => {
   const key = event.key.toLowerCase();
-  const mainMenuOpen = !state.started
-    && !state.isGameOver
-    && !overlay.classList.contains('hidden')
-    && highScoresOverlay.classList.contains('hidden')
-    && armoryOverlay.classList.contains('hidden')
-    && genderOverlay.classList.contains('hidden');
-  if (mainMenuOpen && key === 'escape') {
-    event.preventDefault();
-    if (!event.repeat) {
-      heroNameInput.blur();
-      genderOverlay.classList.remove('hidden');
-    }
-    return;
-  }
   if (event.target === heroNameInput) {
     if (key === 'enter') {
       event.preventDefault();
@@ -3648,6 +4093,7 @@ window.addEventListener('keydown', (event) => {
     setMessage('Hold F for 2 seconds near a crate to open it.');
   }
   if (key === 'e' && state.started) createProtector();
+  if (key === 't' && state.started && !event.repeat) createOpener();
   if (key === 'q' && state.started) useBandage();
   if (key === 'r' && state.started && !event.repeat) activateShield();
   if (event.code === 'Space') {
@@ -3678,5 +4124,4 @@ renderHighScores();
 showRandomHeroProverb();
 applyEquippedArmor(true);
 updateGearNotification();
-genderOverlay.classList.remove('hidden');
 requestAnimationFrame(loop);

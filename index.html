@@ -19,6 +19,7 @@
       <span><kbd>Space</kbd> Attack</span>
       <span><kbd>F</kbd> Open crate</span>
       <span><kbd>E</kbd> Protector</span>
+      <span><kbd>T</kbd> Scout</span>
       <span><kbd>R</kbd> Shield</span>
       <span><kbd>L</kbd> Zoom in/out</span>
       <span><kbd>Esc</kbd> Pause</span>
@@ -37,6 +38,7 @@
       <div class="hud-right">
         <div class="stat enemy-stat"><span>Enemies Left in Wave</span><strong id="enemyValue">0</strong></div>
         <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
+        <div class="stat"><span>Scouts</span><strong id="openerValue">0</strong></div>
         <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
         <div class="stat theme-stat hidden"><span>Theme</span><strong id="themeValue">Forest</strong></div>
       </div>
@@ -48,6 +50,10 @@
       <div class="overlay-card pause-card">
         <h1>Paused</h1>
         <p>Press <kbd>Esc</kbd> to continue</p>
+        <div class="pause-actions">
+          <button id="resumeGameButton" type="button">Resume</button>
+          <button id="quitGameButton" class="pause-quit-button" type="button">Quit to Main Menu</button>
+        </div>
       </div>
     </div>
     <div id="challengeOverlay" class="overlay hidden">
@@ -64,7 +70,7 @@
     </div>
     <div id="waveSplash" class="overlay wave-splash hidden">
       <div class="wave-splash-card">
-        <div class="wave-splash-kicker">Incoming Threat</div>
+        <div id="waveSplashKicker" class="wave-splash-kicker">Incoming Threat</div>
         <h1 id="waveSplashTitle">Wave 1</h1>
         <div id="waveSplashEnemies" class="wave-splash-enemies"></div>
         <p id="waveSplashText"></p>
@@ -74,37 +80,40 @@
     </div>
     <div id="overlay" class="overlay">
       <div class="overlay-card main-menu-card">
+        <button id="changeHeroButton" class="change-hero-button" type="button">Change hero</button>
         <h1>Endless Dungeon</h1>
+        <p id="deathCauseText" class="death-cause-text hidden"></p>
         <button id="openArmoryButton" class="menu-hero-button" aria-label="Customize hero">
-          <img id="menuHero" class="menu-hero" src="assets/player/armor/male-wayfarer-portrait.png" alt="Dungeon hero" />
+          <img id="menuHero" class="menu-hero portrait-loading" src="assets/player/armor/male-wayfarer-portrait.png" alt="Dungeon hero" />
           <span class="menu-hero-hint">Click hero to customize</span>
           <span id="gearNotification" class="gear-notification hidden" aria-label="New gear available"></span>
         </button>
-        <p>Explore rooms, open crates, survive waves, and defeat the boss.</p>
+        <p id="overlayText">Explore rooms, open crates, survive waves, and defeat the boss.</p>
         <p id="heroProverb" class="hero-proverb">“A steady blade outlives a reckless heart.”</p>
         <div class="hero-name-editor">
           <label for="heroNameInput">Hero name</label>
           <div class="hero-name-controls">
-            <input id="heroNameInput" type="text" maxlength="28" autocomplete="off" spellcheck="false" aria-describedby="heroNameHint">
+            <input id="heroNameInput" type="text" maxlength="28" autocomplete="off" spellcheck="false">
             <button id="randomizeHeroNameButton" type="button" aria-label="Generate another hero name" title="Generate another hero name">↻</button>
           </div>
-          <small id="heroNameHint">Keep the suggested legend or write your own.</small>
         </div>
         <button id="openHighScoresButton" class="menu-high-score" type="button">
           Hall of Heroes · Best Score <strong id="menuHighScoreValue">0</strong>
         </button>
-        <div class="controls-grid">
+      </div>
+      <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
+      <div class="controls-grid menu-controls-box">
+          <strong>Controls</strong>
           <span>WASD: Move</span>
           <span>G: Sprint</span>
           <span>Space: Attack</span>
           <span>F: Open crate</span>
           <span>E: Protector</span>
+          <span>T: Scout</span>
           <span>R: Shield</span>
           <span>L: Zoom in/out</span>
           <span>Esc: Pause</span>
           <span>Q: Use bandage</span>
-        </div>
-        <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
       </div>
     </div>
     <div id="highScoresOverlay" class="overlay high-scores-overlay hidden">

@@ -15,7 +15,15 @@
 1. Create a dedicated Protector character picture for gameplay and UI.
 2. Create a bloodied, battle-worn hero portrait for death and close-call victory screens.
 3. Create illustrated sword-swing frames/effects to replace the temporary white attack arc.
-4. Replace standard SVG enemies with full picture sprites.
+   - Create sword-free male and female gameplay versions of every armour set. The current combat pictures have a sword baked into the hero's hands, so it remains visible underneath an equipped weapon and during swings.
+   - Keep the hand position, body framing, scale, anchor point, facing direction, and transparency consistent across armour sets so every separate weapon sprite can attach to the same grip point.
+4. Create modern transparent-background PNG replacements for the advanced enemies that still use SVG artwork:
+   - Assassin
+   - Burrower
+   - Wraith
+   - Reaper
+   - Arcane Orb
+   - Replace their modern gameplay sprites and before-wave portraits while preserving the existing SVGs for Retro Mode.
 5. Preserve the SVG set for Retro Mode.
 6. emerald-sword-portrait and lava-blade-portrait have a white background, instead of transparent
 7. we want a dark theme where the rooms are hardly lit, and you can only see the hero and creatures slightly by torchlight that they carry. it doesn't have to be real lighting effect, if that's out of this scope.

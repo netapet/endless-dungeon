@@ -42,21 +42,11 @@
 
 ### Fixes and small improvements
 
-- Add sprint exhaustion: after Stamina reaches zero, sprinting remains disabled until it recovers past a sensible threshold.
-- Make `armorLevel` actually reduce incoming damage.
-- Add “Crates Left” beneath the enemy counter.
-- Decide how Food and Water work:
-  - Keep automatic consumption and remove their unused stored inventory values; or
-  - Store supplies and add explicit Eat/Drink controls.
-- Remove the unused old `lavaminion.png` after confirming no code references it.
-
 ## Art still needed
 
 ### Room backgrounds
 
 - Bloomed Hollow room.
-- Ice biome room.
-- Wood biome room.
 - Future biome rooms.
 
 Existing room art:
@@ -65,12 +55,17 @@ Existing room art:
 - Sunken Shrine: `cyan room.png`
 - Cinder Keep: `lavaroom.png`
 - Moonwood: `water room.png`
+- Ice biome: `ice-room.png`
+- Skeleton biome: `skeleton-room.png`
+- Desert biome: `sand-room.png`
+- Abyss biome: `abyss-room.png`
+- Shadow biome: `shadow-room.png`
+- Crystal biome: `crystal-room.png`
+- Mech biome: `mech-room.png`
 
 ### Boss arenas
 
-- Wood Boss arena.
 - Stormbound Titan arena.
-- Arenas for Bosses 6–9.
 - Generic/endless boss arena.
 
 Existing arena art:
@@ -79,6 +74,15 @@ Existing arena art:
 - Lava Golem: `lavaarena.png`
 - Ocean Boss: `water arena.png`
 - Ice Boss: `icearena.png`
+- Skeleton Warlord: `skeleton-arena.png`
+- Sand Tyrant and Gilded Dune Serpent: `sand-arena.png`
+- Umbral Warden: `shadow-arena.png`
+- Abyssal Devourer: `abyss-arena.png`
+- Scorpion Queen: `scorpio-arena.png`
+- Wood Boss: `wood-arena.png`
+- Mycelial Sovereign: `fungal-arena.png`
+- Furnace Overlord: `mech-arena.png`
+- Prismatic Guardian: `crystal-arena.png`
 
 ### Enemy sets
 
@@ -103,13 +107,20 @@ Implemented unique bosses:
 4. Ice Boss
 5. Skeleton Warlord
 6. Sand Tyrant
+7. Umbral Warden
+8. Abyssal Devourer
+9. Scorpion Queen
 10. Wood Boss
+11. Mycelial Sovereign
+12. Furnace Overlord
+13. Prismatic Guardian
+14. Gilded Dune Serpent
 
-Missing:
+Remaining boss work:
 
-- Bosses 7–9 need identities, artwork, arenas, minions, attacks, threat text, death effects, balance, and rewards.
-- Bosses 11 onward currently fall back to the generic boss.
 - The generic boss threat screen still uses `brute.svg`.
+- The Stormbound Titan remains a future boss concept.
+- Existing bosses still need sound identities, richer death effects, and balance passes.
 
 Every new boss requires:
 
@@ -152,13 +163,11 @@ Every new boss requires:
 
 ## Combat and player progression
 
-- Add a Creature Compendium screen with portraits, health, damage, attacks, behaviour, and discovered-enemy details.
 - Add a temporary Hero Growth mode:
   - Trigger it through a rare potion or another item the hero must discover.
   - Make the hero visibly grow and become stronger for only a few seconds.
   - Clearly telegraph when the effect is about to expire.
   - Decide whether growth increases damage, reach, knockback, defence, or some combination.
-- Add brief hit-stop to strong impacts.
 - Improve knockback for the hero, enemies, protectors, and bosses.
 - Add floating numbers for damage, critical hits, blocked damage, and healing.
 - Add a proper sword-swing animation.
@@ -166,7 +175,6 @@ Every new boss requires:
 - Add dodge/roll movement.
 - Add charged attacks or simple attack combinations.
 - Add weapon types or active abilities.
-- Display Weapon and Armour levels in an appropriate upgrade/stat screen.
 - Offer a meaningful choice after every boss:
   - Weapon upgrade
   - Armour upgrade
@@ -178,7 +186,6 @@ Every new boss requires:
 
 ## Enemy intelligence
 
-- Spitter: real projectile attack.
 - Arcane Orb: ranged magical bursts.
 - Assassin: vanish, reposition, and backstab.
 - Burrower: tunnel and emerge near its target.
@@ -190,7 +197,6 @@ Every new boss requires:
 - Add ambushes from doors, corners, hidden rooms, and burrow points.
 - Let wounded or fragile enemies retreat.
 - Let tanks protect ranged, elite, or injured enemies.
-- Prevent enemies from stacking into one unreadable pile.
 
 ## Rooms, challenges, and loot
 
@@ -198,7 +204,6 @@ Every new boss requires:
 
 - Give challenge rooms a distinct visual treatment.
 - Add unique guardians or modifiers.
-- Show the promised reward before acceptance.
 - Guarantee enhanced loot.
 - Scale difficulty.
 - Add variants:
@@ -279,7 +284,6 @@ Every new boss requires:
 - Add Restore Defaults.
 - Save bindings locally.
 - Add controller support.
-- Add fullscreen mode.
 - Add settings for:
   - Music volume
   - Sound volume
@@ -385,17 +389,13 @@ Every new boss requires:
 ## Suggested development order
 
 1. Protector artwork and integration.
-2. Sprint exhaustion and Armour functionality.
-3. Sword animation and improved combat feedback.
-4. Crates Left and Food/Water decision.
-5. Spitter and Arcane Orb ranged attacks.
-6. Challenge-room rewards and visual identity.
-7. Stormbound Titan artwork and attack art.
-8. Implement Boss 5.
-9. Bloomed Hollow room art and biome hazards.
-10. Bosses 6–9 and Wood Boss arena.
-11. Key remapping and settings screen.
-12. Audio Stage 1, then the first MIDI room theme.
-13. Mobile Safari controls and layout.
-14. Run recap and first Health graph.
-15. Boss 10 ending, Endless Mode, and Retro Mode.
+2. Sword animation and improved combat feedback.
+3. Arcane Orb ranged attacks.
+4. Challenge-room rewards and visual identity.
+5. Bloomed Hollow room art and biome hazards.
+6. Key remapping and settings screen.
+7. Audio Stage 1, then the first MIDI room theme.
+8. Mobile Safari controls and layout.
+9. Run recap and first Health graph.
+10. Boss 10 ending, Endless Mode, and Retro Mode.
+11. Stormbound Titan artwork and implementation.

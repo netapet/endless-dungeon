@@ -37,6 +37,7 @@
       </div>
       <div class="hud-right">
         <div class="stat enemy-stat"><span>Enemies Left in Wave</span><strong id="enemyValue">0</strong></div>
+        <div class="stat"><span>Crates Left</span><strong id="crateValue">0</strong></div>
         <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
         <div class="stat"><span>Scouts</span><strong id="openerValue">0</strong></div>
         <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
@@ -154,6 +155,10 @@
               <h2>Traits</h2>
               <div id="bestiaryDetailTraits" class="bestiary-detail-traits"></div>
               <p id="bestiaryDetailBackstory" class="bestiary-detail-lore"></p>
+              <figure id="bestiaryDetailFanArt" class="bestiary-detail-fan-art hidden">
+                <img id="bestiaryDetailFanArtImage" src="" alt="">
+                <figcaption>Fan Art</figcaption>
+              </figure>
               <button id="closeBestiaryDetailButton" class="journal-close" type="button">Back to the Beastiary</button>
             </div>
           </div>
@@ -165,6 +170,10 @@
         <div class="armory-kicker">Hero Armory</div>
         <h1>Choose Your Battle Gear</h1>
         <p>Armor remains unlocked between runs. Select a set to wear into the dungeon.</p>
+        <div class="armory-levels" aria-label="Current equipment levels">
+          <span>Armour Level <strong id="armoryArmorLevel">1</strong></span>
+          <span>Weapon Level <strong id="armoryWeaponLevel">1</strong></span>
+        </div>
         <div id="armorGrid" class="armor-grid"></div>
         <h2 class="armory-section-title">Blades</h2>
         <p>Choose which unlocked sword the hero carries into battle.</p>

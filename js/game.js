@@ -124,6 +124,7 @@ const journalCatalog = [
   { id: 'voidwingDrake', name: 'Riftwing Drake', kind: 'Enemy', image: 'assets/themes/abyssal-depths/voidwing-drake.png' },
   { id: 'corruptedStag', name: 'Corrupted Stag', kind: 'Enemy', image: 'assets/themes/fungal-dominion/corrupted-stag.png' },
   { id: 'fungalOozeSnail', name: 'Fungal Ooze Snail', kind: 'Enemy', image: 'assets/themes/fungal-dominion/Fungal Ooze Snail.png', fanArt: 'assets/fan-art/Bioluminescent Slug.png' },
+  { id: 'fungalFairyWitch', name: 'Fungal Fairy Witch', kind: 'Enemy', image: 'assets/themes/fungal-dominion/Fungal Fairy Witch.png' },
   { id: 'mechMinion', name: 'Furnace Sentinel', kind: 'Enemy', image: 'assets/themes/furnace-foundry/furnace-sentinel.png' },
   { id: 'mechBear', name: 'Brassmaw Siege Bear', kind: 'Enemy', image: 'assets/themes/furnace-foundry/mech-bear.png', fanArt: 'assets/fan-art/mech bear standing.png' },
   { id: 'shadowCat', name: 'Nightclaw Lynx', kind: 'Enemy', image: 'assets/themes/shadow-realm/shadow-cat.png', fanArt: 'assets/fan-art/Feral shadowed lynx.png' },
@@ -172,6 +173,7 @@ const bestiaryProfiles = {
   sandRoller: { health: '185 + 20 per wave', damage: '18 + 2.4 per wave', speed: '96', traits: 'Armoured charge · heavy impact', backstory: 'The ruin-builders shaped these guardians from temple blocks. When disturbed, each one curls into a living siege stone and crushes intruders beneath its carved shell.' },
   corruptedStag: { health: '105 + 14 per wave', damage: '17 + 2.3 per wave', speed: '172', traits: 'Antler charge · relentless pursuit', backstory: 'This stag inhaled the Mycelial Sovereign’s oldest spores while grazing above the fungal colony. The growth hollowed its instincts into a single command: charge anything that has not yet joined the bloom.' },
   fungalOozeSnail: { health: '210 + 24 per wave', damage: '16 + 2.2 per wave', speed: '48', traits: 'Ooze Bite · lingering poison · heavy shell', backstory: 'Fungal Ooze Snails spend centuries carrying entire colonies across the dungeon floor. Their glowing feelers lure hungry creatures close enough for the colony beneath the shell to feed.' },
+  fungalFairyWitch: { health: '92 + 13 per wave', damage: '15 + 2.1 per wave', speed: '154', traits: 'Spore Hex · lingering poison · winged pursuit', backstory: 'Fungal Fairy Witches tend the Sovereign’s youngest mushroom groves. Their wings scatter enchanted spores through the air, turning every graceful sweep into a poisonous curse.' },
   scorpionQueen: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Pincer Slam · Scorpio Dash · Venom Nova · Brood Summoning', backstory: 'The Scorpion Queen was the Sand Tyrant’s most feared general. She bound herself to the desert’s oldest brood and now carries an army beneath her armour.' },
 };
 const bestiaryBackstories = {
@@ -361,21 +363,31 @@ const armorSets = [
 ];
 
 const weaponSets = [
-  { id: 'lavaBlade', name: 'Cinderfang', boss: 2, portrait: 'assets/player/weapons/lava-blade-portrait.png', combat: 'assets/player/weapons/lava-blade-combat.png', damage: 4, reach: 2 },
-  { id: 'broadSword', name: 'Oathkeeper Broadblade', boss: 4, portrait: 'assets/player/weapons/broad-sword.png', combat: 'assets/player/weapons/broad-sword.png', damage: 8, reach: 4 },
-  { id: 'diamondSword', name: 'Diamondheart Greatsword', boss: 6, portrait: 'assets/player/weapons/diamond-sword-portrait.png', combat: 'assets/player/weapons/diamond-sword-combat.png', damage: 15, reach: 8 },
-  { id: 'emeraldSword', name: 'Emerald Sovereign', boss: 8, portrait: 'assets/player/weapons/emerald-sword-portrait.png', combat: 'assets/player/weapons/emerald-sword-combat.png', damage: 24, reach: 12 },
-  { id: 'frostspire', name: 'Frostspire', boss: 9, portrait: 'assets/player/weapons/frostspire.png', combat: 'assets/player/weapons/frostspire.png', damage: 32, reach: 15 },
-  { id: 'worldfireCleaver', name: 'Worldfire Cleaver', boss: 11, portrait: 'assets/player/weapons/worldfire-cleaver.png', combat: 'assets/player/weapons/worldfire-cleaver.png', damage: 42, reach: 18 },
-  { id: 'voidRequiem', name: 'Void Requiem', boss: 12, portrait: 'assets/player/weapons/void-requiem.png', combat: 'assets/player/weapons/void-requiem.png', damage: 54, reach: 22 },
-  { id: 'sunforgedJudgment', name: 'Sunforged Judgment', boss: 14, portrait: 'assets/player/weapons/sunforged-judgment.png', combat: 'assets/player/weapons/sunforged-judgment.png', damage: 68, reach: 26 },
+  { id: 'lavaBlade', name: 'Cinderfang', kind: 'melee', boss: 2, portrait: 'assets/player/weapons/lava-blade-portrait.png', combat: 'assets/player/weapons/lava-blade-combat.png', damage: 4, reach: 2 },
+  { id: 'verdantBow', name: 'Verdant Longbow', kind: 'bow', boss: 3, portrait: 'assets/player/weapons/bow-01.png', combat: 'assets/player/weapons/bow-01.png', projectileDamage: 24, projectileSpeed: 620, cooldown: 0.7 },
+  { id: 'broadSword', name: 'Oathkeeper Broadblade', kind: 'melee', boss: 4, portrait: 'assets/player/weapons/broad-sword.png', combat: 'assets/player/weapons/broad-sword.png', damage: 8, reach: 4 },
+  { id: 'tideBow', name: 'Tidepiercer Bow', kind: 'bow', boss: 5, portrait: 'assets/player/weapons/bow-02.png', combat: 'assets/player/weapons/bow-02.png', projectileDamage: 32, projectileSpeed: 660, cooldown: 0.64 },
+  { id: 'diamondSword', name: 'Diamondheart Greatsword', kind: 'melee', boss: 6, portrait: 'assets/player/weapons/diamond-sword-portrait.png', combat: 'assets/player/weapons/diamond-sword-combat.png', damage: 15, reach: 8 },
+  { id: 'cinderBow', name: 'Cinderstring Bow', kind: 'bow', boss: 7, portrait: 'assets/player/weapons/bow-03.png', combat: 'assets/player/weapons/bow-03.png', projectileDamage: 42, projectileSpeed: 700, cooldown: 0.58 },
+  { id: 'emeraldSword', name: 'Emerald Sovereign', kind: 'melee', boss: 8, portrait: 'assets/player/weapons/emerald-sword-portrait.png', combat: 'assets/player/weapons/emerald-sword-combat.png', damage: 24, reach: 12 },
+  { id: 'frostspire', name: 'Frostspire', kind: 'melee', boss: 9, portrait: 'assets/player/weapons/frostspire.png', combat: 'assets/player/weapons/frostspire.png', damage: 32, reach: 15 },
+  { id: 'frostBow', name: 'Frostwind Bow', kind: 'bow', boss: 9, portrait: 'assets/player/weapons/bow-04.png', combat: 'assets/player/weapons/bow-04.png', projectileDamage: 54, projectileSpeed: 750, cooldown: 0.52 },
+  { id: 'worldfireCleaver', name: 'Worldfire Cleaver', kind: 'melee', boss: 11, portrait: 'assets/player/weapons/worldfire-cleaver.png', combat: 'assets/player/weapons/worldfire-cleaver.png', damage: 42, reach: 18 },
+  { id: 'voidBow', name: 'Voidcaller Bow', kind: 'bow', boss: 11, portrait: 'assets/player/weapons/bow-05.png', combat: 'assets/player/weapons/bow-05.png', projectileDamage: 68, projectileSpeed: 810, cooldown: 0.46 },
+  { id: 'voidRequiem', name: 'Void Requiem', kind: 'melee', boss: 12, portrait: 'assets/player/weapons/void-requiem.png', combat: 'assets/player/weapons/void-requiem.png', damage: 54, reach: 22 },
+  { id: 'sunforgedJudgment', name: 'Sunforged Judgment', kind: 'melee', boss: 14, portrait: 'assets/player/weapons/sunforged-judgment.png', combat: 'assets/player/weapons/sunforged-judgment.png', damage: 68, reach: 26 },
+  { id: 'emberStaff', name: 'Emberheart Staff', kind: 'staff', boss: 12, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 0, sheetFrames: 3, projectileDamage: 86, projectileSpeed: 500, cooldown: 0.72, splashRadius: 54 },
+  { id: 'astralStaff', name: 'Astral Bloom Staff', kind: 'staff', boss: 13, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 1, sheetFrames: 3, projectileDamage: 116, projectileSpeed: 540, cooldown: 0.64, splashRadius: 68 },
+  { id: 'worldStaff', name: 'Worldroot Staff', kind: 'staff', boss: 14, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 2, sheetFrames: 3, projectileDamage: 152, projectileSpeed: 580, cooldown: 0.56, splashRadius: 82 },
 ];
-const starterWeapon = { id: 'starterBlade', name: 'Starter Blade', boss: 0, damage: 0, reach: 0 };
+const starterWeapon = { id: 'starterBlade', name: 'Starter Blade', kind: 'melee', boss: 0, damage: 0, reach: 0 };
 
 let unlockedArmor = new Set(['wayfarer']);
 let equippedArmorId = 'wayfarer';
 let unlockedWeapons = new Set();
-let equippedWeaponId = 'starterBlade';
+let equippedMeleeWeaponId = 'starterBlade';
+let equippedRangedWeaponId = null;
+let activeWeaponKind = 'melee';
 let unseenGear = new Set();
 let selectedGender = 'male';
 let pendingGearChoice = null;
@@ -389,15 +401,25 @@ try {
   const savedWeapons = JSON.parse(window.localStorage.getItem('endlessDungeonWeapons') || '[]');
   unlockedWeapons = new Set(savedWeapons);
   const savedWeapon = window.localStorage.getItem('endlessDungeonEquippedWeapon');
-  if (savedWeapon && unlockedWeapons.has(savedWeapon)) equippedWeaponId = savedWeapon;
+  const savedMeleeWeapon = window.localStorage.getItem('endlessDungeonEquippedMeleeWeapon');
+  const savedRangedWeapon = window.localStorage.getItem('endlessDungeonEquippedRangedWeapon');
+  const legacyWeapon = weaponSets.find((weapon) => weapon.id === savedWeapon);
+  if (savedMeleeWeapon && unlockedWeapons.has(savedMeleeWeapon)) equippedMeleeWeaponId = savedMeleeWeapon;
+  else if (legacyWeapon?.kind === 'melee' && unlockedWeapons.has(legacyWeapon.id)) equippedMeleeWeaponId = legacyWeapon.id;
+  if (savedRangedWeapon && unlockedWeapons.has(savedRangedWeapon)) equippedRangedWeaponId = savedRangedWeapon;
+  else if (legacyWeapon && legacyWeapon.kind !== 'melee' && unlockedWeapons.has(legacyWeapon.id)) equippedRangedWeaponId = legacyWeapon.id;
+  if (window.localStorage.getItem('endlessDungeonActiveWeaponKind') === 'ranged' && equippedRangedWeaponId) {
+    activeWeaponKind = 'ranged';
+  }
   unseenGear = new Set(JSON.parse(window.localStorage.getItem('endlessDungeonUnseenGear') || '[]'));
   if (window.localStorage.getItem('endlessDungeonWeaponMilestones') !== 'v2') {
     unlockedWeapons.delete('broadSword');
     unlockedWeapons.delete('diamondSword');
-    equippedWeaponId = 'starterBlade';
+    equippedMeleeWeaponId = 'starterBlade';
+    activeWeaponKind = 'melee';
     window.localStorage.setItem('endlessDungeonWeaponMilestones', 'v2');
     window.localStorage.setItem('endlessDungeonWeapons', JSON.stringify([...unlockedWeapons]));
-    window.localStorage.setItem('endlessDungeonEquippedWeapon', equippedWeaponId);
+    window.localStorage.setItem('endlessDungeonEquippedWeapon', equippedMeleeWeaponId);
   }
 } catch (error) {
   unlockedArmor = new Set(['wayfarer']);
@@ -410,7 +432,20 @@ function getEquippedArmor() {
 
 // Resolves the current weapon, including the always-available starter blade.
 function getEquippedWeapon() {
-  return weaponSets.find((weapon) => weapon.id === equippedWeaponId) || starterWeapon;
+  const equippedId = activeWeaponKind === 'ranged' ? equippedRangedWeaponId : equippedMeleeWeaponId;
+  return weaponSets.find((weapon) => weapon.id === equippedId) || starterWeapon;
+}
+
+// Switches instantly between the independently equipped melee and ranged slots.
+function toggleWeaponMode() {
+  if (!equippedRangedWeaponId || !unlockedWeapons.has(equippedRangedWeaponId)) {
+    setMessage('No ranged weapon is equipped yet.');
+    return;
+  }
+  activeWeaponKind = activeWeaponKind === 'melee' ? 'ranged' : 'melee';
+  player.attackCooldown = Math.max(player.attackCooldown, 0.12);
+  saveArmorCollection();
+  setMessage(`${activeWeaponKind === 'ranged' ? 'Ranged' : 'Melee'} weapon ready: ${getEquippedWeapon().name}.`);
 }
 
 // Persists unlocked and equipped gear while keeping run-specific choices temporary.
@@ -419,7 +454,12 @@ function saveArmorCollection() {
     window.localStorage.setItem('endlessDungeonArmor', JSON.stringify([...unlockedArmor]));
     window.localStorage.setItem('endlessDungeonEquippedArmor', equippedArmorId);
     window.localStorage.setItem('endlessDungeonWeapons', JSON.stringify([...unlockedWeapons]));
-    window.localStorage.setItem('endlessDungeonEquippedWeapon', equippedWeaponId);
+    window.localStorage.setItem('endlessDungeonEquippedMeleeWeapon', equippedMeleeWeaponId);
+    if (equippedRangedWeaponId) {
+      window.localStorage.setItem('endlessDungeonEquippedRangedWeapon', equippedRangedWeaponId);
+    }
+    window.localStorage.setItem('endlessDungeonActiveWeaponKind', activeWeaponKind);
+    window.localStorage.setItem('endlessDungeonEquippedWeapon', getEquippedWeapon().id);
     window.localStorage.setItem('endlessDungeonUnseenGear', JSON.stringify([...unseenGear]));
   } catch (error) {
     // Armor still works for the current browser session.
@@ -437,6 +477,34 @@ function closeGearPreview() {
   gearPreview.classList.add('hidden');
 }
 
+// Extracts one evenly spaced vertical sprite-sheet frame for Armory previews.
+function getWeaponPreviewSource(weapon) {
+  if (!weapon.sheet) return weapon.portrait;
+  const sheet = art[weapon.sheet];
+  if (!sheet?.complete || sheet.naturalWidth === 0) {
+    const label = weapon.kind === 'staff' ? 'STAFF ART PENDING' : 'BOW ART LOADING';
+    return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="512" height="256"><rect width="100%" height="100%" fill="#120d1f"/><text x="50%" y="50%" fill="#c4b5fd" font-family="monospace" font-size="28" text-anchor="middle">${label}</text></svg>`)}`;
+  }
+  const preview = document.createElement('canvas');
+  const horizontal = weapon.sheetDirection === 'horizontal';
+  const frameWidth = horizontal ? sheet.naturalWidth / weapon.sheetFrames : sheet.naturalWidth;
+  const frameHeight = horizontal ? sheet.naturalHeight : sheet.naturalHeight / weapon.sheetFrames;
+  preview.width = frameWidth;
+  preview.height = frameHeight;
+  preview.getContext('2d').drawImage(
+    sheet,
+    horizontal ? frameWidth * weapon.sheetFrame : 0,
+    horizontal ? 0 : frameHeight * weapon.sheetFrame,
+    frameWidth,
+    frameHeight,
+    0,
+    0,
+    preview.width,
+    preview.height,
+  );
+  return preview.toDataURL('image/png');
+}
+
 // Opens a comparison card before the player equips a selected item.
 function showGearPreview(type, gear, image) {
   pendingGearChoice = { type, gear };
@@ -449,7 +517,9 @@ function showGearPreview(type, gear, image) {
     : `Reward for defeating Boss ${gear.boss}.`;
   gearPreviewStats.innerHTML = type === 'armor'
     ? `<strong>Damage reduction: ${gear.defense}%</strong><strong>Thorns reflection: ${gear.thorns}%</strong><strong>Maximum health: +${gear.health}</strong><strong>Maximum stamina: +${gear.stamina}</strong>`
-    : `<strong>Attack damage: +${gear.damage}%</strong><strong>Attack reach: +${gear.reach}</strong>`;
+    : gear.kind === 'melee'
+      ? `<strong>Attack damage: +${gear.damage}%</strong><strong>Attack reach: +${gear.reach}</strong>`
+      : `<strong>Projectile damage: ${gear.projectileDamage}</strong><strong>Attack rate: ${(1 / gear.cooldown).toFixed(1)} per second</strong>${gear.splashRadius ? `<strong>Blast radius: ${gear.splashRadius}</strong>` : ''}`;
   applyGearButton.textContent = 'Apply';
   gearPreview.classList.remove('hidden');
 }
@@ -462,7 +532,13 @@ function applyPendingGearChoice() {
     equippedArmorId = gear.id;
     applyEquippedArmor(false);
   } else {
-    equippedWeaponId = gear.id;
+    if (gear.kind === 'melee') {
+      equippedMeleeWeaponId = gear.id;
+      activeWeaponKind = 'melee';
+    } else {
+      equippedRangedWeaponId = gear.id;
+      activeWeaponKind = 'ranged';
+    }
   }
   saveArmorCollection();
   closeGearPreview();
@@ -492,16 +568,22 @@ function renderArmory() {
   weaponGrid.replaceChildren();
   for (const weapon of weaponSets) {
     const unlocked = unlockedWeapons.has(weapon.id);
+    const weaponPreview = getWeaponPreviewSource(weapon);
     const option = document.createElement('button');
-    option.className = `armor-option${unlocked ? '' : ' locked'}${equippedWeaponId === weapon.id ? ' selected' : ''}`;
+    const equippedInSlot = weapon.kind === 'melee'
+      ? equippedMeleeWeaponId === weapon.id
+      : equippedRangedWeaponId === weapon.id;
+    option.className = `armor-option${unlocked ? '' : ' locked'}${equippedInSlot ? ' selected' : ''}`;
     option.disabled = !unlocked;
     option.innerHTML = `
       ${unseenGear.has(`weapon:${weapon.id}`) ? '<em class="new-gear-label">NEW</em>' : ''}
-      <img src="${weapon.portrait}" alt="${weapon.name}">
+      <img src="${weaponPreview}" alt="${weapon.name}">
       <strong>${unlocked ? weapon.name : `Defeat Boss ${weapon.boss}`}</strong>
-      <span>Damage +${weapon.damage}% · Reach +${weapon.reach}</span>
+      <span>${weapon.kind === 'melee'
+        ? `Damage +${weapon.damage}% · Reach +${weapon.reach}`
+        : `${weapon.kind === 'bow' ? 'Bow' : 'Magic staff'} · Damage ${weapon.projectileDamage} · ${(1 / weapon.cooldown).toFixed(1)}/sec`}</span>
     `;
-    if (unlocked) option.addEventListener('click', () => showGearPreview('weapon', weapon, weapon.portrait));
+    if (unlocked) option.addEventListener('click', () => showGearPreview('weapon', weapon, weaponPreview));
     weaponGrid.appendChild(option);
   }
 }
@@ -893,6 +975,7 @@ const art = {
   sunfeatherGriffin: new Image(),
   corruptedStag: new Image(),
   fungalOozeSnail: new Image(),
+  fungalFairyWitch: new Image(),
   woodBoss: new Image(),
   woodBossOverhead: new Image(),
   woodAttack: new Image(),
@@ -958,6 +1041,12 @@ const art = {
   worldfireCleaver: new Image(),
   voidRequiem: new Image(),
   sunforgedJudgment: new Image(),
+  verdantBow: new Image(),
+  tideBow: new Image(),
+  cinderBow: new Image(),
+  frostBow: new Image(),
+  voidBow: new Image(),
+  staffs: new Image(),
   protector: new Image(),
   protectorPawSwipe: new Image(),
   protectorBite: new Image(),
@@ -970,7 +1059,7 @@ function preloadArt() {
     roomRuins: 'assets/themes/retro-ruins/ruins.svg',
     demoRockRoom: 'assets/fan-art/rock-room.png',
     hero: 'assets/player/armor/male-worldforged-portrait.png',
-    retroHero: 'assets/player/base-hero.svg',
+    retroHero: 'assets/themes/retro-ruins/base-hero.svg',
     walker: 'assets/themes/retro-ruins/walker.svg',
     runner: 'assets/themes/retro-ruins/runner.svg',
     brute: 'assets/themes/retro-ruins/brute.svg',
@@ -1018,6 +1107,7 @@ function preloadArt() {
     sunfeatherGriffin: 'assets/themes/desert-ruins/sunfeather-griffin.png',
     corruptedStag: 'assets/themes/fungal-dominion/corrupted-stag.png',
     fungalOozeSnail: 'assets/themes/fungal-dominion/Fungal Ooze Snail.png',
+    fungalFairyWitch: 'assets/themes/fungal-dominion/Fungal Fairy Witch.png',
     mechMinion: 'assets/themes/furnace-foundry/furnace-sentinel.png',
     woodBoss: 'assets/themes/moonwood/wood-boss.png',
     woodBossOverhead: 'assets/themes/moonwood/wood-boss-overhead.png',
@@ -1083,6 +1173,12 @@ function preloadArt() {
     worldfireCleaver: 'assets/player/weapons/worldfire-cleaver.png',
     voidRequiem: 'assets/player/weapons/void-requiem.png',
     sunforgedJudgment: 'assets/player/weapons/sunforged-judgment.png',
+    verdantBow: 'assets/player/weapons/bow-01.png',
+    tideBow: 'assets/player/weapons/bow-02.png',
+    cinderBow: 'assets/player/weapons/bow-03.png',
+    frostBow: 'assets/player/weapons/bow-04.png',
+    voidBow: 'assets/player/weapons/bow-05.png',
+    staffs: 'assets/player/weapons/staff.png',
     protector: 'assets/helpers/protector.png',
     protectorPawSwipe: 'assets/helpers/protector-paw-swipe.png',
     protectorBite: 'assets/helpers/protector-bite.png',
@@ -1246,6 +1342,7 @@ const state = {
   rareThemeChance: 0.05,
   particles: [],
   enemyProjectiles: [],
+  playerProjectiles: [],
   started: false,
   paused: false,
   shake: 0,
@@ -1335,10 +1432,10 @@ const baseEnemyTypes = new Set([
 const enemyMeleeProfiles = {
   lushMinion: { attackName: 'Thorn Bite', reach: 58, cooldown: 0.72, lunge: 42, damageScale: 0.92, staminaDrain: 6, retreat: 0.34, color: '#4ade80', shake: 5 },
   lushTank: { attackName: 'Mossback Swipe', reach: 82, cooldown: 1.42, lunge: 24, damageScale: 1.32, staminaDrain: 14, retreat: 0.22, color: '#84cc16', shake: 10 },
-  lushMossling: { attackName: 'Crystal Pounce', reach: 62, cooldown: 0.68, lunge: 48, damageScale: 0.9, staminaDrain: 10, retreat: 0.3, color: '#4ade80', shake: 5 },
+  lushMossling: { attackName: 'Crystal Pounce', reach: 62, cooldown: 0.68, lunge: 48, lunges: true, damageScale: 0.9, staminaDrain: 10, retreat: 0.3, color: '#4ade80', shake: 5 },
   lavaMinion: { attackName: 'Cinder Bite', reach: 62, cooldown: 0.7, lunge: 46, damageScale: 1, retreat: 0.3, color: '#f97316', shake: 6 },
-  lavaSpider: { attackName: 'Magma Fang Lunge', reach: 76, cooldown: 0.84, lunge: 62, damageScale: 1.08, staminaDrain: 8, retreat: 0.4, color: '#fb923c', shake: 7 },
-  lavaTiger: { attackName: 'Furnace Pounce', reach: 116, cooldown: 0.88, lunge: 104, damageScale: 1.22, staminaDrain: 16, retreat: 0.44, color: '#f97316', shake: 9 },
+  lavaSpider: { attackName: 'Magma Fang Lunge', reach: 76, cooldown: 0.84, lunge: 62, lunges: true, damageScale: 1.08, staminaDrain: 8, retreat: 0.4, color: '#fb923c', shake: 7 },
+  lavaTiger: { attackName: 'Furnace Pounce', reach: 116, cooldown: 0.88, lunge: 104, lunges: true, damageScale: 1.22, staminaDrain: 16, retreat: 0.44, color: '#f97316', shake: 9 },
   lavaTank: { attackName: 'Obsidian Swipe', reach: 86, cooldown: 1.5, lunge: 28, damageScale: 1.4, staminaDrain: 16, retreat: 0.22, color: '#ef4444', shake: 11 },
   oceanMinion: { attackName: 'Riptide Lunge', reach: 66, cooldown: 0.76, lunge: 54, damageScale: 0.95, hydrationDrain: 5, retreat: 0.38, color: '#22d3ee', shake: 5 },
   oceanTank: { attackName: 'Reefbreaker Swipe', reach: 88, cooldown: 1.48, lunge: 30, damageScale: 1.38, staminaDrain: 16, retreat: 0.22, color: '#38bdf8', shake: 11 },
@@ -1347,27 +1444,28 @@ const enemyMeleeProfiles = {
   skeletonTank: { attackName: 'Ossuary Crush', reach: 86, cooldown: 1.55, lunge: 26, damageScale: 1.42, staminaDrain: 18, retreat: 0.2, color: '#f8fafc', shake: 12 },
   skeletonSpider: { attackName: 'Marrow Bite', reach: 74, cooldown: 0.76, lunge: 58, damageScale: 1.05, staminaDrain: 7, retreat: 0.42, color: '#cbd5e1', shake: 6 },
   desertMummy: { attackName: 'Cursebound Swipe', reach: 78, cooldown: 1.18, lunge: 32, damageScale: 1.22, staminaDrain: 12, retreat: 0.25, color: '#fbbf24', shake: 8 },
-  desertScorpion: { attackName: 'Stinger Lunge', reach: 84, cooldown: 0.92, lunge: 64, damageScale: 1.12, staminaDrain: 10, retreat: 0.44, color: '#f59e0b', shake: 7 },
+  desertScorpion: { attackName: 'Stinger Lunge', reach: 84, cooldown: 0.92, lunge: 64, lunges: true, damageScale: 1.12, staminaDrain: 10, retreat: 0.44, color: '#f59e0b', shake: 7 },
   abyssJelly: { attackName: 'Void Pulse', reach: 74, cooldown: 1.05, lunge: 34, damageScale: 0.9, hydrationDrain: 8, retreat: 0.5, color: '#38bdf8', shake: 5 },
-  abyssSpider: { attackName: 'Riftfang Bite', reach: 78, cooldown: 0.74, lunge: 66, damageScale: 1.08, hydrationDrain: 6, retreat: 0.46, color: '#6366f1', shake: 7 },
+  abyssSpider: { attackName: 'Riftfang Bite', reach: 78, cooldown: 0.74, lunge: 66, lunges: true, damageScale: 1.08, hydrationDrain: 6, retreat: 0.46, color: '#6366f1', shake: 7 },
   abyssKnight: { attackName: 'Abyssal Cleave', reach: 88, cooldown: 1.28, lunge: 40, damageScale: 1.3, staminaDrain: 14, retreat: 0.26, color: '#0ea5e9', shake: 10 },
   crystalMinion: { attackName: 'Gemclaw Swipe', reach: 70, cooldown: 1.05, lunge: 34, damageScale: 1.12, staminaDrain: 10, retreat: 0.28, color: '#22d3ee', shake: 7 },
   crystalTank: { attackName: 'Prism Crush', reach: 88, cooldown: 1.55, lunge: 26, damageScale: 1.38, staminaDrain: 18, retreat: 0.24, color: '#8b5cf6', shake: 11 },
-  crystalLion: { reach: 104, cooldown: 0.92, lunge: 88, damageScale: 1.15, staminaDrain: 14, retreat: 0.38, color: '#60a5fa', shake: 8 },
-  crystalBobcat: { reach: 128, cooldown: 0.64, lunge: 116, damageScale: 0.92, staminaDrain: 8, retreat: 0.55, color: '#a78bfa', shake: 6 },
-  shadowCat: { reach: 118, cooldown: 0.76, lunge: 108, damageScale: 1.05, staminaDrain: 12, retreat: 0.48, color: '#c084fc', shake: 7 },
-  shadowGator: { reach: 104, cooldown: 1.32, lunge: 86, damageScale: 1.25, hydrationDrain: 15, retreat: 0.34, color: '#7e22ce', shake: 9 },
-  mechBear: { reach: 96, cooldown: 1.48, lunge: 72, damageScale: 1.35, staminaDrain: 20, retreat: 0.3, color: '#f59e0b', shake: 11 },
-  oceanHippo: { reach: 112, cooldown: 1.62, lunge: 94, damageScale: 1.4, staminaDrain: 24, hydrationDrain: 12, retreat: 0.28, color: '#22d3ee', shake: 13 },
+  crystalLion: { reach: 104, cooldown: 0.92, lunge: 88, lunges: true, damageScale: 1.15, staminaDrain: 14, retreat: 0.38, color: '#60a5fa', shake: 8 },
+  crystalBobcat: { reach: 128, cooldown: 0.64, lunge: 116, lunges: true, damageScale: 0.92, staminaDrain: 8, retreat: 0.55, color: '#a78bfa', shake: 6 },
+  shadowCat: { reach: 118, cooldown: 0.76, lunge: 108, lunges: true, damageScale: 1.05, staminaDrain: 12, retreat: 0.48, color: '#c084fc', shake: 7 },
+  shadowGator: { reach: 104, cooldown: 1.32, lunge: 86, lunges: true, damageScale: 1.25, hydrationDrain: 15, retreat: 0.34, color: '#7e22ce', shake: 9 },
+  mechBear: { reach: 96, cooldown: 1.48, lunge: 72, lunges: true, damageScale: 1.35, staminaDrain: 20, retreat: 0.3, color: '#f59e0b', shake: 11 },
+  oceanHippo: { reach: 112, cooldown: 1.62, lunge: 94, lunges: true, damageScale: 1.4, staminaDrain: 24, hydrationDrain: 12, retreat: 0.28, color: '#22d3ee', shake: 13 },
   frostWraith: { reach: 74, cooldown: 0.82, lunge: 58, damageScale: 0.92, staminaDrain: 15, retreat: 0.42, color: '#bfdbfe', shake: 6 },
   voidSerpent: { attackName: 'Venom Bite', reach: 82, cooldown: 0.78, lunge: 72, damageScale: 1.08, poisonDuration: 3.2, poisonDps: 3.5, retreat: 0.5, color: '#a3e635', shake: 7 },
-  sandRoller: { reach: 86, cooldown: 1.35, lunge: 76, damageScale: 1.3, staminaDrain: 14, retreat: 0.24, color: '#fbbf24', shake: 10 },
-  corruptedStag: { reach: 90, cooldown: 0.72, lunge: 64, damageScale: 1.18, staminaDrain: 10, retreat: 0.3, color: '#84cc16', shake: 8 },
+  sandRoller: { reach: 86, cooldown: 1.35, lunge: 76, lunges: true, damageScale: 1.3, staminaDrain: 14, retreat: 0.24, color: '#fbbf24', shake: 10 },
+  corruptedStag: { reach: 90, cooldown: 0.72, lunge: 64, lunges: true, damageScale: 1.18, staminaDrain: 10, retreat: 0.3, color: '#84cc16', shake: 8 },
   fungalOozeSnail: { attackName: 'Ooze Bite', reach: 76, cooldown: 1.25, lunge: 24, damageScale: 1, poisonDuration: 4, poisonDps: 2.75, retreat: 0.12, color: '#bef264', shake: 7 },
-  glowBat: { reach: 76, cooldown: 0.52, lunge: 64, damageScale: 0.8, retreat: 0.52, color: '#4ade80', shake: 4 },
-  frosthornRam: { attackName: 'Frosthorn Charge', reach: 90, cooldown: 1.18, lunge: 72, damageScale: 1.18, staminaDrain: 18, retreat: 0.34, color: '#dbeafe', shake: 9 },
-  voidwingDrake: { reach: 102, cooldown: 0.82, lunge: 92, damageScale: 1.05, hydrationDrain: 8, retreat: 0.48, color: '#818cf8', shake: 7 },
-  sunfeatherGriffin: { reach: 98, cooldown: 1.3, lunge: 72, damageScale: 1.25, staminaDrain: 12, retreat: 0.36, color: '#fbbf24', shake: 10 },
+  fungalFairyWitch: { attackName: 'Spore Hex', reach: 132, cooldown: 0.9, lunge: 76, damageScale: 0.92, poisonDuration: 3.2, poisonDps: 3.25, retreat: 0.52, color: '#d9f99d', shake: 6 },
+  glowBat: { reach: 76, cooldown: 0.52, lunge: 64, lunges: true, damageScale: 0.8, retreat: 0.52, color: '#4ade80', shake: 4 },
+  frosthornRam: { attackName: 'Frosthorn Charge', reach: 90, cooldown: 1.18, lunge: 72, lunges: true, damageScale: 1.18, staminaDrain: 18, retreat: 0.34, color: '#dbeafe', shake: 9 },
+  voidwingDrake: { reach: 102, cooldown: 0.82, lunge: 92, lunges: true, damageScale: 1.05, hydrationDrain: 8, retreat: 0.48, color: '#818cf8', shake: 7 },
+  sunfeatherGriffin: { reach: 98, cooldown: 1.3, lunge: 72, lunges: true, damageScale: 1.25, staminaDrain: 12, retreat: 0.36, color: '#fbbf24', shake: 10 },
 };
 
 function getEnemyJournalId(enemy) {
@@ -1424,8 +1522,10 @@ function ensureEnemyHasBestiaryEntry(enemy) {
 function awardEnemyScore(enemy) {
   if (enemy.scoreAwarded) return;
   enemy.scoreAwarded = true;
-  ensureEnemyHasBestiaryEntry(enemy);
-  discoverJournalEntry(getEnemyJournalId(enemy));
+  if (!state.godMode) {
+    ensureEnemyHasBestiaryEntry(enemy);
+    discoverJournalEntry(getEnemyJournalId(enemy));
+  }
   state.score += getEnemyScore(enemy);
 }
 
@@ -1697,6 +1797,13 @@ function getEnemySplashArt(enemy) {
     sandRoller: 'assets/themes/desert-ruins/sand-roller.png',
     corruptedStag: 'assets/themes/fungal-dominion/corrupted-stag.png',
     fungalOozeSnail: 'assets/themes/fungal-dominion/Fungal Ooze Snail.png',
+    fungalFairyWitch: 'assets/themes/fungal-dominion/Fungal Fairy Witch.png',
+    desertMummy: 'assets/themes/desert-ruins/desert-mummy.png',
+    desertScorpion: 'assets/themes/desert-ruins/desert-scorpion.png',
+    desertArcher: 'assets/themes/desert-ruins/desert-archer.png',
+    abyssJelly: 'assets/themes/abyssal-depths/abyss-jelly.png',
+    abyssSpider: 'assets/themes/abyssal-depths/abyss-spider.png',
+    abyssKnight: 'assets/themes/abyssal-depths/abyss-knight.png',
     shadowCat: 'assets/themes/shadow-realm/shadow-cat.png',
     shadowGator: 'assets/themes/shadow-realm/shadow-gator.png',
     mechBear: 'assets/themes/furnace-foundry/mech-bear.png',
@@ -1718,14 +1825,14 @@ function getEnemySplashArt(enemy) {
     if (role === 'minion') return 'assets/themes/bony-ruins/skeleton-minion.png';
     if (role === 'tank') return 'assets/themes/bony-ruins/skeleton-tank.png';
   }
-  if (world.themeIndex === 6) {
+  if (world.themeIndex === 6 && role) {
     const desertVariant = getDesertEnemyVariant(enemy.type);
     const desertFilename = desertVariant === 'desertMummy'
       ? 'desert-mummy'
       : desertVariant === 'desertScorpion' ? 'desert-scorpion' : 'desert-archer';
     return `assets/themes/desert-ruins/${desertFilename}.png`;
   }
-  if (world.themeIndex === 7) {
+  if (world.themeIndex === 7 && role) {
     const abyssVariant = getAbyssEnemyVariant(enemy.type);
     const abyssFilename = abyssVariant === 'abyssJelly'
       ? 'abyss-jelly'
@@ -1820,6 +1927,7 @@ function showWaveSplash() {
     sandRoller: 'Sand Rollers turn ancient armour into a crushing charge that can break a careless hero.',
     corruptedStag: 'Corrupted Stags sprint down their prey and spread the Sovereign’s invasive spores with every antler strike.',
     fungalOozeSnail: 'Fungal Ooze Snails crawl slowly behind their shells, then leave a lingering toxin in anything that comes close.',
+    fungalFairyWitch: 'Fungal Fairy Witches sweep through the air and cast a poisonous Spore Hex before drifting out of reach.',
     shadowCat: 'Nightclaw Lynxes disappear into a Shadow Step, tearing across the arena before their prey can brace.',
     shadowGator: 'Dreadscale Gators launch their armoured bodies into a Voidjaw Lunge that tears away health and hydration.',
     mechBear: 'Brassmaw Siege Bears lock their pistons and launch an armoured charge capable of breaking stamina and formations.',
@@ -1854,7 +1962,7 @@ function showBossSplash() {
     shadowBoss: { name: 'Umbral Warden', image: 'assets/themes/shadow-realm/shadow-boss.png', warning: 'The living darkness strikes with crushing slams, sudden dashes, a void nova, swift Nightclaw Lynxes, and plated Dreadscale Gators.' },
     abyssBoss: { name: 'Abyssal Devourer', image: 'assets/themes/abyssal-depths/abyss-boss-phase-1.png', warning: 'When half its strength is drained, the Devourer tears into its second phase with faster charges and a battlefield-filling abyss nova.' },
     scorpionQueen: { name: 'Scorpion Queen', image: 'assets/themes/desert-ruins/scorpion-queen.png', warning: 'Her venom nova drains the arena, her armoured charge crushes anything ahead, and she calls Desert Scorpions from beneath the sand.' },
-    fungalBoss: { name: 'Mycelial Sovereign', image: 'assets/themes/fungal-dominion/mycelial-sovereign.png', warning: 'Its root-heavy slam breaks the ground, its hypha dash crosses the colony, Sporeburst drains strength, and wounded mycelium calls charging Stags and poisonous Ooze Snails.' },
+    fungalBoss: { name: 'Mycelial Sovereign', image: 'assets/themes/fungal-dominion/mycelial-sovereign.png', warning: 'Its root-heavy slam breaks the ground, its hypha dash crosses the colony, Sporeburst drains strength, and wounded mycelium calls Stags, poisonous Ooze Snails, and flying Fairy Witches.' },
     mechOverlord: { name: 'Furnace Overlord', image: 'assets/themes/furnace-foundry/mech-boss.png', warning: 'Its drill crushes armour, its reactor nova punishes anyone nearby, and its assembly rail deploys ranged Furnace Sentinels and Brassmaw Siege Bears.' },
     crystalBoss: { name: 'Prismatic Guardian', image: 'assets/themes/crystal-sanctum/crystal-guardian.png', warning: 'Its crystal shield powers crushing slams, Prism Dash closes distance instantly, and Crystal Eruption fills most of the arena with deadly shards.' },
     sandSnake: { name: 'Gilded Dune Serpent', image: 'assets/themes/desert-ruins/sand-snake.png', warning: 'Its ritual staff crushes the ground, Serpent Rush crosses the Sand Arena, and Scarab Storm strips away health, stamina, and food.' },
@@ -2353,6 +2461,12 @@ function createEnemy(room, index, forcedType = null) {
     base.damage = 16 + state.wave * 2.2;
     base.radius = 30;
   }
+  if (type === 'fungalFairyWitch') {
+    base.speed = 154;
+    base.health = 92 + state.wave * 13;
+    base.damage = 15 + state.wave * 2.1;
+    base.radius = 21;
+  }
   if (type === 'glowBat') {
     base.speed = 176; base.health = 58 + state.wave * 9; base.damage = 10 + state.wave * 1.5; base.radius = 18;
   }
@@ -2368,9 +2482,19 @@ function createEnemy(room, index, forcedType = null) {
 
   // Keep the chase manageable while preserving each class's relative speed.
   base.speed *= 0.72;
-  const earlyDifficulty = state.wave === 1 ? 0.72 : state.wave === 2 ? 0.84 : state.wave === 3 ? 0.94 : 1;
-  base.health *= earlyDifficulty;
-  base.damage *= earlyDifficulty;
+  // Early enemies should fall quickly while the player is still learning the
+  // weapon rhythm. Damage catches up slightly sooner than health so the rooms
+  // remain threatening without turning basic enemies into damage sponges.
+  const earlyHealthScale = state.wave === 1 ? 0.5
+    : state.wave === 2 ? 0.72
+      : state.wave === 3 ? 0.86
+        : 1;
+  const earlyDamageScale = state.wave === 1 ? 0.68
+    : state.wave === 2 ? 0.8
+      : state.wave === 3 ? 0.9
+        : 1;
+  base.health *= earlyHealthScale;
+  base.damage *= earlyDamageScale;
   base.maxHealth = base.health;
 
   if (base.elite) {
@@ -2399,10 +2523,23 @@ function getWaveSpecialistPool(wave) {
     8: ['crystalLion', 'crystalBobcat'],
   };
   const fullPool = biomePools[world.themeIndex] || [];
+  // Large, fast, or heavily armoured signature creatures are late-wave
+  // reveals. Opening waves establish each biome with its simpler wildlife.
   const specialistMinimumWave = {
-    oceanHippo: 2,
+    lushSporeShroom: 3,
+    glowBat: 4,
+    crystalStalker: 5,
+    oceanHippo: 6,
     magmaSerpent: 5,
-    voidwingDrake: 5,
+    lavaTiger: 7,
+    frostWraith: 4,
+    frosthornRam: 7,
+    sandRoller: 7,
+    sunfeatherGriffin: 9,
+    voidSerpent: 7,
+    voidwingDrake: 9,
+    crystalBobcat: 9,
+    crystalLion: 11,
   };
   const eligiblePool = fullPool.filter((type) => wave >= (specialistMinimumWave[type] || 1));
   // More dangerous biome species join the roster gradually rather than all
@@ -2465,6 +2602,7 @@ function spawnEnemiesForWave() {
 // Creates the next tiered boss and places the party inside its arena.
 function spawnBoss() {
   state.enemyProjectiles = [];
+  state.playerProjectiles = [];
   const isFirstBoss = state.bossDefeated === 0;
   const isSecondBoss = state.bossDefeated === 1;
   const isThirdBoss = state.bossDefeated === 2;
@@ -2583,6 +2721,7 @@ function startNextWave() {
   state.roomCleared = false;
   state.boss = null;
   state.enemyProjectiles = [];
+  state.playerProjectiles = [];
   state.bossArenaOpen = false;
   placePlayerInFirstRoom();
   player.protectors.forEach((protector, index) => {
@@ -2619,13 +2758,19 @@ function rewardBossLoot() {
     updateGearNotification();
     setMessage(`${unlockedSet.name} unlocked in the Hero Armory!`);
   }
-  const unlockedWeapon = weaponSets.find((weapon) => weapon.boss === defeatedBossNumber);
-  if (unlockedWeapon && !unlockedWeapons.has(unlockedWeapon.id)) {
-    unlockedWeapons.add(unlockedWeapon.id);
-    unseenGear.add(`weapon:${unlockedWeapon.id}`);
+  const bossWeapons = weaponSets.filter((weapon) => weapon.boss === defeatedBossNumber);
+  const newlyUnlockedWeapons = bossWeapons.filter((weapon) => !unlockedWeapons.has(weapon.id));
+  for (const weapon of newlyUnlockedWeapons) {
+    unlockedWeapons.add(weapon.id);
+    unseenGear.add(`weapon:${weapon.id}`);
+    if (weapon.kind !== 'melee' && !equippedRangedWeaponId) {
+      equippedRangedWeaponId = weapon.id;
+    }
+  }
+  if (newlyUnlockedWeapons.length > 0) {
     saveArmorCollection();
     updateGearNotification();
-    setMessage(`${unlockedWeapon.name} unlocked in the Hero Armory!`);
+    setMessage(`${newlyUnlockedWeapons.map((weapon) => weapon.name).join(' and ')} unlocked in the Hero Armory!`);
   }
   if (state.bossDefeated % 5 === 0) {
     player.weaponLevel += 1;
@@ -2950,6 +3095,7 @@ function spawnBurst(x, y, count, color, speed = 50) {
 // Begins the fade-out from a cleared dungeon toward its boss encounter.
 function startBossTeleport() {
   state.enemyProjectiles = [];
+  state.playerProjectiles = [];
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
   state.teleportTarget = 'boss';
@@ -2967,6 +3113,7 @@ function startBossTeleport() {
 // Begins the fade-out from a defeated boss toward the next wave.
 function startWaveTeleport() {
   state.enemyProjectiles = [];
+  state.playerProjectiles = [];
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
   state.teleportTarget = 'wave';
@@ -3034,12 +3181,61 @@ function isInsideAttackArc(target, range) {
   return directionDot >= Math.cos(50 * Math.PI / 180);
 }
 
-// Performs one swing with a fixed damage pool shared by every overlapping target.
+// Fires the equipped bow or staff in the hero's current facing direction.
+function fireRangedWeapon(weapon) {
+  player.attackCooldown = weapon.cooldown;
+  player.attackDuration = Math.min(0.28, weapon.cooldown * 0.55);
+  const playerRoom = getContainingRoom(player);
+  const possibleTargets = state.enemies.filter((enemy) => (
+    !enemy.dead
+    && enemy.health > 0
+    && distance(player, enemy) <= 900
+    && (!playerRoom || getContainingRoom(enemy) === playerRoom)
+  ));
+  if (state.boss?.health > 0) possibleTargets.push(state.boss);
+  const target = possibleTargets.sort((first, second) => (
+    (second.maxHealth + second.damage * 8 + second.radius * 4)
+    - (first.maxHealth + first.damage * 8 + first.radius * 4)
+  ))[0] || null;
+  const aimX = target ? target.x - player.x : player.facing.x;
+  const aimY = target ? target.y - player.y : player.facing.y;
+  const directionLength = Math.hypot(aimX, aimY) || 1;
+  const directionX = aimX / directionLength;
+  const directionY = aimY / directionLength;
+  if (target) player.facing = { x: directionX, y: directionY };
+  const isStaff = weapon.kind === 'staff';
+  state.playerProjectiles.push({
+    x: player.x + directionX * 30,
+    y: player.y + directionY * 30 - 8,
+    vx: directionX * weapon.projectileSpeed,
+    vy: directionY * weapon.projectileSpeed,
+    angle: Math.atan2(directionY, directionX),
+    damage: weapon.projectileDamage + player.weaponLevel * (isStaff ? 8 : 5),
+    radius: isStaff ? 11 : 5,
+    life: isStaff ? 1.8 : 1.45,
+    kind: weapon.kind,
+    splashRadius: weapon.splashRadius || 0,
+    color: isStaff ? '#c084fc' : '#fde68a',
+  });
+  spawnBurst(
+    player.x + directionX * 30,
+    player.y + directionY * 30 - 8,
+    isStaff ? 14 : 7,
+    isStaff ? '#c084fc' : '#fde68a',
+    isStaff ? 110 : 75,
+  );
+}
+
+// Performs a ranged shot or one melee swing with a fixed shared damage pool.
 function tryAttack() {
   if (player.attackCooldown > 0) return;
+  const equippedWeapon = getEquippedWeapon();
+  if (equippedWeapon.kind !== 'melee') {
+    fireRangedWeapon(equippedWeapon);
+    return;
+  }
   player.attackCooldown = 0.42;
   player.attackDuration = 0.24;
-  const equippedWeapon = getEquippedWeapon();
   const damageMultiplier = 1 + equippedWeapon.damage / 100;
   spawnBurst(player.x + player.facing.x * 24, player.y + player.facing.y * 24, 7, '#f8fafc', 80);
 
@@ -3256,7 +3452,10 @@ function updateEnemies(dt) {
     const weave = enemy.type === 'crawler' ? 75 : enemy.type === 'arcaneOrb' ? 52 : 24;
     const sideX = -dirY * Math.sin(enemy.movePhase) * weave;
     const sideY = dirX * Math.sin(enemy.movePhase) * weave;
-    const isDesertArcher = world.themeIndex === 6 && getDesertEnemyVariant(enemy.type) === 'desertArcher';
+    const isDesertArcher = enemy.type === 'desertArcher'
+      || (world.themeIndex === 6
+        && baseEnemyTypes.has(enemy.type)
+        && getDesertEnemyVariant(enemy.type) === 'desertArcher');
     const isMagmaSerpent = enemy.type === 'magmaSerpent';
     const isMechSentinel = enemy.type === 'mechMinion';
     const holdingRange = (enemy.type === 'lushSporeShroom' && len < 180)
@@ -3346,24 +3545,15 @@ function updateEnemies(dt) {
       continue;
     }
 
-    const nearbyHelper = [...player.protectors, ...player.openers]
-      .filter((helper) => distance(enemy, helper) < enemy.radius + helper.radius + 24)
-      .sort((a, b) => distance(enemy, a) - distance(enemy, b))[0] || null;
-    const helperInRange = Boolean(nearbyHelper);
     const meleeProfile = enemyMeleeProfiles[enemy.type]
       || enemyMeleeProfiles[getEnemyJournalId(enemy)]
       || null;
-    const playerAttackReach = meleeProfile?.reach ?? (enemy.type === 'oceanHippo'
-      ? 112
-      : enemy.type === 'shadowGator'
-      ? 104
-      : enemy.type === 'mechBear'
-      ? 96
-      : enemy.type === 'shadowCat'
-      ? 118
-      : enemy.type === 'crystalBobcat'
-      ? 128
-      : enemy.type === 'crystalLion' ? 104 : 24);
+    const attackApproachReach = meleeProfile?.lunges ? meleeProfile.reach : 4;
+    const nearbyHelper = [...player.protectors, ...player.openers]
+      .filter((helper) => distance(enemy, helper) <= enemy.radius + helper.radius + attackApproachReach)
+      .sort((a, b) => distance(enemy, a) - distance(enemy, b))[0] || null;
+    const helperInRange = Boolean(nearbyHelper);
+    const playerAttackReach = attackApproachReach;
     const playerInRange = distance(enemy, player) < enemy.radius + player.radius + playerAttackReach;
     if (helperInRange || playerInRange) {
       if (enemy.attackTimer <= 0) {
@@ -3385,12 +3575,12 @@ function updateEnemies(dt) {
           : enemy.type === 'runner' || enemy.type === 'crawler'
             ? 0.55
             : enemy.type === 'reaper' ? 1.15 : 0.85);
-        enemy.lunge = 1;
+        enemy.lunge = meleeProfile?.lunges ? 1 : 0;
         const victim = helperInRange ? nearbyHelper : player;
         const attackDx = victim.x - enemy.x;
         const attackDy = victim.y - enemy.y;
         const attackDistance = Math.hypot(attackDx, attackDy) || 1;
-        const lungeDistance = meleeProfile?.lunge ?? (enemy.type === 'oceanHippo'
+        const lungeDistance = meleeProfile?.lunges ? (meleeProfile.lunge ?? (enemy.type === 'oceanHippo'
           ? 94
           : enemy.type === 'sandRoller'
           ? 48
@@ -3405,7 +3595,7 @@ function updateEnemies(dt) {
                 : enemy.type === 'sunfeatherGriffin' ? 72
           : enemy.type === 'corruptedStag' ? 40
             : enemy.type === 'voidSerpent' ? 34
-              : enemy.type === 'lushMossling' ? 28 : 14);
+              : enemy.type === 'lushMossling' ? 28 : 14)) : 0;
         const lungeX = enemy.x + (attackDx / attackDistance) * Math.min(lungeDistance, attackDistance);
         const lungeY = enemy.y + (attackDy / attackDistance) * Math.min(lungeDistance, attackDistance);
         if (state.boss && enemy.bossMinion) {
@@ -3416,7 +3606,7 @@ function updateEnemies(dt) {
           enemy.x = safeLunge.x;
           enemy.y = safeLunge.y;
         }
-        enemy.retreatTimer = meleeProfile?.retreat ?? 0.34;
+        enemy.retreatTimer = meleeProfile?.lunges ? (meleeProfile.retreat ?? 0.34) : 0;
         enemy.retreatFromX = victim.x;
         enemy.retreatFromY = victim.y;
         const flyingDamageScale = meleeProfile?.damageScale ?? (enemy.type === 'sunfeatherGriffin' ? 1.25
@@ -3426,7 +3616,12 @@ function updateEnemies(dt) {
               : enemy.type === 'shadowGator' ? 1.25
               : enemy.type === 'mechBear' ? 1.35
               : enemy.type === 'crystalLion' ? 1.15 : 1);
-        const damageLanded = applyCombatDamage(victim, enemy.damage * flyingDamageScale, enemy);
+        // A wind-up or lunge never deals damage on proximity alone. The enemy
+        // must physically overlap the target after movement.
+        const isTouchingVictim = distance(enemy, victim) <= enemy.radius + victim.radius + 4;
+        const damageLanded = isTouchingVictim
+          ? applyCombatDamage(victim, enemy.damage * flyingDamageScale, enemy)
+          : false;
         if (victim === player && damageLanded && (meleeProfile?.damageScale >= 1.25 || meleeProfile?.shake >= 10)) {
           triggerHitStop(0.045);
         }
@@ -3523,6 +3718,14 @@ function updateEnemies(dt) {
   if (state.enemies.length === 0 && !state.boss && !state.roomCleared) {
     state.roomCleared = true;
     state.bossArenaOpen = false;
+    if (state.godMode && state.godTravelMode === 'enemy') {
+      state.started = false;
+      state.enemyProjectiles = [];
+      state.playerProjectiles = [];
+      keys.clear();
+      openGodModeMenu();
+      return;
+    }
     startBossTeleport();
   }
 
@@ -3546,6 +3749,51 @@ function updateEnemyProjectiles(dt) {
     const damageLanded = applyCombatDamage(victim, projectile.damage, { type: projectile.sourceType || 'desertArcher' });
     spawnBurst(projectile.x, projectile.y, 10, damageLanded ? (projectile.color || '#fbbf24') : '#67e8f9', 85);
     state.shake = Math.max(state.shake, 5);
+    return false;
+  });
+}
+
+// Advances hero arrows and spells, resolving single-target or staff splash hits.
+function updatePlayerProjectiles(dt) {
+  const damageTarget = (target, damage, projectile) => {
+    target.health -= damage;
+    target.hitFlash = target === state.boss ? 0.2 : 0.18;
+    if (target !== state.boss) {
+      target.aggro = true;
+      if (target.health <= 0 && !target.dead) {
+        awardEnemyScore(target);
+        target.dead = true;
+        target.deathTimer = 0.55;
+      }
+    }
+    spawnBurst(target.x, target.y, projectile.kind === 'staff' ? 12 : 6, projectile.color, 105);
+  };
+
+  state.playerProjectiles = state.playerProjectiles.filter((projectile) => {
+    projectile.life -= dt;
+    projectile.x += projectile.vx * dt;
+    projectile.y += projectile.vy * dt;
+    if (projectile.life <= 0) return false;
+
+    const targets = state.enemies.filter((enemy) => !enemy.dead && enemy.health > 0);
+    if (state.boss?.health > 0) targets.push(state.boss);
+    const struckTarget = targets.find((target) => (
+      Math.hypot(target.x - projectile.x, target.y - projectile.y)
+      <= target.radius + projectile.radius
+    ));
+    if (!struckTarget) return true;
+
+    if (projectile.kind === 'staff') {
+      for (const target of targets) {
+        if (Math.hypot(target.x - projectile.x, target.y - projectile.y) <= projectile.splashRadius + target.radius) {
+          damageTarget(target, projectile.damage, projectile);
+        }
+      }
+      spawnBurst(projectile.x, projectile.y, 28, projectile.color, 180);
+      state.shake = Math.max(state.shake, 9);
+    } else {
+      damageTarget(struckTarget, projectile.damage, projectile);
+    }
     return false;
   });
 }
@@ -3844,21 +4092,22 @@ function summonWoodMinion(boss) {
   setMessage(`The Heartwood Horror lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Splinterfiend!`);
 }
 
-// Alternates fast stags and slow toxic snails at major health thresholds.
-function summonFungalStag(boss) {
+// Calls a different colony defender at each major health threshold.
+function summonFungalMinion(boss) {
   const angle = Math.random() * Math.PI * 2;
   const summonsSnail = boss.fungalStagsSummoned % 2 === 1;
-  const radius = summonsSnail ? 30 : 22;
-  const health = summonsSnail ? 210 + boss.tier * 24 : 105 + boss.tier * 14;
+  const summonsWitch = boss.fungalStagsSummoned === 2;
+  const radius = summonsWitch ? 21 : summonsSnail ? 30 : 22;
+  const health = summonsWitch ? 92 + boss.tier * 13 : summonsSnail ? 210 + boss.tier * 24 : 105 + boss.tier * 14;
   const summon = {
     x: clamp(boss.x + Math.cos(angle) * 145, state.bossArena.x + radius, state.bossArena.x + state.bossArena.w - radius),
     y: clamp(boss.y + Math.sin(angle) * 145, state.bossArena.y + radius, state.bossArena.y + state.bossArena.h - radius),
     radius,
-    speed: summonsSnail ? 48 : 172,
+    speed: summonsWitch ? 154 : summonsSnail ? 48 : 172,
     health,
     maxHealth: health,
-    damage: summonsSnail ? 16 + boss.tier * 2.2 : 17 + boss.tier * 2.3,
-    type: summonsSnail ? 'fungalOozeSnail' : 'corruptedStag',
+    damage: summonsWitch ? 15 + boss.tier * 2.1 : summonsSnail ? 16 + boss.tier * 2.2 : 17 + boss.tier * 2.3,
+    type: summonsWitch ? 'fungalFairyWitch' : summonsSnail ? 'fungalOozeSnail' : 'corruptedStag',
     bossMinion: true,
     cooldown: 0,
     aiTimer: 0,
@@ -3872,7 +4121,9 @@ function summonFungalStag(boss) {
   ensureEnemyHasBestiaryEntry(summon);
   state.enemies.push(summon);
   spawnBurst(summon.x, summon.y, summonsSnail ? 48 : 38, '#a3e635', 185);
-  setMessage(summonsSnail
+  setMessage(summonsWitch
+    ? 'The Mycelial Sovereign calls a Fungal Fairy Witch from the spore canopy!'
+    : summonsSnail
     ? 'The Mycelial Sovereign heaves a Fungal Ooze Snail from the colony!'
     : 'The Mycelial Sovereign calls a Corrupted Stag from the fungal bloom!');
 }
@@ -4101,7 +4352,7 @@ function spawnBossDeathSummons(boss) {
     sandBoss: ['skeletonMinion', 'skeletonOrb'],
     scorpionQueen: ['desertScorpion'],
     woodBoss: ['woodMinion'],
-    fungalBoss: ['corruptedStag', 'fungalOozeSnail'],
+    fungalBoss: ['corruptedStag', 'fungalOozeSnail', 'fungalFairyWitch'],
     mechOverlord: ['mechMinion', 'mechBear'],
     shadowBoss: ['shadowCat', 'shadowGator'],
   }[boss.variant];
@@ -4116,6 +4367,7 @@ function spawnBossDeathSummons(boss) {
     woodMinion: { radius: 18, speed: 112, health: 65, healthTier: 9, damage: 8, damageTier: 1.3 },
     corruptedStag: { radius: 22, speed: 172, health: 105, healthTier: 14, damage: 17, damageTier: 2.3 },
     fungalOozeSnail: { radius: 30, speed: 48, health: 210, healthTier: 24, damage: 16, damageTier: 2.2 },
+    fungalFairyWitch: { radius: 21, speed: 154, health: 92, healthTier: 13, damage: 15, damageTier: 2.1 },
     mechMinion: { radius: 23, speed: 68, health: 105, healthTier: 12, damage: 10, damageTier: 1.35 },
     mechBear: { radius: 31, speed: 62, health: 260, healthTier: 28, damage: 23, damageTier: 3 },
     shadowCat: { radius: 23, speed: 172, health: 128, healthTier: 17, damage: 17, damageTier: 2.4 },
@@ -4245,7 +4497,7 @@ function updateBoss(dt) {
   }
   if (boss.variant === 'fungalBoss') {
     while (boss.fungalStagsSummoned < 3 && boss.health <= boss.maxHealth * boss.nextFungalStagThreshold) {
-      summonFungalStag(boss);
+      summonFungalMinion(boss);
       boss.fungalStagsSummoned += 1;
       boss.nextFungalStagThreshold -= 0.25;
     }
@@ -4567,6 +4819,7 @@ function resetRun() {
   state.bossArenaOpen = false;
   state.particles = [];
   state.enemyProjectiles = [];
+  state.playerProjectiles = [];
   state.shake = 0;
   state.hitStopTimer = 0;
   state.closeZoom = false;
@@ -4613,6 +4866,7 @@ function resetRun() {
     state.crates = [];
     state.challengeRooms = [];
     state.enemyProjectiles = [];
+    state.playerProjectiles = [];
     state.particles = [];
     const room = state.rooms[0];
     room.locked = false;
@@ -4812,7 +5066,7 @@ function drawAttractMode() {
   if (escapeProgress === 0) {
     ctx.fillStyle = '#fff';
     ctx.font = `900 ${Math.round(34 * unit)}px "Courier New", monospace`;
-    ctx.fillText(caption, canvas.width / 2, 58 * unit);
+    ctx.fillText(caption, canvas.width / 2, stripY + 48 * unit);
   }
   ctx.fillStyle = '#cbd5e1';
   ctx.font = `700 ${Math.round(15 * unit)}px "Courier New", monospace`;
@@ -5118,11 +5372,12 @@ function drawActorSprite({
   const leftFacingEnemyArt = [
     'skeletonMinion', 'skeletonTank', 'skeletonSpider', 'desertMummy',
     'lushMossling', 'lushSporeShroom', 'voidwingDrake', 'oceanHippo', 'lavaTiger', 'frosthornRam',
+    'abyssKnight',
   ];
   const frontFacingEnemyArt = [
     'crystalStalker', 'crystalMinion', 'crystalTank',
     'shadowCat', 'shadowGator', 'magmaSerpent', 'frostWraith',
-    'voidSerpent', 'sandRoller', 'corruptedStag', 'fungalOozeSnail', 'mechMinion', 'mechBear',
+    'voidSerpent', 'sandRoller', 'corruptedStag', 'fungalOozeSnail', 'fungalFairyWitch', 'mechMinion', 'mechBear',
     'iceMinion', 'glowBat', 'sunfeatherGriffin',
   ];
   const enemyArtFacesLeft = leftFacingEnemyArt.includes(variant);
@@ -5163,6 +5418,7 @@ function drawActorSprite({
     : variant === 'oceanHippo' ? 146
     : variant === 'shadowGator' ? 148
     : variant === 'fungalOozeSnail' ? 138
+    : variant === 'fungalFairyWitch' ? 126
     : variant === 'crystalStalker' ? 102
       : variant === 'crystalMinion' ? 90
       : variant === 'corruptedStag' ? 102
@@ -5187,6 +5443,7 @@ function drawActorSprite({
     : variant === 'oceanHippo' ? 118
     : variant === 'shadowGator' ? 116
     : variant === 'fungalOozeSnail' ? 138
+    : variant === 'fungalFairyWitch' ? 148
     : variant === 'crystalStalker' ? 118
       : variant === 'crystalMinion' ? 100
         : variant === 'crystalTank' ? 108
@@ -5201,7 +5458,9 @@ function drawActorSprite({
   ctx.restore();
 
   if (deathProgress === 0) {
-    const healthBarY = variant === 'hero' ? y - 76 : variant === 'oceanHippo' ? y - 94 : y - 48;
+    const healthBarY = variant === 'hero' ? y - 76
+      : variant === 'fungalFairyWitch' ? y - 112
+      : variant === 'oceanHippo' ? y - 94 : y - 48;
     ctx.fillStyle = '#f8fafc';
     ctx.fillRect(x - 18, healthBarY, 36, 4);
     ctx.fillStyle = '#22c55e';
@@ -5215,7 +5474,7 @@ function drawEnemy(enemy) {
     ? 1 - Math.max(0, enemy.deathTimer) / 0.55
     : 0;
   const motion = Math.sin(enemy.movePhase || 0);
-  const flyingTypes = ['glowBat', 'voidwingDrake', 'sunfeatherGriffin'];
+  const flyingTypes = ['glowBat', 'voidwingDrake', 'sunfeatherGriffin', 'fungalFairyWitch'];
   const flying = flyingTypes.includes(enemy.type);
   const wingFlap = flying ? Math.sin((enemy.movePhase || 0) * 2.8) : 0;
   const stride = motion * (enemy.type === 'crawler' || enemy.type === 'lushMossling' ? 15 : 9);
@@ -5224,7 +5483,9 @@ function drawEnemy(enemy) {
     || enemy.type === 'skeletonOrb'
     || enemy.type === 'frostWraith'
     || enemy.type === 'abyssJelly'
-    || (world.themeIndex === 7 && getAbyssEnemyVariant(enemy.type) === 'abyssJelly');
+    || (world.themeIndex === 7
+      && baseEnemyTypes.has(enemy.type)
+      && getAbyssEnemyVariant(enemy.type) === 'abyssJelly');
   const walkingAnimals = [
     'crawler', 'burrower', 'lushMossling', 'crystalStalker', 'lavaSpider',
     'magmaSerpent', 'skeletonSpider', 'desertScorpion', 'sandRoller',
@@ -5261,8 +5522,12 @@ function drawEnemy(enemy) {
   if (world.themeIndex === 2 && enemy.type === 'crawler') themedVariant = 'lavaSpider';
   if (world.themeIndex === 5 && enemy.type === 'crawler') themedVariant = 'skeletonSpider';
   if (world.themeIndex === 5 && enemy.type === 'arcaneOrb') themedVariant = 'skeletonOrb';
-  if (world.themeIndex === 6) themedVariant = getDesertEnemyVariant(enemy.type);
-  if (world.themeIndex === 7) themedVariant = getAbyssEnemyVariant(enemy.type);
+  if (world.themeIndex === 6 && baseEnemyTypes.has(enemy.type)) {
+    themedVariant = getDesertEnemyVariant(enemy.type);
+  }
+  if (world.themeIndex === 7 && baseEnemyTypes.has(enemy.type)) {
+    themedVariant = getAbyssEnemyVariant(enemy.type);
+  }
   if (world.themeIndex === 8 && baseEnemyTypes.has(enemy.type)) {
     themedVariant = `crystal${themedRole}`;
   }
@@ -5853,8 +6118,9 @@ function drawPlayer() {
     scale: (0.55 + teleportVisibility * 0.45) * (1 - chasmPhase * 0.7),
   });
 
-  const equippedSwordArt = art[equippedWeaponId] || art.broadSword;
-  if ((!state.retroMode || state.boss) && equippedSwordArt?.complete && equippedSwordArt.naturalWidth > 0) {
+  const equippedWeapon = getEquippedWeapon();
+  const equippedWeaponArt = equippedWeapon.sheet ? art[equippedWeapon.sheet] : (art[equippedWeapon.id] || art.broadSword);
+  if ((!state.retroMode || state.boss) && equippedWeaponArt?.complete && equippedWeaponArt.naturalWidth > 0) {
     // Mirror the hand anchor with the selected character artwork so the
     // equipped weapon remains gripped while facing either direction.
     const heroFacingScale = player.facing.x < 0 ? 1 : -1;
@@ -5862,7 +6128,9 @@ function drawPlayer() {
     const handOffsetX = -18 * heroFacingScale;
     ctx.save();
     ctx.translate(transitionX + handOffsetX, transitionY - 7 + bob);
-    if (player.attackDuration > 0) {
+    if (equippedWeapon.kind !== 'melee') {
+      ctx.rotate(Math.atan2(player.facing.y, player.facing.x));
+    } else if (player.attackDuration > 0) {
       const attackProgress = 1 - player.attackDuration / 0.24;
       const attackAngle = Math.atan2(player.facing.y, player.facing.x);
       const swordAngle = attackAngle - 58 * Math.PI / 180 + attackProgress * 116 * Math.PI / 180;
@@ -5881,10 +6149,39 @@ function drawPlayer() {
       voidRequiem: '#c084fc',
       sunforgedJudgment: '#facc15',
     };
-    ctx.shadowColor = weaponGlowColors[equippedWeaponId] || '#fca5a5';
+    ctx.shadowColor = equippedWeapon.kind === 'staff'
+      ? '#c084fc'
+      : equippedWeapon.kind === 'bow'
+        ? '#fde68a'
+        : weaponGlowColors[equippedWeapon.id] || '#fca5a5';
     ctx.shadowBlur = 14;
-    // The source handle occupies the top tenth of each weapon image.
-    ctx.drawImage(equippedSwordArt, -12, -9, 24, 86);
+    if (equippedWeapon.sheet) {
+      const horizontal = equippedWeapon.sheetDirection === 'horizontal';
+      const frameWidth = horizontal
+        ? equippedWeaponArt.naturalWidth / equippedWeapon.sheetFrames
+        : equippedWeaponArt.naturalWidth;
+      const frameHeight = horizontal
+        ? equippedWeaponArt.naturalHeight
+        : equippedWeaponArt.naturalHeight / equippedWeapon.sheetFrames;
+      const combatWidth = equippedWeapon.kind === 'staff' ? 30 : 78;
+      const combatHeight = equippedWeapon.kind === 'staff' ? 104 : 38;
+      ctx.drawImage(
+        equippedWeaponArt,
+        horizontal ? frameWidth * equippedWeapon.sheetFrame : 0,
+        horizontal ? 0 : frameHeight * equippedWeapon.sheetFrame,
+        frameWidth,
+        frameHeight,
+        -combatWidth / 2,
+        -combatHeight / 2,
+        combatWidth,
+        combatHeight,
+      );
+    } else if (equippedWeapon.kind === 'bow') {
+      ctx.drawImage(equippedWeaponArt, -39, -19, 78, 38);
+    } else {
+      // The source handle occupies the top tenth of each melee weapon image.
+      ctx.drawImage(equippedWeaponArt, -12, -9, 24, 86);
+    }
     ctx.restore();
   }
 
@@ -6106,6 +6403,47 @@ function drawEnemyProjectiles() {
   }
 }
 
+// Draws hero arrows and magical bolts with distinct readable silhouettes.
+function drawPlayerProjectiles() {
+  for (const projectile of state.playerProjectiles) {
+    ctx.save();
+    ctx.translate(projectile.x, projectile.y);
+    ctx.rotate(projectile.angle);
+    if (projectile.kind === 'staff') {
+      ctx.shadowColor = projectile.color;
+      ctx.shadowBlur = 20;
+      ctx.fillStyle = '#f5d0fe';
+      ctx.beginPath();
+      ctx.arc(0, 0, projectile.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = projectile.color;
+      ctx.beginPath();
+      ctx.moveTo(-26, 0);
+      ctx.lineTo(-6, -8);
+      ctx.lineTo(-6, 8);
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      ctx.shadowColor = '#fde68a';
+      ctx.shadowBlur = 8;
+      ctx.strokeStyle = '#fef3c7';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(-17, 0);
+      ctx.lineTo(12, 0);
+      ctx.stroke();
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(17, 0);
+      ctx.lineTo(8, -5);
+      ctx.lineTo(8, 5);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
 // Draws all active particles using their remaining lifetime as opacity.
 function drawParticles() {
   for (const particle of state.particles) {
@@ -6217,6 +6555,7 @@ function drawBackground() {
     if (!state.boss || enemy.bossMinion) drawEnemy(enemy);
   }
   drawEnemyProjectiles();
+  drawPlayerProjectiles();
   if (state.boss) {
     drawShadowAttack(state.boss);
     drawWoodBossAttack(state.boss);
@@ -6396,6 +6735,7 @@ function loop(timestamp) {
       maybeOpenChallengeRoom();
       updateEnemies(dt);
       updateEnemyProjectiles(dt);
+      updatePlayerProjectiles(dt);
       updateProtectors(dt);
       updateOpeners(dt);
       updateBoss(dt);
@@ -6598,6 +6938,10 @@ window.addEventListener('keydown', (event) => {
   }
   if (key === 'f') {
     setMessage('Hold F for 2 seconds near a crate to open it.');
+  }
+  if (key === 'c' && state.started && !event.repeat) {
+    event.preventDefault();
+    toggleWeaponMode();
   }
   if (key === 'e' && state.started) createProtector();
   if (key === 't' && state.started && !event.repeat) createOpener();

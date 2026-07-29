@@ -99,7 +99,7 @@ const journalCatalog = [
   { id: 'lavaMinion', name: 'Cinderfang', kind: 'Enemy', image: 'assets/themes/cinder-keep/lava-minion.png' },
   { id: 'lavaSpider', name: 'Lava Spider', kind: 'Enemy', image: 'assets/themes/cinder-keep/lava-spider.png' },
   { id: 'lavaTank', name: 'Obsidian Juggernaut', kind: 'Enemy', image: 'assets/themes/cinder-keep/lava-tank.png' },
-  { id: 'magmaSerpent', name: 'Magma Serpent', kind: 'Enemy', image: 'assets/themes/cinder-keep/magma-serpent.png' },
+  { id: 'magmaSerpent', name: 'Magma Dragon', kind: 'Enemy', image: 'assets/themes/cinder-keep/magma-serpent.png' },
   { id: 'lavaTiger', name: 'Cinderfang Sabre', kind: 'Enemy', image: 'assets/themes/cinder-keep/lava-tiger.png' },
   { id: 'oceanMinion', name: 'Tideclaw', kind: 'Enemy', image: 'assets/themes/sunken-shrine/ocean-minion.png' },
   { id: 'oceanTank', name: 'Reefbound Colossus', kind: 'Enemy', image: 'assets/themes/sunken-shrine/ocean-tank.png' },
@@ -112,9 +112,9 @@ const journalCatalog = [
   { id: 'skeletonSpider', name: 'Skeleton Spider', kind: 'Enemy', image: 'assets/themes/bony-ruins/skeleton-spider.png' },
   { id: 'skeletonOrb', name: 'Skeleton Orb', kind: 'Enemy', image: 'assets/themes/bony-ruins/skeleton-orb.png' },
   { id: 'woodMinion', name: 'Splinterfiend', kind: 'Enemy', image: 'assets/themes/moonwood/wood-minion.png' },
-  { id: 'desertMummy', name: 'Mummy Brute', kind: 'Enemy', image: 'assets/themes/desert-ruins/desert-mummy.png' },
+  { id: 'desertMummy', name: 'Desert Brute', kind: 'Enemy', image: 'assets/themes/desert-ruins/desert-mummy.png' },
   { id: 'desertScorpion', name: 'Sand Scorpion', kind: 'Enemy', image: 'assets/themes/desert-ruins/desert-scorpion.png' },
-  { id: 'desertArcher', name: 'Bone Archer', kind: 'Enemy', image: 'assets/themes/desert-ruins/desert-archer.png' },
+  { id: 'desertArcher', name: 'Desert Skeleton', kind: 'Enemy', image: 'assets/themes/desert-ruins/desert-archer.png' },
   { id: 'sandRoller', name: 'Sand Roller', kind: 'Enemy', image: 'assets/themes/desert-ruins/sand-roller.png' },
   { id: 'sunfeatherGriffin', name: 'Sunfeather Sentinel', kind: 'Enemy', image: 'assets/themes/desert-ruins/sunfeather-griffin.png', fanArt: 'assets/fan-art/crazy-sunfeather-chicken.png' },
   { id: 'abyssJelly', name: 'Void Jelly', kind: 'Enemy', image: 'assets/themes/abyssal-depths/abyss-jelly.png' },
@@ -164,10 +164,10 @@ const bestiaryProfiles = {
   shadowGator: { health: '240 + 26 per wave', damage: '22 + 2.9 per wave', speed: '78', traits: 'Voidjaw Lunge · shadow plating · hydration drain', backstory: 'Dreadscale Gators once lived in the drainage channels beneath the Shadow Arena. Centuries of drinking darkness hardened their scales into armour and taught their jaws to bite through a victim’s shadow first, leaving the body suddenly cold and desperately thirsty.' },
   oceanHippo: { health: '285 + 30 per wave', damage: '24 + 3.1 per wave', speed: '58', traits: 'Undertow Charge · tidal armour · stamina and hydration crush', backstory: 'Undertow Behemoths once hauled the Sunken Shrine’s altar stones through canals too deep for ordinary beasts. The rising sea filled their hides with living currents and rusted their ceremonial harnesses shut. They now mistake every moving figure for cargo that must be driven back beneath the tide.' },
   sandSnake: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '76', traits: 'Staff Crush · Serpent Rush · Scarab Storm', backstory: 'The Gilded Dune Serpent served as keeper of the first desert calendar, swallowing each year when its final grain fell. When the buried city stopped counting, the serpent refused to release the last season and now coils around an age that can never end.' },
-  magmaSerpent: { health: '92 + 13 per wave', damage: '13 + 1.9 per wave', speed: '82', traits: 'Ranged fire spit · keeps its distance', backstory: 'Born where lava rivers knot beneath the keep, Magma Serpents coil around cooling stone and spit the molten pressure trapped inside their scales.' },
+  magmaSerpent: { health: '92 + 13 per wave', damage: '13 + 1.9 per wave', speed: '82', traits: 'Fire Breath · keeps its distance', backstory: 'Born where lava rivers knot beneath the keep, Magma Dragons coil around cooling stone and breathe the molten pressure trapped inside their scales.' },
   lavaTiger: { health: '176 + 21 per wave', damage: '20 + 2.7 per wave', speed: '146', traits: 'Furnace Pounce · sabre bite · stamina scorch', backstory: 'Cinderfang Sabres prowled the mountain before Cinder Keep was built. When the first eruption buried their hunting grounds, they survived by drinking molten seams until stone replaced fur and every heartbeat became a furnace bellows.' },
   frostWraith: { health: '74 + 11 per wave', damage: '12 + 1.8 per wave', speed: '148', traits: 'Floating hunter · drains stamina', backstory: 'These spirits were explorers caught in a flash freeze. The cavern preserved their anger long after it shattered their bodies.' },
-  voidSerpent: { health: '118 + 15 per wave', damage: '15 + 2.2 per wave', speed: '124', traits: 'Long lunge · rapid retreat', backstory: 'Void Serpents swim through the cracks between rooms. Their luminous bellies are said to contain the last light stolen from drowned worlds.' },
+  voidSerpent: { health: '118 + 15 per wave', damage: '15 + 2.2 per wave', speed: '124', traits: 'Close-range venom bite · lingering poison · rapid retreat', backstory: 'Void Serpents swim through the cracks between rooms. Their luminous bellies are said to contain the last light stolen from drowned worlds.' },
   sandRoller: { health: '185 + 20 per wave', damage: '18 + 2.4 per wave', speed: '96', traits: 'Armoured charge · heavy impact', backstory: 'The ruin-builders shaped these guardians from temple blocks. When disturbed, each one curls into a living siege stone and crushes intruders beneath its carved shell.' },
   corruptedStag: { health: '105 + 14 per wave', damage: '17 + 2.3 per wave', speed: '172', traits: 'Antler charge · relentless pursuit', backstory: 'This stag inhaled the Mycelial Sovereign’s oldest spores while grazing above the fungal colony. The growth hollowed its instincts into a single command: charge anything that has not yet joined the bloom.' },
   scorpionQueen: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Pincer Slam · Scorpio Dash · Venom Nova · Brood Summoning', backstory: 'The Scorpion Queen was the Sand Tyrant’s most feared general. She bound herself to the desert’s oldest brood and now carries an army beneath her armour.' },
@@ -202,9 +202,9 @@ const bestiaryBackstories = {
   skeletonSpider: 'Skeleton Spiders are woven from finger bones and sharpened ribs. Gravekeepers once used them to retrieve corpses from deadly tunnels.',
   skeletonOrb: 'Skeleton Orbs hold skulls that refused the Warlord’s command. Their punishment is to float beside him and fire the magic they used in rebellion.',
   woodMinion: 'Splinterfiends split from the Wood Boss whenever an axe wounds its heartwood. They fight knowing they will wither if their creator falls.',
-  desertMummy: 'Mummy Brutes were royal guards sealed alive beside the Sand Tyrant. Their wrappings bear oaths compelling them to serve beyond death.',
+  desertMummy: 'Desert Brutes were royal guards sealed alive beside the Sand Tyrant. Their wrappings bear oaths compelling them to serve beyond death.',
   desertScorpion: 'Sand Scorpions coat their stingers with powdered curse-stone. Their venom makes victims feel the weight of the entire desert.',
-  desertArcher: 'Bone Archers were temple sentries buried at their posts. Dry tendons still draw their bows, while desert winds guide every arrow.',
+  desertArcher: 'Desert Skeletons were temple sentries buried at their posts. These weak foot soldiers still draw their bows while desert winds guide every arrow.',
   abyssJelly: 'Void Jellies drift in from lightless seas beneath the dungeon. Their soft bodies store stolen memories as pulses of cold blue light.',
   abyssSpider: 'Void Spiders stitch tiny tears in reality into invisible webs. Captured prey feels the abyss pulling from every direction.',
   abyssKnight: 'Abyssal Knights entered the depths seeking a weapon against death. They returned immortal, obedient, and empty behind their helms.',
@@ -623,6 +623,7 @@ const highScoreValue = document.getElementById('highScoreValue');
 const menuHighScoreValue = document.getElementById('menuHighScoreValue');
 let lootHighlightTimer = null;
 let deathScreenReady = false;
+let pauseKeyboardUnlockAt = 0;
 
 const heroNameSuggestions = {
   male: [
@@ -830,9 +831,17 @@ const doorWidth = 96;
 let lastTime = 0;
 const keys = new Set();
 let godModeAPresses = [];
+const ATTRACT_IDLE_DELAY = 18000;
+const ATTRACT_DURATION = 39;
+let menuLastActivity = performance.now();
+const attractMode = {
+  active: false,
+  elapsed: 0,
+};
 
 const art = {
   roomRuins: new Image(),
+  demoRockRoom: new Image(),
   hero: new Image(),
   retroHero: new Image(),
   walker: new Image(),
@@ -861,6 +870,7 @@ const art = {
   oceanMinion: new Image(),
   oceanTank: new Image(),
   oceanHippo: new Image(),
+  demoChicken: new Image(),
   lushMinion: new Image(),
   lushTank: new Image(),
   lushMossling: new Image(),
@@ -955,6 +965,7 @@ const art = {
 function preloadArt() {
   const sources = {
     roomRuins: 'assets/themes/retro-ruins/ruins.svg',
+    demoRockRoom: 'assets/fan-art/rock-room.png',
     hero: 'assets/player/armor/male-worldforged-portrait.png',
     retroHero: 'assets/player/base-hero.svg',
     walker: 'assets/themes/retro-ruins/walker.svg',
@@ -983,6 +994,7 @@ function preloadArt() {
     oceanMinion: 'assets/themes/sunken-shrine/ocean-minion.png',
     oceanTank: 'assets/themes/sunken-shrine/ocean-tank.png',
     oceanHippo: 'assets/themes/sunken-shrine/ocean-hippo.png',
+    demoChicken: 'assets/fan-art/crazy-sunfeather-chicken.png',
     lushMinion: 'assets/themes/verdant-ruins/lush-minion.png',
     lushTank: 'assets/themes/verdant-ruins/lush-tank.png',
     lushMossling: 'assets/themes/verdant-ruins/lush-mossling.png',
@@ -1095,6 +1107,8 @@ const player = {
   damageInvulnerability: 0,
   attackCooldown: 0,
   attackDuration: 0,
+  poisonTimer: 0,
+  poisonDps: 0,
   facing: { x: 1, y: 0 },
   inventory: {
     bandage: 0,
@@ -1216,6 +1230,7 @@ const state = {
   maxRooms: 8,
   enemies: [],
   crates: [],
+  pendingBossCrates: 0,
   boss: null,
   rooms: [],
   challengeRooms: [],
@@ -1235,6 +1250,7 @@ const state = {
   teleportDuration: 3,
   teleportMoved: false,
   teleportTarget: null,
+  transitionStyle: 'teleport',
   challengePromptOpen: false,
   pendingChallengeRoom: null,
   developerMode: false,
@@ -1294,7 +1310,7 @@ function getEnemyScore(enemy) {
 
 function getDesertEnemyVariant(type) {
   if (type === 'crawler' || type === 'burrower') return 'desertScorpion';
-  if (['walker', 'brute', 'sentinel', 'reaper'].includes(type)) return 'desertMummy';
+  if (['brute', 'sentinel', 'reaper'].includes(type)) return 'desertMummy';
   return 'desertArcher';
 }
 
@@ -1340,7 +1356,7 @@ const enemyMeleeProfiles = {
   mechBear: { reach: 96, cooldown: 1.48, lunge: 72, damageScale: 1.35, staminaDrain: 20, retreat: 0.3, color: '#f59e0b', shake: 11 },
   oceanHippo: { reach: 112, cooldown: 1.62, lunge: 94, damageScale: 1.4, staminaDrain: 24, hydrationDrain: 12, retreat: 0.28, color: '#22d3ee', shake: 13 },
   frostWraith: { reach: 74, cooldown: 0.82, lunge: 58, damageScale: 0.92, staminaDrain: 15, retreat: 0.42, color: '#bfdbfe', shake: 6 },
-  voidSerpent: { reach: 82, cooldown: 0.78, lunge: 72, damageScale: 1.08, hydrationDrain: 8, retreat: 0.5, color: '#818cf8', shake: 7 },
+  voidSerpent: { attackName: 'Venom Bite', reach: 82, cooldown: 0.78, lunge: 72, damageScale: 1.08, poisonDuration: 3.2, poisonDps: 3.5, retreat: 0.5, color: '#a3e635', shake: 7 },
   sandRoller: { reach: 86, cooldown: 1.35, lunge: 76, damageScale: 1.3, staminaDrain: 14, retreat: 0.24, color: '#fbbf24', shake: 10 },
   corruptedStag: { reach: 90, cooldown: 0.72, lunge: 64, damageScale: 1.18, staminaDrain: 10, retreat: 0.3, color: '#84cc16', shake: 8 },
   glowBat: { reach: 76, cooldown: 0.52, lunge: 64, damageScale: 0.8, retreat: 0.52, color: '#4ade80', shake: 4 },
@@ -1443,6 +1459,18 @@ function randomLoot() {
   if (roll < 0.74) return 'protectorShard';
   if (roll < 0.9) return 'openerShard';
   return 'shieldShard';
+}
+
+// Builds a closed four-item crate at an authored room position.
+function createLootCrate(x, y) {
+  return {
+    x,
+    y,
+    radius: 18,
+    openProgress: 0,
+    isOpen: false,
+    rewards: Array.from({ length: 4 }, randomLoot),
+  };
 }
 
 // Applies one crate reward directly to resources or usable inventory.
@@ -1549,6 +1577,7 @@ function createRooms() {
   const rows = Math.ceil(state.maxRooms / columns);
   const gap = 50;
   let roomIndex = 0;
+  let deliveredBossCrates = 0;
 
   for (let gy = 0; gy < rows; gy += 1) {
     for (let gx = 0; gx < columns; gx += 1) {
@@ -1571,14 +1600,10 @@ function createRooms() {
       room.doorways = makeDoorways(room);
       const crateCount = 1 + Math.floor(Math.random() * 3);
       for (let i = 0; i < crateCount; i += 1) {
-        const crate = {
-          x: room.x + 120 + i * 150 + Math.random() * 45,
-          y: room.y + 115 + Math.random() * 150,
-          radius: 18,
-          openProgress: 0,
-          isOpen: false,
-          rewards: Array.from({ length: 4 }, randomLoot),
-        };
+        const crate = createLootCrate(
+          room.x + 120 + i * 150 + Math.random() * 45,
+          room.y + 115 + Math.random() * 150,
+        );
         room.crates.push(crate);
         state.crates.push(crate);
       }
@@ -1593,6 +1618,35 @@ function createRooms() {
     }
   }
 
+  const firstRoom = state.rooms[0];
+  if (firstRoom && state.pendingBossCrates > 0) {
+    deliveredBossCrates = state.pendingBossCrates;
+    for (let index = 0; index < state.pendingBossCrates; index += 1) {
+      let crateX = firstRoom.x + rand(90, firstRoom.w - 90);
+      let crateY = firstRoom.y + rand(90, firstRoom.h - 90);
+      for (let attempt = 0; attempt < 30; attempt += 1) {
+        const clearOfHeroSpawn = Math.hypot(
+          crateX - (firstRoom.x + firstRoom.w / 2),
+          crateY - (firstRoom.y + firstRoom.h / 2),
+        ) >= 110;
+        const clearOfOtherCrates = firstRoom.crates.every((other) => (
+          Math.hypot(crateX - other.x, crateY - other.y) >= 58
+        ));
+        if (clearOfHeroSpawn && clearOfOtherCrates) break;
+        crateX = firstRoom.x + rand(90, firstRoom.w - 90);
+        crateY = firstRoom.y + rand(90, firstRoom.h - 90);
+      }
+      const crate = createLootCrate(crateX, crateY);
+      crate.bossReward = true;
+      crate.dropDelay = index * 0.08;
+      crate.dropDuration = 0.65;
+      crate.dropTimer = crate.dropDuration;
+      firstRoom.crates.push(crate);
+      state.crates.push(crate);
+    }
+    state.pendingBossCrates = 0;
+  }
+
   removeRandomCorridors();
 
   state.bossArena = {
@@ -1603,7 +1657,9 @@ function createRooms() {
   };
 
   hud.theme.textContent = theme.name;
-  setMessage(`Wave ${state.wave} begins. Explore the rooms, open crates, and survive.`);
+  setMessage(deliveredBossCrates > 0
+    ? `Wave ${state.wave} begins. Your boss cache of ${deliveredBossCrates} crates is waiting in this room.`
+    : `Wave ${state.wave} begins. Explore the rooms, open crates, and survive.`);
 }
 
 // Centers the hero in the dungeon's starting room.
@@ -1751,10 +1807,10 @@ function showWaveSplash() {
     frosthornRam: 'Frosthorn Rams lower their crystal horns and charge hard enough to fracture both guard and stamina.',
     voidwingDrake: 'Riftwing Drakes fold the air during a sudden dive and leave their victims painfully dehydrated.',
     sunfeatherGriffin: 'Sunfeather Sentinels gather momentum overhead before delivering a crushing Solar Talon impact.',
-    magmaSerpent: 'Magma Serpents hold their distance and spit slow, punishing globes of living fire.',
+    magmaSerpent: 'Magma Dragons appear from Wave 5 onward and rely entirely on slow, punishing fire breath.',
     lavaTiger: 'Cinderfang Sabres cross the room in a Furnace Pounce, then drive their heated sabre fangs through armour and stamina.',
     frostWraith: 'Frost Wraiths glide quickly through the fight and freeze the strength from every target they touch.',
-    voidSerpent: 'Void Serpents strike with long lunges, then coil away before a counterattack can land.',
+    voidSerpent: 'Void Serpents close the distance for a venomous bite, then coil away while the poison works.',
     sandRoller: 'Sand Rollers turn ancient armour into a crushing charge that can break a careless hero.',
     corruptedStag: 'Corrupted Stags sprint down their prey and spread the Sovereign’s invasive spores with every antler strike.',
     shadowCat: 'Nightclaw Lynxes disappear into a Shadow Step, tearing across the arena before their prey can brace.',
@@ -2244,13 +2300,15 @@ function createEnemy(room, index, forcedType = null) {
     base.speed = 58;
     base.health = 285 + state.wave * 30;
     base.damage = 24 + state.wave * 3.1;
-    base.radius = 33;
+    base.radius = 30;
   }
   if (type === 'magmaSerpent') {
     base.speed = 82;
     base.health = 92 + state.wave * 13;
     base.damage = 13 + state.wave * 1.9;
     base.radius = 23;
+    // Fire breath is its only attack and is ready as soon as it reaches range.
+    base.attackTimer = 0;
   }
   if (type === 'lavaTiger') {
     base.speed = 146;
@@ -2328,10 +2386,16 @@ function getWaveSpecialistPool(wave) {
     8: ['crystalLion', 'crystalBobcat'],
   };
   const fullPool = biomePools[world.themeIndex] || [];
+  const specialistMinimumWave = {
+    oceanHippo: 2,
+    magmaSerpent: 5,
+    voidwingDrake: 5,
+  };
+  const eligiblePool = fullPool.filter((type) => wave >= (specialistMinimumWave[type] || 1));
   // More dangerous biome species join the roster gradually rather than all
   // appearing during the opening wave.
-  const unlockedSpecies = Math.min(fullPool.length, 1 + Math.floor((wave - 1) / 3));
-  return fullPool.slice(0, unlockedSpecies);
+  const unlockedSpecies = Math.min(eligiblePool.length, 1 + Math.floor((wave - 1) / 3));
+  return eligiblePool.slice(0, unlockedSpecies);
 }
 
 function getSpecialistQuota(wave, population) {
@@ -2520,20 +2584,19 @@ function startNextWave() {
     opener.navigationRoom = null;
     opener.target = null;
   });
-  player.health = clamp(player.health + 5, 0, player.maxHealth);
   player.food = clamp(player.food - 4, 0, 100);
   player.hydration = clamp(player.hydration - 5, 0, 100);
   state.pendingWaveSplash = true;
 }
 
-// Awards rising boss points, loot, unlocks, and periodic equipment upgrades.
+// Awards rising boss points, queues physical loot, heals the hero, and unlocks gear.
 function rewardBossLoot() {
   const defeatedBossNumber = state.bossDefeated + 1;
   discoverJournalEntry(state.boss?.variant);
   state.score += getBossScore(state.boss);
-  for (let i = 0; i < 10; i += 1) {
-    applyLoot(randomLoot());
-  }
+  state.pendingBossCrates += 10;
+  player.health = clamp(player.health + 30, 0, player.maxHealth);
+  spawnBurst(player.x, player.y, 24, '#4ade80', 110);
   state.bossDefeated += 1;
   const unlockedSet = armorSets.find((armor) => armor.boss === defeatedBossNumber);
   if (unlockedSet && !unlockedArmor.has(unlockedSet.id)) {
@@ -2759,6 +2822,14 @@ function resolveChallengeChoice(accept) {
 // Converts held movement keys into collision-safe movement and resource drain.
 function handleInput(dt) {
   player.damageInvulnerability = Math.max(0, player.damageInvulnerability - dt);
+  if (player.poisonTimer > 0) {
+    player.poisonTimer = Math.max(0, player.poisonTimer - dt);
+    if (!state.developerMode) {
+      player.health = clamp(player.health - player.poisonDps * dt, 0, player.maxHealth);
+      state.lastDeathCause = 'serpent venom';
+    }
+    if (player.poisonTimer === 0) player.poisonDps = 0;
+  }
   const dx = (keys.has('d') ? 1 : 0) - (keys.has('a') ? 1 : 0);
   const dy = (keys.has('s') ? 1 : 0) - (keys.has('w') ? 1 : 0);
   const isMoving = dx !== 0 || dy !== 0;
@@ -2869,9 +2940,15 @@ function startBossTeleport() {
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
   state.teleportTarget = 'boss';
+  state.transitionStyle = Math.random() < 0.38 ? 'chasm' : 'teleport';
   keys.clear();
-  spawnBurst(player.x, player.y, 34, '#67e8f9', 150);
-  setMessage('Wave cleared! Teleporting to the boss arena...');
+  if (state.transitionStyle === 'chasm') {
+    spawnBurst(player.x, player.y, 28, '#64748b', 115);
+    setMessage('The floor splits open beneath you!');
+  } else {
+    spawnBurst(player.x, player.y, 34, '#67e8f9', 150);
+    setMessage('Wave cleared! Teleporting to the boss arena...');
+  }
 }
 
 // Begins the fade-out from a defeated boss toward the next wave.
@@ -2880,6 +2957,7 @@ function startWaveTeleport() {
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
   state.teleportTarget = 'wave';
+  state.transitionStyle = 'teleport';
   keys.clear();
   spawnBurst(player.x, player.y, 42, '#a5f3fc', 175);
   setMessage('Boss defeated! Teleporting to the next wave...');
@@ -2891,6 +2969,13 @@ function updateBossTeleport(dt) {
 
   state.teleportTimer = Math.max(0, state.teleportTimer - dt);
   const elapsed = state.teleportDuration - state.teleportTimer;
+  if (state.transitionStyle === 'chasm') {
+    const transitionProgress = elapsed / state.teleportDuration;
+    const chasmPhase = transitionProgress < 0.5
+      ? transitionProgress * 2
+      : (1 - transitionProgress) * 2;
+    state.shake = Math.max(state.shake, 3 + chasmPhase * 11);
+  }
   if (!state.teleportMoved && elapsed >= state.teleportDuration / 2) {
     state.teleportMoved = true;
     if (state.teleportTarget === 'wave') {
@@ -2913,8 +2998,11 @@ function updateBossTeleport(dt) {
     keys.clear();
     setMessage(state.teleportTarget === 'wave'
       ? `Teleport complete. Wave ${state.wave} begins!`
-      : 'Teleport complete. Defeat the boss!');
+      : state.transitionStyle === 'chasm'
+        ? 'You shake free of the chasm. Defeat the boss!'
+        : 'Teleport complete. Defeat the boss!');
     state.teleportTarget = null;
+    state.transitionStyle = 'teleport';
   }
 }
 
@@ -3174,12 +3262,43 @@ function updateEnemies(dt) {
       enemy.y = safe.y;
     }
 
-    // Bone Archers hold their ground and fire physical arrows across the room.
-    if (isDesertArcher || isMagmaSerpent || isMechSentinel) {
+    // Magma Dragons glow before releasing their single fire-breath attack.
+    if (isMagmaSerpent) {
+      if ((enemy.fireCharge || 0) > 0) {
+        enemy.fireCharge = Math.max(0, enemy.fireCharge - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.35);
+        if (enemy.fireCharge === 0) {
+          const fireSpeed = 285;
+          state.enemyProjectiles.push({
+            x: enemy.x + dirX * 22,
+            y: enemy.y - 10 + dirY * 22,
+            vx: dirX * fireSpeed,
+            vy: dirY * fireSpeed,
+            angle: Math.atan2(dirY, dirX),
+            damage: enemy.damage,
+            life: 1.5,
+            sourceType: 'magmaSerpent',
+            color: '#f97316',
+          });
+          spawnBurst(enemy.x + dirX * 18, enemy.y - 10 + dirY * 18, 12, '#fb923c', 80);
+        }
+        continue;
+      }
       if (len <= 440 && enemy.attackTimer <= 0) {
-        enemy.attackTimer = isMechSentinel ? 1.15 : isMagmaSerpent ? 1.85 : 1.55;
+        enemy.attackTimer = 2.05;
+        enemy.fireCharge = 0.55;
+        enemy.lunge = 0.25;
+        spawnBurst(enemy.x, enemy.y - 8, 8, '#f97316', 38);
+      }
+      continue;
+    }
+
+    // Bone Archers and Furnace Sentinels hold range for their projectiles.
+    if (isDesertArcher || isMechSentinel) {
+      if (len <= 440 && enemy.attackTimer <= 0) {
+        enemy.attackTimer = isMechSentinel ? 1.15 : 1.55;
         enemy.lunge = 0.45;
-        const arrowSpeed = isMechSentinel ? 410 : isMagmaSerpent ? 285 : 360;
+        const arrowSpeed = isMechSentinel ? 410 : 360;
         state.enemyProjectiles.push({
           x: enemy.x + dirX * 22,
           y: enemy.y - 10 + dirY * 22,
@@ -3188,10 +3307,10 @@ function updateEnemies(dt) {
           angle: Math.atan2(dirY, dirX),
           damage: enemy.damage,
           life: 1.5,
-          sourceType: isMechSentinel ? 'mechMinion' : isMagmaSerpent ? 'magmaSerpent' : 'desertArcher',
-          color: isMechSentinel ? '#fb923c' : isMagmaSerpent ? '#f97316' : '#fde68a',
+          sourceType: isMechSentinel ? 'mechMinion' : 'desertArcher',
+          color: isMechSentinel ? '#fb923c' : '#fde68a',
         });
-        spawnBurst(enemy.x + dirX * 18, enemy.y - 10 + dirY * 18, 7, isMechSentinel ? '#fb923c' : isMagmaSerpent ? '#f97316' : '#fde68a', 65);
+        spawnBurst(enemy.x + dirX * 18, enemy.y - 10 + dirY * 18, 7, isMechSentinel ? '#fb923c' : '#fde68a', 65);
       }
       continue;
     }
@@ -3297,6 +3416,12 @@ function updateEnemies(dt) {
         const damageLanded = applyCombatDamage(victim, enemy.damage * flyingDamageScale, enemy);
         if (victim === player && damageLanded && (meleeProfile?.damageScale >= 1.25 || meleeProfile?.shake >= 10)) {
           triggerHitStop(0.045);
+        }
+        if (victim === player && damageLanded && meleeProfile?.poisonDuration) {
+          player.poisonTimer = Math.max(player.poisonTimer, meleeProfile.poisonDuration);
+          player.poisonDps = Math.max(player.poisonDps, meleeProfile.poisonDps || 3);
+          spawnBurst(player.x, player.y, 14, '#a3e635', 90);
+          setMessage('Serpent venom burns through your veins!', true);
         }
         if (meleeProfile && victim === player && damageLanded) {
           player.stamina = Math.max(0, player.stamina - (meleeProfile.staminaDrain || 0));
@@ -3605,6 +3730,18 @@ function updateParticles(dt) {
 function updateCrates(dt) {
   for (const crate of state.crates) {
     if (crate.isOpen) continue;
+    if ((crate.dropDelay || 0) > 0) {
+      crate.dropDelay = Math.max(0, crate.dropDelay - dt);
+      continue;
+    }
+    if ((crate.dropTimer || 0) > 0) {
+      crate.dropTimer = Math.max(0, crate.dropTimer - dt);
+      if (crate.dropTimer === 0) {
+        spawnBurst(crate.x, crate.y + 12, 13, '#fbbf24', 105);
+        state.shake = Math.max(state.shake, 4);
+      }
+      continue;
+    }
     if (distance(player, crate) < 64) {
       if (keys.has('f')) {
         crate.openProgress += dt;
@@ -4331,8 +4468,19 @@ function showLootHighlight(items) {
 function togglePause() {
   if (!state.started || state.isGameOver) return;
   state.paused = !state.paused;
+  pauseKeyboardUnlockAt = state.paused ? performance.now() + 350 : 0;
   keys.clear();
   pauseOverlay.classList.toggle('hidden', !state.paused);
+}
+
+// Leaves an active run from either the pause button or its Esc shortcut.
+function quitPausedRun() {
+  state.paused = false;
+  state.started = false;
+  pauseKeyboardUnlockAt = 0;
+  pauseOverlay.classList.add('hidden');
+  keys.clear();
+  showMainMenu();
 }
 
 // Finalizes the run, records its rank, and prepares the delayed death screen.
@@ -4385,6 +4533,7 @@ function resetRun() {
     : 8;
   state.enemies = [];
   state.crates = [];
+  state.pendingBossCrates = 0;
   state.boss = null;
   state.rooms = [];
   state.challengeRooms = [];
@@ -4406,6 +4555,7 @@ function resetRun() {
   state.teleportTimer = 0;
   state.teleportMoved = false;
   state.teleportTarget = null;
+  state.transitionStyle = 'teleport';
   state.challengePromptOpen = false;
   state.pendingChallengeRoom = null;
   state.foodWarningShown = false;
@@ -4427,6 +4577,8 @@ function resetRun() {
   player.damageInvulnerability = 0;
   player.attackCooldown = 0;
   player.attackDuration = 0;
+  player.poisonTimer = 0;
+  player.poisonDps = 0;
   player.facing = { x: 1, y: 0 };
   player.inventory = { bandage: 0, protectorShard: 0, openerShard: 0, shieldShard: 0 };
   player.shieldActive = false;
@@ -4463,6 +4615,7 @@ function resetRun() {
 
 // Returns from a finished run while preserving the current hero and equipment.
 function showMainMenu() {
+  stopAttractMode();
   document.body.classList.remove('room-showcase');
   state.godMode = false;
   state.godTravelMode = null;
@@ -4490,6 +4643,163 @@ function showMainMenu() {
   startButton.textContent = 'Press any key to begin';
   startButton.classList.remove('death-continue-prompt');
   overlay.classList.remove('hidden');
+}
+
+// Attract mode is a harmless arcade reel: it never starts or mutates a run.
+function homeMenuIsIdleReady() {
+  return !state.started
+    && !state.isGameOver
+    && !overlay.classList.contains('hidden')
+    && armoryOverlay.classList.contains('hidden')
+    && journalOverlay.classList.contains('hidden')
+    && highScoresOverlay.classList.contains('hidden')
+    && genderOverlay.classList.contains('hidden')
+    && godModeOverlay.classList.contains('hidden');
+}
+
+function startAttractMode() {
+  if (attractMode.active || !homeMenuIsIdleReady()) return;
+  attractMode.active = true;
+  attractMode.elapsed = 0;
+  keys.clear();
+  overlay.classList.add('hidden');
+  document.body.classList.add('attract-mode');
+}
+
+function stopAttractMode() {
+  if (!attractMode.active) {
+    menuLastActivity = performance.now();
+    return;
+  }
+  attractMode.active = false;
+  attractMode.elapsed = 0;
+  document.body.classList.remove('attract-mode');
+  overlay.classList.remove('hidden');
+  menuLastActivity = performance.now();
+}
+
+function drawAttractSprite(image, x, y, width, height, {
+  flip = false,
+  bob = 0,
+  rotation = 0,
+  shadow = '#000',
+} = {}) {
+  if (!image?.complete || image.naturalWidth <= 0) return;
+  ctx.save();
+  ctx.translate(x, y + bob);
+  ctx.rotate(rotation);
+  ctx.scale(flip ? -1 : 1, 1);
+  ctx.shadowColor = shadow;
+  ctx.shadowBlur = 18;
+  ctx.drawImage(image, -width / 2, -height, width, height);
+  ctx.restore();
+}
+
+// Draws a looping comedy chase over a deliberately over-serious arcade backdrop.
+function drawAttractMode() {
+  const t = attractMode.elapsed;
+  const scene = Math.min(t, 35.999);
+  const escapeProgress = clamp((t - 36) / 3, 0, 1);
+  const unit = clamp(Math.min(canvas.width / 1280, canvas.height / 720), 0.65, 1.35);
+  const stripY = canvas.height * 0.12;
+  const stripHeight = canvas.height * 0.76;
+  const groundY = stripY + stripHeight * 0.56;
+  const runBob = Math.abs(Math.sin(t * (11 + escapeProgress * 9))) * 10 * unit;
+
+  ctx.fillStyle = '#050208';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Repeat one dungeon room as an endless horizontal belt behind the chase.
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, stripY, canvas.width, stripHeight);
+  ctx.clip();
+  const roomTileWidth = stripHeight * 1.5;
+  const roomScroll = ((t * 185 + Math.max(0, t - 36) * 420) * unit) % roomTileWidth;
+  if (art.demoRockRoom.complete && art.demoRockRoom.naturalWidth > 0) {
+    for (let x = -roomTileWidth - roomScroll; x < canvas.width + roomTileWidth; x += roomTileWidth) {
+      drawImageCover(art.demoRockRoom, x, stripY, roomTileWidth + 2, stripHeight);
+    }
+  } else {
+    ctx.fillStyle = '#23143b';
+    ctx.fillRect(0, stripY, canvas.width, stripHeight);
+  }
+  ctx.fillStyle = 'rgba(4, 2, 10, 0.3)';
+  ctx.fillRect(0, stripY, canvas.width, stripHeight);
+  ctx.restore();
+
+  ctx.strokeStyle = 'rgba(192, 132, 252, 0.75)';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(0, stripY, canvas.width, stripHeight);
+
+  const chaseAnchorX = canvas.width * 0.72 + Math.sin(t * 2.3) * 20 * unit;
+  const heroX = chaseAnchorX + escapeProgress * escapeProgress * (canvas.width * 0.48 + 140 * unit);
+  drawAttractSprite(art.hero, heroX, groundY + 3, 108 * unit, 160 * unit, {
+    flip: true,
+    bob: -runBob,
+    rotation: Math.sin(t * 11) * 0.035,
+    shadow: '#38bdf8',
+  });
+
+  const chickenCount = scene < 3 ? 0 : scene < 6 ? 1 : scene < 9 ? 3 : 5;
+  for (let i = 0; i < chickenCount; i += 1) {
+    const size = (scene > 13 && i === 0 ? 390 : 205 - i * 12) * unit;
+    const chaseX = chaseAnchorX - (235 + i * 155 - Math.sin(t * 3 + i) * 32) * unit;
+    drawAttractSprite(art.demoChicken, chaseX, groundY + 10, size, size * 0.88, {
+      flip: true,
+      bob: -Math.abs(Math.sin(t * 8 + i)) * 14 * unit,
+      rotation: Math.sin(t * 7 + i) * 0.045,
+      shadow: '#facc15',
+    });
+  }
+
+  if (scene >= 9) {
+    const violentHippo = scene >= 21;
+    const hippoSize = (violentHippo ? 360 : 285) * unit;
+    const hippoX = chaseAnchorX - (violentHippo ? 500 : 660) * unit + Math.sin(t * 4) * 20;
+    drawAttractSprite(art.oceanHippo, hippoX, groundY + 8, hippoSize, hippoSize * 0.76, {
+      flip: true,
+      bob: -Math.abs(Math.sin(t * 5.5)) * 8 * unit,
+      rotation: Math.sin(t * 5.5) * 0.025,
+      shadow: '#22d3ee',
+    });
+  }
+
+  if (scene > 10) {
+    const panicOffset = Math.sin(t * 15) * 5 * unit;
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = `900 ${Math.round(30 * unit)}px "Courier New", monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('!', heroX + panicOffset, groundY - 185 * unit);
+  }
+
+  const captions = [
+    'A PERFECTLY NORMAL DUNGEON',
+    'THE CHICKEN HAS NOT FORGOTTEN',
+    'TACTICAL RETREAT IN PROGRESS',
+    'WHY IS THIS HIPPO HERE?',
+    'THIS WAS NOT IN THE BEASTIARY',
+    'NEW PLAN: RUN FASTER',
+    'THE CHICKENS HAVE UNIONIZED',
+    'THE HIPPO HAS CHOSEN VIOLENCE',
+    'DO NOT MAKE EYE CONTACT',
+    'CARDIO WAS NOT AN OPTIONAL QUEST',
+    'THE EXIT WAS THREE ROOMS AGO',
+    'TACTICALLY STILL RETREATING',
+  ];
+  const caption = captions[Math.floor(scene / 3) % captions.length];
+  ctx.textAlign = 'center';
+  ctx.shadowColor = '#000';
+  ctx.shadowBlur = 10;
+  if (escapeProgress === 0) {
+    ctx.fillStyle = '#fff';
+    ctx.font = `900 ${Math.round(34 * unit)}px "Courier New", monospace`;
+    ctx.fillText(caption, canvas.width / 2, 58 * unit);
+  }
+  ctx.fillStyle = '#cbd5e1';
+  ctx.font = `700 ${Math.round(15 * unit)}px "Courier New", monospace`;
+  ctx.fillText('PRESS ANY KEY TO SAVE THE HERO', canvas.width / 2, canvas.height - 28 * unit);
+  ctx.shadowBlur = 0;
 }
 
 const godBossOrder = [
@@ -4716,14 +5026,25 @@ function drawRoom(room) {
 function drawCrate(crate) {
   ctx.save();
   ctx.translate(crate.x, crate.y);
+  if ((crate.dropDelay || 0) > 0) {
+    ctx.restore();
+    return;
+  }
+  const dropProgress = crate.dropDuration
+    ? clamp((crate.dropTimer || 0) / crate.dropDuration, 0, 1)
+    : 0;
+  const dropOffset = -190 * dropProgress * dropProgress;
+  const shadowScale = 1 - dropProgress * 0.68;
   ctx.shadowColor = crate.isOpen ? '#8b5cf6' : '#f59e0b';
   ctx.shadowBlur = 12;
 
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.4)';
+  ctx.fillStyle = `rgba(15, 23, 42, ${0.4 * (1 - dropProgress * 0.55)})`;
   ctx.beginPath();
-  ctx.ellipse(0, 18, 25, 8, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, 18, 25 * shadowScale, 8 * shadowScale, 0, 0, Math.PI * 2);
   ctx.fill();
 
+  ctx.translate(0, dropOffset);
+  ctx.rotate(Math.sin(dropProgress * Math.PI * 4) * dropProgress * 0.08);
   const crateArtwork = crate.isOpen ? art.openCrate : art.crate;
   if (crateArtwork.complete && crateArtwork.naturalWidth > 0) {
     ctx.imageSmoothingEnabled = true;
@@ -4821,7 +5142,7 @@ function drawActorSprite({
     : variant === 'crystalLion' ? 110
     : variant === 'crystalBobcat' ? 98
     : variant === 'shadowCat' ? 118
-    : variant === 'oceanHippo' ? 164
+    : variant === 'oceanHippo' ? 146
     : variant === 'shadowGator' ? 148
     : variant === 'crystalStalker' ? 102
       : variant === 'crystalMinion' ? 90
@@ -4844,7 +5165,7 @@ function drawActorSprite({
     : variant === 'crystalLion' ? 110
     : variant === 'crystalBobcat' ? 98
     : variant === 'shadowCat' ? 126
-    : variant === 'oceanHippo' ? 132
+    : variant === 'oceanHippo' ? 118
     : variant === 'shadowGator' ? 116
     : variant === 'crystalStalker' ? 118
       : variant === 'crystalMinion' ? 100
@@ -4860,7 +5181,7 @@ function drawActorSprite({
   ctx.restore();
 
   if (deathProgress === 0) {
-    const healthBarY = variant === 'hero' ? y - 76 : variant === 'oceanHippo' ? y - 104 : y - 48;
+    const healthBarY = variant === 'hero' ? y - 76 : variant === 'oceanHippo' ? y - 94 : y - 48;
     ctx.fillStyle = '#f8fafc';
     ctx.fillRect(x - 18, healthBarY, 36, 4);
     ctx.fillStyle = '#22c55e';
@@ -4928,6 +5249,25 @@ function drawEnemy(enemy) {
   if (enemy.type === 'skeletonOrb') themedVariant = 'skeletonOrb';
   if (enemy.type === 'desertScorpion') themedVariant = 'desertScorpion';
   if (enemy.type === 'mechMinion') themedVariant = 'mechMinion';
+
+  if (enemy.type === 'magmaSerpent' && (enemy.fireCharge || 0) > 0) {
+    const charge = 1 - enemy.fireCharge / 0.55;
+    const glow = ctx.createRadialGradient(enemy.x, enemy.y - 6, 6, enemy.x, enemy.y - 6, 64);
+    glow.addColorStop(0, `rgba(254, 215, 170, ${0.7 + charge * 0.25})`);
+    glow.addColorStop(0.34, `rgba(249, 115, 22, ${0.38 + charge * 0.35})`);
+    glow.addColorStop(1, 'rgba(194, 65, 12, 0)');
+    ctx.save();
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(enemy.x, enemy.y - 6, 64, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = `rgba(251, 146, 60, ${0.45 + charge * 0.5})`;
+    ctx.lineWidth = 3 + charge * 4;
+    ctx.beginPath();
+    ctx.arc(enemy.x, enemy.y + 7, 30 + charge * 18, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   if (enemy.type === 'crystalStalker' && (enemy.crystalLungeCharge || 0) > 0) {
     const charge = 1 - enemy.crystalLungeCharge / 0.42;
@@ -5133,12 +5473,14 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     if (sprite === art.lushGolemOverhead) {
+      drawBossHealthBar(boss, -48, -86, 96, 8, '#4ade80');
+    }
+    if (sprite === art.lushGolemOverhead) {
       ctx.drawImage(sprite, -69, -108, 138, 177);
     } else {
       ctx.drawImage(sprite, -92, -78, 184, 148);
+      drawBossHealthBar(boss, -48, -86, 96, 8, '#4ade80');
     }
-
-    drawBossHealthBar(boss, -48, -86, 96, 8, '#4ade80');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(74, 222, 128, ${0.35 + windup * 0.65})`;
@@ -5159,12 +5501,14 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     if (sprite === art.lavaGolemOverhead) {
+      drawBossHealthBar(boss, -50, -90, 100, 8, '#dc2626', '#f97316');
+    }
+    if (sprite === art.lavaGolemOverhead) {
       ctx.drawImage(sprite, -49, -154, 98, 226);
     } else {
       ctx.drawImage(sprite, -94, -82, 188, 154);
+      drawBossHealthBar(boss, -50, -90, 100, 8, '#dc2626', '#f97316');
     }
-
-    drawBossHealthBar(boss, -50, -90, 100, 8, '#dc2626', '#f97316');
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(249, 115, 22, ${0.4 + windup * 0.6})`;
@@ -5188,9 +5532,13 @@ function drawBoss(boss) {
     ctx.shadowBlur = 30 + windup * 42 + pulse * 20;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+    if (sprite === art.oceanBossOverhead) {
+      drawBossHealthBar(boss, -52, -94, 104, 8, '#0369a1', '#67e8f9');
+    }
     ctx.drawImage(sprite, -98, -86, 196, 158);
-
-    drawBossHealthBar(boss, -52, -94, 104, 8, '#0369a1', '#67e8f9');
+    if (sprite !== art.oceanBossOverhead) {
+      drawBossHealthBar(boss, -52, -94, 104, 8, '#0369a1', '#67e8f9');
+    }
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(103, 232, 249, ${0.4 + windup * 0.6})`;
@@ -5210,9 +5558,13 @@ function drawBoss(boss) {
     ctx.shadowBlur = 32 + windup * 44 + pulse * 20;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+    if (sprite === art.iceBossOverhead) {
+      drawBossHealthBar(boss, -53, -96, 106, 8, '#2563eb', '#e0f2fe');
+    }
     ctx.drawImage(sprite, -100, -88, 200, 160);
-
-    drawBossHealthBar(boss, -53, -96, 106, 8, '#2563eb', '#e0f2fe');
+    if (sprite !== art.iceBossOverhead) {
+      drawBossHealthBar(boss, -53, -96, 106, 8, '#2563eb', '#e0f2fe');
+    }
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(219, 234, 254, ${0.4 + windup * 0.6})`;
@@ -5232,9 +5584,13 @@ function drawBoss(boss) {
     ctx.shadowBlur = 34 + windup * 44 + pulse * 22;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+    if (sprite === art.skeletonBossOverhead) {
+      drawBossHealthBar(boss, -55, -100, 110, 8, '#a16207', '#67e8f9');
+    }
     ctx.drawImage(sprite, -104, -92, 208, 168);
-
-    drawBossHealthBar(boss, -55, -100, 110, 8, '#a16207', '#67e8f9');
+    if (sprite !== art.skeletonBossOverhead) {
+      drawBossHealthBar(boss, -55, -100, 110, 8, '#a16207', '#67e8f9');
+    }
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(103, 232, 249, ${0.4 + windup * 0.6})`;
@@ -5254,8 +5610,13 @@ function drawBoss(boss) {
     ctx.shadowBlur = 34 + windup * 44 + pulse * 22;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+    if (sprite === art.sandBossOverhead) {
+      drawBossHealthBar(boss, -56, -102, 112, 8, '#92400e', '#fde68a');
+    }
     ctx.drawImage(sprite, -106, -94, 212, 172);
-    drawBossHealthBar(boss, -56, -102, 112, 8, '#92400e', '#fde68a');
+    if (sprite !== art.sandBossOverhead) {
+      drawBossHealthBar(boss, -56, -102, 112, 8, '#92400e', '#fde68a');
+    }
     ctx.restore();
     return;
   }
@@ -5266,7 +5627,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.shadowBoss, -88, -118, 176, 224);
-    drawBossHealthBar(boss, -58, -124, 116, 8, '#3b0764', '#c084fc');
+    drawBossHealthBar(boss, -58, -132, 116, 8, '#3b0764', '#c084fc');
     ctx.restore();
     return;
   }
@@ -5280,7 +5641,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(sprite, -94, -126, 188, 236);
-    drawBossHealthBar(boss, -60, -132, 120, 9, '#172554', boss.phase === 2 ? '#38bdf8' : '#2563eb');
+    drawBossHealthBar(boss, -60, -140, 120, 9, '#172554', boss.phase === 2 ? '#38bdf8' : '#2563eb');
     ctx.restore();
     return;
   }
@@ -5291,7 +5652,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.scorpionQueen, -126, -126, 252, 250);
-    drawBossHealthBar(boss, -62, -134, 124, 9, '#78350f', '#fbbf24');
+    drawBossHealthBar(boss, -62, -142, 124, 9, '#78350f', '#fbbf24');
     ctx.restore();
     return;
   }
@@ -5302,7 +5663,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.fungalBoss, -112, -148, 224, 286);
-    drawBossHealthBar(boss, -64, -154, 128, 9, '#3f6212', '#d9f99d');
+    drawBossHealthBar(boss, -64, -162, 128, 9, '#3f6212', '#d9f99d');
     ctx.restore();
     return;
   }
@@ -5313,7 +5674,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.mechOverlord, -108, -138, 216, 270);
-    drawBossHealthBar(boss, -64, -144, 128, 9, '#431407', '#fb923c');
+    drawBossHealthBar(boss, -64, -152, 128, 9, '#431407', '#fb923c');
     ctx.restore();
     return;
   }
@@ -5332,7 +5693,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.crystalBoss, -116, -148, 232, 286);
-    drawBossHealthBar(boss, -66, -154, 132, 9, '#164e63', '#67e8f9');
+    drawBossHealthBar(boss, -66, -162, 132, 9, '#164e63', '#67e8f9');
     ctx.restore();
     return;
   }
@@ -5343,7 +5704,7 @@ function drawBoss(boss) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(art.sandSnake, -112, -166, 224, 296);
-    drawBossHealthBar(boss, -68, -172, 136, 9, '#713f12', '#fde68a');
+    drawBossHealthBar(boss, -68, -180, 136, 9, '#713f12', '#fde68a');
     ctx.restore();
     return;
   }
@@ -5355,9 +5716,13 @@ function drawBoss(boss) {
     ctx.shadowBlur = 32 + windup * 40 + pulse * 20;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+    if (sprite === art.woodBossOverhead) {
+      drawBossHealthBar(boss, -54, -98, 108, 8, '#3f6212', '#bef264');
+    }
     ctx.drawImage(sprite, -102, -90, 204, 164);
-
-    drawBossHealthBar(boss, -54, -98, 108, 8, '#3f6212', '#bef264');
+    if (sprite !== art.woodBossOverhead) {
+      drawBossHealthBar(boss, -54, -98, 108, 8, '#3f6212', '#bef264');
+    }
 
     if (windup > 0) {
       ctx.strokeStyle = `rgba(190, 242, 100, ${0.4 + windup * 0.6})`;
@@ -5408,7 +5773,7 @@ function drawBoss(boss) {
   ctx.lineTo(40 + windup * 18 + pulse * 22, 20 - windup * 24);
   ctx.stroke();
 
-  drawBossHealthBar(boss, -36, -54, 72, 6, '#22c55e');
+  drawBossHealthBar(boss, -36, -62, 72, 6, '#22c55e');
 
   ctx.strokeStyle = '#f97316';
   ctx.lineWidth = 3;
@@ -5441,12 +5806,18 @@ function drawPlayer() {
   const teleportVisibility = state.teleportTimer > 0
     ? Math.abs(teleportProgress - 0.5) * 2
     : 1;
+  const chasmPhase = state.teleportTimer > 0 && state.transitionStyle === 'chasm'
+    ? (teleportProgress < 0.5 ? teleportProgress * 2 : (1 - teleportProgress) * 2)
+    : 0;
+  const chasmJitter = Math.sin(performance.now() * 0.055) * chasmPhase * 7;
+  const transitionX = player.x + chasmJitter;
+  const transitionY = player.y + chasmPhase * 24;
 
   ctx.save();
   ctx.globalAlpha = teleportVisibility;
   drawActorSprite({
-    x: player.x,
-    y: player.y,
+    x: transitionX,
+    y: transitionY,
     bodyColor: '#2563eb',
     accentColor: '#93c5fd',
     weaponColor: '#f8fafc',
@@ -5459,7 +5830,7 @@ function drawPlayer() {
     health: player.health,
     maxHealth: player.maxHealth,
     facingX: player.facing.x,
-    scale: 0.55 + teleportVisibility * 0.45,
+    scale: (0.55 + teleportVisibility * 0.45) * (1 - chasmPhase * 0.7),
   });
 
   const equippedSwordArt = art[equippedWeaponId] || art.broadSword;
@@ -5470,7 +5841,7 @@ function drawPlayer() {
     const facingDirection = player.facing.x < 0 ? -1 : 1;
     const handOffsetX = -18 * heroFacingScale;
     ctx.save();
-    ctx.translate(player.x + handOffsetX, player.y - 7 + bob);
+    ctx.translate(transitionX + handOffsetX, transitionY - 7 + bob);
     if (player.attackDuration > 0) {
       const attackProgress = 1 - player.attackDuration / 0.24;
       const attackAngle = Math.atan2(player.facing.y, player.facing.x);
@@ -5515,11 +5886,49 @@ function drawPlayer() {
   ctx.restore();
 }
 
-// Draws expanding energy rings around the hero during teleportation.
+// Draws either energy rings or a ragged floor chasm around the transitioning hero.
 function drawTeleportEffect() {
   if (state.teleportTimer <= 0) return;
   const progress = 1 - state.teleportTimer / state.teleportDuration;
   const phase = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
+
+  if (state.transitionStyle === 'chasm') {
+    const radiusX = 22 + phase * 108;
+    const radiusY = 8 + phase * 42;
+    ctx.save();
+    ctx.translate(player.x, player.y + 22);
+    ctx.shadowColor = '#000';
+    ctx.shadowBlur = 34 + phase * 38;
+    ctx.fillStyle = `rgba(0, 0, 0, ${0.5 + phase * 0.48})`;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = `rgba(15, 23, 42, ${0.5 + phase * 0.45})`;
+    ctx.lineWidth = 3 + phase * 4;
+    for (let crack = 0; crack < 11; crack += 1) {
+      const angle = crack / 11 * Math.PI * 2;
+      const innerX = Math.cos(angle) * radiusX * 0.72;
+      const innerY = Math.sin(angle) * radiusY * 0.72;
+      const length = 18 + ((crack * 17) % 24) * phase;
+      ctx.beginPath();
+      ctx.moveTo(innerX, innerY);
+      ctx.lineTo(
+        Math.cos(angle) * (radiusX + length),
+        Math.sin(angle) * (radiusY + length * 0.38),
+      );
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = `rgba(100, 116, 139, ${0.18 + phase * 0.38})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, radiusX * 0.82, radiusY * 0.72, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+    return;
+  }
+
   const ringRadius = 34 + phase * 105;
 
   ctx.save();
@@ -5866,7 +6275,9 @@ function drawBackground() {
     const progress = 1 - state.teleportTimer / state.teleportDuration;
     const flash = Math.max(0, 1 - Math.abs(progress - 0.5) * 7);
     if (flash > 0) {
-      ctx.fillStyle = `rgba(207, 250, 254, ${flash * 0.72})`;
+      ctx.fillStyle = state.transitionStyle === 'chasm'
+        ? `rgba(0, 0, 0, ${flash * 0.94})`
+        : `rgba(207, 250, 254, ${flash * 0.72})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
   }
@@ -5931,6 +6342,22 @@ function startGame() {
 function loop(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.03);
   lastTime = timestamp;
+  if (!attractMode.active && homeMenuIsIdleReady() && timestamp - menuLastActivity >= ATTRACT_IDLE_DELAY) {
+    startAttractMode();
+  }
+  if (attractMode.active) {
+    attractMode.elapsed += dt;
+    if (attractMode.elapsed >= ATTRACT_DURATION) {
+      stopAttractMode();
+      drawBackground();
+      drawUI();
+      requestAnimationFrame(loop);
+      return;
+    }
+    drawAttractMode();
+    requestAnimationFrame(loop);
+    return;
+  }
   const hitStopActive = state.hitStopTimer > 0;
   if (hitStopActive) {
     state.hitStopTimer = Math.max(0, state.hitStopTimer - dt);
@@ -5973,12 +6400,7 @@ function loop(timestamp) {
 acceptChallengeButton.addEventListener('click', () => resolveChallengeChoice(true));
 declineChallengeButton.addEventListener('click', () => resolveChallengeChoice(false));
 resumeGameButton.addEventListener('click', togglePause);
-quitGameButton.addEventListener('click', () => {
-  state.paused = false;
-  state.started = false;
-  pauseOverlay.classList.add('hidden');
-  showMainMenu();
-});
+quitGameButton.addEventListener('click', quitPausedRun);
 openArmoryButton.addEventListener('click', () => {
   renderArmory();
   armoryOverlay.classList.remove('hidden');
@@ -6028,6 +6450,12 @@ closeGodModeButton.addEventListener('click', closeGodModeMenu);
 
 // Routes keyboard presses through overlays before active gameplay controls.
 window.addEventListener('keydown', (event) => {
+  if (attractMode.active) {
+    event.preventDefault();
+    if (!event.repeat) stopAttractMode();
+    return;
+  }
+  menuLastActivity = performance.now();
   const key = event.key.toLowerCase();
   if (event.target === heroNameInput) {
     if (key === 'enter') {
@@ -6131,12 +6559,18 @@ window.addEventListener('keydown', (event) => {
     if (!event.repeat) startGame();
     return;
   }
-  if (key === 'escape') {
+  if (state.paused) {
     event.preventDefault();
-    togglePause();
+    if (event.repeat || performance.now() < pauseKeyboardUnlockAt) return;
+    if (key === 'enter') togglePause();
+    else if (key === 'escape') quitPausedRun();
     return;
   }
-  if (state.paused) return;
+  if (key === 'escape') {
+    event.preventDefault();
+    if (!event.repeat) togglePause();
+    return;
+  }
   keys.add(key);
   if (key === 'l' && state.started && !event.repeat) {
     state.closeZoom = !state.closeZoom;
@@ -6159,6 +6593,22 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
   keys.delete(event.key.toLowerCase());
 });
+
+// Mouse, pen, or touch activity also resets or dismisses the arcade reel.
+window.addEventListener('pointerdown', (event) => {
+  if (attractMode.active) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    stopAttractMode();
+    return;
+  }
+  menuLastActivity = performance.now();
+}, true);
+
+window.addEventListener('pointermove', () => {
+  if (attractMode.active) stopAttractMode();
+  else menuLastActivity = performance.now();
+}, true);
 
 // Keeps the canvas backing size synchronized with the browser viewport.
 window.addEventListener('resize', () => {

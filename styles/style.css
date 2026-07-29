@@ -28,6 +28,13 @@ body.room-showcase .loot-highlight {
   display: none;
 }
 
+body.attract-mode .hud-shell,
+body.attract-mode .controls-key,
+body.attract-mode .message-box,
+body.attract-mode .loot-highlight {
+  display: none;
+}
+
 .fullscreen-button {
   position: fixed;
   right: 16px;

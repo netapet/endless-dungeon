@@ -53,6 +53,267 @@ const openHighScoresButton = document.getElementById('openHighScoresButton');
 const highScoresOverlay = document.getElementById('highScoresOverlay');
 const highScoresList = document.getElementById('highScoresList');
 const closeHighScoresButton = document.getElementById('closeHighScoresButton');
+const openJournalButton = document.getElementById('openJournalButton');
+const journalOverlay = document.getElementById('journalOverlay');
+const journalGrid = document.getElementById('journalGrid');
+const journalProgress = document.getElementById('journalProgress');
+const closeJournalButton = document.getElementById('closeJournalButton');
+const bestiaryDetail = document.getElementById('bestiaryDetail');
+const bestiaryDetailImage = document.getElementById('bestiaryDetailImage');
+const bestiaryDetailName = document.getElementById('bestiaryDetailName');
+const bestiaryDetailKind = document.getElementById('bestiaryDetailKind');
+const bestiaryDetailStats = document.getElementById('bestiaryDetailStats');
+const bestiaryDetailTraits = document.getElementById('bestiaryDetailTraits');
+const bestiaryDetailBackstory = document.getElementById('bestiaryDetailBackstory');
+const closeBestiaryDetailButton = document.getElementById('closeBestiaryDetailButton');
+const godModeOverlay = document.getElementById('godModeOverlay');
+const godModeGrid = document.getElementById('godModeGrid');
+const closeGodModeButton = document.getElementById('closeGodModeButton');
+
+const journalCatalog = [
+  { id: 'walker', name: 'Cryptbound Drifter', kind: 'Enemy', image: 'assets/themes/retro/walker.svg' },
+  { id: 'runner', name: 'Bloodrush Ravager', kind: 'Enemy', image: 'assets/themes/retro/runner.svg' },
+  { id: 'crawler', name: 'Gloomskitter', kind: 'Enemy', image: 'assets/themes/retro/crawler.svg' },
+  { id: 'spitter', name: 'Rotspine', kind: 'Enemy', image: 'assets/themes/retro/spitter.svg' },
+  { id: 'burrower', name: 'Graveburrow Stalker', kind: 'Enemy', image: 'assets/themes/retro/burrower.svg' },
+  { id: 'arcaneOrb', name: 'Hexlight Oculus', kind: 'Enemy', image: 'assets/themes/retro/arcane-orb.svg' },
+  { id: 'brute', name: 'Ironhide Breaker', kind: 'Enemy', image: 'assets/themes/retro/brute.svg' },
+  { id: 'assassin', name: 'Veilknife', kind: 'Enemy', image: 'assets/themes/retro/assassin.svg' },
+  { id: 'sentinel', name: 'Runebound Watcher', kind: 'Enemy', image: 'assets/themes/retro/sentinel.svg' },
+  { id: 'wraith', name: 'Hollowveil', kind: 'Enemy', image: 'assets/themes/retro/wraith.svg' },
+  { id: 'reaper', name: 'Dreadharvester', kind: 'Enemy', image: 'assets/themes/retro/reaper.svg' },
+  { id: 'lushMinion', name: 'Thornling', kind: 'Enemy', image: 'assets/themes/lush/lush-minion.png' },
+  { id: 'lushTank', name: 'Mossback Behemoth', kind: 'Enemy', image: 'assets/themes/lush/lush-tank.png' },
+  { id: 'lushMossling', name: 'Mossling', kind: 'Enemy', image: 'assets/themes/lush/lush-mossling.png' },
+  { id: 'lushSporeShroom', name: 'Spore Shroom', kind: 'Enemy', image: 'assets/themes/lush/lush-spore-shroom.png' },
+  { id: 'crystalStalker', name: 'Verdant Crystal Stalker', kind: 'Enemy', image: 'assets/themes/lush/lush-crystal-stalker.png' },
+  { id: 'glowBat', name: 'Viridian Glowbat', kind: 'Enemy', image: 'assets/themes/lush/glow-bat.png' },
+  { id: 'crystalMinion', name: 'Gemhide Crusher', kind: 'Enemy', image: 'assets/themes/crystal/crystal-minion.png' },
+  { id: 'crystalTank', name: 'Prismback Colossus', kind: 'Enemy', image: 'assets/themes/crystal/crystal-tank.png' },
+  { id: 'crystalLion', name: 'Crownshard Lion', kind: 'Enemy', image: 'assets/themes/crystal/crystal-lion.png' },
+  { id: 'crystalBobcat', name: 'Shardeye Bobcat', kind: 'Enemy', image: 'assets/themes/crystal/crystal-bobcat.png' },
+  { id: 'lavaMinion', name: 'Cinderfang', kind: 'Enemy', image: 'assets/themes/lava/lava-minion.png' },
+  { id: 'lavaSpider', name: 'Lava Spider', kind: 'Enemy', image: 'assets/themes/lava/lava-spider.png' },
+  { id: 'lavaTank', name: 'Obsidian Juggernaut', kind: 'Enemy', image: 'assets/themes/lava/lava-tank.png' },
+  { id: 'magmaSerpent', name: 'Magma Serpent', kind: 'Enemy', image: 'assets/themes/lava/magma-serpent.png' },
+  { id: 'lavaTiger', name: 'Cinderfang Sabre', kind: 'Enemy', image: 'assets/themes/lava/lava-tiger.png' },
+  { id: 'oceanMinion', name: 'Tideclaw', kind: 'Enemy', image: 'assets/themes/ocean/ocean-minion.png' },
+  { id: 'oceanTank', name: 'Reefbound Colossus', kind: 'Enemy', image: 'assets/themes/ocean/ocean-tank.png' },
+  { id: 'oceanHippo', name: 'Undertow Behemoth', kind: 'Enemy', image: 'assets/themes/ocean/ocean-hippo.png' },
+  { id: 'iceMinion', name: 'Frostbound Shard', kind: 'Enemy', image: 'assets/themes/ice/ice-minion.png' },
+  { id: 'frostWraith', name: 'Frost Wraith', kind: 'Enemy', image: 'assets/themes/ice/frost-wraith.png' },
+  { id: 'frostwingDrake', name: 'Rimewing Drake', kind: 'Enemy', image: 'assets/themes/ice/frostwing-drake.png' },
+  { id: 'skeletonMinion', name: 'Boneguard', kind: 'Enemy', image: 'assets/themes/skeleton/skeleton-minion.png' },
+  { id: 'skeletonTank', name: 'Ossuary Bulwark', kind: 'Enemy', image: 'assets/themes/skeleton/skeleton-tank.png' },
+  { id: 'skeletonSpider', name: 'Skeleton Spider', kind: 'Enemy', image: 'assets/themes/skeleton/skeleton-spider.png' },
+  { id: 'skeletonOrb', name: 'Skeleton Orb', kind: 'Enemy', image: 'assets/themes/skeleton/skeleton-orb.png' },
+  { id: 'woodMinion', name: 'Splinterfiend', kind: 'Enemy', image: 'assets/themes/wood/wood-minion.png' },
+  { id: 'desertMummy', name: 'Mummy Brute', kind: 'Enemy', image: 'assets/themes/desert/desert-mummy.png' },
+  { id: 'desertScorpion', name: 'Sand Scorpion', kind: 'Enemy', image: 'assets/themes/desert/desert-scorpion.png' },
+  { id: 'desertArcher', name: 'Bone Archer', kind: 'Enemy', image: 'assets/themes/desert/desert-archer.png' },
+  { id: 'sandRoller', name: 'Sand Roller', kind: 'Enemy', image: 'assets/themes/desert/sand-roller.png' },
+  { id: 'sunfeatherGriffin', name: 'Sunfeather Sentinel', kind: 'Enemy', image: 'assets/themes/desert/sunfeather-griffin.png' },
+  { id: 'abyssJelly', name: 'Void Jelly', kind: 'Enemy', image: 'assets/themes/abyss/abyss-jelly.png' },
+  { id: 'abyssSpider', name: 'Void Spider', kind: 'Enemy', image: 'assets/themes/abyss/abyss-spider.png' },
+  { id: 'abyssKnight', name: 'Abyssal Knight', kind: 'Enemy', image: 'assets/themes/abyss/abyss-knight.png' },
+  { id: 'voidSerpent', name: 'Void Serpent', kind: 'Enemy', image: 'assets/themes/abyss/void-serpent.png' },
+  { id: 'voidwingDrake', name: 'Riftwing Drake', kind: 'Enemy', image: 'assets/themes/abyss/voidwing-drake.png' },
+  { id: 'corruptedStag', name: 'Corrupted Stag', kind: 'Enemy', image: 'assets/themes/fungal/corrupted-stag.png' },
+  { id: 'mechMinion', name: 'Furnace Sentinel', kind: 'Enemy', image: 'assets/themes/mech/furnace-sentinel.png' },
+  { id: 'mechBear', name: 'Brassmaw Siege Bear', kind: 'Enemy', image: 'assets/themes/mech/mech-bear.png' },
+  { id: 'shadowCat', name: 'Nightclaw Lynx', kind: 'Enemy', image: 'assets/themes/shadow/shadow-cat.png' },
+  { id: 'shadowGator', name: 'Dreadscale Gator', kind: 'Enemy', image: 'assets/themes/shadow/shadow-gator.png' },
+  { id: 'lushGolem', name: 'Lush Golem', kind: 'Boss', image: 'assets/themes/lush/lush-golem.png' },
+  { id: 'lavaGolem', name: 'Lava Golem', kind: 'Boss', image: 'assets/themes/lava/lava-golem.png' },
+  { id: 'oceanBoss', name: 'Tide Sovereign', kind: 'Boss', image: 'assets/themes/ocean/ocean-boss.png' },
+  { id: 'iceBoss', name: 'Glacial Sovereign', kind: 'Boss', image: 'assets/themes/ice/ice-boss.png' },
+  { id: 'skeletonWarlord', name: 'Skeleton Warlord', kind: 'Boss', image: 'assets/themes/skeleton/skeleton-warlord.png' },
+  { id: 'sandBoss', name: 'Sand Tyrant', kind: 'Boss', image: 'assets/themes/desert/sand-tyrant.png' },
+  { id: 'shadowBoss', name: 'Umbral Warden', kind: 'Boss', image: 'assets/themes/shadow/shadow-boss.png' },
+  { id: 'abyssBoss', name: 'Abyssal Devourer', kind: 'Boss', image: 'assets/themes/abyss/abyss-boss-phase-2.png' },
+  { id: 'scorpionQueen', name: 'Scorpion Queen', kind: 'Boss', image: 'assets/themes/desert/scorpion-queen.png' },
+  { id: 'woodBoss', name: 'Heartwood Horror', kind: 'Boss', image: 'assets/themes/wood/wood-boss.png' },
+  { id: 'fungalBoss', name: 'Mycelial Sovereign', kind: 'Boss', image: 'assets/themes/fungal/mycelial-sovereign.png' },
+  { id: 'mechOverlord', name: 'Furnace Overlord', kind: 'Boss', image: 'assets/themes/mech/mech-boss.png' },
+  { id: 'crystalBoss', name: 'Prismatic Guardian', kind: 'Boss', image: 'assets/themes/crystal/crystal-guardian.png' },
+  { id: 'sandSnake', name: 'Gilded Dune Serpent', kind: 'Boss', image: 'assets/themes/desert/sand-snake.png' },
+  { id: 'standard', name: 'Dungeon Guardian', kind: 'Boss', image: 'assets/player/shadow boss.png' },
+];
+const bestiaryProfiles = {
+  woodBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Wood Slam / Thorn Ring / Heartwood Eruption / Splinterfiend Summoning', backstory: 'The Heartwood Horror was once the Moonwood’s oldest guardian. Corruption entered through an axe wound and turned protection into possession. Its Heartwood Eruption drives the forest’s buried roots upward in one furious command.' },
+  crystalBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '74', traits: 'Crystal Slam / Prism Dash / Crystal Eruption', backstory: 'The Prismatic Guardian grew around the first gemstone ever cut beneath the dungeon. Every fracture teaches it a new angle of attack, while its shield preserves the reflected memory of every warrior who struck it.' },
+  mechMinion: { health: '105 + 12 per boss tier', damage: '10 + 1.35 per boss tier', speed: '68', traits: 'Quad-cannon bolts / heavy armour / boss deployment', backstory: 'Furnace Sentinels were mobile boiler guards built to keep the Overlord’s assembly lines burning. Their four heated barrels fire in perfect sequence because each machine shares the same mechanical memory.' },
+  fungalBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Mycelium Slam / Hypha Dash / Sporeburst / Corrupted Stag Summoning', backstory: 'The Mycelial Sovereign began as a single spore feeding beneath a forgotten battlefield. It inherited every fallen creature’s instincts through their roots and now believes the entire dungeon is one body awaiting infection.' },
+  crystalStalker: { health: '150 + 18 per wave', damage: '14 + 2.1 per wave', speed: '68', traits: 'Verdant crystal armour · Shard Lunge · stamina fracture', backstory: 'Verdant Crystal Stalkers slept beneath the oldest roots until green cave crystals grew through their hides. They now guard every glowing seam in the Lush Caves as if it were an egg.' },
+  glowBat: { health: '58 + 9 per wave', damage: '10 + 1.5 per wave', speed: '176', traits: 'Wing-flap flight · Echo Dive · rapid retreat', backstory: 'Viridian Glowbats pollinate crystal flowers that bloom only during cave-ins. Their luminous eyes read echoes through stone, letting them dive through dust where grounded hunters are blind.' },
+  lushMossling: { health: '28 + 7 per wave', damage: '7 + 1.25 per wave', speed: '152', traits: 'Crystal Pounce · stamina bite · rapid recovery', backstory: 'Mosslings collect loose cave crystals in the soft growth along their backs. When threatened, they spring head-first at the intruder and carry the stolen strength from each bite home to warm their nests.' },
+  lushSporeShroom: { health: '108 + 16 per wave', damage: '11 + 1.8 per wave', speed: '58', traits: 'Poison Bloom · ranged spore cloud · rooted armour', backstory: 'Spore Shrooms learned to mimic the cave’s harmless lantern fungi. Their caps remain still until footsteps approach, then release a carefully aimed bloom grown from the last creature that breathed nearby.' },
+  frostwingDrake: { health: '104 + 14 per wave', damage: '14 + 2 per wave', speed: '142', traits: 'Wing-flap flight · Frost Dive · stamina freeze', backstory: 'Rimewing Drakes hatch inside blue ice that has never melted. Each wingbeat scatters frozen scales, and their talons preserve the last warmth taken from every victim.' },
+  voidwingDrake: { health: '92 + 13 per wave', damage: '15 + 2.1 per wave', speed: '158', traits: 'Wing-flap flight · Rift Dive · hydration drain', backstory: 'Riftwing Drakes nest upside down in tears between worlds. Their wings briefly fold space on every downstroke, allowing a hunting dive to begin before its shadow arrives.' },
+  sunfeatherGriffin: { health: '138 + 17 per wave', damage: '18 + 2.5 per wave', speed: '128', traits: 'Wing-flap flight · Solar Talon · heavy impact', backstory: 'Sunfeather Sentinels were carved to patrol above desert temples after their mortal guards died. Dawn-charged gems in their wings keep them airborne even beneath a buried sky.' },
+  crystalMinion: { health: '115 + 16 per wave', damage: '16 + 2.2 per wave', speed: '88', traits: 'Gemstone armour · crushing claws · stamina fracture', backstory: 'Gemhide Crushers form when the Crystal Sanctum seals rubble around a newborn shard. Each lumbering guardian protects the central crystal embedded in its crown as though it were the biome’s beating heart.' },
+  crystalTank: { health: '220 + 24 per wave', damage: '21 + 2.8 per wave', speed: '54', traits: 'Prismatic bulwark · massive impact · heavy stamina fracture', backstory: 'Prismback Colossi grow around the oldest collapsed pillars of the Crystal Sanctum. Their violet crowns record every impact, adding the memory of each blow to an armour layer that never stops thickening.' },
+  crystalLion: { health: '168 + 20 per wave', damage: '19 + 2.6 per wave', speed: '136', traits: 'Crownshard Pounce · prismatic impact · quadruped stride', backstory: 'The first Crownshard Lion was the companion of the mason who opened the Crystal Sanctum. When the mason vanished, the chamber grew a royal mane of crystal around the waiting beast. Its descendants still patrol the cut-stone paths, pouncing on anyone whose reflection the walls do not recognise.' },
+  crystalBobcat: { health: '112 + 15 per wave', damage: '15 + 2.2 per wave', speed: '184', traits: 'Facet Blink · rapid ambush · quadruped stride', backstory: 'Shardeye Bobcats stalk the fractured galleries where crystal reflections overlap. The glowing stones embedded in their hides each watch a different angle, allowing the hunter to choose the one reflection in which it has already reached its prey—and leap into it.' },
+  shadowCat: { health: '128 + 17 per wave', damage: '17 + 2.4 per wave', speed: '172', traits: 'Shadow Step · stamina rend · Umbral Warden summon', backstory: 'Nightclaw Lynxes are born when a hunting cat crosses the same shadow at midnight for seven nights. The Umbral Warden gathers those abandoned silhouettes into its arena, where pale eyes open moments before their owners strike.' },
+  mechBear: { health: '260 + 28 per wave', damage: '23 + 3 per wave', speed: '62', traits: 'Piston Charge · reinforced plating · heavy stamina fracture', backstory: 'Brassmaw Siege Bears were designed to drag broken furnaces back onto their rails. When the foundry fell silent, their recovery orders corrupted: they now classify every living creature as loose machinery and crush it into a shape suitable for transport.' },
+  shadowGator: { health: '240 + 26 per wave', damage: '22 + 2.9 per wave', speed: '78', traits: 'Voidjaw Lunge · shadow plating · hydration drain', backstory: 'Dreadscale Gators once lived in the drainage channels beneath the Shadow Arena. Centuries of drinking darkness hardened their scales into armour and taught their jaws to bite through a victim’s shadow first, leaving the body suddenly cold and desperately thirsty.' },
+  oceanHippo: { health: '285 + 30 per wave', damage: '24 + 3.1 per wave', speed: '58', traits: 'Undertow Charge · tidal armour · stamina and hydration crush', backstory: 'Undertow Behemoths once hauled the Sunken Shrine’s altar stones through canals too deep for ordinary beasts. The rising sea filled their hides with living currents and rusted their ceremonial harnesses shut. They now mistake every moving figure for cargo that must be driven back beneath the tide.' },
+  sandSnake: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '76', traits: 'Staff Crush · Serpent Rush · Scarab Storm', backstory: 'The Gilded Dune Serpent served as keeper of the first desert calendar, swallowing each year when its final grain fell. When the buried city stopped counting, the serpent refused to release the last season and now coils around an age that can never end.' },
+  magmaSerpent: { health: '92 + 13 per wave', damage: '13 + 1.9 per wave', speed: '82', traits: 'Ranged fire spit · keeps its distance', backstory: 'Born where lava rivers knot beneath the keep, Magma Serpents coil around cooling stone and spit the molten pressure trapped inside their scales.' },
+  lavaTiger: { health: '176 + 21 per wave', damage: '20 + 2.7 per wave', speed: '146', traits: 'Furnace Pounce · sabre bite · stamina scorch', backstory: 'Cinderfang Sabres prowled the mountain before Cinder Keep was built. When the first eruption buried their hunting grounds, they survived by drinking molten seams until stone replaced fur and every heartbeat became a furnace bellows.' },
+  frostWraith: { health: '74 + 11 per wave', damage: '12 + 1.8 per wave', speed: '148', traits: 'Floating hunter · drains stamina', backstory: 'These spirits were explorers caught in a flash freeze. The cavern preserved their anger long after it shattered their bodies.' },
+  voidSerpent: { health: '118 + 15 per wave', damage: '15 + 2.2 per wave', speed: '124', traits: 'Long lunge · rapid retreat', backstory: 'Void Serpents swim through the cracks between rooms. Their luminous bellies are said to contain the last light stolen from drowned worlds.' },
+  sandRoller: { health: '185 + 20 per wave', damage: '18 + 2.4 per wave', speed: '96', traits: 'Armoured charge · heavy impact', backstory: 'The ruin-builders shaped these guardians from temple blocks. When disturbed, each one curls into a living siege stone and crushes intruders beneath its carved shell.' },
+  corruptedStag: { health: '105 + 14 per wave', damage: '17 + 2.3 per wave', speed: '172', traits: 'Antler charge · relentless pursuit', backstory: 'This stag inhaled the Mycelial Sovereign’s oldest spores while grazing above the fungal colony. The growth hollowed its instincts into a single command: charge anything that has not yet joined the bloom.' },
+  scorpionQueen: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Pincer Slam · Scorpio Dash · Venom Nova · Brood Summoning', backstory: 'The Scorpion Queen was the Sand Tyrant’s most feared general. She bound herself to the desert’s oldest brood and now carries an army beneath her armour.' },
+};
+const bestiaryBackstories = {
+  crystalBoss: 'The Prismatic Guardian grew around the first gemstone ever cut beneath the dungeon. Every fracture teaches it a new angle of attack, while its shield preserves the reflected memory of every warrior who struck it.',
+  mechMinion: 'Furnace Sentinels were mobile boiler guards built to keep the Overlord’s assembly lines burning. Their four heated barrels fire in perfect sequence because each machine shares the same mechanical memory.',
+  fungalBoss: 'The Mycelial Sovereign began as a single spore feeding beneath a forgotten battlefield. It inherited every fallen creature’s instincts through their roots and now believes the entire dungeon is one body awaiting infection.',
+  walker: 'Cryptbound Drifters are failed pilgrims whose armour fused shut around them. Nothing remains inside the metal except the command to keep walking.',
+  runner: 'Bloodrush Ravagers were bred in lightless kennels beneath the corridors. The dungeon starves them so every footstep triggers a feeding frenzy.',
+  crawler: 'Gloomskitters hatch inside cracks too narrow for a sword. They follow vibrations through the floor and emerge beneath anyone standing still.',
+  spitter: 'Rotspines digest rust, fungus, and old bones into corrosive bile, turning their swollen throats into weapons that dissolve armour.',
+  burrower: 'Graveburrow Stalkers carve nests beneath busy passages and decorate them with stolen boots. They know heroes rarely watch the ground twice.',
+  arcaneOrb: 'Hexlight Oculi form when abandoned spells knot together instead of fading. Each hunts living minds for memories of the mage who cast it.',
+  brute: 'Ironhide Breakers are prisoners reshaped by generations of dungeon alchemy. Their chains are gone, but they still attack anything between them and an imagined exit.',
+  assassin: 'Veilknives belong to a vanished guild that accepted the dungeon as its final patron. Their masks carry the names of every target they failed to kill.',
+  sentinel: 'Runebound Watchers were built to guard doors whose keys no longer exist. With their purpose forgotten, they judge every traveller to be an intruder.',
+  wraith: 'Hollowveils are the last breaths of heroes who died calling for help. They drift through walls searching for companions who can no longer answer.',
+  reaper: 'Dreadharvesters collect weapons from fallen challengers and sharpen them into crescent blades, believing every severed shadow strengthens the dungeon.',
+  lushMinion: 'Thornlings grew from seeds planted in battlefield graves. Their bark remembers violence, and their roots pull them toward drawn steel.',
+  lushTank: 'Mossback Behemoths are ancient cave trees that folded stone around their trunks. Moss softens their armour, but every impact wakes another buried root.',
+  lushMossling: 'Mosslings are curious scavengers corrupted by crystal pollen. They steal warmth with every pounce and carry it back to their nests.',
+  lushSporeShroom: 'Spore Shrooms began as harmless colonies feeding on leaves. Dungeon magic taught them to aim poisonous blooms at moving prey.',
+  lavaMinion: 'Cinderfangs crawl from cooling slag whenever Cinder Keep demands hunters. Their hearts harden into glass if they remain away from fire.',
+  lavaSpider: 'Lava Spiders spin wire-thin strands of molten rock across volcanic vents, forcing prey toward ground that is about to erupt.',
+  lavaTank: 'Obsidian Juggernauts are chunks of the keep given legs by pressure and rage. Cracks in their shells brighten whenever they prepare to strike.',
+  oceanMinion: 'Tideclaws were attendants drowned when the Sunken Shrine collapsed. Saltwater still pours from their armour as they defend a ceremony that ended centuries ago.',
+  oceanTank: 'Reefbound Colossi carry barnacled temple doors as natural armour. Deep currents taught them to endure every blow and answer with the sea’s weight.',
+  iceMinion: 'Frostbound Shards are fragments chipped from the Ice Boss during ancient battles. Each shard grew limbs and inherited a sliver of its creator’s hunger.',
+  skeletonMinion: 'Boneguards are assembled from whichever bones the Warlord can reach. Few contain parts from only one person.',
+  skeletonTank: 'Ossuary Bulwarks are packed with extra bones until their armour can barely contain them. Every rattle is another dead warrior fighting for control.',
+  skeletonSpider: 'Skeleton Spiders are woven from finger bones and sharpened ribs. Gravekeepers once used them to retrieve corpses from deadly tunnels.',
+  skeletonOrb: 'Skeleton Orbs hold skulls that refused the Warlord’s command. Their punishment is to float beside him and fire the magic they used in rebellion.',
+  woodMinion: 'Splinterfiends split from the Wood Boss whenever an axe wounds its heartwood. They fight knowing they will wither if their creator falls.',
+  desertMummy: 'Mummy Brutes were royal guards sealed alive beside the Sand Tyrant. Their wrappings bear oaths compelling them to serve beyond death.',
+  desertScorpion: 'Sand Scorpions coat their stingers with powdered curse-stone. Their venom makes victims feel the weight of the entire desert.',
+  desertArcher: 'Bone Archers were temple sentries buried at their posts. Dry tendons still draw their bows, while desert winds guide every arrow.',
+  abyssJelly: 'Void Jellies drift in from lightless seas beneath the dungeon. Their soft bodies store stolen memories as pulses of cold blue light.',
+  abyssSpider: 'Void Spiders stitch tiny tears in reality into invisible webs. Captured prey feels the abyss pulling from every direction.',
+  abyssKnight: 'Abyssal Knights entered the depths seeking a weapon against death. They returned immortal, obedient, and empty behind their helms.',
+  lushGolem: 'The Lush Golem formed around the first crystal to bloom in the cave. Every root in the Verdant Ruins bends toward it like a subject before a throne.',
+  lavaGolem: 'The Lava Golem is the living pressure beneath Cinder Keep. Its hammer was forged from the gate that once contained the volcano.',
+  oceanBoss: 'The Tide Sovereign was the Sunken Shrine’s high priest. When the waters rose, it offered its congregation to the tide and became the thing they worshipped.',
+  iceBoss: 'The Glacial Sovereign sleeps around the frozen heart of an extinct winter god. Each awakening spreads the cavern’s cold farther into the dungeon.',
+  skeletonWarlord: 'The Skeleton Warlord conquered three kingdoms but feared an unmarked grave. It built the Bony Ruins so every death would join its army.',
+  sandBoss: 'The Sand Tyrant ordered its city buried rather than surrender. It now rules exactly as promised: eternal, alone, and surrounded by obedient dead.',
+  shadowBoss: 'The Umbral Warden formed from every frightened silhouette cast on the dungeon walls. It knows each hero’s shape before they enter its arena.',
+  abyssBoss: 'The Abyssal Devourer guards the wound leaking the depths into the world. Its second phase is the larger creature forcing its way through.',
+  scorpionQueen: 'The Scorpion Queen was the Sand Tyrant’s most feared general. She bound herself to the desert’s oldest brood and now carries an army beneath her armour.',
+  woodBoss: 'The Heartwood Horror was once the Moonwood’s oldest guardian. Corruption entered through an axe wound and turned protection into possession.',
+  mechOverlord: 'The Furnace Overlord was assembled by a civilization that tried to mechanize the dungeon itself. Its reactor still burns with the final command they gave it: improve everything by force.',
+  standard: 'The Dungeon Guardian is rebuilt after every defeat from abandoned armour, broken weapons, and fallen shadows. No two heroes face exactly the same creature.',
+};
+const journalStorageKey = 'endlessDungeonJournal';
+let journalDiscoveries = new Set();
+try {
+  const savedJournal = JSON.parse(window.localStorage.getItem(journalStorageKey) || '[]');
+  const validJournalIds = new Set(journalCatalog.map((entry) => entry.id));
+  journalDiscoveries = new Set(savedJournal.filter((id) => validJournalIds.has(id)));
+} catch (error) {
+  journalDiscoveries = new Set();
+}
+
+function saveJournal() {
+  try {
+    window.localStorage.setItem(journalStorageKey, JSON.stringify([...journalDiscoveries]));
+  } catch (error) {
+    // Journal progress remains available for the current session.
+  }
+}
+
+function discoverJournalEntry(id) {
+  if (state.godMode) return;
+  if (!id || journalDiscoveries.has(id) || !journalCatalog.some((entry) => entry.id === id)) return;
+  journalDiscoveries.add(id);
+  saveJournal();
+}
+
+function renderJournal() {
+  journalGrid.replaceChildren();
+  for (const entry of journalCatalog) {
+    const discovered = journalDiscoveries.has(entry.id);
+    const card = document.createElement('article');
+    card.className = `journal-entry${discovered ? ' discovered' : ''}`;
+    card.innerHTML = `
+      <img src="${entry.image}" alt="${discovered ? entry.name : `Unknown ${entry.kind}`}">
+      <strong>${discovered ? entry.name : 'Unknown'}</strong>
+      <span>${entry.kind}</span>
+    `;
+    if (discovered) {
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `Open ${entry.name} profile`);
+      card.addEventListener('click', () => openBestiaryDetail(entry));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openBestiaryDetail(entry);
+        }
+      });
+    }
+    journalGrid.appendChild(card);
+  }
+  journalProgress.textContent = `${journalDiscoveries.size} / ${journalCatalog.length}`;
+}
+
+function getBestiaryProfile(entry) {
+  const combatProfile = typeof enemyMeleeProfiles !== 'undefined' ? enemyMeleeProfiles[entry.id] : null;
+  return bestiaryProfiles[entry.id] || {
+    health: entry.kind === 'Boss' ? 'High · scales by boss tier' : 'Scales with wave',
+    damage: entry.kind === 'Boss' ? 'Heavy · scales by boss tier' : 'Scales with wave',
+    speed: entry.kind === 'Boss' ? 'Boss-specific' : 'Class-specific',
+    traits: entry.kind === 'Boss'
+      ? 'Multiple attacks · arena encounter'
+      : combatProfile
+        ? `${combatProfile.attackName} · ${combatProfile.damageScale >= 1.25 ? 'heavy impact' : 'rapid strike'} · ${combatProfile.staminaDrain ? 'stamina damage' : combatProfile.hydrationDrain ? 'hydration drain' : 'special recovery'}`
+        : 'Theme-adapted combat role',
+    backstory: bestiaryBackstories[entry.id]
+      || `${entry.name} is recorded in the dungeon's oldest field notes. Survivors learned its habits at great cost, and every confirmed defeat adds another page to its history.`,
+  };
+}
+
+function openBestiaryDetail(entry) {
+  if (!journalDiscoveries.has(entry.id)) return;
+  const profile = getBestiaryProfile(entry);
+  bestiaryDetailImage.src = entry.image;
+  bestiaryDetailImage.alt = entry.name;
+  bestiaryDetailName.textContent = entry.name;
+  bestiaryDetailKind.textContent = entry.kind;
+  bestiaryDetailStats.innerHTML = `
+    <div><span>Health</span><strong>${profile.health}</strong></div>
+    <div><span>Damage</span><strong>${profile.damage}</strong></div>
+    <div><span>Speed</span><strong>${profile.speed}</strong></div>
+  `;
+  bestiaryDetailTraits.replaceChildren();
+  profile.traits
+    .split(/\s*[·/]\s*/)
+    .filter(Boolean)
+    .forEach((trait) => {
+      const traitBadge = document.createElement('span');
+      traitBadge.textContent = trait;
+      bestiaryDetailTraits.appendChild(traitBadge);
+    });
+  bestiaryDetailBackstory.textContent = profile.backstory;
+  bestiaryDetail.classList.remove('hidden');
+}
+
+function closeBestiaryDetail() {
+  bestiaryDetail.classList.add('hidden');
+}
 
 const armorSets = [
   { id: 'wayfarer', name: "Wayfarer's Resolve", boss: 0, portrait: 'assets/player/armor/male-wayfarer-portrait.png', combat: 'assets/player/armor/male-wayfarer-combat-swordless.png', femalePortrait: 'assets/player/armor/female-wayfarer-combat.png', femaleCombat: 'assets/player/armor/female-wayfarer-combat-swordless.png', defense: 0, health: 0, stamina: 0, thorns: 0 },
@@ -69,6 +330,10 @@ const weaponSets = [
   { id: 'broadSword', name: 'Oathkeeper Broadblade', boss: 4, portrait: 'assets/player/weapons/broad-sword.png', combat: 'assets/player/weapons/broad-sword.png', damage: 8, reach: 4 },
   { id: 'diamondSword', name: 'Diamondheart Greatsword', boss: 7, portrait: 'assets/player/weapons/diamond-sword-portrait.png', combat: 'assets/player/weapons/diamond-sword-combat.png', damage: 15, reach: 8 },
   { id: 'emeraldSword', name: 'Emerald Sovereign', boss: 27, portrait: 'assets/player/weapons/emerald-sword-portrait.png', combat: 'assets/player/weapons/emerald-sword-combat.png', damage: 24, reach: 12 },
+  { id: 'frostspire', name: 'Frostspire', boss: 35, portrait: 'assets/player/weapons/frostspire.png', combat: 'assets/player/weapons/frostspire.png', damage: 32, reach: 15 },
+  { id: 'worldfireCleaver', name: 'Worldfire Cleaver', boss: 45, portrait: 'assets/player/weapons/worldfire-cleaver.png', combat: 'assets/player/weapons/worldfire-cleaver.png', damage: 42, reach: 18 },
+  { id: 'voidRequiem', name: 'Void Requiem', boss: 55, portrait: 'assets/player/weapons/void-requiem.png', combat: 'assets/player/weapons/void-requiem.png', damage: 54, reach: 22 },
+  { id: 'sunforgedJudgment', name: 'Sunforged Judgment', boss: 65, portrait: 'assets/player/weapons/sunforged-judgment.png', combat: 'assets/player/weapons/sunforged-judgment.png', damage: 68, reach: 26 },
 ];
 const starterWeapon = { id: 'starterBlade', name: 'Starter Blade', boss: 0, damage: 0, reach: 0 };
 
@@ -528,6 +793,7 @@ const wallThickness = 20;
 const doorWidth = 96;
 let lastTime = 0;
 const keys = new Set();
+let godModeAPresses = [];
 
 const art = {
   roomRuins: new Image(),
@@ -554,13 +820,33 @@ const art = {
   iceBossOverhead: new Image(),
   iceMinion: new Image(),
   lavaMinion: new Image(),
+  lavaSpider: new Image(),
   lavaTank: new Image(),
   oceanMinion: new Image(),
   oceanTank: new Image(),
+  oceanHippo: new Image(),
   lushMinion: new Image(),
   lushTank: new Image(),
+  lushMossling: new Image(),
+  lushSporeShroom: new Image(),
+  crystalStalker: new Image(),
+  glowBat: new Image(),
+  crystalMinion: new Image(),
+  crystalTank: new Image(),
+  crystalLion: new Image(),
+  crystalBobcat: new Image(),
+  magmaSerpent: new Image(),
+  lavaTiger: new Image(),
+  frostWraith: new Image(),
+  frostwingDrake: new Image(),
+  voidSerpent: new Image(),
+  voidwingDrake: new Image(),
+  sandRoller: new Image(),
+  sunfeatherGriffin: new Image(),
+  corruptedStag: new Image(),
   woodBoss: new Image(),
   woodBossOverhead: new Image(),
+  woodAttack: new Image(),
   woodMinion: new Image(),
   skeletonBoss: new Image(),
   skeletonBossOverhead: new Image(),
@@ -570,23 +856,57 @@ const art = {
   skeletonOrb: new Image(),
   sandBoss: new Image(),
   sandBossOverhead: new Image(),
+  shadowBoss: new Image(),
+  shadowAttack: new Image(),
+  shadowCat: new Image(),
+  shadowGator: new Image(),
+  abyssBossPhase1: new Image(),
+  abyssBossPhase2: new Image(),
+  scorpionQueen: new Image(),
+  fungalBoss: new Image(),
+  mechOverlord: new Image(),
+  mechMinion: new Image(),
+  mechBear: new Image(),
+  crystalBoss: new Image(),
+  sandSnake: new Image(),
+  crystalAttack: new Image(),
+  crystalRoom: new Image(),
   lushCave: new Image(),
-  cyanRoom: new Image(),
+  oceanRoom: new Image(),
   lavaRoom: new Image(),
-  waterRoom: new Image(),
+  iceRoom: new Image(),
   skeletonRoom: new Image(),
+  sandRoom: new Image(),
+  desertMummy: new Image(),
+  desertScorpion: new Image(),
+  desertArcher: new Image(),
+  abyssRoom: new Image(),
+  abyssJelly: new Image(),
+  abyssSpider: new Image(),
+  abyssKnight: new Image(),
   crate: new Image(),
   openCrate: new Image(),
   lushArena: new Image(),
   lavaArena: new Image(),
-  waterArena: new Image(),
+  oceanArena: new Image(),
   iceArena: new Image(),
   skeletonArena: new Image(),
   sandArena: new Image(),
+  shadowArena: new Image(),
+  abyssArena: new Image(),
+  scorpioArena: new Image(),
+  woodArena: new Image(),
+  fungalArena: new Image(),
+  mechArena: new Image(),
+  crystalArena: new Image(),
   diamondSword: new Image(),
   broadSword: new Image(),
   emeraldSword: new Image(),
   lavaBlade: new Image(),
+  frostspire: new Image(),
+  worldfireCleaver: new Image(),
+  voidRequiem: new Image(),
+  sunforgedJudgment: new Image(),
   protector: new Image(),
   protectorPawSwipe: new Image(),
   protectorBite: new Image(),
@@ -596,63 +916,117 @@ const art = {
 // Starts loading every reusable image asset before the animation loop begins.
 function preloadArt() {
   const sources = {
-    roomRuins: 'assets/worlds/rooms/ruins.svg',
+    roomRuins: 'assets/themes/retro/ruins.svg',
     hero: 'assets/player/armor/male-worldforged-portrait.png',
     retroHero: 'assets/player/base-hero.svg',
-    walker: 'assets/enemies/generic/walker.svg',
-    runner: 'assets/enemies/generic/runner.svg',
-    brute: 'assets/enemies/generic/brute.svg',
-    spitter: 'assets/enemies/generic/spitter.svg',
-    assassin: 'assets/enemies/generic/assassin.svg',
-    crawler: 'assets/enemies/generic/crawler.svg',
-    sentinel: 'assets/enemies/generic/sentinel.svg',
-    wraith: 'assets/enemies/generic/wraith.svg',
-    burrower: 'assets/enemies/generic/burrower.svg',
-    arcaneOrb: 'assets/enemies/generic/arcane-orb.svg',
-    reaper: 'assets/enemies/generic/reaper.svg',
-    lushGolem: 'assets/enemies/bosses/lush-golem.png',
-    lushGolemOverhead: 'assets/enemies/bosses/lush-golem-overhead.png',
-    lavaGolem: 'assets/enemies/bosses/lava-golem.png',
-    lavaGolemOverhead: 'assets/enemies/bosses/lava-golem-overhead.png',
-    oceanBoss: 'assets/enemies/bosses/ocean-boss.png',
-    oceanBossOverhead: 'assets/enemies/bosses/ocean-boss-overhead.png',
-    iceBoss: 'assets/enemies/bosses/ice-boss.png',
-    iceBossOverhead: 'assets/enemies/bosses/ice-boss-overhead.png',
-    iceMinion: 'assets/enemies/units/ice-minion.png',
-    lavaMinion: 'assets/enemies/units/lava-minion.png',
-    lavaTank: 'assets/enemies/units/lava-tank.png',
-    oceanMinion: 'assets/enemies/units/ocean-minion.png',
-    oceanTank: 'assets/enemies/units/ocean-tank.png',
-    lushMinion: 'assets/enemies/units/lush-minion.png',
-    lushTank: 'assets/enemies/units/lush-tank.png',
-    woodBoss: 'assets/enemies/bosses/wood-boss.png',
-    woodBossOverhead: 'assets/enemies/bosses/wood-boss-overhead.png',
-    woodMinion: 'assets/enemies/units/wood-minion.png',
-    skeletonBoss: 'assets/enemies/bosses/skeleton-warlord.png',
-    skeletonBossOverhead: 'assets/enemies/bosses/skeleton-warlord-overhead.png',
-    skeletonMinion: 'assets/enemies/units/skeleton-minion.png',
-    skeletonTank: 'assets/enemies/units/skeleton-tank.png',
-    skeletonSpider: 'assets/enemies/units/skeleton-spider.png',
-    skeletonOrb: 'assets/enemies/units/skeleton-orb.png',
-    sandBoss: 'assets/enemies/bosses/sand-tyrant.png',
-    sandBossOverhead: 'assets/enemies/bosses/sand-tyrant-overhead.png',
-    lushCave: 'assets/worlds/rooms/lush-cave.png',
-    cyanRoom: 'assets/worlds/rooms/cyan-room.png',
-    lavaRoom: 'assets/worlds/rooms/lava-room.png',
-    waterRoom: 'assets/worlds/rooms/water-room.png',
-    skeletonRoom: 'assets/worlds/rooms/skeleton-room.png',
+    walker: 'assets/themes/retro/walker.svg',
+    runner: 'assets/themes/retro/runner.svg',
+    brute: 'assets/themes/retro/brute.svg',
+    spitter: 'assets/themes/retro/spitter.svg',
+    assassin: 'assets/themes/retro/assassin.svg',
+    crawler: 'assets/themes/retro/crawler.svg',
+    sentinel: 'assets/themes/retro/sentinel.svg',
+    wraith: 'assets/themes/retro/wraith.svg',
+    burrower: 'assets/themes/retro/burrower.svg',
+    arcaneOrb: 'assets/themes/retro/arcane-orb.svg',
+    reaper: 'assets/themes/retro/reaper.svg',
+    lushGolem: 'assets/themes/lush/lush-golem.png',
+    lushGolemOverhead: 'assets/themes/lush/lush-golem-overhead.png',
+    lavaGolem: 'assets/themes/lava/lava-golem.png',
+    lavaGolemOverhead: 'assets/themes/lava/lava-golem-overhead.png',
+    oceanBoss: 'assets/themes/ocean/ocean-boss.png',
+    oceanBossOverhead: 'assets/themes/ocean/ocean-boss-overhead.png',
+    iceBoss: 'assets/themes/ice/ice-boss.png',
+    iceBossOverhead: 'assets/themes/ice/ice-boss-overhead.png',
+    iceMinion: 'assets/themes/ice/ice-minion.png',
+    lavaMinion: 'assets/themes/lava/lava-minion.png',
+    lavaSpider: 'assets/themes/lava/lava-spider.png',
+    lavaTank: 'assets/themes/lava/lava-tank.png',
+    oceanMinion: 'assets/themes/ocean/ocean-minion.png',
+    oceanTank: 'assets/themes/ocean/ocean-tank.png',
+    oceanHippo: 'assets/themes/ocean/ocean-hippo.png',
+    lushMinion: 'assets/themes/lush/lush-minion.png',
+    lushTank: 'assets/themes/lush/lush-tank.png',
+    lushMossling: 'assets/themes/lush/lush-mossling.png',
+    lushSporeShroom: 'assets/themes/lush/lush-spore-shroom.png',
+    crystalStalker: 'assets/themes/lush/lush-crystal-stalker.png',
+    glowBat: 'assets/themes/lush/glow-bat.png',
+    crystalMinion: 'assets/themes/crystal/crystal-minion.png',
+    crystalTank: 'assets/themes/crystal/crystal-tank.png',
+    crystalLion: 'assets/themes/crystal/crystal-lion.png',
+    crystalBobcat: 'assets/themes/crystal/crystal-bobcat.png',
+    magmaSerpent: 'assets/themes/lava/magma-serpent.png',
+    lavaTiger: 'assets/themes/lava/lava-tiger.png',
+    frostWraith: 'assets/themes/ice/frost-wraith.png',
+    frostwingDrake: 'assets/themes/ice/frostwing-drake.png',
+    voidSerpent: 'assets/themes/abyss/void-serpent.png',
+    voidwingDrake: 'assets/themes/abyss/voidwing-drake.png',
+    sandRoller: 'assets/themes/desert/sand-roller.png',
+    sunfeatherGriffin: 'assets/themes/desert/sunfeather-griffin.png',
+    corruptedStag: 'assets/themes/fungal/corrupted-stag.png',
+    mechMinion: 'assets/themes/mech/furnace-sentinel.png',
+    woodBoss: 'assets/themes/wood/wood-boss.png',
+    woodBossOverhead: 'assets/themes/wood/wood-boss-overhead.png',
+    woodAttack: 'assets/themes/wood/wood-attack.png?v=2',
+    woodMinion: 'assets/themes/wood/wood-minion.png',
+    skeletonBoss: 'assets/themes/skeleton/skeleton-warlord.png',
+    skeletonBossOverhead: 'assets/themes/skeleton/skeleton-warlord-overhead.png',
+    skeletonMinion: 'assets/themes/skeleton/skeleton-minion.png',
+    skeletonTank: 'assets/themes/skeleton/skeleton-tank.png',
+    skeletonSpider: 'assets/themes/skeleton/skeleton-spider.png',
+    skeletonOrb: 'assets/themes/skeleton/skeleton-orb.png',
+    sandBoss: 'assets/themes/desert/sand-tyrant.png',
+    sandBossOverhead: 'assets/themes/desert/sand-tyrant-overhead.png',
+    shadowBoss: 'assets/themes/shadow/shadow-boss.png',
+    shadowAttack: 'assets/themes/shadow/shadow-attack.png',
+    shadowCat: 'assets/themes/shadow/shadow-cat.png',
+    shadowGator: 'assets/themes/shadow/shadow-gator.png',
+    abyssBossPhase1: 'assets/themes/abyss/abyss-boss-phase-1.png',
+    abyssBossPhase2: 'assets/themes/abyss/abyss-boss-phase-2.png',
+    scorpionQueen: 'assets/themes/desert/scorpion-queen.png',
+    fungalBoss: 'assets/themes/fungal/mycelial-sovereign.png',
+    mechOverlord: 'assets/themes/mech/mech-boss.png',
+    mechBear: 'assets/themes/mech/mech-bear.png',
+    crystalBoss: 'assets/themes/crystal/crystal-guardian.png',
+    sandSnake: 'assets/themes/desert/sand-snake.png',
+    crystalAttack: 'assets/themes/crystal/crystal-eruption.png',
+    crystalRoom: 'assets/themes/crystal/crystal-room.png',
+    lushCave: 'assets/themes/lush/lush-cave.png',
+    oceanRoom: 'assets/themes/ocean/ocean-room.png',
+    lavaRoom: 'assets/themes/lava/lava-room.png',
+    iceRoom: 'assets/themes/ice/ice-room.png',
+    skeletonRoom: 'assets/themes/skeleton/skeleton-room.png',
+    sandRoom: 'assets/themes/desert/sand-room.png',
+    desertMummy: 'assets/themes/desert/desert-mummy.png',
+    desertScorpion: 'assets/themes/desert/desert-scorpion.png',
+    desertArcher: 'assets/themes/desert/desert-archer.png',
+    abyssRoom: 'assets/themes/abyss/abyss-room.png',
+    abyssJelly: 'assets/themes/abyss/abyss-jelly.png',
+    abyssSpider: 'assets/themes/abyss/abyss-spider.png',
+    abyssKnight: 'assets/themes/abyss/abyss-knight.png',
+    abyssArena: 'assets/themes/abyss/abyss-arena.png',
+    scorpioArena: 'assets/themes/desert/scorpio-arena.png',
+    woodArena: 'assets/themes/wood/wood-arena.png?v=2',
+    fungalArena: 'assets/themes/fungal/fungal-arena.png',
+    mechArena: 'assets/themes/mech/mech-arena.png',
+    crystalArena: 'assets/themes/crystal/crystal-arena.png',
     crate: 'assets/props/crate-closed.png',
     openCrate: 'assets/props/crate-open.png',
-    lushArena: 'assets/worlds/arenas/lush-arena.png',
-    lavaArena: 'assets/worlds/arenas/lava-arena.png',
-    waterArena: 'assets/worlds/arenas/water-arena.png',
-    iceArena: 'assets/worlds/arenas/ice-arena.png',
-    skeletonArena: 'assets/worlds/arenas/skeleton-arena.png',
-    sandArena: 'assets/worlds/arenas/sand-arena.png',
+    lushArena: 'assets/themes/lush/lush-arena.png',
+    lavaArena: 'assets/themes/lava/lava-arena.png',
+    oceanArena: 'assets/themes/ocean/ocean-arena.png',
+    iceArena: 'assets/themes/ice/ice-arena.png',
+    skeletonArena: 'assets/themes/skeleton/skeleton-arena.png',
+    shadowArena: 'assets/themes/shadow/shadow-arena.png',
+    sandArena: 'assets/themes/desert/sand-arena.png',
     diamondSword: 'assets/player/weapons/diamond-sword-combat.png',
     broadSword: 'assets/player/weapons/broad-sword.png',
     emeraldSword: 'assets/player/weapons/emerald-sword-combat.png',
     lavaBlade: 'assets/player/weapons/lava-blade-combat.png',
+    frostspire: 'assets/player/weapons/frostspire.png',
+    worldfireCleaver: 'assets/player/weapons/worldfire-cleaver.png',
+    voidRequiem: 'assets/player/weapons/void-requiem.png',
+    sunforgedJudgment: 'assets/player/weapons/sunforged-judgment.png',
     protector: 'assets/helpers/protector.png',
     protectorPawSwipe: 'assets/helpers/protector-paw-swipe.png',
     protectorBite: 'assets/helpers/protector-bite.png',
@@ -736,7 +1110,7 @@ const world = {
       shadow: '#160700',
     },
     {
-      name: 'Moonwood',
+      name: 'Frozen Depths',
       bg: '#101a25',
       room: '#375c7d',
       accent: '#dff7fc',
@@ -765,6 +1139,36 @@ const world = {
       glow: '#a5f3fc',
       shadow: '#050606',
     },
+    {
+      name: 'Desert Ruins',
+      bg: '#2b1908',
+      room: '#a96824',
+      accent: '#fde68a',
+      floor: '#d79a3f',
+      wall: '#5b3211',
+      glow: '#fbbf24',
+      shadow: '#170b03',
+    },
+    {
+      name: 'Abyssal Depths',
+      bg: '#050818',
+      room: '#182b4d',
+      accent: '#67e8f9',
+      floor: '#1f4970',
+      wall: '#080d20',
+      glow: '#22d3ee',
+      shadow: '#02030b',
+    },
+    {
+      name: 'Crystal Sanctum',
+      bg: '#071827',
+      room: '#17435a',
+      accent: '#67e8f9',
+      floor: '#246987',
+      wall: '#0b2638',
+      glow: '#a5f3fc',
+      shadow: '#030a12',
+    },
   ],
 };
 
@@ -784,6 +1188,7 @@ const state = {
   bossArenaOpen: false,
   rareThemeChance: 0.05,
   particles: [],
+  enemyProjectiles: [],
   started: false,
   paused: false,
   shake: 0,
@@ -802,6 +1207,12 @@ const state = {
   threatSplashOpen: false,
   gearChoiceOpen: false,
   pendingWaveSplash: false,
+  godMode: false,
+  godTravelMode: null,
+  forcedThemeIndex: null,
+  forcedEnemyType: null,
+  forcedBossVariant: null,
+  forcedRoomArtwork: null,
 };
 
 // Displays a short gameplay notification, optionally with a critical flash.
@@ -837,10 +1248,119 @@ function getEnemyScore(enemy) {
   return Math.max(10, Math.round(baseScore * eliteMultiplier * minionMultiplier / 5) * 5);
 }
 
+function getDesertEnemyVariant(type) {
+  if (type === 'crawler' || type === 'burrower') return 'desertScorpion';
+  if (['walker', 'brute', 'sentinel', 'reaper'].includes(type)) return 'desertMummy';
+  return 'desertArcher';
+}
+
+function getAbyssEnemyVariant(type) {
+  if (type === 'crawler' || type === 'burrower') return 'abyssSpider';
+  if (['runner', 'spitter', 'wraith', 'arcaneOrb'].includes(type)) return 'abyssJelly';
+  return 'abyssKnight';
+}
+
+const baseEnemyTypes = new Set([
+  'walker', 'runner', 'crawler', 'spitter', 'burrower', 'arcaneOrb',
+  'brute', 'assassin', 'sentinel', 'wraith', 'reaper',
+]);
+
+// Gives each purpose-built creature a real combat signature rather than a
+// cosmetic trait label. Ranged and charge-up specialists keep their dedicated
+// handlers; these profiles drive contact reach, timing, impact, and recovery.
+const enemyMeleeProfiles = {
+  lushMinion: { attackName: 'Thorn Bite', reach: 58, cooldown: 0.72, lunge: 42, damageScale: 0.92, staminaDrain: 6, retreat: 0.34, color: '#4ade80', shake: 5 },
+  lushTank: { attackName: 'Mossback Swipe', reach: 82, cooldown: 1.42, lunge: 24, damageScale: 1.32, staminaDrain: 14, retreat: 0.22, color: '#84cc16', shake: 10 },
+  lushMossling: { attackName: 'Crystal Pounce', reach: 62, cooldown: 0.68, lunge: 48, damageScale: 0.9, staminaDrain: 10, retreat: 0.3, color: '#4ade80', shake: 5 },
+  lavaMinion: { attackName: 'Cinder Bite', reach: 62, cooldown: 0.7, lunge: 46, damageScale: 1, retreat: 0.3, color: '#f97316', shake: 6 },
+  lavaSpider: { attackName: 'Magma Fang Lunge', reach: 76, cooldown: 0.84, lunge: 62, damageScale: 1.08, staminaDrain: 8, retreat: 0.4, color: '#fb923c', shake: 7 },
+  lavaTiger: { attackName: 'Furnace Pounce', reach: 116, cooldown: 0.88, lunge: 104, damageScale: 1.22, staminaDrain: 16, retreat: 0.44, color: '#f97316', shake: 9 },
+  lavaTank: { attackName: 'Obsidian Swipe', reach: 86, cooldown: 1.5, lunge: 28, damageScale: 1.4, staminaDrain: 16, retreat: 0.22, color: '#ef4444', shake: 11 },
+  oceanMinion: { attackName: 'Riptide Lunge', reach: 66, cooldown: 0.76, lunge: 54, damageScale: 0.95, hydrationDrain: 5, retreat: 0.38, color: '#22d3ee', shake: 5 },
+  oceanTank: { attackName: 'Reefbreaker Swipe', reach: 88, cooldown: 1.48, lunge: 30, damageScale: 1.38, staminaDrain: 16, retreat: 0.22, color: '#38bdf8', shake: 11 },
+  iceMinion: { attackName: 'Frostbite Lunge', reach: 68, cooldown: 0.82, lunge: 52, damageScale: 1.02, staminaDrain: 10, retreat: 0.38, color: '#dbeafe', shake: 6 },
+  skeletonMinion: { attackName: 'Boneblade Swipe', reach: 64, cooldown: 0.78, lunge: 38, damageScale: 1.02, retreat: 0.3, color: '#e5e7eb', shake: 6 },
+  skeletonTank: { attackName: 'Ossuary Crush', reach: 86, cooldown: 1.55, lunge: 26, damageScale: 1.42, staminaDrain: 18, retreat: 0.2, color: '#f8fafc', shake: 12 },
+  skeletonSpider: { attackName: 'Marrow Bite', reach: 74, cooldown: 0.76, lunge: 58, damageScale: 1.05, staminaDrain: 7, retreat: 0.42, color: '#cbd5e1', shake: 6 },
+  desertMummy: { attackName: 'Cursebound Swipe', reach: 78, cooldown: 1.18, lunge: 32, damageScale: 1.22, staminaDrain: 12, retreat: 0.25, color: '#fbbf24', shake: 8 },
+  desertScorpion: { attackName: 'Stinger Lunge', reach: 84, cooldown: 0.92, lunge: 64, damageScale: 1.12, staminaDrain: 10, retreat: 0.44, color: '#f59e0b', shake: 7 },
+  abyssJelly: { attackName: 'Void Pulse', reach: 74, cooldown: 1.05, lunge: 34, damageScale: 0.9, hydrationDrain: 8, retreat: 0.5, color: '#38bdf8', shake: 5 },
+  abyssSpider: { attackName: 'Riftfang Bite', reach: 78, cooldown: 0.74, lunge: 66, damageScale: 1.08, hydrationDrain: 6, retreat: 0.46, color: '#6366f1', shake: 7 },
+  abyssKnight: { attackName: 'Abyssal Cleave', reach: 88, cooldown: 1.28, lunge: 40, damageScale: 1.3, staminaDrain: 14, retreat: 0.26, color: '#0ea5e9', shake: 10 },
+  crystalMinion: { attackName: 'Gemclaw Swipe', reach: 70, cooldown: 1.05, lunge: 34, damageScale: 1.12, staminaDrain: 10, retreat: 0.28, color: '#22d3ee', shake: 7 },
+  crystalTank: { attackName: 'Prism Crush', reach: 88, cooldown: 1.55, lunge: 26, damageScale: 1.38, staminaDrain: 18, retreat: 0.24, color: '#8b5cf6', shake: 11 },
+  crystalLion: { reach: 104, cooldown: 0.92, lunge: 88, damageScale: 1.15, staminaDrain: 14, retreat: 0.38, color: '#60a5fa', shake: 8 },
+  crystalBobcat: { reach: 128, cooldown: 0.64, lunge: 116, damageScale: 0.92, staminaDrain: 8, retreat: 0.55, color: '#a78bfa', shake: 6 },
+  shadowCat: { reach: 118, cooldown: 0.76, lunge: 108, damageScale: 1.05, staminaDrain: 12, retreat: 0.48, color: '#c084fc', shake: 7 },
+  shadowGator: { reach: 104, cooldown: 1.32, lunge: 86, damageScale: 1.25, hydrationDrain: 15, retreat: 0.34, color: '#7e22ce', shake: 9 },
+  mechBear: { reach: 96, cooldown: 1.48, lunge: 72, damageScale: 1.35, staminaDrain: 20, retreat: 0.3, color: '#f59e0b', shake: 11 },
+  oceanHippo: { reach: 112, cooldown: 1.62, lunge: 94, damageScale: 1.4, staminaDrain: 24, hydrationDrain: 12, retreat: 0.28, color: '#22d3ee', shake: 13 },
+  frostWraith: { reach: 74, cooldown: 0.82, lunge: 58, damageScale: 0.92, staminaDrain: 15, retreat: 0.42, color: '#bfdbfe', shake: 6 },
+  voidSerpent: { reach: 82, cooldown: 0.78, lunge: 72, damageScale: 1.08, hydrationDrain: 8, retreat: 0.5, color: '#818cf8', shake: 7 },
+  sandRoller: { reach: 86, cooldown: 1.35, lunge: 76, damageScale: 1.3, staminaDrain: 14, retreat: 0.24, color: '#fbbf24', shake: 10 },
+  corruptedStag: { reach: 90, cooldown: 0.72, lunge: 64, damageScale: 1.18, staminaDrain: 10, retreat: 0.3, color: '#84cc16', shake: 8 },
+  glowBat: { reach: 76, cooldown: 0.52, lunge: 64, damageScale: 0.8, retreat: 0.52, color: '#4ade80', shake: 4 },
+  frostwingDrake: { reach: 92, cooldown: 1.05, lunge: 78, damageScale: 0.95, staminaDrain: 18, retreat: 0.46, color: '#dbeafe', shake: 7 },
+  voidwingDrake: { reach: 102, cooldown: 0.82, lunge: 92, damageScale: 1.05, hydrationDrain: 8, retreat: 0.48, color: '#818cf8', shake: 7 },
+  sunfeatherGriffin: { reach: 98, cooldown: 1.3, lunge: 72, damageScale: 1.25, staminaDrain: 12, retreat: 0.36, color: '#fbbf24', shake: 10 },
+};
+
+function getEnemyJournalId(enemy) {
+  // Every purpose-built enemy gets its own Beastiary identity. Only the
+  // original generic roster is translated into biome-specific counterparts.
+  if (!baseEnemyTypes.has(enemy.type)) return enemy.type;
+
+  const minionTypes = ['runner', 'crawler', 'assassin', 'wraith', 'arcaneOrb'];
+  const role = minionTypes.includes(enemy.type) ? 'Minion' : 'Tank';
+  if (world.themeIndex === 0) return `lush${role}`;
+  if (world.themeIndex === 2) return enemy.type === 'crawler' ? 'lavaSpider' : `lava${role}`;
+  if (world.themeIndex === 1) return `ocean${role}`;
+  if (world.themeIndex === 3) return 'iceMinion';
+  if (world.themeIndex === 5) {
+    if (enemy.type === 'crawler') return 'skeletonSpider';
+    if (enemy.type === 'arcaneOrb') return 'skeletonOrb';
+    return `skeleton${role}`;
+  }
+  if (world.themeIndex === 6) return getDesertEnemyVariant(enemy.type);
+  if (world.themeIndex === 7) return getAbyssEnemyVariant(enemy.type);
+  if (world.themeIndex === 8) return `crystal${role}`;
+  return enemy.type;
+}
+
+function getEnemyDisplayName(enemy) {
+  const journalId = enemy === state.boss ? enemy.variant : getEnemyJournalId(enemy);
+  return journalCatalog.find((entry) => entry.id === journalId)?.name
+    || formatLootName(enemy.type || enemy.variant || 'enemy');
+}
+
+// Prevents newly implemented enemies from silently missing the Beastiary.
+// Hand-authored entries still take precedence; this fallback registers any
+// new spawnable type with its real artwork and first-seen combat statistics.
+function ensureEnemyHasBestiaryEntry(enemy) {
+  const id = getEnemyJournalId(enemy);
+  if (!id || journalCatalog.some((entry) => entry.id === id)) return;
+  const name = formatLootName(id);
+  journalCatalog.push({
+    id,
+    name,
+    kind: 'Enemy',
+    image: getEnemyImageSource(enemy),
+  });
+  bestiaryProfiles[id] = {
+    health: `${Math.round(enemy.maxHealth)} when first encountered`,
+    damage: `${Math.round(enemy.damage)} per hit when first encountered`,
+    speed: `${Math.round(enemy.speed)}`,
+    traits: 'Newly encountered dungeon species',
+    backstory: `${name} was unknown to the dungeon’s field scholars until this encounter. Its movements, attacks, and habitat are now preserved in the Beastiary for future expeditions.`,
+  };
+}
+
 // Awards kill points once, regardless of who landed the finishing blow.
 function awardEnemyScore(enemy) {
   if (enemy.scoreAwarded) return;
   enemy.scoreAwarded = true;
+  ensureEnemyHasBestiaryEntry(enemy);
+  discoverJournalEntry(getEnemyJournalId(enemy));
   state.score += getEnemyScore(enemy);
 }
 
@@ -851,6 +1371,10 @@ function getBossScore(boss) {
 
 // Selects the next biome, including rare Retro Mode and fixed boss-five routing.
 function getTheme() {
+  if (Number.isInteger(state.forcedThemeIndex) && world.themes[state.forcedThemeIndex]) {
+    world.themeIndex = state.forcedThemeIndex;
+    return world.themes[world.themeIndex];
+  }
   // Boss five belongs to the Bony Ruins; always introduce its biome first.
   if (state.bossDefeated === 4) {
     world.themeIndex = 5;
@@ -861,7 +1385,7 @@ function getTheme() {
     world.themeIndex = 4;
     return world.themes[4];
   }
-  const standardThemes = [0, 1, 2, 3, 5];
+  const standardThemes = [0, 1, 2, 3, 5, 6, 7, 8];
   world.themeIndex = standardThemes[Math.floor(Math.random() * standardThemes.length)];
   return world.themes[world.themeIndex];
 }
@@ -899,6 +1423,14 @@ function applyLoot(item) {
   } else if (item === 'shieldShard') {
     player.inventory.shieldShard += 1;
   }
+}
+
+// Grants six crate-table drops when a Forbidden Chamber guardian falls.
+function awardChallengeRoomLoot() {
+  const rewards = Array.from({ length: 6 }, randomLoot);
+  rewards.forEach(applyLoot);
+  showLootHighlight(rewards);
+  return rewards;
 }
 
 // Creates the full grid connections available to a room before pruning.
@@ -991,7 +1523,7 @@ function createRooms() {
         theme,
         doorways: { top: false, right: false, bottom: false, left: false },
         crates: [],
-        rare: Math.random() < 0.12,
+        rare: Math.random() < 0.05,
       };
 
       room.doorways = makeDoorways(room);
@@ -1044,23 +1576,66 @@ function placePlayerInFirstRoom() {
 function getEnemySplashArt(enemy) {
   if (state.retroMode) {
     const retroFilename = enemy.type === 'arcaneOrb' ? 'arcane-orb' : enemy.type;
-    return `assets/enemies/generic/${retroFilename}.svg`;
+    return `assets/themes/retro/${retroFilename}.svg`;
   }
   const minionTypes = ['runner', 'crawler', 'assassin', 'wraith', 'arcaneOrb'];
   const tankTypes = ['walker', 'brute', 'spitter', 'sentinel', 'burrower', 'reaper'];
   const role = minionTypes.includes(enemy.type) ? 'minion' : tankTypes.includes(enemy.type) ? 'tank' : null;
-  if (role && world.themeIndex === 0) return `assets/enemies/units/lush-${role}.png`;
-  if (role && world.themeIndex === 2) return role === 'minion' ? 'assets/enemies/units/lava-minion.png' : 'assets/enemies/units/lava-tank.png';
-  if (role && (world.themeIndex === 1 || world.themeIndex === 3)) return `assets/enemies/units/ocean-${role}.png`;
+  const addonArt = {
+    crystalStalker: 'assets/themes/lush/lush-crystal-stalker.png',
+    crystalMinion: 'assets/themes/crystal/crystal-minion.png',
+    crystalTank: 'assets/themes/crystal/crystal-tank.png',
+    crystalLion: 'assets/themes/crystal/crystal-lion.png',
+    crystalBobcat: 'assets/themes/crystal/crystal-bobcat.png',
+    magmaSerpent: 'assets/themes/lava/magma-serpent.png',
+    lavaTiger: 'assets/themes/lava/lava-tiger.png',
+    frostWraith: 'assets/themes/ice/frost-wraith.png',
+    voidSerpent: 'assets/themes/abyss/void-serpent.png',
+    sandRoller: 'assets/themes/desert/sand-roller.png',
+    corruptedStag: 'assets/themes/fungal/corrupted-stag.png',
+    shadowCat: 'assets/themes/shadow/shadow-cat.png',
+    shadowGator: 'assets/themes/shadow/shadow-gator.png',
+    mechBear: 'assets/themes/mech/mech-bear.png',
+    oceanHippo: 'assets/themes/ocean/ocean-hippo.png',
+  };
+  if (addonArt[enemy.type]) return addonArt[enemy.type];
+  if (world.themeIndex === 0) {
+    if (enemy.type === 'lushMossling') return 'assets/themes/lush/lush-mossling.png';
+    if (enemy.type === 'lushSporeShroom') return 'assets/themes/lush/lush-spore-shroom.png';
+    if (role) return `assets/themes/lush/lush-${role}.png`;
+  }
+  if (world.themeIndex === 2 && enemy.type === 'crawler') return 'assets/themes/lava/lava-spider.png';
+  if (role && world.themeIndex === 2) return role === 'minion' ? 'assets/themes/lava/lava-minion.png' : 'assets/themes/lava/lava-tank.png';
+  if (role && world.themeIndex === 1) return `assets/themes/ocean/ocean-${role}.png`;
+  if (role && world.themeIndex === 3) return 'assets/themes/ice/ice-minion.png';
   if (world.themeIndex === 5) {
-    if (enemy.type === 'crawler') return 'assets/enemies/units/skeleton-spider.png';
-    if (enemy.type === 'arcaneOrb') return 'assets/enemies/units/skeleton-orb.png';
-    if (role === 'minion') return 'assets/enemies/units/skeleton-minion.png';
-    if (role === 'tank') return 'assets/enemies/units/skeleton-tank.png';
+    if (enemy.type === 'crawler') return 'assets/themes/skeleton/skeleton-spider.png';
+    if (enemy.type === 'arcaneOrb') return 'assets/themes/skeleton/skeleton-orb.png';
+    if (role === 'minion') return 'assets/themes/skeleton/skeleton-minion.png';
+    if (role === 'tank') return 'assets/themes/skeleton/skeleton-tank.png';
+  }
+  if (world.themeIndex === 6) {
+    const desertVariant = getDesertEnemyVariant(enemy.type);
+    const desertFilename = desertVariant === 'desertMummy'
+      ? 'desert-mummy'
+      : desertVariant === 'desertScorpion' ? 'desert-scorpion' : 'desert-archer';
+    return `assets/themes/desert/${desertFilename}.png`;
+  }
+  if (world.themeIndex === 7) {
+    const abyssVariant = getAbyssEnemyVariant(enemy.type);
+    const abyssFilename = abyssVariant === 'abyssJelly'
+      ? 'abyss-jelly'
+      : abyssVariant === 'abyssSpider' ? 'abyss-spider' : 'abyss-knight';
+    return `assets/themes/abyss/${abyssFilename}.png`;
+  }
+  if (world.themeIndex === 8) {
+    return role === 'minion'
+      ? 'assets/themes/crystal/crystal-minion.png'
+      : 'assets/themes/crystal/crystal-tank.png';
   }
   return role === 'minion'
-    ? 'assets/enemies/units/lush-minion.png'
-    : 'assets/enemies/units/lush-tank.png';
+    ? 'assets/themes/lush/lush-minion.png'
+    : 'assets/themes/lush/lush-tank.png';
 }
 
 // Pauses at a new wave to introduce one featured threat in a single sentence.
@@ -1111,17 +1686,38 @@ function showWaveSplash() {
   }
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
   const enemyThreats = {
-    walker: 'Walkers claw forward without fear, tearing at anything they can drag to the floor.',
-    runner: 'Runners rush exposed flesh, striking before their victims can turn to face them.',
-    crawler: 'Crawlers skitter beneath your guard and rip at your legs until you cannot escape.',
-    spitter: 'Spitters launch corrosive bile that burns through armour and skin.',
-    burrower: 'Burrowers wait beneath the floor, then burst upward under their prey.',
-    arcaneOrb: 'Arcane Orbs scorch living bodies with unstable dungeon magic.',
-    brute: 'Brutes crush bone with heavy blows and leave broken bodies in their wake.',
-    assassin: 'Assassins slip into blind spots and open deep wounds before disappearing.',
-    sentinel: 'Sentinels march through attacks and batter trapped victims into the stone.',
-    wraith: 'Wraiths pass through solid walls to drain the life from anyone hiding nearby.',
-    reaper: 'Reapers swing for the neck and do not stop when their target falls.',
+    walker: 'Cryptbound Drifters claw forward without fear, tearing at anything they can drag to the floor.',
+    runner: 'Bloodrush Ravagers rush exposed flesh, striking before their victims can turn.',
+    crawler: 'Gloomskitters slip beneath your guard and rip at your legs until escape is impossible.',
+    spitter: 'Rotspines launch corrosive bile that burns through armour and skin.',
+    burrower: 'Graveburrow Stalkers wait beneath the floor, then burst upward under their prey.',
+    arcaneOrb: 'Hexlight Oculi scorch living bodies with unstable dungeon magic.',
+    brute: 'Ironhide Breakers crush bone with heavy blows and leave broken bodies behind.',
+    assassin: 'Veilknives enter blind spots and open deep wounds before disappearing.',
+    sentinel: 'Runebound Watchers march through attacks and batter trapped victims into stone.',
+    wraith: 'Hollowveils pass through solid walls to drain anyone hiding nearby.',
+    reaper: 'Dreadharvesters swing for the neck and do not stop when their target falls.',
+    lushMossling: 'Mosslings launch crystal pounces that drain stamina before their prey can recover.',
+    lushSporeShroom: 'Spore Shrooms blanket groups in poisonous spores from beyond sword reach.',
+    crystalStalker: 'Verdant Crystal Stalkers brace behind green mineral armour, then launch a Shard Lunge that fractures health and stamina.',
+    crystalMinion: 'Gemhide Crushers advance behind gemstone armour and crush stamina with their massive crystal-bound claws.',
+    crystalTank: 'Prismback Colossi absorb punishment behind violet crystal plate before answering with a devastating body blow.',
+    crystalLion: 'Crownshard Lions cross the room in one brilliant pounce, smashing stamina with the weight of their prismatic mane.',
+    crystalBobcat: 'Shardeye Bobcats use Facet Blink to flash through crystal reflections and ambush prey before rapidly retreating.',
+    glowBat: 'Viridian Glowbats beat their wings rapidly before plunging into an Echo Dive and darting back out of reach.',
+    frostwingDrake: 'Rimewing Drakes descend in a freezing talon strike that locks stamina beneath a skin of ice.',
+    voidwingDrake: 'Riftwing Drakes fold the air during a sudden dive and leave their victims painfully dehydrated.',
+    sunfeatherGriffin: 'Sunfeather Sentinels gather momentum overhead before delivering a crushing Solar Talon impact.',
+    magmaSerpent: 'Magma Serpents hold their distance and spit slow, punishing globes of living fire.',
+    lavaTiger: 'Cinderfang Sabres cross the room in a Furnace Pounce, then drive their heated sabre fangs through armour and stamina.',
+    frostWraith: 'Frost Wraiths glide quickly through the fight and freeze the strength from every target they touch.',
+    voidSerpent: 'Void Serpents strike with long lunges, then coil away before a counterattack can land.',
+    sandRoller: 'Sand Rollers turn ancient armour into a crushing charge that can break a careless hero.',
+    corruptedStag: 'Corrupted Stags sprint down their prey and spread the Sovereign’s invasive spores with every antler strike.',
+    shadowCat: 'Nightclaw Lynxes disappear into a Shadow Step, tearing across the arena before their prey can brace.',
+    shadowGator: 'Dreadscale Gators launch their armoured bodies into a Voidjaw Lunge that tears away health and hydration.',
+    mechBear: 'Brassmaw Siege Bears lock their pistons and launch an armoured charge capable of breaking stamina and formations.',
+    oceanHippo: 'Undertow Behemoths gather the room’s current into a crushing charge that strips stamina and hydration from anything they trample.',
   };
   const featuredEnemy = livingEnemies[Math.floor(Math.random() * livingEnemies.length)];
   const randomDescription = state.retroMode
@@ -1131,7 +1727,7 @@ function showWaveSplash() {
   if (featuredEnemy) {
     const image = document.createElement('img');
     image.src = getEnemySplashArt(featuredEnemy);
-    image.alt = `${formatLootName(featuredEnemy.type)} approaching this wave`;
+    image.alt = `${getEnemyDisplayName(featuredEnemy)} approaching this wave`;
     waveSplashEnemies.appendChild(image);
   }
   waveSplashText.textContent = randomDescription;
@@ -1143,13 +1739,20 @@ function showWaveSplash() {
 function showBossSplash() {
   if (!state.boss) return;
   const bossDetails = {
-    lushGolem: { name: 'Lush Golem', image: 'assets/enemies/bosses/lush-golem.png', warning: 'Its roots can crush you in place, and its healing bloom can undo your hard-earned damage.' },
-    lavaGolem: { name: 'Lava Golem', image: 'assets/enemies/bosses/lava-golem.png', warning: 'Its hammer slams break defenses, while eruptions can engulf almost the entire arena.' },
-    oceanBoss: { name: 'Ocean Boss', image: 'assets/enemies/bosses/ocean-boss.png', warning: 'Its tidal attacks sweep across the arena and leave nowhere safe to stand still.' },
-    iceBoss: { name: 'Ice Boss', image: 'assets/enemies/bosses/ice-boss.png', warning: 'Its blizzards punish hesitation, and more Ice Minions arrive as the battle drags on.' },
-    skeletonWarlord: { name: 'Skeleton Warlord', image: 'assets/enemies/bosses/skeleton-warlord.png', warning: 'This crowned butcher raises four Skeleton Orbs as its health falls, crowding the arena with hungry dead.' },
-    sandBoss: { name: 'Sand Tyrant', image: 'assets/enemies/bosses/sand-tyrant.png', warning: 'The buried king commands three Skeleton Minions and five Skeleton Orbs, raising another servant whenever its strength breaks.' },
-    woodBoss: { name: 'Wood Boss', image: 'assets/enemies/bosses/wood-boss.png', warning: 'It summons reinforcements as it weakens, turning one monster into an advancing horde.' },
+    lushGolem: { name: 'Lush Golem', image: 'assets/themes/lush/lush-golem.png', warning: 'Its roots can crush you in place, and its healing bloom can undo your hard-earned damage.' },
+    lavaGolem: { name: 'Lava Golem', image: 'assets/themes/lava/lava-golem.png', warning: 'Its hammer slams break defenses, while eruptions can engulf almost the entire arena.' },
+    oceanBoss: { name: 'Tide Sovereign', image: 'assets/themes/ocean/ocean-boss.png', warning: 'Its tidal attacks sweep across the arena and leave nowhere safe to stand still.' },
+    iceBoss: { name: 'Glacial Sovereign', image: 'assets/themes/ice/ice-boss.png', warning: 'Its blizzards punish hesitation, and more Frostbound Shards arrive as the battle drags on.' },
+    skeletonWarlord: { name: 'Skeleton Warlord', image: 'assets/themes/skeleton/skeleton-warlord.png', warning: 'This crowned butcher raises four Skeleton Orbs as its health falls, crowding the arena with hungry dead.' },
+    sandBoss: { name: 'Sand Tyrant', image: 'assets/themes/desert/sand-tyrant.png', warning: 'The buried king commands three Boneguards and five Skeleton Orbs, raising another servant whenever its strength breaks.' },
+    shadowBoss: { name: 'Umbral Warden', image: 'assets/themes/shadow/shadow-boss.png', warning: 'The living darkness strikes with crushing slams, sudden dashes, a void nova, swift Nightclaw Lynxes, and plated Dreadscale Gators.' },
+    abyssBoss: { name: 'Abyssal Devourer', image: 'assets/themes/abyss/abyss-boss-phase-1.png', warning: 'When half its strength is drained, the Devourer tears into its second phase with faster charges and a battlefield-filling abyss nova.' },
+    scorpionQueen: { name: 'Scorpion Queen', image: 'assets/themes/desert/scorpion-queen.png', warning: 'Her venom nova drains the arena, her armoured charge crushes anything ahead, and she calls Desert Scorpions from beneath the sand.' },
+    fungalBoss: { name: 'Mycelial Sovereign', image: 'assets/themes/fungal/mycelial-sovereign.png', warning: 'Its root-heavy slam breaks the ground, its hypha dash crosses the colony, Sporeburst drains strength, and wounded mycelium calls charging Corrupted Stags.' },
+    mechOverlord: { name: 'Furnace Overlord', image: 'assets/themes/mech/mech-boss.png', warning: 'Its drill crushes armour, its reactor nova punishes anyone nearby, and its assembly rail deploys ranged Furnace Sentinels and Brassmaw Siege Bears.' },
+    crystalBoss: { name: 'Prismatic Guardian', image: 'assets/themes/crystal/crystal-guardian.png', warning: 'Its crystal shield powers crushing slams, Prism Dash closes distance instantly, and Crystal Eruption fills most of the arena with deadly shards.' },
+    sandSnake: { name: 'Gilded Dune Serpent', image: 'assets/themes/desert/sand-snake.png', warning: 'Its ritual staff crushes the ground, Serpent Rush crosses the Sand Arena, and Scarab Storm strips away health, stamina, and food.' },
+    woodBoss: { name: 'Heartwood Horror', image: 'assets/themes/wood/wood-boss.png', warning: 'It summons reinforcements as it weakens, then tears open the arena with a massive Heartwood Eruption.' },
   };
   const details = bossDetails[state.boss.variant] || {
     name: 'Dungeon Guardian',
@@ -1434,7 +2037,7 @@ function resolveRoomCollision(entity, nextX, nextY) {
 }
 
 // Builds one wave-scaled enemy with a weighted type and combat profile.
-function createEnemy(room, index) {
+function createEnemy(room, index, forcedType = null) {
   const easyTypes = ['walker', 'runner'];
   const mediumTypes = ['crawler', 'spitter', 'burrower', 'arcaneOrb'];
   const hardTypes = ['brute', 'assassin', 'sentinel', 'wraith', 'reaper'];
@@ -1449,6 +2052,7 @@ function createEnemy(room, index) {
   } else {
     type = easyTypes[Math.floor(Math.random() * easyTypes.length)];
   }
+  if (forcedType) type = forcedType;
   const base = {
     x: room.x + 120 + Math.random() * (room.w - 220),
     y: room.y + 110 + Math.random() * (room.h - 220),
@@ -1533,6 +2137,120 @@ function createEnemy(room, index) {
     base.damage = 18 + state.wave * 2.5;
     base.radius = 24;
   }
+  if (type === 'lushMossling') {
+    base.speed = 152;
+    base.health = 28 + state.wave * 7;
+    base.damage = 7 + state.wave * 1.25;
+    base.radius = 15;
+  }
+  if (type === 'lushSporeShroom') {
+    base.speed = 58;
+    base.health = 108 + state.wave * 16;
+    base.damage = 11 + state.wave * 1.8;
+    base.radius = 24;
+  }
+  if (type === 'crystalStalker') {
+    base.speed = 68;
+    base.health = 150 + state.wave * 18;
+    base.damage = 14 + state.wave * 2.1;
+    base.radius = 25;
+  }
+  if (type === 'crystalMinion') {
+    base.speed = 88;
+    base.health = 115 + state.wave * 16;
+    base.damage = 16 + state.wave * 2.2;
+    base.radius = 24;
+  }
+  if (type === 'crystalTank') {
+    base.speed = 54;
+    base.health = 220 + state.wave * 24;
+    base.damage = 21 + state.wave * 2.8;
+    base.radius = 29;
+  }
+  if (type === 'crystalLion') {
+    base.speed = 136;
+    base.health = 168 + state.wave * 20;
+    base.damage = 19 + state.wave * 2.6;
+    base.radius = 27;
+  }
+  if (type === 'crystalBobcat') {
+    base.speed = 184;
+    base.health = 112 + state.wave * 15;
+    base.damage = 15 + state.wave * 2.2;
+    base.radius = 22;
+  }
+  if (type === 'shadowCat') {
+    base.speed = 172;
+    base.health = 128 + state.wave * 17;
+    base.damage = 17 + state.wave * 2.4;
+    base.radius = 23;
+  }
+  if (type === 'mechBear') {
+    base.speed = 62;
+    base.health = 260 + state.wave * 28;
+    base.damage = 23 + state.wave * 3;
+    base.radius = 31;
+  }
+  if (type === 'shadowGator') {
+    base.speed = 78;
+    base.health = 240 + state.wave * 26;
+    base.damage = 22 + state.wave * 2.9;
+    base.radius = 30;
+  }
+  if (type === 'oceanHippo') {
+    base.speed = 58;
+    base.health = 285 + state.wave * 30;
+    base.damage = 24 + state.wave * 3.1;
+    base.radius = 33;
+  }
+  if (type === 'magmaSerpent') {
+    base.speed = 82;
+    base.health = 92 + state.wave * 13;
+    base.damage = 13 + state.wave * 1.9;
+    base.radius = 23;
+  }
+  if (type === 'lavaTiger') {
+    base.speed = 146;
+    base.health = 176 + state.wave * 21;
+    base.damage = 20 + state.wave * 2.7;
+    base.radius = 27;
+  }
+  if (type === 'frostWraith') {
+    base.speed = 148;
+    base.health = 74 + state.wave * 11;
+    base.damage = 12 + state.wave * 1.8;
+    base.radius = 19;
+  }
+  if (type === 'voidSerpent') {
+    base.speed = 124;
+    base.health = 118 + state.wave * 15;
+    base.damage = 15 + state.wave * 2.2;
+    base.radius = 23;
+  }
+  if (type === 'sandRoller') {
+    base.speed = 96;
+    base.health = 185 + state.wave * 20;
+    base.damage = 18 + state.wave * 2.4;
+    base.radius = 27;
+  }
+  if (type === 'corruptedStag') {
+    base.speed = 172;
+    base.health = 105 + state.wave * 14;
+    base.damage = 17 + state.wave * 2.3;
+    base.radius = 22;
+  }
+  if (type === 'glowBat') {
+    base.speed = 176; base.health = 58 + state.wave * 9; base.damage = 10 + state.wave * 1.5; base.radius = 18;
+  }
+  if (type === 'frostwingDrake') {
+    base.speed = 142; base.health = 104 + state.wave * 14; base.damage = 14 + state.wave * 2; base.radius = 22;
+  }
+  if (type === 'voidwingDrake') {
+    base.speed = 158; base.health = 92 + state.wave * 13; base.damage = 15 + state.wave * 2.1; base.radius = 21;
+  }
+  if (type === 'sunfeatherGriffin') {
+    base.speed = 128; base.health = 138 + state.wave * 17; base.damage = 18 + state.wave * 2.5; base.radius = 24;
+  }
 
   // Keep the chase manageable while preserving each class's relative speed.
   base.speed *= 0.72;
@@ -1547,40 +2265,114 @@ function createEnemy(room, index) {
     base.damage *= 1.3;
     base.radius += 4;
   }
+  ensureEnemyHasBestiaryEntry(base);
   return base;
 }
 
-// Doubles the wave roster, making half immediate hunters and half room patrols.
+// Keeps the opening waves readable, then ramps toward the larger late-game roster.
 function spawnEnemiesForWave() {
   state.enemies = [];
-  const originalCount = Math.min(32, state.wave <= 3 ? (3 + state.wave) * 2 : 3 + Math.ceil(state.wave * 1.5));
-  const count = Math.min(64, originalCount * 2);
+  const earlyWaveCounts = [5, 7, 9];
+  const count = state.wave <= earlyWaveCounts.length
+    ? earlyWaveCounts[state.wave - 1]
+    : Math.min(64, (3 + Math.ceil(state.wave * 1.5)) * 2);
+  const roomAddonStride = state.wave === 1 ? 4 : state.wave === 2 ? 3 : state.wave === 3 ? 2 : 1;
   for (let i = 0; i < count; i += 1) {
     const room = state.rooms[i % state.rooms.length];
     const enemy = createEnemy(room, i);
-    // Half begin hunting immediately; the other half wander in their rooms
-    // until the hero approaches or attacks them.
-    enemy.aggro = i % 2 === 0;
+    // Early enemies patrol their own rooms until the hero enters, approaches,
+    // sends a helper nearby, or attacks them. Later waves regain roaming hunters.
+    enemy.aggro = state.wave > 3 && i % 2 === 0;
     state.enemies.push(enemy);
+  }
+  // Lush creatures supplement the normal themed roster instead of replacing it.
+  if (world.themeIndex === 0) {
+    state.rooms.forEach((room, roomIndex) => {
+      if (roomIndex % roomAddonStride !== 0) return;
+      const lushType = roomIndex % 2 === 0 ? 'lushMossling' : 'lushSporeShroom';
+      const lushEnemy = createEnemy(room, count + roomIndex, lushType);
+      lushEnemy.aggro = false;
+      state.enemies.push(lushEnemy);
+    });
+  }
+  const themedAddon = world.themeIndex === 1
+    ? 'oceanHippo'
+    : world.themeIndex === 2
+    ? 'magmaSerpent'
+    : world.themeIndex === 3
+      ? 'frostWraith'
+    : world.themeIndex === 6
+      ? 'sandRoller'
+      : world.themeIndex === 7 ? 'voidSerpent' : null;
+  if (themedAddon) {
+    state.rooms.forEach((room, roomIndex) => {
+      if (roomIndex % Math.max(2, roomAddonStride) !== 0) return;
+      const addonType = world.themeIndex === 2 && roomIndex % 4 === 2
+        ? 'lavaTiger'
+        : themedAddon;
+      const extra = createEnemy(room, count + state.rooms.length + roomIndex, addonType);
+      extra.aggro = false;
+      state.enemies.push(extra);
+    });
+  }
+  // Crownshard Lions are an additional Crystal Sanctum predator, not a replacement.
+  if (world.themeIndex === 8) {
+    state.rooms.forEach((room, roomIndex) => {
+      if (roomIndex % roomAddonStride !== 0) return;
+      const crystalPredator = roomIndex % 2 === 0 ? 'crystalLion' : 'crystalBobcat';
+      const predator = createEnemy(room, count + state.rooms.length * 2 + roomIndex, crystalPredator);
+      predator.aggro = false;
+      state.enemies.push(predator);
+    });
+  }
+  if (world.themeIndex === 0) {
+    state.rooms.forEach((room, roomIndex) => {
+      if (roomIndex % Math.max(3, roomAddonStride) !== 0) return;
+      const stalker = createEnemy(room, count + state.rooms.length * 2 + roomIndex, 'crystalStalker');
+      stalker.aggro = false;
+      state.enemies.push(stalker);
+    });
+  }
+  const flyingAddon = {
+    0: 'glowBat',
+    3: 'frostwingDrake',
+    6: 'sunfeatherGriffin',
+    7: 'voidwingDrake',
+  }[world.themeIndex];
+  if (flyingAddon) {
+    state.rooms.forEach((room, roomIndex) => {
+      if (roomIndex % Math.max(3, roomAddonStride) !== 0) return;
+      const flyer = createEnemy(room, count + state.rooms.length * 3 + roomIndex, flyingAddon);
+      flyer.aggro = false;
+      state.enemies.push(flyer);
+    });
   }
 }
 
 // Creates the next tiered boss and places the party inside its arena.
 function spawnBoss() {
+  state.enemyProjectiles = [];
   const isFirstBoss = state.bossDefeated === 0;
   const isSecondBoss = state.bossDefeated === 1;
   const isThirdBoss = state.bossDefeated === 2;
   const isFourthBoss = state.bossDefeated === 3;
   const isFifthBoss = state.bossDefeated === 4;
   const isSixthBoss = state.bossDefeated === 5;
+  const isSeventhBoss = state.bossDefeated === 6;
+  const isEighthBoss = state.bossDefeated === 7;
+  const isNinthBoss = state.bossDefeated === 8;
   const isTenthBoss = state.bossDefeated === 9;
+  const isEleventhBoss = state.bossDefeated === 10;
+  const isTwelfthBoss = state.bossDefeated === 11;
+  const isThirteenthBoss = state.bossDefeated === 12;
+  const isFourteenthBoss = state.bossDefeated === 13;
   const bossTier = state.bossDefeated + 1;
   const bossHealth = 470 + bossTier * 230 + Math.max(0, bossTier - 2) * 90;
   const bossDamage = 14 + bossTier * 5 + Math.max(0, bossTier - 2) * 1.5;
   state.boss = {
     x: world.width / 2,
     y: world.height / 2,
-    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isFifthBoss ? 57 : isSixthBoss ? 58 : isTenthBoss ? 58 : 36,
+    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isFifthBoss ? 57 : isSixthBoss ? 58 : isSeventhBoss ? 60 : isEighthBoss ? 62 : isNinthBoss ? 64 : isTenthBoss ? 58 : isEleventhBoss ? 65 : isTwelfthBoss ? 66 : isThirteenthBoss ? 67 : isFourteenthBoss ? 68 : 36,
     health: bossHealth,
     maxHealth: bossHealth,
     damage: bossDamage,
@@ -1588,7 +2380,7 @@ function spawnBoss() {
     cooldown: 1.1,
     attackWindup: 0,
     attackWindupTotal: 0.38,
-    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isFifthBoss ? 'boneSlam' : isSixthBoss ? 'sandSlam' : isTenthBoss ? 'woodSlam' : 'slam',
+    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isFifthBoss ? 'boneSlam' : isSixthBoss ? 'sandSlam' : isSeventhBoss ? 'shadowSlam' : isEighthBoss ? 'abyssSlam' : isNinthBoss ? 'pincerSlam' : isTenthBoss ? 'woodSlam' : isEleventhBoss ? 'myceliumSlam' : isTwelfthBoss ? 'drillSlam' : isThirteenthBoss ? 'crystalSlam' : isFourteenthBoss ? 'staffCrush' : 'slam',
     attackPulse: 0,
     hitFlash: 0,
     lungeTimer: 0,
@@ -1609,12 +2401,31 @@ function spawnBoss() {
     defeatedTimer: 0,
     halfHealthMinionSummoned: false,
     nextWoodMinionThreshold: 0.9,
+    heartwoodEruptionUsed: false,
+    nextFungalStagThreshold: 0.75,
+    fungalStagsSummoned: 0,
     nextSkeletonOrbThreshold: 0.8,
     skeletonOrbsSummoned: 0,
     nextSandSummonThreshold: 0.9,
     sandSummonsCompleted: 0,
-    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isFifthBoss ? 'skeletonWarlord' : isSixthBoss ? 'sandBoss' : isTenthBoss ? 'woodBoss' : 'standard',
+    nextScorpionSummonThreshold: 0.75,
+    scorpionBroodsSummoned: 0,
+    nextMechSummonThreshold: 0.66,
+    mechSentinelsDeployed: 0,
+    phase: 1,
+    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isFifthBoss ? 'skeletonWarlord' : isSixthBoss ? 'sandBoss' : isSeventhBoss ? 'shadowBoss' : isEighthBoss ? 'abyssBoss' : isNinthBoss ? 'scorpionQueen' : isTenthBoss ? 'woodBoss' : isEleventhBoss ? 'fungalBoss' : isTwelfthBoss ? 'mechOverlord' : isThirteenthBoss ? 'crystalBoss' : isFourteenthBoss ? 'sandSnake' : 'standard',
   };
+  if (state.forcedBossVariant) {
+    const forcedBossAttacks = {
+      lushGolem: 'rootSlam', lavaGolem: 'hammerSlam', oceanBoss: 'tideSlam',
+      iceBoss: 'iceSlam', skeletonWarlord: 'boneSlam', sandBoss: 'sandSlam',
+      shadowBoss: 'shadowSlam', abyssBoss: 'abyssSlam', scorpionQueen: 'pincerSlam',
+      woodBoss: 'woodSlam', fungalBoss: 'myceliumSlam', mechOverlord: 'drillSlam',
+      crystalBoss: 'crystalSlam', sandSnake: 'staffCrush', standard: 'slam',
+    };
+    state.boss.variant = state.forcedBossVariant;
+    state.boss.attackType = forcedBossAttacks[state.forcedBossVariant] || 'slam';
+  }
   player.x = world.width / 2 - 150;
   player.y = world.height / 2;
   player.protectors.forEach((protector, index) => {
@@ -1629,7 +2440,24 @@ function spawnBoss() {
     opener.navigationRoom = null;
     opener.target = null;
   });
-  setMessage(`Boss arena reached. Defeat the boss to gain stronger loot.`);
+  const arenaArrivalPhrases = {
+    crystalBoss: 'Prismatic gates fracture open around the crystal battleground…',
+    sandSnake: 'Ancient dunes coil aside as the Sand Arena opens beneath the serpent…',
+    fungalBoss: 'Spores thicken as the fungal battleground blooms open…',
+    lushGolem: 'Roots split the floor as the overgrown battleground awakens…',
+    lavaGolem: 'Molten gates buckle open into the volcanic arena…',
+    oceanBoss: 'Black tides pull you into the drowned arena…',
+    iceBoss: 'Frozen walls crack apart around the glacial battleground…',
+    skeletonWarlord: 'Ancient bones rattle as the dead arena opens…',
+    sandBoss: 'Buried doors grind open beneath the desert ruins…',
+    shadowBoss: 'Darkness folds aside, revealing the Shadow Arena…',
+    abyssBoss: 'Tearing open the drained abyssal battleground…',
+    scorpionQueen: 'Sand splits beneath your feet as the Scorpio Arena opens…',
+    mechOverlord: 'Ancient pistons ignite as the Mech Arena locks into place…',
+    woodBoss: 'Splintered roots drag you into the timbered arena…',
+    standard: 'The dungeon tears open its final battleground…',
+  };
+  setMessage(arenaArrivalPhrases[state.boss.variant] || arenaArrivalPhrases.standard);
   if (state.boss.variant === 'iceBoss') summonIceMinion(state.boss, 'opening');
 }
 
@@ -1641,6 +2469,7 @@ function startNextWave() {
   spawnEnemiesForWave();
   state.roomCleared = false;
   state.boss = null;
+  state.enemyProjectiles = [];
   state.bossArenaOpen = false;
   placePlayerInFirstRoom();
   player.protectors.forEach((protector, index) => {
@@ -1664,6 +2493,7 @@ function startNextWave() {
 // Awards rising boss points, loot, unlocks, and periodic equipment upgrades.
 function rewardBossLoot() {
   const defeatedBossNumber = state.bossDefeated + 1;
+  discoverJournalEntry(state.boss?.variant);
   state.score += getBossScore(state.boss);
   for (let i = 0; i < 10; i += 1) {
     applyLoot(randomLoot());
@@ -1805,9 +2635,7 @@ function applyCombatDamage(victim, amount, attacker = null) {
   }
   const armorReduction = victim === player ? getEquippedArmor().defense / 100 : 0;
   if (victim === player && attacker) {
-    const attackerName = attacker === state.boss
-      ? String(attacker.variant || 'boss').replace(/([a-z])([A-Z])/g, '$1 $2')
-      : String(attacker.type || 'enemy').replace(/([a-z])([A-Z])/g, '$1 $2');
+    const attackerName = getEnemyDisplayName(attacker);
     state.lastDeathCause = `an attack from the ${attackerName}`;
   }
   const healthBeforeHit = victim.health;
@@ -1991,6 +2819,7 @@ function spawnBurst(x, y, count, color, speed = 50) {
 
 // Begins the fade-out from a cleared dungeon toward its boss encounter.
 function startBossTeleport() {
+  state.enemyProjectiles = [];
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
   state.teleportTarget = 'boss';
@@ -2001,6 +2830,7 @@ function startBossTeleport() {
 
 // Begins the fade-out from a defeated boss toward the next wave.
 function startWaveTeleport() {
+  state.enemyProjectiles = [];
   state.teleportTimer = state.teleportDuration;
   state.teleportMoved = false;
   state.teleportTarget = 'wave';
@@ -2092,7 +2922,7 @@ function tryAttack() {
     target.x += player.facing.x * (target === state.boss ? 10 : 18);
     target.y += player.facing.y * (target === state.boss ? 10 : 18);
     if (target === state.boss) {
-      const bossHitColor = target.variant === 'lavaGolem' ? '#fb923c' : target.variant === 'oceanBoss' ? '#67e8f9' : target.variant === 'iceBoss' ? '#dbeafe' : target.variant === 'skeletonWarlord' ? '#a5f3fc' : target.variant === 'sandBoss' ? '#fbbf24' : target.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
+      const bossHitColor = target.variant === 'lavaGolem' ? '#fb923c' : target.variant === 'oceanBoss' ? '#67e8f9' : target.variant === 'iceBoss' ? '#dbeafe' : target.variant === 'skeletonWarlord' ? '#a5f3fc' : target.variant === 'sandBoss' || target.variant === 'sandSnake' ? '#fbbf24' : target.variant === 'shadowBoss' ? '#c084fc' : target.variant === 'scorpionQueen' ? '#f59e0b' : target.variant === 'woodBoss' ? '#bef264' : '#fca5a5';
       spawnBurst(target.x, target.y, 8, bossHitColor, 120);
     } else {
       target.aggro = true;
@@ -2228,11 +3058,63 @@ function updateEnemies(dt) {
 
     enemy.movePhase += dt * (enemy.speed / 24);
 
+    // Crystal Stalkers brace briefly, then cross a large gap in one armoured
+    // Shard Lunge. The bright charge gives the player time to dodge.
+    if (enemy.type === 'crystalStalker') {
+      const crystalTarget = getEnemyPreferredTarget(enemy);
+      const crystalTargetDistance = distance(enemy, crystalTarget);
+      if ((enemy.crystalLungeCharge || 0) > 0) {
+        enemy.crystalLungeCharge = Math.max(0, enemy.crystalLungeCharge - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.45);
+        if (enemy.crystalLungeCharge === 0) {
+          const target = enemy.crystalLungeTarget || navigationTarget;
+          const lungeDx = target.x - enemy.x;
+          const lungeDy = target.y - enemy.y;
+          const lungeLength = Math.hypot(lungeDx, lungeDy) || 1;
+          const travel = Math.min(175, Math.max(0, lungeLength - enemy.radius - target.radius + 20));
+          const lungeX = enemy.x + (lungeDx / lungeLength) * travel;
+          const lungeY = enemy.y + (lungeDy / lungeLength) * travel;
+          const safeLunge = resolveRoomCollision(enemy, lungeX, lungeY);
+          enemy.x = safeLunge.x;
+          enemy.y = safeLunge.y;
+          enemy.lunge = 1;
+          enemy.retreatTimer = 0.42;
+          enemy.retreatFromX = target.x;
+          enemy.retreatFromY = target.y;
+          if (distance(enemy, target) < enemy.radius + target.radius + 46) {
+            const damageLanded = applyCombatDamage(target, enemy.damage * 1.3, enemy);
+            if (target === player && damageLanded) player.stamina = Math.max(0, player.stamina - 14);
+            spawnBurst(target.x, target.y, 22, damageLanded ? '#67e8f9' : '#dbeafe', 145);
+            state.shake = Math.max(state.shake, 9);
+          }
+          spawnBurst(enemy.x, enemy.y, 18, '#22d3ee', 125);
+          enemy.crystalLungeTarget = null;
+        }
+        continue;
+      }
+      if (enemy.attackTimer <= 0 && crystalTargetDistance > 85 && crystalTargetDistance <= 310) {
+        enemy.attackTimer = 1.9;
+        enemy.crystalLungeCharge = 0.42;
+        enemy.crystalLungeTarget = crystalTarget;
+        enemy.lunge = 0.4;
+        spawnBurst(enemy.x, enemy.y, 16, '#a5f3fc', 90);
+        continue;
+      }
+    }
+
     const weave = enemy.type === 'crawler' ? 75 : enemy.type === 'arcaneOrb' ? 52 : 24;
     const sideX = -dirY * Math.sin(enemy.movePhase) * weave;
     const sideY = dirX * Math.sin(enemy.movePhase) * weave;
-    const nextX = enemy.x + (dirX * enemy.speed + sideX) * dt;
-    const nextY = enemy.y + (dirY * enemy.speed + sideY) * dt;
+    const isDesertArcher = world.themeIndex === 6 && getDesertEnemyVariant(enemy.type) === 'desertArcher';
+    const isMagmaSerpent = enemy.type === 'magmaSerpent';
+    const isMechSentinel = enemy.type === 'mechMinion';
+    const holdingRange = (enemy.type === 'lushSporeShroom' && len < 180)
+      || (isDesertArcher && len < 330)
+      || (isMagmaSerpent && len < 280)
+      || (isMechSentinel && len < 310);
+    const advance = holdingRange ? 0 : 1;
+    const nextX = enemy.x + (dirX * enemy.speed + sideX) * dt * advance;
+    const nextY = enemy.y + (dirY * enemy.speed + sideY) * dt * advance;
     if (state.boss && enemy.bossMinion) {
       enemy.x = clamp(nextX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
       enemy.y = clamp(nextY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
@@ -2242,21 +3124,108 @@ function updateEnemies(dt) {
       enemy.y = safe.y;
     }
 
+    // Bone Archers hold their ground and fire physical arrows across the room.
+    if (isDesertArcher || isMagmaSerpent || isMechSentinel) {
+      if (len <= 440 && enemy.attackTimer <= 0) {
+        enemy.attackTimer = isMechSentinel ? 1.15 : isMagmaSerpent ? 1.85 : 1.55;
+        enemy.lunge = 0.45;
+        const arrowSpeed = isMechSentinel ? 410 : isMagmaSerpent ? 285 : 360;
+        state.enemyProjectiles.push({
+          x: enemy.x + dirX * 22,
+          y: enemy.y - 10 + dirY * 22,
+          vx: dirX * arrowSpeed,
+          vy: dirY * arrowSpeed,
+          angle: Math.atan2(dirY, dirX),
+          damage: enemy.damage,
+          life: 1.5,
+          sourceType: isMechSentinel ? 'mechMinion' : isMagmaSerpent ? 'magmaSerpent' : 'desertArcher',
+          color: isMechSentinel ? '#fb923c' : isMagmaSerpent ? '#f97316' : '#fde68a',
+        });
+        spawnBurst(enemy.x + dirX * 18, enemy.y - 10 + dirY * 18, 7, isMechSentinel ? '#fb923c' : isMagmaSerpent ? '#f97316' : '#fde68a', 65);
+      }
+      continue;
+    }
+
+    // Spore Shrooms stop at range and erupt a poisonous cloud around their target.
+    if (enemy.type === 'lushSporeShroom') {
+      if (len <= 230 && enemy.attackTimer <= 0) {
+        enemy.attackTimer = 2.35;
+        enemy.lunge = 0.7;
+        const victims = [player, ...player.protectors, ...player.openers];
+        for (const victim of victims) {
+          if (Math.hypot(victim.x - navigationTarget.x, victim.y - navigationTarget.y) <= 72) {
+            applyCombatDamage(victim, enemy.damage * 0.9, enemy);
+          }
+        }
+        spawnBurst(navigationTarget.x, navigationTarget.y, 28, '#84cc16', 145);
+        spawnBurst(enemy.x, enemy.y, 14, '#bef264', 85);
+        state.shake = Math.max(state.shake, 7);
+      }
+      continue;
+    }
+
     const nearbyHelper = [...player.protectors, ...player.openers]
       .filter((helper) => distance(enemy, helper) < enemy.radius + helper.radius + 24)
       .sort((a, b) => distance(enemy, a) - distance(enemy, b))[0] || null;
     const helperInRange = Boolean(nearbyHelper);
-    const playerInRange = distance(enemy, player) < enemy.radius + player.radius + 24;
+    const meleeProfile = enemyMeleeProfiles[enemy.type]
+      || enemyMeleeProfiles[getEnemyJournalId(enemy)]
+      || null;
+    const playerAttackReach = meleeProfile?.reach ?? (enemy.type === 'oceanHippo'
+      ? 112
+      : enemy.type === 'shadowGator'
+      ? 104
+      : enemy.type === 'mechBear'
+      ? 96
+      : enemy.type === 'shadowCat'
+      ? 118
+      : enemy.type === 'crystalBobcat'
+      ? 128
+      : enemy.type === 'crystalLion' ? 104 : 24);
+    const playerInRange = distance(enemy, player) < enemy.radius + player.radius + playerAttackReach;
     if (helperInRange || playerInRange) {
       if (enemy.attackTimer <= 0) {
-        enemy.attackTimer = enemy.type === 'runner' || enemy.type === 'crawler' ? 0.55 : enemy.type === 'reaper' ? 1.15 : 0.85;
+        enemy.attackTimer = meleeProfile?.cooldown ?? (enemy.type === 'lushMossling'
+          ? 0.68
+          : enemy.type === 'oceanHippo' ? 1.62
+          : enemy.type === 'shadowGator' ? 1.32
+          : enemy.type === 'mechBear' ? 1.48
+          : enemy.type === 'shadowCat' ? 0.76
+          : enemy.type === 'crystalBobcat' ? 0.64
+          : enemy.type === 'crystalLion' ? 0.92
+          : enemy.type === 'glowBat' ? 0.52
+            : enemy.type === 'frostwingDrake' ? 1.05
+              : enemy.type === 'voidwingDrake' ? 0.82
+                : enemy.type === 'sunfeatherGriffin' ? 1.3
+          : enemy.type === 'sandRoller' ? 1.35
+            : enemy.type === 'corruptedStag' ? 0.72
+              : enemy.type === 'voidSerpent' ? 0.78
+          : enemy.type === 'runner' || enemy.type === 'crawler'
+            ? 0.55
+            : enemy.type === 'reaper' ? 1.15 : 0.85);
         enemy.lunge = 1;
         const victim = helperInRange ? nearbyHelper : player;
         const attackDx = victim.x - enemy.x;
         const attackDy = victim.y - enemy.y;
         const attackDistance = Math.hypot(attackDx, attackDy) || 1;
-        const lungeX = enemy.x + (attackDx / attackDistance) * Math.min(14, attackDistance);
-        const lungeY = enemy.y + (attackDy / attackDistance) * Math.min(14, attackDistance);
+        const lungeDistance = meleeProfile?.lunge ?? (enemy.type === 'oceanHippo'
+          ? 94
+          : enemy.type === 'sandRoller'
+          ? 48
+          : enemy.type === 'shadowGator' ? 86
+          : enemy.type === 'mechBear' ? 72
+          : enemy.type === 'shadowCat' ? 108
+          : enemy.type === 'crystalBobcat' ? 116
+          : enemy.type === 'crystalLion' ? 88
+          : enemy.type === 'glowBat' ? 64
+            : enemy.type === 'frostwingDrake' ? 78
+              : enemy.type === 'voidwingDrake' ? 92
+                : enemy.type === 'sunfeatherGriffin' ? 72
+          : enemy.type === 'corruptedStag' ? 40
+            : enemy.type === 'voidSerpent' ? 34
+              : enemy.type === 'lushMossling' ? 28 : 14);
+        const lungeX = enemy.x + (attackDx / attackDistance) * Math.min(lungeDistance, attackDistance);
+        const lungeY = enemy.y + (attackDy / attackDistance) * Math.min(lungeDistance, attackDistance);
         if (state.boss && enemy.bossMinion) {
           enemy.x = clamp(lungeX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
           enemy.y = clamp(lungeY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
@@ -2265,12 +3234,74 @@ function updateEnemies(dt) {
           enemy.x = safeLunge.x;
           enemy.y = safeLunge.y;
         }
-        enemy.retreatTimer = 0.34;
+        enemy.retreatTimer = meleeProfile?.retreat ?? 0.34;
         enemy.retreatFromX = victim.x;
         enemy.retreatFromY = victim.y;
-        const damageLanded = applyCombatDamage(victim, enemy.damage, enemy);
+        const flyingDamageScale = meleeProfile?.damageScale ?? (enemy.type === 'sunfeatherGriffin' ? 1.25
+          : enemy.type === 'frostwingDrake' ? 0.95
+            : enemy.type === 'glowBat' ? 0.8
+              : enemy.type === 'oceanHippo' ? 1.4
+              : enemy.type === 'shadowGator' ? 1.25
+              : enemy.type === 'mechBear' ? 1.35
+              : enemy.type === 'crystalLion' ? 1.15 : 1);
+        const damageLanded = applyCombatDamage(victim, enemy.damage * flyingDamageScale, enemy);
+        if (meleeProfile && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - (meleeProfile.staminaDrain || 0));
+          player.hydration = Math.max(0, player.hydration - (meleeProfile.hydrationDrain || 0));
+          state.shake = Math.max(state.shake, meleeProfile.shake || 5);
+        }
+        if (!meleeProfile && enemy.type === 'lushMossling' && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - 10);
+        }
+        if (!meleeProfile && (enemy.type === 'crystalStalker' || enemy.type === 'frostWraith') && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - (enemy.type === 'frostWraith' ? 15 : 8));
+        }
+        if (!meleeProfile && enemy.type === 'frostwingDrake' && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - 18);
+        }
+        if (!meleeProfile && enemy.type === 'voidwingDrake' && victim === player && damageLanded) {
+          player.hydration = Math.max(0, player.hydration - 8);
+        }
+        const crystalJournalId = getEnemyJournalId(enemy);
+        if (!meleeProfile && (crystalJournalId === 'crystalMinion' || crystalJournalId === 'crystalTank')
+          && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - (crystalJournalId === 'crystalTank' ? 16 : 10));
+        }
+        if (!meleeProfile && enemy.type === 'crystalLion' && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - 14);
+        }
+        if (enemy.type === 'crystalBobcat') {
+          enemy.retreatTimer = 0.55;
+          spawnBurst(enemy.x, enemy.y, 18, '#a78bfa', 135);
+        }
+        if (enemy.type === 'shadowCat') {
+          enemy.retreatTimer = 0.48;
+          spawnBurst(enemy.x, enemy.y, 20, '#7e22ce', 145);
+        }
+        if (!meleeProfile && enemy.type === 'mechBear' && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - 20);
+          state.shake = Math.max(state.shake, 11);
+        }
+        if (!meleeProfile && enemy.type === 'shadowGator' && victim === player && damageLanded) {
+          player.hydration = Math.max(0, player.hydration - 15);
+          state.shake = Math.max(state.shake, 9);
+        }
+        if (!meleeProfile && enemy.type === 'oceanHippo' && victim === player && damageLanded) {
+          player.stamina = Math.max(0, player.stamina - 24);
+          player.hydration = Math.max(0, player.hydration - 12);
+          state.shake = Math.max(state.shake, 13);
+        }
         state.shake = Math.max(state.shake, 5);
-        spawnBurst(victim.x, victim.y, 7, damageLanded ? '#f87171' : '#67e8f9', 75);
+        const hitColor = meleeProfile?.color || (enemy.type === 'lushMossling'
+          ? '#4ade80'
+          : enemy.type === 'oceanHippo' ? '#22d3ee'
+          : enemy.type === 'shadowGator' ? '#7e22ce'
+          : enemy.type === 'mechBear' ? '#f59e0b'
+          : enemy.type === 'shadowCat' ? '#c084fc'
+          : enemy.type === 'crystalBobcat' ? '#a78bfa'
+          : enemy.type === 'crystalLion' ? '#60a5fa'
+          : damageLanded ? '#f87171' : '#67e8f9');
+        spawnBurst(victim.x, victim.y, enemy.type === 'lushMossling' ? 12 : 7, hitColor, 75);
         if (victim !== player && victim.health <= 0) {
           spawnBurst(victim.x, victim.y, 18, '#60a5fa', 110);
           if (victim.kind === 'opener') {
@@ -2291,7 +3322,8 @@ function updateEnemies(dt) {
     if (enemy.dead && enemy.deathTimer <= 0 && enemy.specialEnemy && enemy.specialRoom?.locked) {
       enemy.specialRoom.locked = false;
       enemy.specialRoom.specialEnemy = null;
-      setMessage('Special enemy defeated! Every door is open again.');
+      awardChallengeRoomLoot();
+      setMessage('Challenge guardian defeated! Six crate drops collected and every door is open again.');
     }
   }
 
@@ -2303,6 +3335,28 @@ function updateEnemies(dt) {
     startBossTeleport();
   }
 
+}
+
+// Advances Bone Archer arrows and resolves their first hero-side collision.
+function updateEnemyProjectiles(dt) {
+  const victims = [player, ...player.protectors, ...player.openers];
+  state.enemyProjectiles = state.enemyProjectiles.filter((projectile) => {
+    projectile.life -= dt;
+    projectile.x += projectile.vx * dt;
+    projectile.y += projectile.vy * dt;
+    if (projectile.life <= 0) return false;
+
+    const victim = victims.find((candidate) => (
+      candidate.health > 0
+      && Math.hypot(candidate.x - projectile.x, candidate.y - projectile.y) <= candidate.radius + 7
+    ));
+    if (!victim) return true;
+
+    const damageLanded = applyCombatDamage(victim, projectile.damage, { type: projectile.sourceType || 'desertArcher' });
+    spawnBurst(projectile.x, projectile.y, 10, damageLanded ? (projectile.color || '#fbbf24') : '#67e8f9', 85);
+    state.shake = Math.max(state.shake, 5);
+    return false;
+  });
 }
 
 // Assigns protector priorities and drives interception or boss attack runs.
@@ -2536,10 +3590,29 @@ function summonIceMinion(boss, phase) {
     movePhase: Math.random() * Math.PI * 2,
     elite: false,
   });
+  if (phase === 'opening') {
+    const wraithHealth = 96 + boss.tier * 13;
+    state.enemies.push({
+      x: clamp(boss.x + 135, state.bossArena.x + 19, state.bossArena.x + state.bossArena.w - 19),
+      y: clamp(boss.y + 80, state.bossArena.y + 19, state.bossArena.y + state.bossArena.h - 19),
+      radius: 19,
+      speed: 148,
+      health: wraithHealth,
+      maxHealth: wraithHealth,
+      damage: 12 + boss.tier * 1.8,
+      type: 'frostWraith',
+      bossMinion: true,
+      attackTimer: 0.4,
+      hitFlash: 0,
+      lunge: 0,
+      movePhase: Math.random() * Math.PI * 2,
+      elite: false,
+    });
+  }
   spawnBurst(boss.x, boss.y, 30, '#dbeafe', 165);
   setMessage(phase === 'opening'
-    ? 'Iceboss enters with an Ice Minion!'
-    : 'Iceboss reached half health and summoned another Ice Minion!');
+    ? 'The Glacial Sovereign enters with a Frostbound Shard and a Frost Wraith!'
+    : 'The Glacial Sovereign reached half health and summoned another Frostbound Shard!');
 }
 
 // Adds one increasingly frequent reinforcement for the Wood Boss.
@@ -2565,7 +3638,36 @@ function summonWoodMinion(boss) {
     elite: false,
   });
   spawnBurst(boss.x, boss.y, 30, '#a3e635', 170);
-  setMessage(`Woodboss lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Woodminion!`);
+  setMessage(`The Heartwood Horror lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Splinterfiend!`);
+}
+
+// Calls one fungal stag at each major health threshold.
+function summonFungalStag(boss) {
+  const angle = Math.random() * Math.PI * 2;
+  const health = 105 + boss.tier * 14;
+  const stag = {
+    x: clamp(boss.x + Math.cos(angle) * 145, state.bossArena.x + 22, state.bossArena.x + state.bossArena.w - 22),
+    y: clamp(boss.y + Math.sin(angle) * 145, state.bossArena.y + 22, state.bossArena.y + state.bossArena.h - 22),
+    radius: 22,
+    speed: 172,
+    health,
+    maxHealth: health,
+    damage: 17 + boss.tier * 2.3,
+    type: 'corruptedStag',
+    bossMinion: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.45,
+    hitFlash: 0,
+    lunge: 0,
+    retreatTimer: 0,
+    movePhase: angle,
+    elite: false,
+  };
+  ensureEnemyHasBestiaryEntry(stag);
+  state.enemies.push(stag);
+  spawnBurst(stag.x, stag.y, 38, '#a3e635', 185);
+  setMessage('The Mycelial Sovereign calls a Corrupted Stag from the fungal bloom!');
 }
 
 // Raises one of the Skeleton Warlord's health-threshold orbs.
@@ -2624,7 +3726,224 @@ function summonSandServant(boss) {
   });
   boss.sandSummonsCompleted += 1;
   spawnBurst(boss.x, boss.y, 32, '#fbbf24', 180);
-  setMessage(`The Sand Tyrant summons ${isOrb ? 'a Skeleton Orb' : 'a Skeleton Minion'}!`);
+  setMessage(`The Sand Tyrant summons ${isOrb ? 'a Skeleton Orb' : 'a Boneguard'}!`);
+}
+
+// Calls armoured Desert Scorpions into the Scorpio Arena.
+function summonScorpionBrood(boss, count = 2) {
+  const activeScorpions = state.enemies.filter((enemy) => !enemy.dead && enemy.type === 'desertScorpion').length;
+  const summonCount = Math.min(count, Math.max(0, 6 - activeScorpions));
+  if (summonCount === 0) return;
+  for (let index = 0; index < summonCount; index += 1) {
+    const angle = boss.movePhase + index * (Math.PI * 2 / count);
+    const health = 72 + boss.tier * 10;
+    state.enemies.push({
+      x: clamp(boss.x + Math.cos(angle) * 165, state.bossArena.x + 22, state.bossArena.x + state.bossArena.w - 22),
+      y: clamp(boss.y + Math.sin(angle) * 165, state.bossArena.y + 22, state.bossArena.y + state.bossArena.h - 22),
+      radius: 21,
+      speed: 126,
+      health,
+      maxHealth: health,
+      damage: 10 + boss.tier * 1.45,
+      type: 'desertScorpion',
+      bossMinion: true,
+      attackTimer: 0.35 + index * 0.15,
+      hitFlash: 0,
+      lunge: 0,
+      movePhase: angle,
+      elite: false,
+    });
+  }
+  spawnBurst(boss.x, boss.y, 42, '#f59e0b', 205);
+  setMessage(`The Scorpion Queen summons ${summonCount} Desert Scorpion${summonCount === 1 ? '' : 's'}!`);
+}
+
+// Deploys a ranged boiler guard from the Furnace Overlord's assembly core.
+function deployFurnaceSentinel(boss) {
+  const activeSentinels = state.enemies.filter((enemy) => !enemy.dead && enemy.type === 'mechMinion').length;
+  if (activeSentinels >= 4) return;
+  const angle = boss.movePhase + activeSentinels * 1.7;
+  const health = 105 + boss.tier * 12;
+  const sentinel = {
+    x: clamp(boss.x + Math.cos(angle) * 170, state.bossArena.x + 24, state.bossArena.x + state.bossArena.w - 24),
+    y: clamp(boss.y + Math.sin(angle) * 170, state.bossArena.y + 24, state.bossArena.y + state.bossArena.h - 24),
+    radius: 23,
+    speed: 68,
+    health,
+    maxHealth: health,
+    damage: 10 + boss.tier * 1.35,
+    type: 'mechMinion',
+    bossMinion: true,
+    attackTimer: 0.55,
+    hitFlash: 0,
+    lunge: 0,
+    movePhase: angle,
+    elite: false,
+  };
+  ensureEnemyHasBestiaryEntry(sentinel);
+  state.enemies.push(sentinel);
+  spawnBurst(sentinel.x, sentinel.y, 36, '#fb923c', 180);
+  setMessage('The Furnace Overlord deploys a Furnace Sentinel!');
+}
+
+// Drops one armoured siege unit from the Furnace Overlord's heavy assembly rail.
+function deployMechBear(boss) {
+  const activeBears = state.enemies.filter((enemy) => !enemy.dead && enemy.type === 'mechBear').length;
+  if (activeBears >= 2) return;
+  const angle = boss.movePhase + activeBears * Math.PI;
+  const health = 260 + boss.tier * 28;
+  const bear = {
+    x: clamp(boss.x + Math.cos(angle) * 185, state.bossArena.x + 31, state.bossArena.x + state.bossArena.w - 31),
+    y: clamp(boss.y + Math.sin(angle) * 185, state.bossArena.y + 31, state.bossArena.y + state.bossArena.h - 31),
+    radius: 31,
+    speed: 62,
+    health,
+    maxHealth: health,
+    damage: 23 + boss.tier * 3,
+    type: 'mechBear',
+    bossMinion: true,
+    aggro: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.8,
+    hitFlash: 0,
+    lunge: 0,
+    retreatTimer: 0,
+    movePhase: angle,
+    elite: false,
+  };
+  ensureEnemyHasBestiaryEntry(bear);
+  state.enemies.push(bear);
+  spawnBurst(bear.x, bear.y, 44, '#f59e0b', 190);
+  setMessage('The Furnace Overlord drops a Brassmaw Siege Bear onto the assembly floor!');
+}
+
+// Pulls a Nightclaw Lynx out of the Shadow Arena's living darkness.
+function summonShadowCat(boss, count = 1) {
+  const activeCats = state.enemies.filter((enemy) => !enemy.dead && enemy.type === 'shadowCat').length;
+  const summonCount = Math.min(count, Math.max(0, 4 - activeCats));
+  for (let index = 0; index < summonCount; index += 1) {
+    const angle = boss.movePhase + index * Math.PI;
+    const health = 128 + boss.tier * 17;
+    const cat = {
+      x: clamp(boss.x + Math.cos(angle) * 155, state.bossArena.x + 23, state.bossArena.x + state.bossArena.w - 23),
+      y: clamp(boss.y + Math.sin(angle) * 155, state.bossArena.y + 23, state.bossArena.y + state.bossArena.h - 23),
+      radius: 23,
+      speed: 172,
+      health,
+      maxHealth: health,
+      damage: 17 + boss.tier * 2.4,
+      type: 'shadowCat',
+      bossMinion: true,
+      aggro: true,
+      cooldown: 0,
+      aiTimer: 0,
+      attackTimer: 0.45 + index * 0.18,
+      hitFlash: 0,
+      lunge: 0,
+      retreatTimer: 0,
+      movePhase: angle,
+      elite: false,
+    };
+    ensureEnemyHasBestiaryEntry(cat);
+    state.enemies.push(cat);
+    spawnBurst(cat.x, cat.y, 32, '#a855f7', 170);
+  }
+  if (summonCount > 0) setMessage(`The Umbral Warden calls ${summonCount} Nightclaw Lynx${summonCount === 1 ? '' : 'es'} from the shadows!`);
+}
+
+// Raises one plated Dreadscale from beneath the Shadow Arena.
+function summonShadowGator(boss) {
+  const activeGators = state.enemies.filter((enemy) => !enemy.dead && enemy.type === 'shadowGator').length;
+  if (activeGators >= 2) return;
+  const angle = boss.movePhase + activeGators * Math.PI;
+  const health = 240 + boss.tier * 26;
+  const gator = {
+    x: clamp(boss.x + Math.cos(angle) * 180, state.bossArena.x + 30, state.bossArena.x + state.bossArena.w - 30),
+    y: clamp(boss.y + Math.sin(angle) * 180, state.bossArena.y + 30, state.bossArena.y + state.bossArena.h - 30),
+    radius: 30,
+    speed: 78,
+    health,
+    maxHealth: health,
+    damage: 22 + boss.tier * 2.9,
+    type: 'shadowGator',
+    bossMinion: true,
+    aggro: true,
+    cooldown: 0,
+    aiTimer: 0,
+    attackTimer: 0.9,
+    hitFlash: 0,
+    lunge: 0,
+    retreatTimer: 0,
+    movePhase: angle,
+    elite: false,
+  };
+  ensureEnemyHasBestiaryEntry(gator);
+  state.enemies.push(gator);
+  spawnBurst(gator.x, gator.y, 42, '#7e22ce', 185);
+  setMessage('The Umbral Warden raises a Dreadscale Gator from beneath the arena!');
+}
+
+// Summoning bosses release one final five-creature reinforcement wave on
+// death. These remain ordinary boss minions, so the arena cannot clear until
+// the player defeats every survivor.
+function spawnBossDeathSummons(boss) {
+  const summonTypes = {
+    iceBoss: ['iceMinion', 'frostWraith'],
+    skeletonWarlord: ['skeletonOrb'],
+    sandBoss: ['skeletonMinion', 'skeletonOrb'],
+    scorpionQueen: ['desertScorpion'],
+    woodBoss: ['woodMinion'],
+    fungalBoss: ['corruptedStag'],
+    mechOverlord: ['mechMinion', 'mechBear'],
+    shadowBoss: ['shadowCat', 'shadowGator'],
+  }[boss.variant];
+  if (!summonTypes) return 0;
+
+  const profiles = {
+    iceMinion: { radius: 19, speed: 108, health: 78, healthTier: 11, damage: 9, damageTier: 1.4 },
+    frostWraith: { radius: 19, speed: 148, health: 96, healthTier: 13, damage: 12, damageTier: 1.8 },
+    skeletonOrb: { radius: 18, speed: 112, health: 58, healthTier: 9, damage: 9, damageTier: 1.35 },
+    skeletonMinion: { radius: 18, speed: 110, health: 72, healthTier: 10, damage: 10, damageTier: 1.4 },
+    desertScorpion: { radius: 21, speed: 126, health: 72, healthTier: 10, damage: 10, damageTier: 1.45 },
+    woodMinion: { radius: 18, speed: 112, health: 65, healthTier: 9, damage: 8, damageTier: 1.3 },
+    corruptedStag: { radius: 22, speed: 172, health: 105, healthTier: 14, damage: 17, damageTier: 2.3 },
+    mechMinion: { radius: 23, speed: 68, health: 105, healthTier: 12, damage: 10, damageTier: 1.35 },
+    mechBear: { radius: 31, speed: 62, health: 260, healthTier: 28, damage: 23, damageTier: 3 },
+    shadowCat: { radius: 23, speed: 172, health: 128, healthTier: 17, damage: 17, damageTier: 2.4 },
+    shadowGator: { radius: 30, speed: 78, health: 240, healthTier: 26, damage: 22, damageTier: 2.9 },
+  };
+
+  for (let index = 0; index < 5; index += 1) {
+    const type = summonTypes[index % summonTypes.length];
+    const profile = profiles[type];
+    const angle = -Math.PI / 2 + index * (Math.PI * 2 / 5);
+    const health = profile.health + boss.tier * profile.healthTier;
+    const summon = {
+      x: clamp(boss.x + Math.cos(angle) * 175, state.bossArena.x + profile.radius, state.bossArena.x + state.bossArena.w - profile.radius),
+      y: clamp(boss.y + Math.sin(angle) * 175, state.bossArena.y + profile.radius, state.bossArena.y + state.bossArena.h - profile.radius),
+      radius: profile.radius,
+      speed: profile.speed,
+      health,
+      maxHealth: health,
+      damage: profile.damage + boss.tier * profile.damageTier,
+      type,
+      bossMinion: true,
+      aggro: true,
+      cooldown: 0,
+      aiTimer: 0,
+      attackTimer: 0.3 + index * 0.12,
+      hitFlash: 0,
+      lunge: 0,
+      retreatTimer: 0,
+      movePhase: angle,
+      elite: false,
+    };
+    ensureEnemyHasBestiaryEntry(summon);
+    state.enemies.push(summon);
+    spawnBurst(summon.x, summon.y, 24, '#a3e635', 145);
+  }
+  return 5;
 }
 
 // Runs boss phases, animated attacks, damage, retreat, summons, and death.
@@ -2637,15 +3956,23 @@ function updateBoss(dt) {
   }
   if (boss.health <= 0) {
     if (!boss.defeated) {
-      rewardBossLoot();
       boss.health = 0;
       boss.defeated = true;
+      boss.rewardsGranted = false;
       boss.deathTimer = 1.8;
       boss.deathBurstTimer = 0;
       boss.attackWindup = 0;
       spawnBurst(boss.x, boss.y, 90, '#fef3c7', 260);
       state.shake = 18;
-      setMessage('Boss defeated!');
+      const deathSummons = spawnBossDeathSummons(boss);
+      const survivingSummons = state.enemies.filter(
+        (enemy) => enemy.bossMinion && !enemy.dead && enemy.health > 0,
+      ).length;
+      setMessage(deathSummons > 0
+        ? `The dying boss releases five final summons! Defeat all ${survivingSummons} remaining enemies!`
+        : survivingSummons > 0
+        ? `Boss defeated! Finish the ${survivingSummons} surviving summon${survivingSummons === 1 ? '' : 's'}!`
+        : 'Boss defeated!');
     }
     boss.deathTimer = Math.max(0, boss.deathTimer - dt);
     boss.deathBurstTimer -= dt;
@@ -2656,8 +3983,20 @@ function updateBoss(dt) {
           : boss.variant === 'iceBoss' ? '#dbeafe'
             : boss.variant === 'lushGolem' ? '#86efac'
               : boss.variant === 'skeletonWarlord' ? '#67e8f9'
+                : boss.variant === 'abyssBoss' ? '#38bdf8'
+                  : boss.variant === 'scorpionQueen' ? '#f59e0b'
               : '#fef3c7';
       spawnBurst(boss.x, boss.y, 12, burstColor, 210);
+    }
+    const survivingSummons = state.enemies.filter(
+      (enemy) => enemy.bossMinion && !enemy.dead && enemy.health > 0,
+    );
+    if (survivingSummons.length > 0) return;
+    if (!boss.rewardsGranted) {
+      boss.rewardsGranted = true;
+      boss.deathTimer = Math.max(boss.deathTimer, 0.55);
+      setMessage('The boss and every summon are defeated!');
+      rewardBossLoot();
     }
     if (boss.deathTimer === 0) startWaveTeleport();
     return;
@@ -2666,10 +4005,41 @@ function updateBoss(dt) {
     boss.halfHealthMinionSummoned = true;
     summonIceMinion(boss, 'halfHealth');
   }
+  if (boss.variant === 'abyssBoss' && boss.phase === 1 && boss.health <= boss.maxHealth * 0.5) {
+    boss.phase = 2;
+    boss.damage *= 1.25;
+    boss.cooldown = 0.35;
+    boss.attackWindup = 0;
+    boss.attackPulse = 1;
+    spawnBurst(boss.x, boss.y, 80, '#38bdf8', 280);
+    state.shake = 22;
+    setMessage('The Abyssal Devourer sheds its first form. Phase Two begins!');
+  }
+  if (boss.variant === 'scorpionQueen') {
+    while (boss.scorpionBroodsSummoned < 3 && boss.health <= boss.maxHealth * boss.nextScorpionSummonThreshold) {
+      summonScorpionBrood(boss, 2);
+      boss.scorpionBroodsSummoned += 1;
+      boss.nextScorpionSummonThreshold -= 0.25;
+    }
+  }
+  if (boss.variant === 'mechOverlord') {
+    while (boss.mechSentinelsDeployed < 2 && boss.health <= boss.maxHealth * boss.nextMechSummonThreshold) {
+      deployFurnaceSentinel(boss);
+      boss.mechSentinelsDeployed += 1;
+      boss.nextMechSummonThreshold -= 0.33;
+    }
+  }
   if (boss.variant === 'woodBoss') {
     while (boss.nextWoodMinionThreshold >= 0.1 && boss.health <= boss.maxHealth * boss.nextWoodMinionThreshold) {
       summonWoodMinion(boss);
       boss.nextWoodMinionThreshold = Math.round((boss.nextWoodMinionThreshold - 0.1) * 10) / 10;
+    }
+  }
+  if (boss.variant === 'fungalBoss') {
+    while (boss.fungalStagsSummoned < 3 && boss.health <= boss.maxHealth * boss.nextFungalStagThreshold) {
+      summonFungalStag(boss);
+      boss.fungalStagsSummoned += 1;
+      boss.nextFungalStagThreshold -= 0.25;
     }
   }
   if (boss.variant === 'skeletonWarlord') {
@@ -2725,17 +4095,17 @@ function updateBoss(dt) {
     boss.attackWindup -= dt;
     if (boss.attackWindup <= 0) {
       boss.attackPulse = 1;
-      const effectColor = boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'skeletonWarlord' ? '#67e8f9' : boss.variant === 'sandBoss' ? '#fbbf24' : boss.variant === 'woodBoss' ? '#84cc16' : '#fb7185';
+      const effectColor = boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'skeletonWarlord' ? '#67e8f9' : boss.variant === 'sandBoss' || boss.variant === 'sandSnake' ? '#fbbf24' : boss.variant === 'shadowBoss' ? '#a855f7' : boss.variant === 'abyssBoss' ? '#38bdf8' : boss.variant === 'scorpionQueen' ? '#f59e0b' : boss.variant === 'fungalBoss' ? '#a3e635' : boss.variant === 'mechOverlord' ? '#fb923c' : boss.variant === 'crystalBoss' ? '#22d3ee' : boss.variant === 'woodBoss' ? '#84cc16' : '#fb7185';
 
       if (boss.attackType.includes('Dash')) {
-        const dashDistance = boss.attackType === 'flameDash' ? 260 : boss.attackType === 'waterDash' ? 240 : boss.attackType === 'frostDash' ? 225 : 190 + boss.tier * 8;
+        const dashDistance = boss.attackType === 'flameDash' ? 260 : boss.attackType === 'waterDash' ? 240 : boss.attackType === 'frostDash' ? 225 : boss.attackType === 'serpentDash' ? 285 : 190 + boss.tier * 8;
         if (Math.abs(dirX) > 0.05) boss.facingX = dirX;
         boss.lungeDuration = 0.24;
         boss.lungeTimer = boss.lungeDuration;
         boss.lungeRemaining = dashDistance;
         boss.lungeDirX = dirX;
         boss.lungeDirY = dirY;
-        boss.lungeDamageScale = boss.attackType === 'flameDash' ? 1.3 : boss.attackType === 'waterDash' ? 1.2 : boss.attackType === 'frostDash' ? 1.25 : 1.1;
+        boss.lungeDamageScale = boss.attackType === 'flameDash' ? 1.3 : boss.attackType === 'waterDash' ? 1.2 : boss.attackType === 'frostDash' ? 1.25 : boss.attackType === 'serpentDash' ? 1.45 : 1.1;
         boss.lungeHitRange = 65;
         boss.lungeEffectColor = effectColor;
         boss.lungeIsDash = true;
@@ -2743,11 +4113,37 @@ function updateBoss(dt) {
         boss.health = clamp(boss.health + boss.maxHealth * 0.07, 0, boss.maxHealth);
         spawnBurst(boss.x, boss.y, 42, '#86efac', 155);
         state.shake = 5;
-      } else if (boss.attackType === 'thornRing' || boss.attackType === 'eruption' || boss.attackType === 'tidalWave' || boss.attackType === 'blizzard' || boss.attackType === 'nova') {
-        const attackRadius = boss.attackType === 'thornRing' ? 165 : boss.attackType === 'eruption' ? 285 : boss.attackType === 'tidalWave' ? 250 : boss.attackType === 'blizzard' ? 265 : 210 + boss.tier * 8;
-        const damageScale = boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'eruption' ? 1.05 : boss.attackType === 'tidalWave' ? 0.9 : boss.attackType === 'blizzard' ? 0.95 : 0.75;
+      } else if (boss.attackType === 'summonBrood') {
+        summonScorpionBrood(boss, 2);
+        state.shake = 8;
+      } else if (boss.attackType === 'deploySentinel') {
+        deployFurnaceSentinel(boss);
+        state.shake = 10;
+      } else if (boss.attackType === 'deployBear') {
+        deployMechBear(boss);
+        state.shake = 13;
+      } else if (boss.attackType === 'summonNightclaw') {
+        summonShadowCat(boss, 2);
+        state.shake = 9;
+      } else if (boss.attackType === 'summonDreadscale') {
+        summonShadowGator(boss);
+        state.shake = 12;
+      } else if (boss.attackType === 'thornRing' || boss.attackType === 'heartwoodEruption' || boss.attackType === 'eruption' || boss.attackType === 'tidalWave' || boss.attackType === 'blizzard' || boss.attackType === 'nova' || boss.attackType === 'abyssNova' || boss.attackType === 'venomNova' || boss.attackType === 'sporeburst' || boss.attackType === 'reactorNova' || boss.attackType === 'crystalEruption' || boss.attackType === 'scarabStorm') {
+        const attackRadius = boss.attackType === 'thornRing' ? 165 : boss.attackType === 'heartwoodEruption' ? 305 : boss.attackType === 'eruption' ? 285 : boss.attackType === 'tidalWave' ? 250 : boss.attackType === 'blizzard' ? 265 : boss.attackType === 'abyssNova' ? (boss.phase === 2 ? 330 : 270) : boss.attackType === 'venomNova' ? 295 : boss.attackType === 'sporeburst' ? 300 : boss.attackType === 'reactorNova' ? 320 : boss.attackType === 'crystalEruption' ? 335 : boss.attackType === 'scarabStorm' ? 325 : 210 + boss.tier * 8;
+        const damageScale = boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'heartwoodEruption' ? 1.15 : boss.attackType === 'eruption' ? 1.05 : boss.attackType === 'tidalWave' ? 0.9 : boss.attackType === 'blizzard' ? 0.95 : boss.attackType === 'abyssNova' ? (boss.phase === 2 ? 1.15 : 0.9) : boss.attackType === 'venomNova' ? 1.05 : boss.attackType === 'sporeburst' ? 1.05 : boss.attackType === 'reactorNova' ? 1.2 : boss.attackType === 'crystalEruption' ? 1.25 : boss.attackType === 'scarabStorm' ? 1.1 : 0.75;
         for (const victim of [player, ...player.protectors, ...player.openers]) {
           if (distance(boss, victim) <= attackRadius) applyCombatDamage(victim, boss.damage * damageScale, boss);
+        }
+        if (boss.attackType === 'venomNova') {
+          player.food = Math.max(0, player.food - 10);
+          player.hydration = Math.max(0, player.hydration - 10);
+        }
+        if (boss.attackType === 'sporeburst') player.stamina = Math.max(0, player.stamina - 18);
+        if (boss.attackType === 'crystalEruption') player.stamina = Math.max(0, player.stamina - 15);
+        if (boss.attackType === 'heartwoodEruption') player.stamina = Math.max(0, player.stamina - 12);
+        if (boss.attackType === 'scarabStorm') {
+          player.stamina = Math.max(0, player.stamina - 20);
+          player.food = Math.max(0, player.food - 12);
         }
         spawnBurst(boss.x, boss.y, 38, effectColor, 230);
         state.shake = 14;
@@ -2758,7 +4154,7 @@ function updateBoss(dt) {
         boss.lungeRemaining = lungeDistance;
         boss.lungeDirX = dirX;
         boss.lungeDirY = dirY;
-        boss.lungeDamageScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
+        boss.lungeDamageScale = boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'staffCrush' ? 1.9 : boss.attackType === 'abyssRend' ? 1.7 : boss.attackType === 'abyssSlam' ? 1.4 : boss.attackType === 'pincerSlam' ? 1.75 : boss.attackType === 'myceliumSlam' ? 1.65 : boss.attackType === 'drillSlam' ? 1.85 : boss.attackType === 'crystalSlam' ? 1.8 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
         boss.lungeHitRange = 75;
         boss.lungeEffectColor = effectColor;
         boss.lungeIsDash = false;
@@ -2808,15 +4204,48 @@ function updateBoss(dt) {
         boss.attackType = attackRoll < 0.5 ? 'boneSlam' : attackRoll < 0.76 ? 'Dash' : 'nova';
       } else if (boss.variant === 'sandBoss') {
         boss.attackType = attackRoll < 0.48 ? 'sandSlam' : attackRoll < 0.72 ? 'Dash' : 'nova';
+      } else if (boss.variant === 'shadowBoss') {
+        boss.attackType = attackRoll < 0.3 ? 'shadowSlam'
+          : attackRoll < 0.54 ? 'shadowDash'
+            : attackRoll < 0.74 ? 'nova'
+              : attackRoll < 0.9 ? 'summonNightclaw' : 'summonDreadscale';
+      } else if (boss.variant === 'abyssBoss') {
+        boss.attackType = boss.phase === 2
+          ? (attackRoll < 0.38 ? 'abyssRend' : attackRoll < 0.7 ? 'abyssDash' : 'abyssNova')
+          : (attackRoll < 0.5 ? 'abyssSlam' : attackRoll < 0.78 ? 'abyssDash' : 'abyssNova');
+      } else if (boss.variant === 'scorpionQueen') {
+        boss.attackType = attackRoll < 0.34 ? 'pincerSlam'
+          : attackRoll < 0.6 ? 'scorpioDash'
+            : attackRoll < 0.84 ? 'venomNova' : 'summonBrood';
+      } else if (boss.variant === 'fungalBoss') {
+        boss.attackType = attackRoll < 0.42 ? 'myceliumSlam'
+          : attackRoll < 0.7 ? 'hyphaDash' : 'sporeburst';
+      } else if (boss.variant === 'mechOverlord') {
+        boss.attackType = attackRoll < 0.3 ? 'drillSlam'
+          : attackRoll < 0.54 ? 'pistonDash'
+            : attackRoll < 0.74 ? 'reactorNova'
+              : attackRoll < 0.89 ? 'deploySentinel' : 'deployBear';
+      } else if (boss.variant === 'crystalBoss') {
+        boss.attackType = attackRoll < 0.4 ? 'crystalSlam'
+          : attackRoll < 0.7 ? 'prismDash' : 'crystalEruption';
+      } else if (boss.variant === 'sandSnake') {
+        boss.attackType = attackRoll < 0.38 ? 'staffCrush'
+          : attackRoll < 0.7 ? 'serpentDash' : 'scarabStorm';
       } else if (boss.variant === 'woodBoss') {
-        boss.attackType = attackRoll < 0.62 ? 'woodSlam' : 'thornRing';
+        if (!boss.heartwoodEruptionUsed) {
+          boss.attackType = 'heartwoodEruption';
+          boss.heartwoodEruptionUsed = true;
+        } else {
+          boss.attackType = attackRoll < 0.3 ? 'woodSlam'
+            : attackRoll < 0.55 ? 'thornRing' : 'heartwoodEruption';
+        }
       } else {
         boss.attackType = attackRoll < 0.36 ? 'slam' : attackRoll < 0.68 ? 'Dash' : 'nova';
       }
-      const radialAttack = ['thornRing', 'healingBloom', 'eruption', 'tidalWave', 'blizzard', 'nova'].includes(boss.attackType);
+      const radialAttack = ['thornRing', 'heartwoodEruption', 'healingBloom', 'eruption', 'tidalWave', 'blizzard', 'nova', 'abyssNova', 'venomNova', 'summonBrood', 'summonNightclaw', 'summonDreadscale', 'sporeburst', 'reactorNova', 'deploySentinel', 'deployBear', 'crystalEruption', 'scarabStorm'].includes(boss.attackType);
       boss.attackWindupTotal = radialAttack ? 0.9 : boss.attackType.includes('Dash') ? 0.58 : 0.46;
       boss.attackWindup = boss.attackWindupTotal;
-      boss.cooldown = Math.max(0.85, (radialAttack ? 2.15 : 1.55) - boss.tier * 0.07);
+      boss.cooldown = Math.max(boss.variant === 'abyssBoss' && boss.phase === 2 ? 0.62 : 0.85, (radialAttack ? 2.15 : 1.55) - boss.tier * 0.07 - (boss.variant === 'abyssBoss' && boss.phase === 2 ? 0.25 : 0));
     }
   }
 }
@@ -2893,7 +4322,9 @@ function die() {
 function resetRun() {
   state.wave = 1;
   state.score = 0;
-  state.maxRooms = 8;
+  state.maxRooms = state.godMode && (state.godTravelMode === 'biome' || state.godTravelMode === 'enemy')
+    ? 1
+    : 8;
   state.enemies = [];
   state.crates = [];
   state.boss = null;
@@ -2910,6 +4341,7 @@ function resetRun() {
   if (lootHighlightTimer) window.clearTimeout(lootHighlightTimer);
   state.bossArenaOpen = false;
   state.particles = [];
+  state.enemyProjectiles = [];
   state.shake = 0;
   state.closeZoom = false;
   state.teleportTimer = 0;
@@ -2947,11 +4379,38 @@ function resetRun() {
   createRooms();
   placePlayerInFirstRoom();
   spawnEnemiesForWave();
+  if (state.godMode && state.godTravelMode === 'biome') {
+    state.enemies = [];
+    state.crates = [];
+    state.challengeRooms = [];
+    state.enemyProjectiles = [];
+    state.particles = [];
+    const room = state.rooms[0];
+    room.locked = false;
+    room.challenge = false;
+  }
+  if (state.godMode && state.godTravelMode === 'enemy' && state.forcedEnemyType) {
+    const room = state.rooms[0];
+    const enemy = createEnemy(room, 0, state.forcedEnemyType);
+    enemy.aggro = true;
+    state.enemies = [enemy];
+    state.crates = [];
+    state.challengeRooms = [];
+    room.locked = false;
+    room.challenge = false;
+  }
   messageBox.classList.add('hidden');
 }
 
 // Returns from a finished run while preserving the current hero and equipment.
 function showMainMenu() {
+  document.body.classList.remove('room-showcase');
+  state.godMode = false;
+  state.godTravelMode = null;
+  state.forcedThemeIndex = null;
+  state.forcedEnemyType = null;
+  state.forcedBossVariant = null;
+  state.forcedRoomArtwork = null;
   resetRun();
   showRandomHeroProverb();
   overlayTitle.textContent = 'Endless Dungeon';
@@ -2971,6 +4430,133 @@ function showMainMenu() {
   startButton.style.display = '';
   startButton.textContent = 'Press any key to begin';
   startButton.classList.remove('death-continue-prompt');
+  overlay.classList.remove('hidden');
+}
+
+const godBossOrder = [
+  'lushGolem', 'lavaGolem', 'oceanBoss', 'iceBoss', 'skeletonWarlord',
+  'sandBoss', 'shadowBoss', 'abyssBoss', 'scorpionQueen', 'woodBoss',
+  'fungalBoss', 'mechOverlord', 'crystalBoss', 'sandSnake', 'standard',
+];
+
+function getGodBiome(entry) {
+  const biomeByFolder = {
+    retro: { themeIndex: 4, roomArtwork: 'roomRuins', name: 'Retro Ruins' },
+    lush: { themeIndex: 0, roomArtwork: 'lushCave', name: 'Verdant Ruins' },
+    ocean: { themeIndex: 1, roomArtwork: 'oceanRoom', name: 'Sunken Shrine' },
+    lava: { themeIndex: 2, roomArtwork: 'lavaRoom', name: 'Cinder Keep' },
+    ice: { themeIndex: 3, roomArtwork: 'iceRoom', name: 'Frozen Depths' },
+    skeleton: { themeIndex: 5, roomArtwork: 'skeletonRoom', name: 'Bony Ruins' },
+    desert: { themeIndex: 6, roomArtwork: 'sandRoom', name: 'Desert Ruins' },
+    abyss: { themeIndex: 7, roomArtwork: 'abyssRoom', name: 'Abyssal Depths' },
+    crystal: { themeIndex: 8, roomArtwork: 'crystalRoom', name: 'Crystal Sanctum' },
+    fungal: { themeIndex: 0, roomArtwork: 'fungalArena', name: 'Fungal Dominion' },
+    wood: { themeIndex: 0, roomArtwork: 'woodArena', name: 'Moonwood' },
+    mech: { themeIndex: 8, roomArtwork: 'mechArena', name: 'Furnace Foundry' },
+    shadow: { themeIndex: 7, roomArtwork: 'shadowArena', name: 'Shadow Arena' },
+  };
+  const folder = entry.image.match(/assets\/themes\/([^/]+)\//)?.[1];
+  return biomeByFolder[folder] || biomeByFolder.retro;
+}
+
+function getGodThemeIndex(entry) {
+  return getGodBiome(entry).themeIndex;
+}
+
+function closeGodModeForTravel() {
+  godModeOverlay.classList.add('hidden');
+  overlay.classList.add('hidden');
+}
+
+function enterGodBiome(themeIndex) {
+  document.body.classList.add('room-showcase');
+  state.godMode = true;
+  state.godTravelMode = 'biome';
+  state.forcedThemeIndex = themeIndex;
+  state.forcedEnemyType = null;
+  state.forcedBossVariant = null;
+  state.forcedRoomArtwork = null;
+  resetRun();
+  closeGodModeForTravel();
+  startGame();
+}
+
+function enterGodEnemy(entry) {
+  document.body.classList.remove('room-showcase');
+  const biome = getGodBiome(entry);
+  state.godMode = true;
+  state.godTravelMode = 'enemy';
+  state.forcedThemeIndex = biome.themeIndex;
+  state.forcedEnemyType = entry.id;
+  state.forcedBossVariant = null;
+  state.forcedRoomArtwork = biome.roomArtwork;
+  resetRun();
+  closeGodModeForTravel();
+  startGame();
+  setMessage(`${entry.name} in ${biome.name}. Press Esc to return.`);
+}
+
+function enterGodBoss(entry) {
+  document.body.classList.remove('room-showcase');
+  state.godMode = true;
+  state.godTravelMode = 'boss';
+  state.forcedThemeIndex = getGodThemeIndex(entry);
+  state.forcedEnemyType = null;
+  state.forcedBossVariant = entry.id;
+  state.forcedRoomArtwork = null;
+  resetRun();
+  state.bossDefeated = Math.max(0, godBossOrder.indexOf(entry.id));
+  state.enemies = [];
+  state.started = true;
+  closeGodModeForTravel();
+  spawnBoss();
+  showBossSplash();
+}
+
+function renderGodModeMenu() {
+  godModeGrid.replaceChildren();
+  const sections = [
+    {
+      title: 'Biomes',
+      items: world.themes.map((theme, index) => ({ label: theme.name, action: () => enterGodBiome(index) })),
+    },
+    {
+      title: 'Mobs',
+      items: journalCatalog.filter((entry) => entry.kind === 'Enemy')
+        .map((entry) => ({ label: entry.name, action: () => enterGodEnemy(entry) })),
+    },
+    {
+      title: 'Bosses',
+      items: journalCatalog.filter((entry) => entry.kind === 'Boss')
+        .map((entry) => ({ label: entry.name, action: () => enterGodBoss(entry) })),
+    },
+  ];
+  for (const section of sections) {
+    const container = document.createElement('section');
+    container.className = 'god-mode-section';
+    const heading = document.createElement('h2');
+    heading.textContent = section.title;
+    const options = document.createElement('div');
+    options.className = 'god-mode-options';
+    for (const item of section.items) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = item.label;
+      button.addEventListener('click', item.action);
+      options.appendChild(button);
+    }
+    container.append(heading, options);
+    godModeGrid.appendChild(container);
+  }
+}
+
+function openGodModeMenu() {
+  renderGodModeMenu();
+  godModeOverlay.classList.remove('hidden');
+}
+
+function closeGodModeMenu() {
+  godModeOverlay.classList.add('hidden');
   overlay.classList.remove('hidden');
 }
 
@@ -2999,17 +4585,30 @@ function drawRoom(room) {
   const theme = room.theme;
   ctx.fillStyle = theme.room;
   ctx.fillRect(room.x, room.y, room.w, room.h);
-  const roomArtwork = theme.name === 'Verdant Ruins'
+  const godEnemyRoomArtwork = state.godMode
+    && state.godTravelMode === 'enemy'
+    && state.forcedRoomArtwork
+    ? art[state.forcedRoomArtwork]
+    : null;
+  const roomArtwork = godEnemyRoomArtwork || (theme.name === 'Verdant Ruins'
     ? art.lushCave
+    : theme.name === 'Bloomed Hollow'
+      ? art.roomRuins
     : theme.name === 'Sunken Shrine'
-      ? art.cyanRoom
+      ? art.oceanRoom
     : theme.name === 'Cinder Keep'
       ? art.lavaRoom
-      : theme.name === 'Moonwood'
-        ? art.waterRoom
+      : theme.name === 'Frozen Depths'
+        ? art.iceRoom
         : theme.name === 'Bony Ruins'
           ? art.skeletonRoom
-        : null;
+          : theme.name === 'Desert Ruins'
+            ? art.sandRoom
+            : theme.name === 'Abyssal Depths'
+              ? art.abyssRoom
+            : theme.name === 'Crystal Sanctum'
+              ? art.crystalRoom
+        : null);
   if (roomArtwork?.complete && roomArtwork.naturalWidth > 0) {
     const interiorX = room.x + wallThickness;
     const interiorY = room.y + wallThickness;
@@ -3018,7 +4617,13 @@ function drawRoom(room) {
     drawImageCover(roomArtwork, interiorX, interiorY, interiorW, interiorH);
     ctx.fillStyle = theme.name === 'Cinder Keep'
       ? 'rgba(54, 12, 4, 0.12)'
-      : theme.name === 'Sunken Shrine' || theme.name === 'Moonwood'
+      : theme.name === 'Desert Ruins'
+        ? 'rgba(92, 48, 12, 0.1)'
+      : theme.name === 'Abyssal Depths'
+        ? 'rgba(3, 7, 30, 0.12)'
+      : theme.name === 'Crystal Sanctum'
+        ? 'rgba(8, 47, 73, 0.1)'
+      : theme.name === 'Sunken Shrine' || theme.name === 'Frozen Depths'
         ? 'rgba(4, 24, 54, 0.12)'
         : 'rgba(14, 40, 20, 0.18)';
     ctx.fillRect(interiorX, interiorY, interiorW, interiorH);
@@ -3093,6 +4698,7 @@ function drawActorSprite({
   elite = false,
   squashX = 1,
   squashY = 1,
+  wingFlap = 0,
   hitFlash = 0,
   deathProgress = 0,
 }) {
@@ -3111,15 +4717,29 @@ function drawActorSprite({
   ctx.translate(x, y + bob);
   ctx.globalAlpha = 1 - deathProgress;
   ctx.rotate(stride * 0.004 + deathProgress * Math.PI * 1.6);
-  const leftFacingEnemyArt = ['skeletonMinion', 'skeletonTank', 'skeletonSpider'];
+  const leftFacingEnemyArt = [
+    'skeletonMinion', 'skeletonTank', 'skeletonSpider', 'desertMummy',
+    'lushMossling', 'lushSporeShroom', 'frostwingDrake', 'voidwingDrake', 'oceanHippo', 'lavaTiger',
+  ];
+  const frontFacingEnemyArt = [
+    'crystalStalker', 'crystalMinion', 'crystalTank',
+    'shadowCat', 'shadowGator', 'magmaSerpent', 'frostWraith',
+    'voidSerpent', 'sandRoller', 'corruptedStag', 'mechMinion', 'mechBear',
+    'iceMinion', 'glowBat', 'sunfeatherGriffin',
+  ];
   const enemyArtFacesLeft = leftFacingEnemyArt.includes(variant);
   const facingScale = variant === 'hero'
     ? (facingX < 0 ? 1 : -1)
+    : frontFacingEnemyArt.includes(variant)
+      ? 1
     : enemyArtFacesLeft
       ? (facingX < 0 ? 1 : -1)
       : (facingX < 0 ? -1 : 1);
   const deathScale = 1 - deathProgress * 0.82;
-  ctx.scale(facingScale * scale * squashX * deathScale, scale * squashY * deathScale);
+  ctx.scale(
+    facingScale * scale * squashX * (1 + Math.abs(wingFlap) * 0.05) * deathScale,
+    scale * squashY * (1 - Math.abs(wingFlap) * 0.16) * deathScale,
+  );
   ctx.shadowColor = elite ? '#f59e0b' : 'rgba(10, 18, 30, 0.65)';
   ctx.shadowBlur = elite ? 24 : 14;
   ctx.fillStyle = 'rgba(15, 23, 42, 0.45)';
@@ -3132,11 +4752,54 @@ function drawActorSprite({
   if (hitFlash > 0) {
     ctx.filter = 'brightness(2.5) saturate(0)';
   }
-  ctx.drawImage(sprite, -42, -62, 84, 100);
+  const spriteWidth = ['magmaSerpent', 'voidSerpent', 'sandRoller'].includes(variant)
+    ? 116
+    : ['glowBat', 'frostwingDrake', 'voidwingDrake', 'sunfeatherGriffin'].includes(variant) ? 126
+    : variant === 'mechMinion' ? 106
+    : variant === 'mechBear' ? 138
+    : variant === 'lavaTiger' ? 132
+    : variant === 'crystalLion' ? 110
+    : variant === 'crystalBobcat' ? 98
+    : variant === 'shadowCat' ? 118
+    : variant === 'oceanHippo' ? 164
+    : variant === 'shadowGator' ? 148
+    : variant === 'crystalStalker' ? 102
+      : variant === 'crystalMinion' ? 90
+      : variant === 'corruptedStag' ? 102
+      : variant === 'crystalTank' ? 104
+      : variant === 'frostWraith' ? 90
+  : ['lavaSpider', 'desertScorpion', 'abyssSpider'].includes(variant)
+    ? 112
+    : variant === 'desertMummy' ? 94
+      : variant === 'desertArcher' ? 82
+        : variant === 'abyssKnight' ? 96 : variant === 'abyssJelly' ? 88 : 84;
+  const spriteHeight = ['magmaSerpent', 'voidSerpent', 'sandRoller'].includes(variant)
+    ? 112
+    : ['glowBat', 'frostwingDrake', 'voidwingDrake'].includes(variant) ? 88
+      : variant === 'sunfeatherGriffin' ? 112
+    : variant === 'mechMinion' ? 128
+    : variant === 'mechBear' ? 124
+    : variant === 'lavaTiger' ? 126
+    : variant === 'crystalLion' ? 110
+    : variant === 'crystalBobcat' ? 98
+    : variant === 'shadowCat' ? 126
+    : variant === 'oceanHippo' ? 132
+    : variant === 'shadowGator' ? 116
+    : variant === 'crystalStalker' ? 118
+      : variant === 'crystalMinion' ? 100
+        : variant === 'crystalTank' ? 108
+      : variant === 'corruptedStag' ? 128
+        : variant === 'frostWraith' ? 124
+  : ['lavaSpider', 'desertScorpion', 'abyssSpider'].includes(variant)
+    ? 84
+    : variant === 'desertMummy' ? 112
+      : variant === 'desertArcher' ? 106
+        : variant === 'abyssKnight' ? 114 : variant === 'abyssJelly' ? 104 : 100;
+  ctx.drawImage(sprite, -spriteWidth / 2, 38 - spriteHeight, spriteWidth, spriteHeight);
   ctx.restore();
 
   if (deathProgress === 0) {
-    const healthBarY = variant === 'hero' ? y - 76 : y - 48;
+    const healthBarY = variant === 'hero' ? y - 76 : variant === 'oceanHippo' ? y - 104 : y - 48;
     ctx.fillStyle = '#f8fafc';
     ctx.fillRect(x - 18, healthBarY, 36, 4);
     ctx.fillStyle = '#22c55e';
@@ -3150,9 +4813,30 @@ function drawEnemy(enemy) {
     ? 1 - Math.max(0, enemy.deathTimer) / 0.55
     : 0;
   const motion = Math.sin(enemy.movePhase || 0);
-  const stride = motion * (enemy.type === 'crawler' ? 15 : 9);
-  const floating = enemy.type === 'wraith' || enemy.type === 'arcaneOrb' || enemy.type === 'skeletonOrb';
-  const bob = Math.abs(motion) * (floating ? 8 : 3) - enemy.lunge * 5;
+  const flyingTypes = ['glowBat', 'frostwingDrake', 'voidwingDrake', 'sunfeatherGriffin'];
+  const flying = flyingTypes.includes(enemy.type);
+  const wingFlap = flying ? Math.sin((enemy.movePhase || 0) * 2.8) : 0;
+  const stride = motion * (enemy.type === 'crawler' || enemy.type === 'lushMossling' ? 15 : 9);
+  const floating = enemy.type === 'wraith'
+    || enemy.type === 'arcaneOrb'
+    || enemy.type === 'skeletonOrb'
+    || enemy.type === 'frostWraith'
+    || enemy.type === 'abyssJelly'
+    || (world.themeIndex === 7 && getAbyssEnemyVariant(enemy.type) === 'abyssJelly');
+  const walkingAnimals = [
+    'crawler', 'burrower', 'lushMossling', 'crystalStalker', 'lavaSpider',
+    'magmaSerpent', 'skeletonSpider', 'desertScorpion', 'sandRoller',
+    'abyssSpider', 'voidSerpent', 'corruptedStag', 'crystalLion', 'crystalBobcat',
+    'shadowCat', 'shadowGator', 'oceanHippo', 'lavaTiger', 'mechBear',
+  ];
+  const walkBob = walkingAnimals.includes(enemy.type)
+    ? Math.abs(motion) * 7
+    : Math.abs(motion) * 3;
+  const bob = flying
+    ? -18 + Math.sin((enemy.movePhase || 0) * 1.4) * 4
+    : floating
+    ? -14 + motion * 5
+    : walkBob - enemy.lunge * 5;
   const squashX = 1 + Math.abs(motion) * 0.07 - enemy.lunge * 0.14;
   const squashY = 1 - Math.abs(motion) * 0.06 + enemy.lunge * 0.18;
   const fastWeakTypes = ['runner', 'crawler', 'assassin', 'wraith', 'arcaneOrb'];
@@ -3163,12 +4847,37 @@ function drawEnemy(enemy) {
   if (themedRole) {
     if (world.themeIndex === 2) themedVariant = `lava${themedRole}`;
     if (world.themeIndex === 0) themedVariant = `lush${themedRole}`;
-    if (world.themeIndex === 1 || world.themeIndex === 3) themedVariant = `ocean${themedRole}`;
+    if (world.themeIndex === 1) themedVariant = `ocean${themedRole}`;
+    if (world.themeIndex === 3) themedVariant = 'iceMinion';
     if (world.themeIndex === 5) themedVariant = themedRole === 'Minion' ? 'skeletonMinion' : 'skeletonTank';
+    if (world.themeIndex === 6) themedVariant = getDesertEnemyVariant(enemy.type);
+    if (world.themeIndex === 7) themedVariant = getAbyssEnemyVariant(enemy.type);
+    if (world.themeIndex === 8) themedVariant = `crystal${themedRole}`;
   }
+  if (enemy.type === 'lushMossling') themedVariant = 'lushMossling';
+  if (enemy.type === 'lushSporeShroom') themedVariant = 'lushSporeShroom';
+  if (world.themeIndex === 2 && enemy.type === 'crawler') themedVariant = 'lavaSpider';
   if (world.themeIndex === 5 && enemy.type === 'crawler') themedVariant = 'skeletonSpider';
   if (world.themeIndex === 5 && enemy.type === 'arcaneOrb') themedVariant = 'skeletonOrb';
+  if (world.themeIndex === 6) themedVariant = getDesertEnemyVariant(enemy.type);
+  if (world.themeIndex === 7) themedVariant = getAbyssEnemyVariant(enemy.type);
+  if (world.themeIndex === 8 && baseEnemyTypes.has(enemy.type)) {
+    themedVariant = `crystal${themedRole}`;
+  }
   if (enemy.type === 'skeletonOrb') themedVariant = 'skeletonOrb';
+  if (enemy.type === 'desertScorpion') themedVariant = 'desertScorpion';
+  if (enemy.type === 'mechMinion') themedVariant = 'mechMinion';
+
+  if (enemy.type === 'crystalStalker' && (enemy.crystalLungeCharge || 0) > 0) {
+    const charge = 1 - enemy.crystalLungeCharge / 0.42;
+    ctx.save();
+    ctx.strokeStyle = `rgba(103, 232, 249, ${0.45 + charge * 0.5})`;
+    ctx.lineWidth = 4 + charge * 4;
+    ctx.beginPath();
+    ctx.arc(enemy.x, enemy.y + 8, 31 + charge * 25, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   drawActorSprite({
     x: enemy.x,
@@ -3182,12 +4891,14 @@ function drawEnemy(enemy) {
     stride,
     bob,
     variant: themedVariant,
+    scale: themedVariant === 'lushMossling' ? 0.78 : themedVariant === 'lushSporeShroom' ? 1.08 : 1,
     health: enemy.health,
     maxHealth: enemy.maxHealth,
     elite: enemy.elite,
     facingX: player.x - enemy.x,
     squashX,
     squashY,
+    wingFlap,
     hitFlash: enemy.hitFlash,
     deathProgress,
   });
@@ -3209,6 +4920,64 @@ function drawBossHealthBar(boss, x, y, width, height, startColor, endColor = sta
   ctx.restore();
 }
 
+// Projects the supplied shadow beam along the Shadow Boss's dash path.
+function drawShadowAttack(boss) {
+  if (
+    boss.variant !== 'shadowBoss'
+    || boss.attackType !== 'shadowDash'
+    || (boss.attackWindup <= 0 && boss.lungeTimer <= 0)
+    || !art.shadowAttack.complete
+    || art.shadowAttack.naturalWidth <= 0
+  ) return;
+
+  const target = boss.attackTarget || player;
+  const aimX = boss.lungeTimer > 0 ? boss.lungeDirX : target.x - boss.x;
+  const aimY = boss.lungeTimer > 0 ? boss.lungeDirY : target.y - boss.y;
+  const angle = Math.atan2(aimY, aimX);
+  const charge = boss.attackWindup > 0
+    ? 1 - boss.attackWindup / (boss.attackWindupTotal || 0.58)
+    : 1;
+
+  ctx.save();
+  ctx.translate(boss.x, boss.y);
+  ctx.rotate(angle);
+  ctx.globalAlpha = 0.35 + charge * 0.65;
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.shadowColor = '#a855f7';
+  ctx.shadowBlur = 22 + charge * 28;
+  ctx.drawImage(
+    art.shadowAttack,
+    55, 200, 1390, 520,
+    18, -70 * charge, 390 * (0.35 + charge * 0.65), 140 * charge,
+  );
+  ctx.restore();
+}
+
+// Draws the Heartwood Horror's eruption in arena coordinates so the large
+// effect remains visible behind the boss instead of being clipped by its pose.
+function drawWoodBossAttack(boss) {
+  if (boss.variant !== 'woodBoss'
+    || boss.attackType !== 'heartwoodEruption'
+    || (!boss.attackWindup && !boss.attackPulse)
+    || !art.woodAttack.complete
+    || art.woodAttack.naturalWidth === 0) return;
+
+  const charge = boss.attackWindup > 0
+    ? 1 - boss.attackWindup / (boss.attackWindupTotal || 0.9)
+    : 1;
+  const pulse = boss.attackPulse || 0;
+  const width = 330 + charge * 120 + pulse * 55;
+  const height = width * 1.5;
+  ctx.save();
+  ctx.globalAlpha = Math.min(0.96, 0.2 + charge * 0.55 + pulse * 0.55);
+  ctx.shadowColor = '#a3e635';
+  ctx.shadowBlur = 46 + charge * 34 + pulse * 28;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(art.woodAttack, boss.x - width / 2, boss.y - height * 0.7, width, height);
+  ctx.restore();
+}
+
 // Renders boss-specific art with wind-up, lunge, hit, and death animation.
 function drawBoss(boss) {
   const walk = Math.sin(boss.movePhase || 0);
@@ -3218,7 +4987,7 @@ function drawBoss(boss) {
   const isOverheadPose = boss.attackWindup > 0 && !state.threatSplashOpen;
   const overheadLift = isOverheadPose ? charge * 7 : 0;
   const pulse = boss.attackPulse || 0;
-  const isSlamAttack = boss.attackType.toLowerCase().includes('slam');
+  const isSlamAttack = boss.attackType.toLowerCase().includes('slam') || boss.attackType === 'staffCrush';
   const isDashAttack = boss.attackType.toLowerCase().includes('dash');
   const lungeMotion = boss.lungeTimer > 0
     ? Math.sin((1 - boss.lungeTimer / (boss.lungeDuration || 0.2)) * Math.PI)
@@ -3244,7 +5013,7 @@ function drawBoss(boss) {
   if (boss.hitFlash > 0) ctx.filter = 'brightness(2.4) saturate(0)';
 
   if (boss.attackWindup > 0) {
-    const warningColor = boss.variant === 'lavaGolem' ? '249, 115, 22' : boss.variant === 'lushGolem' ? '74, 222, 128' : boss.variant === 'oceanBoss' ? '56, 189, 248' : boss.variant === 'iceBoss' ? '191, 219, 254' : boss.variant === 'skeletonWarlord' ? '103, 232, 249' : boss.variant === 'sandBoss' ? '251, 191, 36' : boss.variant === 'woodBoss' ? '132, 204, 22' : '251, 113, 133';
+    const warningColor = boss.variant === 'lavaGolem' ? '249, 115, 22' : boss.variant === 'lushGolem' ? '74, 222, 128' : boss.variant === 'oceanBoss' ? '56, 189, 248' : boss.variant === 'iceBoss' ? '191, 219, 254' : boss.variant === 'skeletonWarlord' ? '103, 232, 249' : boss.variant === 'sandBoss' || boss.variant === 'sandSnake' ? '251, 191, 36' : boss.variant === 'shadowBoss' ? '192, 132, 252' : boss.variant === 'abyssBoss' ? '56, 189, 248' : boss.variant === 'scorpionQueen' ? '245, 158, 11' : boss.variant === 'fungalBoss' ? '163, 230, 53' : boss.variant === 'mechOverlord' ? '251, 146, 60' : boss.variant === 'crystalBoss' ? '34, 211, 238' : boss.variant === 'woodBoss' ? '132, 204, 22' : '251, 113, 133';
     ctx.save();
     ctx.filter = 'none';
     if (isSlamAttack) {
@@ -3279,10 +5048,10 @@ function drawBoss(boss) {
       ctx.lineWidth = 5;
       if (boss.attackType === 'thornRing') ctx.setLineDash([8, 7]);
       ctx.beginPath();
-      const visualRadius = boss.attackType === 'eruption' ? 65 + charge * 220 : 55 + charge * 165;
+      const visualRadius = boss.attackType === 'heartwoodEruption' ? 65 + charge * 240 : boss.attackType === 'eruption' ? 65 + charge * 220 : boss.attackType === 'scarabStorm' ? 65 + charge * 260 : 55 + charge * 165;
       ctx.arc(0, 12, visualRadius, 0, Math.PI * 2);
       ctx.stroke();
-      if (boss.attackType === 'eruption') {
+      if (boss.attackType === 'eruption' || boss.attackType === 'heartwoodEruption') {
         ctx.beginPath();
         ctx.arc(0, 12, visualRadius * 0.66, 0, Math.PI * 2);
         ctx.stroke();
@@ -3420,6 +5189,94 @@ function drawBoss(boss) {
     return;
   }
 
+  if (boss.variant === 'shadowBoss' && art.shadowBoss.complete && art.shadowBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#a855f7';
+    ctx.shadowBlur = 38 + windup * 48 + pulse * 24;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.shadowBoss, -88, -118, 176, 224);
+    drawBossHealthBar(boss, -58, -124, 116, 8, '#3b0764', '#c084fc');
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'abyssBoss' && art.abyssBossPhase1.complete && art.abyssBossPhase1.naturalWidth > 0) {
+    const sprite = boss.phase === 2 && art.abyssBossPhase2.complete && art.abyssBossPhase2.naturalWidth > 0
+      ? art.abyssBossPhase2
+      : art.abyssBossPhase1;
+    ctx.shadowColor = boss.phase === 2 ? '#0ea5e9' : '#2563eb';
+    ctx.shadowBlur = (boss.phase === 2 ? 48 : 36) + windup * 50 + pulse * 25;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(sprite, -94, -126, 188, 236);
+    drawBossHealthBar(boss, -60, -132, 120, 9, '#172554', boss.phase === 2 ? '#38bdf8' : '#2563eb');
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'scorpionQueen' && art.scorpionQueen.complete && art.scorpionQueen.naturalWidth > 0) {
+    ctx.shadowColor = '#f59e0b';
+    ctx.shadowBlur = 42 + windup * 52 + pulse * 26;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.scorpionQueen, -126, -126, 252, 250);
+    drawBossHealthBar(boss, -62, -134, 124, 9, '#78350f', '#fbbf24');
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'fungalBoss' && art.fungalBoss.complete && art.fungalBoss.naturalWidth > 0) {
+    ctx.shadowColor = '#a3e635';
+    ctx.shadowBlur = 44 + windup * 54 + pulse * 28;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.fungalBoss, -112, -148, 224, 286);
+    drawBossHealthBar(boss, -64, -154, 128, 9, '#3f6212', '#d9f99d');
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'mechOverlord' && art.mechOverlord.complete && art.mechOverlord.naturalWidth > 0) {
+    ctx.shadowColor = '#fb923c';
+    ctx.shadowBlur = 46 + windup * 54 + pulse * 28;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.mechOverlord, -108, -138, 216, 270);
+    drawBossHealthBar(boss, -64, -144, 128, 9, '#431407', '#fb923c');
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'crystalBoss' && art.crystalBoss.complete && art.crystalBoss.naturalWidth > 0) {
+    if (boss.attackType === 'crystalEruption' && art.crystalAttack.complete && art.crystalAttack.naturalWidth > 0) {
+      ctx.save();
+      ctx.globalAlpha = Math.min(0.88, 0.2 + charge * 0.55 + pulse * 0.5);
+      ctx.shadowColor = '#67e8f9';
+      ctx.shadowBlur = 54;
+      ctx.drawImage(art.crystalAttack, -155, -188, 310, 310);
+      ctx.restore();
+    }
+    ctx.shadowColor = '#22d3ee';
+    ctx.shadowBlur = 48 + windup * 58 + pulse * 30;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.crystalBoss, -116, -148, 232, 286);
+    drawBossHealthBar(boss, -66, -154, 132, 9, '#164e63', '#67e8f9');
+    ctx.restore();
+    return;
+  }
+
+  if (boss.variant === 'sandSnake' && art.sandSnake.complete && art.sandSnake.naturalWidth > 0) {
+    ctx.shadowColor = boss.attackType === 'scarabStorm' ? '#a855f7' : '#f59e0b';
+    ctx.shadowBlur = 48 + windup * 58 + pulse * 32;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(art.sandSnake, -112, -166, 224, 296);
+    drawBossHealthBar(boss, -68, -172, 136, 9, '#713f12', '#fde68a');
+    ctx.restore();
+    return;
+  }
+
   if (boss.variant === 'woodBoss' && art.woodBoss.complete && art.woodBoss.naturalWidth > 0) {
     const sprite = isOverheadPose && art.woodBossOverhead.complete && art.woodBossOverhead.naturalWidth > 0
       ? art.woodBossOverhead : art.woodBoss;
@@ -3534,15 +5391,7 @@ function drawPlayer() {
     scale: 0.55 + teleportVisibility * 0.45,
   });
 
-  const equippedSwordArt = equippedWeaponId === 'diamondSword'
-    ? art.diamondSword
-    : equippedWeaponId === 'broadSword'
-      ? art.broadSword
-      : equippedWeaponId === 'emeraldSword'
-        ? art.emeraldSword
-        : equippedWeaponId === 'lavaBlade'
-          ? art.lavaBlade
-          : art.broadSword;
+  const equippedSwordArt = art[equippedWeaponId] || art.broadSword;
   if ((!state.retroMode || state.boss) && equippedSwordArt?.complete && equippedSwordArt.naturalWidth > 0) {
     // Mirror the hand anchor with the selected character artwork so the
     // equipped weapon remains gripped while facing either direction.
@@ -3561,13 +5410,16 @@ function drawPlayer() {
       // slightly toward the direction the hero is facing.
       ctx.rotate(-facingDirection * (Math.PI - 0.32));
     }
-    ctx.shadowColor = equippedWeaponId === 'emeraldSword'
-      ? '#34d399'
-      : equippedWeaponId === 'lavaBlade'
-        ? '#f97316'
-      : equippedWeaponId === 'diamondSword'
-        ? '#bfdbfe'
-        : '#fca5a5';
+    const weaponGlowColors = {
+      emeraldSword: '#34d399',
+      lavaBlade: '#f97316',
+      diamondSword: '#bfdbfe',
+      frostspire: '#67e8f9',
+      worldfireCleaver: '#fb923c',
+      voidRequiem: '#c084fc',
+      sunforgedJudgment: '#facc15',
+    };
+    ctx.shadowColor = weaponGlowColors[equippedWeaponId] || '#fca5a5';
     ctx.shadowBlur = 14;
     // The source handle occupies the top tenth of each weapon image.
     ctx.drawImage(equippedSwordArt, -12, -9, 24, 86);
@@ -3700,6 +5552,31 @@ function drawOpeners() {
   }
 }
 
+// Draws Bone Archer projectiles as glowing sandstone arrows.
+function drawEnemyProjectiles() {
+  for (const projectile of state.enemyProjectiles) {
+    ctx.save();
+    ctx.translate(projectile.x, projectile.y);
+    ctx.rotate(projectile.angle);
+    ctx.shadowColor = '#fbbf24';
+    ctx.shadowBlur = 9;
+    ctx.strokeStyle = '#78350f';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-13, 0);
+    ctx.lineTo(10, 0);
+    ctx.stroke();
+    ctx.fillStyle = '#fde68a';
+    ctx.beginPath();
+    ctx.moveTo(14, 0);
+    ctx.lineTo(7, -5);
+    ctx.lineTo(7, 5);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
 // Draws all active particles using their remaining lifetime as opacity.
 function drawParticles() {
   for (const particle of state.particles) {
@@ -3768,22 +5645,32 @@ function drawBackground() {
     drawRoom(room);
   }
 
+  // God Mode biome travel is a clean gallery view: only the room is rendered.
+  if (state.godMode && state.godTravelMode === 'biome') {
+    ctx.restore();
+    return;
+  }
+
   if (state.boss) {
     ctx.fillStyle = '#2f2f47';
     ctx.fillRect(state.bossArena.x, state.bossArena.y, state.bossArena.w, state.bossArena.h);
-    const arenaArt = state.boss.variant === 'lushGolem'
-      ? art.lushArena
-      : state.boss.variant === 'lavaGolem'
-        ? art.lavaArena
-        : state.boss.variant === 'oceanBoss'
-          ? art.waterArena
-          : state.boss.variant === 'iceBoss'
-            ? art.iceArena
-            : state.boss.variant === 'skeletonWarlord'
-              ? art.skeletonArena
-              : state.boss.variant === 'sandBoss'
-                ? art.sandArena
-            : null;
+    const bossArenaArt = {
+      lushGolem: art.lushArena,
+      lavaGolem: art.lavaArena,
+      oceanBoss: art.oceanArena,
+      iceBoss: art.iceArena,
+      skeletonWarlord: art.skeletonArena,
+      sandBoss: art.sandArena,
+      shadowBoss: art.shadowArena,
+      abyssBoss: art.abyssArena,
+      scorpionQueen: art.scorpioArena,
+      woodBoss: art.woodArena,
+      fungalBoss: art.fungalArena,
+      mechOverlord: art.mechArena,
+      crystalBoss: art.crystalArena,
+      sandSnake: art.sandArena,
+    };
+    const arenaArt = bossArenaArt[state.boss.variant] || null;
     if (arenaArt?.complete && arenaArt.naturalWidth > 0) {
       drawImageCover(arenaArt, state.bossArena.x, state.bossArena.y, state.bossArena.w, state.bossArena.h);
       ctx.fillStyle = 'rgba(2, 6, 23, 0.16)';
@@ -3800,7 +5687,12 @@ function drawBackground() {
   for (const enemy of state.enemies) {
     if (!state.boss || enemy.bossMinion) drawEnemy(enemy);
   }
-  if (state.boss) drawBoss(state.boss);
+  drawEnemyProjectiles();
+  if (state.boss) {
+    drawShadowAttack(state.boss);
+    drawWoodBossAttack(state.boss);
+    drawBoss(state.boss);
+  }
   drawGuardians();
   drawOpeners();
   drawTeleportEffect();
@@ -3925,6 +5817,11 @@ function startGame() {
   state.paused = false;
   pauseOverlay.classList.add('hidden');
   overlay.classList.add('hidden');
+  if (state.godMode && state.godTravelMode === 'biome') {
+    closeThreatSplash();
+    messageBox.classList.add('hidden');
+    return;
+  }
   setMessage('Wave 1 begins. Explore the rooms, open crates, and survive.');
   showWaveSplash();
 }
@@ -3934,7 +5831,8 @@ function loop(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.03);
   lastTime = timestamp;
 
-  if (state.started && !state.isGameOver && !state.paused && !state.challengePromptOpen && armoryOverlay.classList.contains('hidden')) {
+  const roomOnlyShowcase = state.godMode && state.godTravelMode === 'biome';
+  if (state.started && !roomOnlyShowcase && !state.isGameOver && !state.paused && !state.challengePromptOpen && armoryOverlay.classList.contains('hidden')) {
     if (state.threatSplashOpen) {
       updateParticles(dt);
     } else if (state.teleportTimer > 0) {
@@ -3945,6 +5843,7 @@ function loop(timestamp) {
       updateCrates(dt);
       maybeOpenChallengeRoom();
       updateEnemies(dt);
+      updateEnemyProjectiles(dt);
       updateProtectors(dt);
       updateOpeners(dt);
       updateBoss(dt);
@@ -4010,6 +5909,17 @@ openHighScoresButton.addEventListener('click', () => {
   highScoresOverlay.classList.remove('hidden');
 });
 closeHighScoresButton.addEventListener('click', () => highScoresOverlay.classList.add('hidden'));
+openJournalButton.addEventListener('click', () => {
+  saveHeroName();
+  renderJournal();
+  journalOverlay.classList.remove('hidden');
+});
+closeJournalButton.addEventListener('click', () => {
+  closeBestiaryDetail();
+  journalOverlay.classList.add('hidden');
+});
+closeBestiaryDetailButton.addEventListener('click', closeBestiaryDetail);
+closeGodModeButton.addEventListener('click', closeGodModeMenu);
 
 // Routes keyboard presses through overlays before active gameplay controls.
 window.addEventListener('keydown', (event) => {
@@ -4021,6 +5931,36 @@ window.addEventListener('keydown', (event) => {
     }
     return;
   }
+  if (!godModeOverlay.classList.contains('hidden')) {
+    event.preventDefault();
+    if (!event.repeat && key === 'escape') closeGodModeMenu();
+    return;
+  }
+  if (state.godMode && key === 'escape') {
+    event.preventDefault();
+    godModeOverlay.classList.add('hidden');
+    closeThreatSplash();
+    showMainMenu();
+    return;
+  }
+  const menuReadyForGodSequence = !state.started
+    && !state.isGameOver
+    && !overlay.classList.contains('hidden')
+    && armoryOverlay.classList.contains('hidden')
+    && journalOverlay.classList.contains('hidden')
+    && highScoresOverlay.classList.contains('hidden')
+    && genderOverlay.classList.contains('hidden');
+  if (menuReadyForGodSequence && key === 'a' && !event.repeat) {
+    event.preventDefault();
+    const now = performance.now();
+    godModeAPresses = godModeAPresses.filter((pressedAt) => now - pressedAt <= 10000);
+    godModeAPresses.push(now);
+    if (godModeAPresses.length >= 4) {
+      godModeAPresses = [];
+      openGodModeMenu();
+    }
+    return;
+  }
   if (!genderOverlay.classList.contains('hidden')) {
     event.preventDefault();
     return;
@@ -4028,6 +5968,14 @@ window.addEventListener('keydown', (event) => {
   if (!highScoresOverlay.classList.contains('hidden')) {
     event.preventDefault();
     if (!event.repeat && (key === 'escape' || key === 'enter')) highScoresOverlay.classList.add('hidden');
+    return;
+  }
+  if (!journalOverlay.classList.contains('hidden')) {
+    event.preventDefault();
+    if (!event.repeat && key === 'escape') {
+      if (!bestiaryDetail.classList.contains('hidden')) closeBestiaryDetail();
+      else journalOverlay.classList.add('hidden');
+    }
     return;
   }
   if (!armoryOverlay.classList.contains('hidden')) {
@@ -4121,6 +6069,7 @@ spawnEnemiesForWave();
 loadLeaderboard();
 updateHighScoreDisplay();
 renderHighScores();
+renderJournal();
 showRandomHeroProverb();
 applyEquippedArmor(true);
 updateGearNotification();

@@ -100,6 +100,7 @@
         <button id="openHighScoresButton" class="menu-high-score" type="button">
           Hall of Heroes · Best Score <strong id="menuHighScoreValue">0</strong>
         </button>
+        <button id="openJournalButton" class="menu-journal" type="button">Beastiary</button>
       </div>
       <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
       <div class="controls-grid menu-controls-box">
@@ -116,6 +117,16 @@
           <span>Q: Use bandage</span>
       </div>
     </div>
+    <div id="godModeOverlay" class="overlay god-mode-overlay hidden">
+      <div class="overlay-card god-mode-card">
+        <div class="god-mode-kicker">Hidden Travel Console</div>
+        <h1>God Mode</h1>
+        <p>Travel directly to any biome, creature, or boss. Progress here never unlocks Beastiary entries.</p>
+        <div id="godModeGrid" class="god-mode-grid"></div>
+        <button id="closeGodModeButton" class="journal-close" type="button">Return to Main Menu</button>
+        <div class="continue-prompt">Esc: Main Menu</div>
+      </div>
+    </div>
     <div id="highScoresOverlay" class="overlay high-scores-overlay hidden">
       <div class="overlay-card high-scores-card">
         <div class="high-scores-kicker">Endless Dungeon Records</div>
@@ -123,6 +134,30 @@
         <p>The ten legends who travelled furthest into the dark.</p>
         <ol id="highScoresList" class="high-scores-list"></ol>
         <button id="closeHighScoresButton" class="high-scores-close" type="button">Return to the fire</button>
+      </div>
+    </div>
+    <div id="journalOverlay" class="overlay journal-overlay hidden">
+      <div class="overlay-card journal-card">
+        <div class="journal-kicker">The Dungeon Remembers</div>
+        <h1>Beastiary</h1>
+        <p>Defeat a creature to reveal its true form forever.</p>
+        <div class="journal-progress">Discovered <strong id="journalProgress">0 / 0</strong></div>
+        <div id="journalGrid" class="journal-grid"></div>
+        <button id="closeJournalButton" class="journal-close" type="button">Return to the fire</button>
+        <div id="bestiaryDetail" class="bestiary-detail hidden" role="dialog" aria-modal="true" aria-labelledby="bestiaryDetailName">
+          <div class="bestiary-detail-card">
+            <div id="bestiaryDetailKind" class="journal-kicker"></div>
+            <img id="bestiaryDetailImage" src="" alt="">
+            <div class="bestiary-detail-copy">
+              <h1 id="bestiaryDetailName"></h1>
+              <div id="bestiaryDetailStats" class="bestiary-detail-stats"></div>
+              <h2>Traits</h2>
+              <div id="bestiaryDetailTraits" class="bestiary-detail-traits"></div>
+              <p id="bestiaryDetailBackstory" class="bestiary-detail-lore"></p>
+              <button id="closeBestiaryDetailButton" class="journal-close" type="button">Back to the Beastiary</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div id="armoryOverlay" class="overlay hidden">

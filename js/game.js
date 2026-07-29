@@ -123,9 +123,10 @@ const journalCatalog = [
   { id: 'voidSerpent', name: 'Void Serpent', kind: 'Enemy', image: 'assets/themes/abyssal-depths/void-serpent.png' },
   { id: 'voidwingDrake', name: 'Riftwing Drake', kind: 'Enemy', image: 'assets/themes/abyssal-depths/voidwing-drake.png' },
   { id: 'corruptedStag', name: 'Corrupted Stag', kind: 'Enemy', image: 'assets/themes/fungal-dominion/corrupted-stag.png' },
+  { id: 'fungalOozeSnail', name: 'Fungal Ooze Snail', kind: 'Enemy', image: 'assets/themes/fungal-dominion/Fungal Ooze Snail.png', fanArt: 'assets/fan-art/Bioluminescent Slug.png' },
   { id: 'mechMinion', name: 'Furnace Sentinel', kind: 'Enemy', image: 'assets/themes/furnace-foundry/furnace-sentinel.png' },
-  { id: 'mechBear', name: 'Brassmaw Siege Bear', kind: 'Enemy', image: 'assets/themes/furnace-foundry/mech-bear.png' },
-  { id: 'shadowCat', name: 'Nightclaw Lynx', kind: 'Enemy', image: 'assets/themes/shadow-realm/shadow-cat.png' },
+  { id: 'mechBear', name: 'Brassmaw Siege Bear', kind: 'Enemy', image: 'assets/themes/furnace-foundry/mech-bear.png', fanArt: 'assets/fan-art/mech bear standing.png' },
+  { id: 'shadowCat', name: 'Nightclaw Lynx', kind: 'Enemy', image: 'assets/themes/shadow-realm/shadow-cat.png', fanArt: 'assets/fan-art/Feral shadowed lynx.png' },
   { id: 'shadowGator', name: 'Dreadscale Gator', kind: 'Enemy', image: 'assets/themes/shadow-realm/shadow-gator.png' },
   { id: 'lushGolem', name: 'Lush Golem', kind: 'Boss', image: 'assets/themes/verdant-ruins/lush-golem.png', fanArt: 'assets/fan-art/original-lush-golem.png' },
   { id: 'lavaGolem', name: 'Lava Golem', kind: 'Boss', image: 'assets/themes/cinder-keep/lava-golem.png' },
@@ -139,7 +140,7 @@ const journalCatalog = [
   { id: 'woodBoss', name: 'Heartwood Horror', kind: 'Boss', image: 'assets/themes/moonwood/wood-boss.png' },
   { id: 'fungalBoss', name: 'Mycelial Sovereign', kind: 'Boss', image: 'assets/themes/fungal-dominion/mycelial-sovereign.png' },
   { id: 'mechOverlord', name: 'Furnace Overlord', kind: 'Boss', image: 'assets/themes/furnace-foundry/mech-boss.png' },
-  { id: 'crystalBoss', name: 'Prismatic Guardian', kind: 'Boss', image: 'assets/themes/crystal-sanctum/crystal-guardian.png' },
+  { id: 'crystalBoss', name: 'Prismatic Guardian', kind: 'Boss', image: 'assets/themes/crystal-sanctum/crystal-guardian.png', fanArt: 'assets/fan-art/crystal guardian mech.png' },
   { id: 'sandSnake', name: 'Gilded Dune Serpent', kind: 'Boss', image: 'assets/themes/desert-ruins/sand-snake.png' },
   { id: 'standard', name: 'Dungeon Guardian', kind: 'Boss', image: 'assets/player/shadow boss.png' },
 ];
@@ -147,7 +148,7 @@ const bestiaryProfiles = {
   woodBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Wood Slam / Thorn Ring / Heartwood Eruption / Splinterfiend Summoning', backstory: 'The Heartwood Horror was once the Moonwood’s oldest guardian. Corruption entered through an axe wound and turned protection into possession. Its Heartwood Eruption drives the forest’s buried roots upward in one furious command.' },
   crystalBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '74', traits: 'Crystal Slam / Prism Dash / Crystal Eruption', backstory: 'The Prismatic Guardian grew around the first gemstone ever cut beneath the dungeon. Every fracture teaches it a new angle of attack, while its shield preserves the reflected memory of every warrior who struck it.' },
   mechMinion: { health: '105 + 12 per boss tier', damage: '10 + 1.35 per boss tier', speed: '68', traits: 'Quad-cannon bolts / heavy armour / boss deployment', backstory: 'Furnace Sentinels were mobile boiler guards built to keep the Overlord’s assembly lines burning. Their four heated barrels fire in perfect sequence because each machine shares the same mechanical memory.' },
-  fungalBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Mycelium Slam / Hypha Dash / Sporeburst / Corrupted Stag Summoning', backstory: 'The Mycelial Sovereign began as a single spore feeding beneath a forgotten battlefield. It inherited every fallen creature’s instincts through their roots and now believes the entire dungeon is one body awaiting infection.' },
+  fungalBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Mycelium Slam / Hypha Dash / Sporeburst / Fungal Summoning', backstory: 'The Mycelial Sovereign began as a single spore feeding beneath a forgotten battlefield. It inherited every fallen creature’s instincts through their roots and now believes the entire dungeon is one body awaiting infection.' },
   crystalStalker: { health: '150 + 18 per wave', damage: '14 + 2.1 per wave', speed: '68', traits: 'Verdant crystal armour · Shard Lunge · stamina fracture', backstory: 'Verdant Crystal Stalkers slept beneath the oldest roots until green cave crystals grew through their hides. They now guard every glowing seam in the Lush Caves as if it were an egg.' },
   glowBat: { health: '58 + 9 per wave', damage: '10 + 1.5 per wave', speed: '176', traits: 'Wing-flap flight · Echo Dive · rapid retreat', backstory: 'Viridian Glowbats pollinate crystal flowers that bloom only during cave-ins. Their luminous eyes read echoes through stone, letting them dive through dust where grounded hunters are blind.' },
   lushMossling: { health: '28 + 7 per wave', damage: '7 + 1.25 per wave', speed: '152', traits: 'Crystal Pounce · stamina bite · rapid recovery', backstory: 'Mosslings collect loose cave crystals in the soft growth along their backs. When threatened, they spring head-first at the intruder and carry the stolen strength from each bite home to warm their nests.' },
@@ -170,6 +171,7 @@ const bestiaryProfiles = {
   voidSerpent: { health: '118 + 15 per wave', damage: '15 + 2.2 per wave', speed: '124', traits: 'Close-range venom bite · lingering poison · rapid retreat', backstory: 'Void Serpents swim through the cracks between rooms. Their luminous bellies are said to contain the last light stolen from drowned worlds.' },
   sandRoller: { health: '185 + 20 per wave', damage: '18 + 2.4 per wave', speed: '96', traits: 'Armoured charge · heavy impact', backstory: 'The ruin-builders shaped these guardians from temple blocks. When disturbed, each one curls into a living siege stone and crushes intruders beneath its carved shell.' },
   corruptedStag: { health: '105 + 14 per wave', damage: '17 + 2.3 per wave', speed: '172', traits: 'Antler charge · relentless pursuit', backstory: 'This stag inhaled the Mycelial Sovereign’s oldest spores while grazing above the fungal colony. The growth hollowed its instincts into a single command: charge anything that has not yet joined the bloom.' },
+  fungalOozeSnail: { health: '210 + 24 per wave', damage: '16 + 2.2 per wave', speed: '48', traits: 'Ooze Bite · lingering poison · heavy shell', backstory: 'Fungal Ooze Snails spend centuries carrying entire colonies across the dungeon floor. Their glowing feelers lure hungry creatures close enough for the colony beneath the shell to feed.' },
   scorpionQueen: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Pincer Slam · Scorpio Dash · Venom Nova · Brood Summoning', backstory: 'The Scorpion Queen was the Sand Tyrant’s most feared general. She bound herself to the desert’s oldest brood and now carries an army beneath her armour.' },
 };
 const bestiaryBackstories = {
@@ -890,6 +892,7 @@ const art = {
   sandRoller: new Image(),
   sunfeatherGriffin: new Image(),
   corruptedStag: new Image(),
+  fungalOozeSnail: new Image(),
   woodBoss: new Image(),
   woodBossOverhead: new Image(),
   woodAttack: new Image(),
@@ -1014,6 +1017,7 @@ function preloadArt() {
     sandRoller: 'assets/themes/desert-ruins/sand-roller.png',
     sunfeatherGriffin: 'assets/themes/desert-ruins/sunfeather-griffin.png',
     corruptedStag: 'assets/themes/fungal-dominion/corrupted-stag.png',
+    fungalOozeSnail: 'assets/themes/fungal-dominion/Fungal Ooze Snail.png',
     mechMinion: 'assets/themes/furnace-foundry/furnace-sentinel.png',
     woodBoss: 'assets/themes/moonwood/wood-boss.png',
     woodBossOverhead: 'assets/themes/moonwood/wood-boss-overhead.png',
@@ -1359,6 +1363,7 @@ const enemyMeleeProfiles = {
   voidSerpent: { attackName: 'Venom Bite', reach: 82, cooldown: 0.78, lunge: 72, damageScale: 1.08, poisonDuration: 3.2, poisonDps: 3.5, retreat: 0.5, color: '#a3e635', shake: 7 },
   sandRoller: { reach: 86, cooldown: 1.35, lunge: 76, damageScale: 1.3, staminaDrain: 14, retreat: 0.24, color: '#fbbf24', shake: 10 },
   corruptedStag: { reach: 90, cooldown: 0.72, lunge: 64, damageScale: 1.18, staminaDrain: 10, retreat: 0.3, color: '#84cc16', shake: 8 },
+  fungalOozeSnail: { attackName: 'Ooze Bite', reach: 76, cooldown: 1.25, lunge: 24, damageScale: 1, poisonDuration: 4, poisonDps: 2.75, retreat: 0.12, color: '#bef264', shake: 7 },
   glowBat: { reach: 76, cooldown: 0.52, lunge: 64, damageScale: 0.8, retreat: 0.52, color: '#4ade80', shake: 4 },
   frosthornRam: { attackName: 'Frosthorn Charge', reach: 90, cooldown: 1.18, lunge: 72, damageScale: 1.18, staminaDrain: 18, retreat: 0.34, color: '#dbeafe', shake: 9 },
   voidwingDrake: { reach: 102, cooldown: 0.82, lunge: 92, damageScale: 1.05, hydrationDrain: 8, retreat: 0.48, color: '#818cf8', shake: 7 },
@@ -1691,6 +1696,7 @@ function getEnemySplashArt(enemy) {
     voidSerpent: 'assets/themes/abyssal-depths/void-serpent.png',
     sandRoller: 'assets/themes/desert-ruins/sand-roller.png',
     corruptedStag: 'assets/themes/fungal-dominion/corrupted-stag.png',
+    fungalOozeSnail: 'assets/themes/fungal-dominion/Fungal Ooze Snail.png',
     shadowCat: 'assets/themes/shadow-realm/shadow-cat.png',
     shadowGator: 'assets/themes/shadow-realm/shadow-gator.png',
     mechBear: 'assets/themes/furnace-foundry/mech-bear.png',
@@ -1813,6 +1819,7 @@ function showWaveSplash() {
     voidSerpent: 'Void Serpents close the distance for a venomous bite, then coil away while the poison works.',
     sandRoller: 'Sand Rollers turn ancient armour into a crushing charge that can break a careless hero.',
     corruptedStag: 'Corrupted Stags sprint down their prey and spread the Sovereign’s invasive spores with every antler strike.',
+    fungalOozeSnail: 'Fungal Ooze Snails crawl slowly behind their shells, then leave a lingering toxin in anything that comes close.',
     shadowCat: 'Nightclaw Lynxes disappear into a Shadow Step, tearing across the arena before their prey can brace.',
     shadowGator: 'Dreadscale Gators launch their armoured bodies into a Voidjaw Lunge that tears away health and hydration.',
     mechBear: 'Brassmaw Siege Bears lock their pistons and launch an armoured charge capable of breaking stamina and formations.',
@@ -1847,7 +1854,7 @@ function showBossSplash() {
     shadowBoss: { name: 'Umbral Warden', image: 'assets/themes/shadow-realm/shadow-boss.png', warning: 'The living darkness strikes with crushing slams, sudden dashes, a void nova, swift Nightclaw Lynxes, and plated Dreadscale Gators.' },
     abyssBoss: { name: 'Abyssal Devourer', image: 'assets/themes/abyssal-depths/abyss-boss-phase-1.png', warning: 'When half its strength is drained, the Devourer tears into its second phase with faster charges and a battlefield-filling abyss nova.' },
     scorpionQueen: { name: 'Scorpion Queen', image: 'assets/themes/desert-ruins/scorpion-queen.png', warning: 'Her venom nova drains the arena, her armoured charge crushes anything ahead, and she calls Desert Scorpions from beneath the sand.' },
-    fungalBoss: { name: 'Mycelial Sovereign', image: 'assets/themes/fungal-dominion/mycelial-sovereign.png', warning: 'Its root-heavy slam breaks the ground, its hypha dash crosses the colony, Sporeburst drains strength, and wounded mycelium calls charging Corrupted Stags.' },
+    fungalBoss: { name: 'Mycelial Sovereign', image: 'assets/themes/fungal-dominion/mycelial-sovereign.png', warning: 'Its root-heavy slam breaks the ground, its hypha dash crosses the colony, Sporeburst drains strength, and wounded mycelium calls charging Stags and poisonous Ooze Snails.' },
     mechOverlord: { name: 'Furnace Overlord', image: 'assets/themes/furnace-foundry/mech-boss.png', warning: 'Its drill crushes armour, its reactor nova punishes anyone nearby, and its assembly rail deploys ranged Furnace Sentinels and Brassmaw Siege Bears.' },
     crystalBoss: { name: 'Prismatic Guardian', image: 'assets/themes/crystal-sanctum/crystal-guardian.png', warning: 'Its crystal shield powers crushing slams, Prism Dash closes distance instantly, and Crystal Eruption fills most of the arena with deadly shards.' },
     sandSnake: { name: 'Gilded Dune Serpent', image: 'assets/themes/desert-ruins/sand-snake.png', warning: 'Its ritual staff crushes the ground, Serpent Rush crosses the Sand Arena, and Scarab Storm strips away health, stamina, and food.' },
@@ -2339,6 +2346,12 @@ function createEnemy(room, index, forcedType = null) {
     base.health = 105 + state.wave * 14;
     base.damage = 17 + state.wave * 2.3;
     base.radius = 22;
+  }
+  if (type === 'fungalOozeSnail') {
+    base.speed = 48;
+    base.health = 210 + state.wave * 24;
+    base.damage = 16 + state.wave * 2.2;
+    base.radius = 30;
   }
   if (type === 'glowBat') {
     base.speed = 176; base.health = 58 + state.wave * 9; base.damage = 10 + state.wave * 1.5; base.radius = 18;
@@ -3421,7 +3434,7 @@ function updateEnemies(dt) {
           player.poisonTimer = Math.max(player.poisonTimer, meleeProfile.poisonDuration);
           player.poisonDps = Math.max(player.poisonDps, meleeProfile.poisonDps || 3);
           spawnBurst(player.x, player.y, 14, '#a3e635', 90);
-          setMessage('Serpent venom burns through your veins!', true);
+          setMessage(`${meleeProfile.attackName || 'Venom'} leaves poison burning through your veins!`, true);
         }
         if (meleeProfile && victim === player && damageLanded) {
           player.stamina = Math.max(0, player.stamina - (meleeProfile.staminaDrain || 0));
@@ -3831,19 +3844,21 @@ function summonWoodMinion(boss) {
   setMessage(`The Heartwood Horror lost ${Math.round((1 - boss.nextWoodMinionThreshold) * 100)}% health and summoned a Splinterfiend!`);
 }
 
-// Calls one fungal stag at each major health threshold.
+// Alternates fast stags and slow toxic snails at major health thresholds.
 function summonFungalStag(boss) {
   const angle = Math.random() * Math.PI * 2;
-  const health = 105 + boss.tier * 14;
-  const stag = {
-    x: clamp(boss.x + Math.cos(angle) * 145, state.bossArena.x + 22, state.bossArena.x + state.bossArena.w - 22),
-    y: clamp(boss.y + Math.sin(angle) * 145, state.bossArena.y + 22, state.bossArena.y + state.bossArena.h - 22),
-    radius: 22,
-    speed: 172,
+  const summonsSnail = boss.fungalStagsSummoned % 2 === 1;
+  const radius = summonsSnail ? 30 : 22;
+  const health = summonsSnail ? 210 + boss.tier * 24 : 105 + boss.tier * 14;
+  const summon = {
+    x: clamp(boss.x + Math.cos(angle) * 145, state.bossArena.x + radius, state.bossArena.x + state.bossArena.w - radius),
+    y: clamp(boss.y + Math.sin(angle) * 145, state.bossArena.y + radius, state.bossArena.y + state.bossArena.h - radius),
+    radius,
+    speed: summonsSnail ? 48 : 172,
     health,
     maxHealth: health,
-    damage: 17 + boss.tier * 2.3,
-    type: 'corruptedStag',
+    damage: summonsSnail ? 16 + boss.tier * 2.2 : 17 + boss.tier * 2.3,
+    type: summonsSnail ? 'fungalOozeSnail' : 'corruptedStag',
     bossMinion: true,
     cooldown: 0,
     aiTimer: 0,
@@ -3854,10 +3869,12 @@ function summonFungalStag(boss) {
     movePhase: angle,
     elite: false,
   };
-  ensureEnemyHasBestiaryEntry(stag);
-  state.enemies.push(stag);
-  spawnBurst(stag.x, stag.y, 38, '#a3e635', 185);
-  setMessage('The Mycelial Sovereign calls a Corrupted Stag from the fungal bloom!');
+  ensureEnemyHasBestiaryEntry(summon);
+  state.enemies.push(summon);
+  spawnBurst(summon.x, summon.y, summonsSnail ? 48 : 38, '#a3e635', 185);
+  setMessage(summonsSnail
+    ? 'The Mycelial Sovereign heaves a Fungal Ooze Snail from the colony!'
+    : 'The Mycelial Sovereign calls a Corrupted Stag from the fungal bloom!');
 }
 
 // Raises one of the Skeleton Warlord's health-threshold orbs.
@@ -4084,7 +4101,7 @@ function spawnBossDeathSummons(boss) {
     sandBoss: ['skeletonMinion', 'skeletonOrb'],
     scorpionQueen: ['desertScorpion'],
     woodBoss: ['woodMinion'],
-    fungalBoss: ['corruptedStag'],
+    fungalBoss: ['corruptedStag', 'fungalOozeSnail'],
     mechOverlord: ['mechMinion', 'mechBear'],
     shadowBoss: ['shadowCat', 'shadowGator'],
   }[boss.variant];
@@ -4098,6 +4115,7 @@ function spawnBossDeathSummons(boss) {
     desertScorpion: { radius: 21, speed: 126, health: 72, healthTier: 10, damage: 10, damageTier: 1.45 },
     woodMinion: { radius: 18, speed: 112, health: 65, healthTier: 9, damage: 8, damageTier: 1.3 },
     corruptedStag: { radius: 22, speed: 172, health: 105, healthTier: 14, damage: 17, damageTier: 2.3 },
+    fungalOozeSnail: { radius: 30, speed: 48, health: 210, healthTier: 24, damage: 16, damageTier: 2.2 },
     mechMinion: { radius: 23, speed: 68, health: 105, healthTier: 12, damage: 10, damageTier: 1.35 },
     mechBear: { radius: 31, speed: 62, health: 260, healthTier: 28, damage: 23, damageTier: 3 },
     shadowCat: { radius: 23, speed: 172, health: 128, healthTier: 17, damage: 17, damageTier: 2.4 },
@@ -5104,7 +5122,7 @@ function drawActorSprite({
   const frontFacingEnemyArt = [
     'crystalStalker', 'crystalMinion', 'crystalTank',
     'shadowCat', 'shadowGator', 'magmaSerpent', 'frostWraith',
-    'voidSerpent', 'sandRoller', 'corruptedStag', 'mechMinion', 'mechBear',
+    'voidSerpent', 'sandRoller', 'corruptedStag', 'fungalOozeSnail', 'mechMinion', 'mechBear',
     'iceMinion', 'glowBat', 'sunfeatherGriffin',
   ];
   const enemyArtFacesLeft = leftFacingEnemyArt.includes(variant);
@@ -5144,6 +5162,7 @@ function drawActorSprite({
     : variant === 'shadowCat' ? 118
     : variant === 'oceanHippo' ? 146
     : variant === 'shadowGator' ? 148
+    : variant === 'fungalOozeSnail' ? 138
     : variant === 'crystalStalker' ? 102
       : variant === 'crystalMinion' ? 90
       : variant === 'corruptedStag' ? 102
@@ -5167,6 +5186,7 @@ function drawActorSprite({
     : variant === 'shadowCat' ? 126
     : variant === 'oceanHippo' ? 118
     : variant === 'shadowGator' ? 116
+    : variant === 'fungalOozeSnail' ? 138
     : variant === 'crystalStalker' ? 118
       : variant === 'crystalMinion' ? 100
         : variant === 'crystalTank' ? 108
@@ -5208,7 +5228,7 @@ function drawEnemy(enemy) {
   const walkingAnimals = [
     'crawler', 'burrower', 'lushMossling', 'crystalStalker', 'lavaSpider',
     'magmaSerpent', 'skeletonSpider', 'desertScorpion', 'sandRoller',
-    'abyssSpider', 'voidSerpent', 'corruptedStag', 'crystalLion', 'crystalBobcat',
+    'abyssSpider', 'voidSerpent', 'corruptedStag', 'fungalOozeSnail', 'crystalLion', 'crystalBobcat',
     'shadowCat', 'shadowGator', 'oceanHippo', 'lavaTiger', 'mechBear', 'frosthornRam',
   ];
   const walkBob = walkingAnimals.includes(enemy.type)

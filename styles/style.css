@@ -628,6 +628,27 @@ body.attract-mode .loot-highlight {
   animation: continue-flash 0.8s steps(2, end) infinite;
 }
 
+.wave-armory-button {
+  display: block;
+  margin: 18px auto 0;
+  padding: 12px 20px;
+  border: 1px solid rgba(250, 204, 21, 0.75);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(146, 64, 14, 0.95), rgba(202, 138, 4, 0.9));
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(250, 204, 21, 0.25);
+}
+
+.wave-armory-button.hidden {
+  display: none;
+}
+
+.wave-armory-button kbd {
+  margin-right: 7px;
+}
+
 @keyframes continue-flash {
   50% { opacity: 0.2; }
 }
@@ -677,6 +698,55 @@ body.attract-mode .loot-highlight {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   animation: continue-flash 0.8s steps(2, end) infinite;
+}
+
+.menu-pantheon {
+  border: 1px solid rgba(253, 224, 71, 0.72);
+  border-radius: 10px;
+  padding: 10px 18px;
+  color: #fef3c7;
+  background: linear-gradient(135deg, rgba(120, 53, 15, 0.9), rgba(30, 41, 59, 0.94));
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.main-menu-card:not(.death-menu-card) > .menu-pantheon {
+  position: absolute;
+  right: 28px;
+  bottom: 22px;
+  z-index: 4;
+  width: 245px;
+  margin: 0;
+}
+
+.main-menu-card:not(.death-menu-card) > .menu-hero-button {
+  height: calc(100% - 88px);
+}
+
+.menu-pantheon:hover,
+.menu-pantheon:focus-visible {
+  border-color: #fef08a;
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.34);
+}
+
+.main-menu-card.death-menu-card > .menu-pantheon {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .menu-hero-button {
+    height: 210px;
+  }
+
+  .main-menu-card:not(.death-menu-card) > .menu-pantheon {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: fit-content;
+    margin: 14px auto 0;
+  }
 }
 
 #startButton.death-continue-prompt {
@@ -803,6 +873,30 @@ body.attract-mode .loot-highlight {
 .hero-name-editor {
   margin-top: 14px;
   text-align: left;
+}
+
+.movement-control-editor {
+  margin-top: 12px;
+  text-align: left;
+}
+
+.movement-control-editor label {
+  display: block;
+  margin-bottom: 5px;
+  color: #bae6fd;
+  font: 900 11px "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.movement-control-editor select {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid rgba(125, 211, 252, 0.38);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.9);
+  color: #fef3c7;
+  font-weight: 800;
 }
 
 .hero-name-editor label,

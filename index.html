@@ -14,7 +14,7 @@
     <aside class="controls-key" aria-label="Game controls">
       <div class="high-score">Leaderboard: <b id="highScoreValue">0</b> points</div>
       <strong>Controls</strong>
-      <span><kbd>WASD</kbd> Move</span>
+      <span><kbd id="activeMovementKeys">WASD</kbd> Move</span>
       <span><kbd>G</kbd> Sprint</span>
       <span><kbd>Space</kbd> Attack</span>
       <span><kbd>F</kbd> Open crate</span>
@@ -33,7 +33,6 @@
         <div class="stat"><span>Food</span><strong id="foodValue">100</strong></div>
         <div class="stat"><span>Hydration</span><strong id="hydrationValue">100</strong></div>
         <div class="stat"><span>Stamina</span><strong id="staminaValue">100</strong></div>
-        <div class="stat"><span>Bandages</span><strong id="bandageValue">0</strong></div>
       </div>
       <div class="hud-right">
         <div class="stat enemy-stat"><span>Enemies Left in Wave</span><strong id="enemyValue">0</strong></div>
@@ -41,6 +40,8 @@
         <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
         <div class="stat"><span>Scouts</span><strong id="openerValue">0</strong></div>
         <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
+        <div class="stat"><span>Bandages</span><strong id="bandageValue">0</strong></div>
+        <div class="stat"><span>Ranged Shots</span><strong id="ammoValue">0</strong></div>
         <div class="stat theme-stat hidden"><span>Theme</span><strong id="themeValue">Forest</strong></div>
       </div>
     </div>
@@ -76,6 +77,7 @@
         <div id="waveSplashEnemies" class="wave-splash-enemies"></div>
         <p id="waveSplashText"></p>
         <div id="waveSplashWarning" class="wave-splash-warning">Stay moving. Watch the doors. Do not let them surround you.</div>
+        <button id="waveArmoryButton" class="wave-armory-button hidden" type="button"><kbd>C</kbd> Open Armory and Apply New Gear</button>
         <div class="continue-prompt">Press any key to continue</div>
       </div>
     </div>
@@ -98,15 +100,23 @@
             <button id="randomizeHeroNameButton" type="button" aria-label="Generate another hero name" title="Generate another hero name">↻</button>
           </div>
         </div>
+        <div class="movement-control-editor">
+          <label for="movementControlSelect">Movement controls</label>
+          <select id="movementControlSelect">
+            <option value="wasd" selected>WASD (Default)</option>
+            <option value="arrows">Arrow Keys</option>
+          </select>
+        </div>
         <button id="openHighScoresButton" class="menu-high-score" type="button">
           Hall of Heroes · Best Score <strong id="menuHighScoreValue">0</strong>
         </button>
         <button id="openJournalButton" class="menu-journal" type="button">Beastiary</button>
+        <button id="startPantheonButton" class="menu-pantheon" type="button">Enter the Pantheon</button>
       </div>
       <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
       <div class="controls-grid menu-controls-box">
           <strong>Controls</strong>
-          <span>WASD: Move</span>
+          <span id="menuMovementKeys">WASD: Move</span>
           <span>G: Sprint</span>
           <span>Space: Attack</span>
           <span>F: Open crate</span>

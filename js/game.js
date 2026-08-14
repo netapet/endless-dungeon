@@ -91,6 +91,9 @@ const journalCatalog = [
   { id: 'sentinel', name: 'Runebound Watcher', kind: 'Enemy', image: 'assets/themes/retro-ruins/sentinel.svg' },
   { id: 'wraith', name: 'Hollowveil', kind: 'Enemy', image: 'assets/themes/retro-ruins/wraith.svg' },
   { id: 'reaper', name: 'Dreadharvester', kind: 'Enemy', image: 'assets/themes/retro-ruins/reaper.svg' },
+  { id: 'riftHound', name: 'Rift Hound', kind: 'Enemy', image: 'assets/enemies/new/rift-hound.png' },
+  { id: 'chainHexer', name: 'Chain Hexer', kind: 'Enemy', image: 'assets/enemies/new/chain-hexer.png' },
+  { id: 'bellmawJuggernaut', name: 'Bellmaw Juggernaut', kind: 'Enemy', image: 'assets/enemies/new/bellmaw-juggernaut.png' },
   { id: 'lushMinion', name: 'Thornling', kind: 'Enemy', image: 'assets/themes/verdant-ruins/lush-minion.png' },
   { id: 'lushTank', name: 'Mossback Behemoth', kind: 'Enemy', image: 'assets/themes/verdant-ruins/lush-tank.png' },
   { id: 'lushMossling', name: 'Mossling', kind: 'Enemy', image: 'assets/themes/verdant-ruins/lush-mossling.png' },
@@ -182,6 +185,9 @@ const journalCatalog = [
   { id: 'standard', name: 'Dungeon Guardian', kind: 'Boss', image: 'assets/player/shadow boss.png' },
 ];
 const bestiaryProfiles = {
+  riftHound: { health: '58 + 10 per wave', damage: '13 + 1.9 per wave', speed: '176', traits: 'Rift Pounce / rapid pursuit / long retreat', backstory: 'Rift Hounds form where failed portals bite into dungeon stone. Every violet crack is a doorway too small for anything except hunger.' },
+  chainHexer: { health: '64 + 11 per wave', damage: '12 + 1.8 per wave', speed: '92', traits: 'Hooked Chain / ranged root / control caster', backstory: 'Chain Hexers once bound dangerous spirits. Their masks survived the ritual, but the chains learned to pull the hands that held them.' },
+  bellmawJuggernaut: { health: '142 + 18 per wave', damage: '18 + 2.7 per wave', speed: '54', traits: 'Doom Bell / circular shockwave / heavy knockback', backstory: 'Bellmaws were condemned wardens sealed around warning bells. Each step tolls for a disaster that has already arrived.' },
   reefclawCrab: { health: '176 + 20 per wave', damage: '18 + 2.5 per wave', speed: '62', traits: 'Reefcrusher Claw · heavy armour · hydration drain', backstory: 'Reefclaws carried the Sunreef Lagoon’s coral masonry until barnacles sealed their shells into living fortresses.' },
   sunscaleRay: { health: '82 + 12 per wave', damage: '14 + 2 per wave', speed: '168', traits: 'Sunflash Dive · hovering movement · quick retreat', backstory: 'Sunscale Rays gather warm light across their golden fins, then release it in a blinding dive above the lagoon.' },
   coralbackTurtle: { health: '230 + 25 per wave', damage: '22 + 3 per wave', speed: '52', traits: 'Reefbreaker Ram · extreme armour · stamina crush', backstory: 'Entire coral gardens grow on these ancient turtles. Every battle protects a living reef carried across their shells.' },
@@ -260,6 +266,9 @@ const bestiaryBackstories = {
   sentinel: 'Runebound Watchers were built to guard doors whose keys no longer exist. With their purpose forgotten, they judge every traveller to be an intruder.',
   wraith: 'Hollowveils are the last breaths of heroes who died calling for help. They drift through walls searching for companions who can no longer answer.',
   reaper: 'Dreadharvesters collect weapons from fallen challengers and sharpen them into crescent blades, believing every severed shadow strengthens the dungeon.',
+  riftHound: 'Rift Hounds form where failed portals bite into dungeon stone. Every violet crack is a doorway too small for anything except hunger.',
+  chainHexer: 'Chain Hexers once bound dangerous spirits. Their masks survived the ritual, but the chains learned to pull the hands that held them.',
+  bellmawJuggernaut: 'Bellmaws were condemned wardens sealed around warning bells. Each step tolls for a disaster that has already arrived.',
   lushMinion: 'Thornlings grew from seeds planted in battlefield graves. Their bark remembers violence, and their roots pull them toward drawn steel.',
   lushTank: 'Mossback Behemoths are ancient cave trees that folded stone around their trunks. Moss softens their armour, but every impact wakes another buried root.',
   lushMossling: 'Mosslings are curious scavengers corrupted by crystal pollen. They steal warmth with every pounce and carry it back to their nests.',
@@ -1039,6 +1048,9 @@ const art = {
   burrower: new Image(),
   arcaneOrb: new Image(),
   reaper: new Image(),
+  riftHound: new Image(),
+  chainHexer: new Image(),
+  bellmawJuggernaut: new Image(),
   lushGolem: new Image(),
   lushGolemOverhead: new Image(),
   lavaGolem: new Image(),
@@ -1157,6 +1169,7 @@ const art = {
   meltedCandleburst1: new Image(),
   meltedCandleburst2: new Image(),
   meltedCandleburst3: new Image(),
+  lateBossProjectiles: new Image(),
   meltedMeltdown1: new Image(),
   meltedMeltdown2: new Image(),
   meltedMeltdown3: new Image(),
@@ -1347,6 +1360,9 @@ function preloadArt() {
     burrower: 'assets/themes/retro-ruins/burrower.svg',
     arcaneOrb: 'assets/themes/retro-ruins/arcane-orb.svg',
     reaper: 'assets/themes/retro-ruins/reaper.svg',
+    riftHound: 'assets/enemies/new/rift-hound.png',
+    chainHexer: 'assets/enemies/new/chain-hexer.png',
+    bellmawJuggernaut: 'assets/enemies/new/bellmaw-juggernaut.png',
     lushGolem: 'assets/themes/verdant-ruins/lush-golem.png',
     lushGolemOverhead: 'assets/themes/verdant-ruins/lush-golem-overhead.png',
     lavaGolem: 'assets/themes/cinder-keep/lava-golem.png',
@@ -1508,6 +1524,7 @@ function preloadArt() {
     meltedCandleburst1: 'assets/themes/melted-monarch/melted-candleburst-1.png',
     meltedCandleburst2: 'assets/themes/melted-monarch/melted-candleburst-2.png',
     meltedCandleburst3: 'assets/themes/melted-monarch/melted-candleburst-3.png',
+    lateBossProjectiles: 'assets/effects/late-boss-projectiles.png',
     meltedMeltdown1: 'assets/themes/melted-monarch/melted-meltdown-1.png',
     meltedMeltdown2: 'assets/themes/melted-monarch/melted-meltdown-2.png',
     meltedMeltdown3: 'assets/themes/melted-monarch/melted-meltdown-3.png',
@@ -1927,6 +1944,7 @@ const baseEnemyTypes = new Set([
 // cosmetic trait label. Ranged and charge-up specialists keep their dedicated
 // handlers; these profiles drive contact reach, timing, impact, and recovery.
 const enemyMeleeProfiles = {
+  riftHound: { attackName: 'Rift Pounce', reach: 124, cooldown: 0.92, lunge: 112, lunges: true, damageScale: 1.2, staminaDrain: 15, retreat: 0.5, color: '#a855f7', shake: 9 },
   lushMinion: { attackName: 'Thorn Bite', reach: 58, cooldown: 0.72, lunge: 42, damageScale: 0.92, staminaDrain: 6, retreat: 0.34, color: '#4ade80', shake: 5 },
   lushTank: { attackName: 'Mossback Swipe', reach: 82, cooldown: 1.42, lunge: 24, damageScale: 1.32, staminaDrain: 14, retreat: 0.22, color: '#84cc16', shake: 10 },
   lushMossling: { attackName: 'Crystal Pounce', reach: 62, cooldown: 0.68, lunge: 48, lunges: true, damageScale: 0.9, staminaDrain: 10, retreat: 0.3, color: '#4ade80', shake: 5 },
@@ -2242,6 +2260,11 @@ function createRooms() {
   const columns = 4;
   const rows = Math.ceil(state.maxRooms / columns);
   const gap = 50;
+  // Grow the collision world with the generated grid. Without this, the fifth
+  // row begins below the old 2600px boundary and looks reachable while the
+  // player is clamped above its corridor (first encountered around Wave 11).
+  world.width = Math.max(4200, 140 + columns * roomWidth + (columns - 1) * gap + 140);
+  world.height = Math.max(2600, 110 + rows * roomHeight + (rows - 1) * gap + 110);
   let roomIndex = 0;
   let deliveredBossCrates = 0;
 
@@ -2338,6 +2361,12 @@ function placePlayerInFirstRoom() {
 
 // Chooses a themed splash portrait when available and an SVG fallback otherwise.
 function getEnemySplashArt(enemy) {
+  const newEnemyArt = {
+    riftHound: 'assets/enemies/new/rift-hound.png',
+    chainHexer: 'assets/enemies/new/chain-hexer.png',
+    bellmawJuggernaut: 'assets/enemies/new/bellmaw-juggernaut.png',
+  }[enemy.type];
+  if (newEnemyArt) return newEnemyArt;
   if (state.retroMode) {
     const retroFilename = enemy.type === 'arcaneOrb' ? 'arcane-orb' : enemy.type;
     return `assets/themes/retro-ruins/${retroFilename}.svg`;
@@ -2509,6 +2538,9 @@ function showWaveSplash() {
     sentinel: 'Runebound Watchers march through attacks and batter trapped victims into stone.',
     wraith: 'Hollowveils pass through solid walls to drain anyone hiding nearby.',
     reaper: 'Dreadharvesters swing for the neck and do not stop when their target falls.',
+    riftHound: 'Rift Hounds cross the room in a violet pounce, then tear away before retaliation.',
+    chainHexer: 'Chain Hexers launch hooked runes that bind the hero in place for approaching monsters.',
+    bellmawJuggernaut: 'Bellmaw Juggernauts toll their iron torsos, releasing crushing shockwaves in every direction.',
     lushMossling: 'Mosslings launch crystal pounces that drain stamina before their prey can recover.',
     lushSporeShroom: 'Spore Shrooms blanket groups in poisonous spores from beyond sword reach.',
     crystalStalker: 'Verdant Crystal Stalkers brace behind green mineral armour, then launch a Shard Lunge that fractures health and stamina.',
@@ -2913,7 +2945,7 @@ function resolveRoomCollision(entity, nextX, nextY) {
 function createEnemy(room, index, forcedType = null) {
   const easyTypes = ['walker', 'runner'];
   const mediumTypes = ['crawler', 'spitter', 'burrower', 'arcaneOrb'];
-  const hardTypes = ['brute', 'assassin', 'sentinel', 'wraith', 'reaper'];
+  const hardTypes = ['brute', 'assassin', 'sentinel', 'wraith', 'reaper', 'riftHound', 'chainHexer', 'bellmawJuggernaut'];
   const hardChance = Math.min(0.38, 0.01 + (state.wave - 1) * 0.022);
   const mediumChance = Math.min(0.34, 0.1 + (state.wave - 1) * 0.025);
   const typeRoll = Math.random();
@@ -3009,6 +3041,24 @@ function createEnemy(room, index, forcedType = null) {
     base.health = 86 + state.wave * 13;
     base.damage = 18 + state.wave * 2.5;
     base.radius = 24;
+  }
+  if (type === 'riftHound') {
+    base.speed = 176;
+    base.health = 58 + state.wave * 10;
+    base.damage = 13 + state.wave * 1.9;
+    base.radius = 20;
+  }
+  if (type === 'chainHexer') {
+    base.speed = 92;
+    base.health = 64 + state.wave * 11;
+    base.damage = 12 + state.wave * 1.8;
+    base.radius = 19;
+  }
+  if (type === 'bellmawJuggernaut') {
+    base.speed = 54;
+    base.health = 142 + state.wave * 18;
+    base.damage = 18 + state.wave * 2.7;
+    base.radius = 28;
   }
   if (type === 'waxAcolyte') {
     base.speed = 126;
@@ -3160,7 +3210,7 @@ function createEnemy(room, index, forcedType = null) {
     base.speed = 158; base.health = 92 + state.wave * 13; base.damage = 15 + state.wave * 2.1; base.radius = 21;
   }
   if (type === 'sunfeatherGriffin') {
-    base.speed = 128; base.health = 138 + state.wave * 17; base.damage = 18 + state.wave * 2.5; base.radius = 24;
+    base.speed = 145; base.health = 138 + state.wave * 17; base.damage = 18 + state.wave * 2.5; base.radius = 24;
   }
   if (type === 'starlingMarauder') {
     base.speed = 164; base.health = 62 + state.wave * 10; base.damage = 10 + state.wave * 1.6; base.radius = 18;
@@ -3427,8 +3477,15 @@ function spawnBoss(pantheonTierOverride = null) {
   const isTwentyFourthBoss = bossTier === 24;
   const isTwentyFifthBoss = bossTier === 25;
   const isTwentySixthBoss = bossTier === 26;
-  const bossHealth = 470 + bossTier * 230 + Math.max(0, bossTier - 2) * 90;
-  const bossDamage = 14 + bossTier * 5 + Math.max(0, bossTier - 2) * 1.5;
+  // Bosses 16-26 form the late-game gauntlet. Their old linear scaling was
+  // overtaken too easily by upgraded armour, weapons, and companions, so this
+  // ramp makes every step through the final eleven encounters more dangerous.
+  const lateBossProgress = clamp((bossTier - 15) / 11, 0, 1);
+  const lateBossHealthMultiplier = 1 + lateBossProgress * 1.85;
+  const lateBossDamageMultiplier = 1 + lateBossProgress * 0.8;
+  const lateBossAttackSpeedMultiplier = 1 + lateBossProgress * 0.55;
+  const bossHealth = Math.round((470 + bossTier * 230 + Math.max(0, bossTier - 2) * 90) * lateBossHealthMultiplier);
+  const bossDamage = (14 + bossTier * 5 + Math.max(0, bossTier - 2) * 1.5) * lateBossDamageMultiplier;
   state.boss = {
     x: world.width / 2,
     y: world.height / 2,
@@ -3437,6 +3494,7 @@ function spawnBoss(pantheonTierOverride = null) {
     maxHealth: bossHealth,
     damage: bossDamage,
     tier: bossTier,
+    attackSpeedMultiplier: lateBossAttackSpeedMultiplier,
     cooldown: 1.1,
     attackWindup: 0,
     attackWindupTotal: 0.38,
@@ -4116,6 +4174,23 @@ function fireRangedWeapon(weapon) {
   );
 }
 
+// Sentinels reduce attacks that arrive through the shield side. Keeping this
+// check shared makes melee, arrows, and staff blasts obey the same facing rule.
+function applySentinelBlock(target, damage, attackX, attackY) {
+  if (target.type !== 'sentinel' || target.dead) return damage;
+  const incomingX = attackX - target.x;
+  const incomingY = attackY - target.y;
+  const incomingLength = Math.hypot(incomingX, incomingY) || 1;
+  const shieldX = target.sentinelShieldDirX ?? Math.sign(target.facingX || 1);
+  const shieldY = target.sentinelShieldDirY ?? 0;
+  const frontalDot = incomingX / incomingLength * shieldX + incomingY / incomingLength * shieldY;
+  if (frontalDot < 0.35) return damage;
+  target.sentinelBlockFlash = 0.22;
+  spawnBurst(target.x + shieldX * 24, target.y + shieldY * 24, 14, '#60a5fa', 115);
+  triggerHitStop(0.025);
+  return damage * 0.22;
+}
+
 // Performs a ranged shot or one melee swing with a fixed shared damage pool.
 function tryAttack() {
   if (player.attackCooldown > 0) return;
@@ -4150,7 +4225,8 @@ function tryAttack() {
   const damagePerTarget = targets.length > 0 ? totalSwingDamage / targets.length : 0;
 
   for (const target of targets) {
-    target.health -= damagePerTarget;
+    const appliedDamage = applySentinelBlock(target, damagePerTarget, player.x, player.y);
+    target.health -= appliedDamage;
     const targetIsBoss = getActiveBosses().includes(target);
     target.hitFlash = targetIsBoss ? 0.2 : 0.18;
     target.x += player.facing.x * (targetIsBoss ? 10 : 18);
@@ -4285,6 +4361,7 @@ function updateEnemies(dt) {
     enemy.hitFlash = Math.max(0, enemy.hitFlash - dt);
     enemy.attackTimer = Math.max(0, enemy.attackTimer - dt);
     enemy.lunge = Math.max(0, enemy.lunge - dt * 5);
+    enemy.reaperSweepFlash = Math.max(0, (enemy.reaperSweepFlash || 0) - dt);
     enemy.retreatTimer = Math.max(0, (enemy.retreatTimer || 0) - dt);
     if (enemy.retreatTimer === 0) enemy.contactRebound = false;
 
@@ -4324,6 +4401,9 @@ function updateEnemies(dt) {
       if (state.boss && enemy.bossMinion) {
         enemy.x = clamp(retreatX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
         enemy.y = clamp(retreatY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
+      } else if (enemy.type === 'wraith') {
+        enemy.x = clamp(retreatX, enemy.radius, world.width - enemy.radius);
+        enemy.y = clamp(retreatY, enemy.radius, world.height - enemy.radius);
       } else {
         const safeRetreat = resolveRoomCollision(enemy, retreatX, retreatY);
         enemy.x = safeRetreat.x;
@@ -4333,7 +4413,35 @@ function updateEnemies(dt) {
       continue;
     }
 
-    const navigationTarget = getEnemyNavigationTarget(enemy);
+    const sentinelWard = enemy.type === 'sentinel'
+      ? state.enemies
+        .filter((candidate) => (
+          candidate !== enemy
+          && !candidate.dead
+          && candidate.health > 0
+          && distance(enemy, candidate) <= 220
+          && (candidate.type === 'arcaneOrb'
+            || candidate.type === 'spitter'
+            || candidate.health / candidate.maxHealth < 0.5)
+        ))
+        .sort((a, b) => (
+          a.health / a.maxHealth - b.health / b.maxHealth
+          || distance(enemy, a) - distance(enemy, b)
+        ))[0] || null
+      : null;
+    const navigationTarget = sentinelWard
+      ? (() => {
+          const threatDx = player.x - sentinelWard.x;
+          const threatDy = player.y - sentinelWard.y;
+          const threatLength = Math.hypot(threatDx, threatDy) || 1;
+          return {
+            x: sentinelWard.x + threatDx / threatLength * 54,
+            y: sentinelWard.y + threatDy / threatLength * 54,
+          };
+        })()
+      : enemy.type === 'wraith'
+        ? getEnemyPreferredTarget(enemy)
+        : getEnemyNavigationTarget(enemy);
     const preferredTarget = getEnemyPreferredTarget(enemy);
     const directlyApproachingTarget = navigationTarget === preferredTarget;
     const dx = navigationTarget.x - enemy.x;
@@ -4341,6 +4449,307 @@ function updateEnemies(dt) {
     const len = Math.hypot(dx, dy) || 1;
     const dirX = dx / len;
     const dirY = dy / len;
+
+    if (enemy.type === 'sentinel') {
+      const shieldDx = player.x - enemy.x;
+      const shieldDy = player.y - enemy.y;
+      const shieldLength = Math.hypot(shieldDx, shieldDy) || 1;
+      enemy.sentinelShieldDirX = shieldDx / shieldLength;
+      enemy.sentinelShieldDirY = shieldDy / shieldLength;
+      enemy.sentinelWard = sentinelWard;
+      enemy.sentinelBlockFlash = Math.max(0, (enemy.sentinelBlockFlash || 0) - dt);
+    }
+
+    if (enemy.type === 'bellmawJuggernaut') {
+      const bellTarget = getEnemyPreferredTarget(enemy);
+      if ((enemy.bellmawCharge || 0) > 0) {
+        enemy.bellmawCharge = Math.max(0, enemy.bellmawCharge - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.4);
+        if (enemy.bellmawCharge === 0) {
+          for (const victim of [player, ...player.protectors, ...player.openers]) {
+            if (victim.health > 0 && distance(enemy, victim) <= 225 + victim.radius) {
+              const landed = applyCombatDamage(victim, enemy.damage * 1.18, enemy);
+              if (victim === player && landed) {
+                player.stamina = Math.max(0, player.stamina - 24);
+                knockHeroAwayFrom(enemy, 64);
+              }
+            }
+          }
+          enemy.bellmawFlash = 0.3;
+          spawnBurst(enemy.x, enemy.y, 40, '#fbbf24', 220);
+          triggerHitStop(0.055);
+          state.shake = Math.max(state.shake, 15);
+        }
+        continue;
+      }
+      enemy.bellmawFlash = Math.max(0, (enemy.bellmawFlash || 0) - dt);
+      if (enemy.attackTimer <= 0 && distance(enemy, bellTarget) <= 260) {
+        enemy.attackTimer = 3.2;
+        enemy.bellmawCharge = 1.05;
+        spawnBurst(enemy.x, enemy.y, 15, '#fde68a', 70);
+        continue;
+      }
+    }
+
+    // Reapers lock a broad scythe arc during a long wind-up. The committed
+    // facing makes the sweep sidesteppable, while its recovery rewards a dodge.
+    if (enemy.type === 'reaper') {
+      const reaperTarget = enemy.reaperTarget || getEnemyPreferredTarget(enemy);
+      if ((enemy.reaperSweepWindup || 0) > 0) {
+        enemy.reaperSweepWindup = Math.max(0, enemy.reaperSweepWindup - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.45);
+        if (enemy.reaperSweepWindup === 0) {
+          const sweepDirX = enemy.reaperSweepDirX || Math.sign(enemy.facingX || 1);
+          const sweepDirY = enemy.reaperSweepDirY || 0;
+          for (const victim of [player, ...player.protectors, ...player.openers]) {
+            if (victim.health <= 0) continue;
+            const victimDx = victim.x - enemy.x;
+            const victimDy = victim.y - enemy.y;
+            const victimDistance = Math.hypot(victimDx, victimDy) || 1;
+            const forwardDot = victimDx / victimDistance * sweepDirX
+              + victimDy / victimDistance * sweepDirY;
+            if (victimDistance <= enemy.radius + victim.radius + 112 && forwardDot >= Math.cos(82 * Math.PI / 180)) {
+              const damageLanded = applyCombatDamage(victim, enemy.damage * 1.72, enemy);
+              if (victim === player && damageLanded) {
+                player.stamina = Math.max(0, player.stamina - 20);
+                knockHeroAwayFrom(enemy, 52);
+                triggerHitStop(0.065);
+              }
+              spawnBurst(victim.x, victim.y, 20, '#e879f9', 165);
+            }
+          }
+          enemy.reaperSweepFlash = 0.22;
+          enemy.reaperTarget = null;
+          enemy.retreatTimer = 0.72;
+          enemy.retreatFromX = reaperTarget.x;
+          enemy.retreatFromY = reaperTarget.y;
+          spawnBurst(
+            enemy.x + sweepDirX * 58,
+            enemy.y + sweepDirY * 58,
+            28,
+            '#d946ef',
+            185,
+          );
+          state.shake = Math.max(state.shake, 12);
+        }
+        continue;
+      }
+      const reaperDistance = distance(enemy, reaperTarget);
+      if (enemy.attackTimer <= 0 && reaperDistance <= enemy.radius + reaperTarget.radius + 125) {
+        const sweepDx = reaperTarget.x - enemy.x;
+        const sweepDy = reaperTarget.y - enemy.y;
+        const sweepLength = Math.hypot(sweepDx, sweepDy) || 1;
+        enemy.attackTimer = 2.75;
+        enemy.reaperTarget = reaperTarget;
+        enemy.reaperSweepDirX = sweepDx / sweepLength;
+        enemy.reaperSweepDirY = sweepDy / sweepLength;
+        enemy.facingX = enemy.reaperSweepDirX;
+        enemy.reaperSweepWindup = 0.88;
+        enemy.lunge = 0.3;
+        spawnBurst(enemy.x, enemy.y - 4, 12, '#a855f7', 65);
+        continue;
+      }
+    }
+
+    // Assassins briefly dissolve, cross the target's blind side, then reveal
+    // before striking. The reveal pause keeps the backstab dangerous without
+    // making its bonus damage unavoidable.
+    if (enemy.type === 'assassin') {
+      const assassinTarget = enemy.assassinTarget || getEnemyPreferredTarget(enemy);
+      if ((enemy.assassinVanishWindup || 0) > 0) {
+        enemy.assassinVanishWindup = Math.max(0, enemy.assassinVanishWindup - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.25);
+        if (enemy.assassinVanishWindup === 0) {
+          enemy.assassinVanishTimer = 0.48;
+          spawnBurst(enemy.x, enemy.y - 5, 18, '#a78bfa', 95);
+        }
+        continue;
+      }
+      if ((enemy.assassinVanishTimer || 0) > 0) {
+        enemy.assassinVanishTimer = Math.max(0, enemy.assassinVanishTimer - dt);
+        if (enemy.assassinVanishTimer === 0) {
+          const targetDx = assassinTarget.x - enemy.x;
+          const targetDy = assassinTarget.y - enemy.y;
+          const targetLength = Math.hypot(targetDx, targetDy) || 1;
+          const behindDistance = assassinTarget.radius + enemy.radius + 34;
+          const repositionX = assassinTarget.x + (targetDx / targetLength) * behindDistance;
+          const repositionY = assassinTarget.y + (targetDy / targetLength) * behindDistance;
+          const safeReposition = resolveRoomCollision(enemy, repositionX, repositionY);
+          enemy.x = safeReposition.x;
+          enemy.y = safeReposition.y;
+          enemy.facingX = assassinTarget.x - enemy.x;
+          enemy.assassinStrikeWindup = 0.34;
+          spawnBurst(enemy.x, enemy.y - 5, 22, '#c4b5fd', 115);
+        }
+        continue;
+      }
+      if ((enemy.assassinStrikeWindup || 0) > 0) {
+        enemy.assassinStrikeWindup = Math.max(0, enemy.assassinStrikeWindup - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.55);
+        if (enemy.assassinStrikeWindup === 0) {
+          const strikeDistance = distance(enemy, assassinTarget);
+          if (strikeDistance <= enemy.radius + assassinTarget.radius + 48) {
+            const damageLanded = applyCombatDamage(assassinTarget, enemy.damage * 1.65, enemy);
+            spawnBurst(assassinTarget.x, assassinTarget.y, 22, damageLanded ? '#f472b6' : '#ddd6fe', 155);
+            if (damageLanded) {
+              triggerHitStop(0.05);
+              state.shake = Math.max(state.shake, 9);
+            }
+          }
+          enemy.assassinTarget = null;
+          enemy.retreatTimer = 0.5;
+          enemy.retreatFromX = assassinTarget.x;
+          enemy.retreatFromY = assassinTarget.y;
+        }
+        continue;
+      }
+      const assassinDistance = distance(enemy, assassinTarget);
+      if (enemy.attackTimer <= 0 && assassinDistance > 105 && assassinDistance <= 390) {
+        enemy.attackTimer = 2.65;
+        enemy.assassinTarget = assassinTarget;
+        enemy.assassinVanishWindup = 0.3;
+        spawnBurst(enemy.x, enemy.y - 5, 12, '#7c3aed', 60);
+        continue;
+      }
+    }
+
+    // Burrowers sink into the floor, track their chosen target underground,
+    // and surface beside it after a warning marker has had time to expand.
+    if (enemy.type === 'burrower') {
+      const burrowTarget = enemy.burrowTarget || getEnemyPreferredTarget(enemy);
+      if ((enemy.burrowSinkTimer || 0) > 0) {
+        enemy.burrowSinkTimer = Math.max(0, enemy.burrowSinkTimer - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.35);
+        if (enemy.burrowSinkTimer === 0) {
+          enemy.burrowTravelTimer = 0.62;
+          spawnBurst(enemy.x, enemy.y + 16, 20, '#a16207', 105);
+        }
+        continue;
+      }
+      if ((enemy.burrowTravelTimer || 0) > 0) {
+        enemy.burrowTravelTimer = Math.max(0, enemy.burrowTravelTimer - dt);
+        enemy.burrowMarkerX = burrowTarget.x;
+        enemy.burrowMarkerY = burrowTarget.y;
+        if (enemy.burrowTravelTimer === 0) {
+          const approachAngle = Math.atan2(enemy.y - burrowTarget.y, enemy.x - burrowTarget.x);
+          const emergeDistance = burrowTarget.radius + enemy.radius + 26;
+          const emergeX = burrowTarget.x + Math.cos(approachAngle) * emergeDistance;
+          const emergeY = burrowTarget.y + Math.sin(approachAngle) * emergeDistance;
+          const safeEmerge = resolveRoomCollision(enemy, emergeX, emergeY);
+          enemy.x = safeEmerge.x;
+          enemy.y = safeEmerge.y;
+          enemy.burrowMarkerX = safeEmerge.x;
+          enemy.burrowMarkerY = safeEmerge.y;
+          enemy.burrowEmergeTimer = 0.52;
+          enemy.facingX = burrowTarget.x - enemy.x;
+        }
+        continue;
+      }
+      if ((enemy.burrowEmergeTimer || 0) > 0) {
+        enemy.burrowEmergeTimer = Math.max(0, enemy.burrowEmergeTimer - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.75);
+        if (enemy.burrowEmergeTimer === 0) {
+          const eruptionRadius = enemy.radius + burrowTarget.radius + 52;
+          if (distance(enemy, burrowTarget) <= eruptionRadius) {
+            const damageLanded = applyCombatDamage(burrowTarget, enemy.damage * 1.35, enemy);
+            if (burrowTarget === player && damageLanded) {
+              player.stamina = Math.max(0, player.stamina - 12);
+              knockHeroAwayFrom(enemy, 42);
+              triggerHitStop(0.045);
+            }
+          }
+          spawnBurst(enemy.x, enemy.y + 4, 30, '#d97706', 175);
+          state.shake = Math.max(state.shake, 10);
+          enemy.burrowTarget = null;
+          enemy.burrowMarkerX = null;
+          enemy.burrowMarkerY = null;
+          enemy.retreatTimer = 0.4;
+          enemy.retreatFromX = burrowTarget.x;
+          enemy.retreatFromY = burrowTarget.y;
+        }
+        continue;
+      }
+      const burrowDistance = distance(enemy, burrowTarget);
+      if (enemy.attackTimer <= 0 && burrowDistance > 115 && burrowDistance <= 410) {
+        enemy.attackTimer = 2.9;
+        enemy.burrowTarget = burrowTarget;
+        enemy.burrowMarkerX = burrowTarget.x;
+        enemy.burrowMarkerY = burrowTarget.y;
+        enemy.burrowSinkTimer = 0.42;
+        spawnBurst(enemy.x, enemy.y + 15, 14, '#92400e', 70);
+        continue;
+      }
+    }
+
+    // Brutes plant their feet, telegraph a straight-line rush, then commit to
+    // a locked charge. Missing leaves them exposed instead of letting them
+    // rotate through the player during the attack.
+    if (enemy.type === 'brute') {
+      if ((enemy.bruteChargeWindup || 0) > 0) {
+        enemy.bruteChargeWindup = Math.max(0, enemy.bruteChargeWindup - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.35);
+        if (enemy.bruteChargeWindup === 0) {
+          const chargeTarget = enemy.bruteChargeTarget || getEnemyPreferredTarget(enemy);
+          const chargeDx = chargeTarget.x - enemy.x;
+          const chargeDy = chargeTarget.y - enemy.y;
+          const chargeLength = Math.hypot(chargeDx, chargeDy) || 1;
+          enemy.bruteChargeDirX = chargeDx / chargeLength;
+          enemy.bruteChargeDirY = chargeDy / chargeLength;
+          enemy.bruteChargeRemaining = Math.min(185, chargeLength + 28);
+          enemy.bruteChargeTimer = 0.52;
+          enemy.facingX = enemy.bruteChargeDirX;
+        }
+        continue;
+      }
+      if ((enemy.bruteChargeTimer || 0) > 0) {
+        const previousTimer = enemy.bruteChargeTimer;
+        enemy.bruteChargeTimer = Math.max(0, previousTimer - dt);
+        enemy.lunge = 1;
+        const step = Math.min(
+          enemy.bruteChargeRemaining,
+          enemy.bruteChargeRemaining * Math.min(1, dt / previousTimer),
+        );
+        const safeCharge = resolveRoomCollision(
+          enemy,
+          enemy.x + enemy.bruteChargeDirX * step,
+          enemy.y + enemy.bruteChargeDirY * step,
+        );
+        enemy.x = safeCharge.x;
+        enemy.y = safeCharge.y;
+        enemy.bruteChargeRemaining = Math.max(0, enemy.bruteChargeRemaining - step);
+        const chargeTarget = enemy.bruteChargeTarget || getEnemyPreferredTarget(enemy);
+        const hitTarget = distance(enemy, chargeTarget) <= enemy.radius + chargeTarget.radius + 5;
+        if (hitTarget || enemy.bruteChargeTimer === 0 || enemy.bruteChargeRemaining === 0) {
+          if (hitTarget) {
+            const damageLanded = applyCombatDamage(chargeTarget, enemy.damage * 1.5, enemy);
+            if (chargeTarget === player && damageLanded) {
+              player.stamina = Math.max(0, player.stamina - 18);
+              knockHeroAwayFrom(enemy, 68);
+              triggerHitStop(0.06);
+            }
+            spawnBurst(chargeTarget.x, chargeTarget.y, 24, '#fb923c', 165);
+            state.shake = Math.max(state.shake, 13);
+          }
+          enemy.bruteChargeTimer = 0;
+          enemy.bruteChargeRemaining = 0;
+          enemy.bruteChargeTarget = null;
+          enemy.retreatTimer = 0.48;
+          enemy.retreatFromX = chargeTarget.x;
+          enemy.retreatFromY = chargeTarget.y;
+        }
+        continue;
+      }
+      const bruteTarget = getEnemyPreferredTarget(enemy);
+      const bruteDistance = distance(enemy, bruteTarget);
+      if (enemy.attackTimer <= 0 && bruteDistance > 90 && bruteDistance <= 330) {
+        enemy.attackTimer = 2.4;
+        enemy.bruteChargeWindup = 0.68;
+        enemy.bruteChargeTarget = bruteTarget;
+        enemy.lunge = 0.3;
+        spawnBurst(enemy.x, enemy.y, 18, '#f97316', 90);
+        continue;
+      }
+    }
 
     // Crystal Stalkers brace briefly, then cross a large gap in one armoured
     // Shard Lunge. The bright charge gives the player time to dodge.
@@ -4386,6 +4795,69 @@ function updateEnemies(dt) {
       }
     }
 
+    // The Sunfeather Griffin used to apply its entire lunge displacement in a
+    // single frame, which read as teleportation. Its Solar Talon now travels
+    // over a visible, dodgeable interval while keeping the target direction
+    // locked at take-off.
+    if (enemy.type === 'sunfeatherGriffin') {
+      const griffinTarget = getEnemyPreferredTarget(enemy);
+      if ((enemy.griffinLungeTimer || 0) > 0) {
+        const previousTimer = enemy.griffinLungeTimer;
+        enemy.griffinLungeTimer = Math.max(0, previousTimer - dt);
+        enemy.lunge = Math.max(enemy.lunge, 0.75);
+        const step = Math.min(
+          enemy.griffinLungeRemaining,
+          enemy.griffinLungeRemaining * Math.min(1, dt / previousTimer),
+        );
+        const lungeX = enemy.x + enemy.griffinLungeDirX * step;
+        const lungeY = enemy.y + enemy.griffinLungeDirY * step;
+        const safeLunge = state.boss && enemy.bossMinion
+          ? {
+              x: clamp(lungeX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius),
+              y: clamp(lungeY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius),
+            }
+          : resolveRoomCollision(enemy, lungeX, lungeY);
+        enemy.x = safeLunge.x;
+        enemy.y = safeLunge.y;
+        enemy.griffinLungeRemaining = Math.max(0, enemy.griffinLungeRemaining - step);
+        if (enemy.griffinLungeTimer === 0 || enemy.griffinLungeRemaining === 0) {
+          if (distance(enemy, griffinTarget) <= enemy.radius + griffinTarget.radius + 4) {
+            const damageLanded = applyCombatDamage(griffinTarget, enemy.damage * 1.25, enemy);
+            if (griffinTarget === player && damageLanded) {
+              player.stamina = Math.max(0, player.stamina - 12);
+              triggerHitStop(0.045);
+            }
+            spawnBurst(griffinTarget.x, griffinTarget.y, 20, '#fbbf24', 145);
+            state.shake = Math.max(state.shake, 10);
+          }
+          enemy.griffinLungeTimer = 0;
+          enemy.griffinLungeRemaining = 0;
+          enemy.retreatTimer = 0.36;
+          enemy.retreatFromX = griffinTarget.x;
+          enemy.retreatFromY = griffinTarget.y;
+        }
+        continue;
+      }
+
+      const griffinDistance = distance(enemy, griffinTarget);
+      const griffinWaveFactor = clamp(0.35 + (state.wave - 1) * 0.09, 0.35, 1.25);
+      const griffinAttackRange = enemy.radius + griffinTarget.radius + 98 * griffinWaveFactor;
+      if (enemy.attackTimer <= 0 && griffinDistance <= griffinAttackRange) {
+        const griffinDx = griffinTarget.x - enemy.x;
+        const griffinDy = griffinTarget.y - enemy.y;
+        const griffinLength = Math.hypot(griffinDx, griffinDy) || 1;
+        enemy.attackTimer = 1.3;
+        enemy.griffinLungeTimer = 0.38;
+        enemy.griffinLungeDirX = griffinDx / griffinLength;
+        enemy.griffinLungeDirY = griffinDy / griffinLength;
+        enemy.griffinLungeRemaining = Math.min(72 * griffinWaveFactor, griffinDistance);
+        enemy.facingX = enemy.griffinLungeDirX;
+        enemy.lunge = 1;
+        spawnBurst(enemy.x, enemy.y, 12, '#fde68a', 75);
+        continue;
+      }
+    }
+
     const meleeProfile = enemyMeleeProfiles[enemy.type]
       || enemyMeleeProfiles[getEnemyJournalId(enemy)]
       || null;
@@ -4398,10 +4870,14 @@ function updateEnemies(dt) {
         && getDesertEnemyVariant(enemy.type) === 'desertArcher');
     const isMagmaSerpent = enemy.type === 'magmaSerpent';
     const isMechSentinel = enemy.type === 'mechMinion';
+    const isArcaneOrb = enemy.type === 'arcaneOrb';
+    const isChainHexer = enemy.type === 'chainHexer';
     const holdingRange = (enemy.type === 'lushSporeShroom' && len < 180)
       || (isDesertArcher && len < 330)
       || (isMagmaSerpent && len < 280)
       || (isMechSentinel && len < 310)
+      || (isArcaneOrb && len < 350)
+      || (isChainHexer && len < 370)
       || (
         !meleeProfile?.lunges
         && enemy.attackTimer > 0
@@ -4418,6 +4894,17 @@ function updateEnemies(dt) {
     if (state.boss && enemy.bossMinion) {
       enemy.x = clamp(nextX, state.bossArena.x + enemy.radius, state.bossArena.x + state.bossArena.w - enemy.radius);
       enemy.y = clamp(nextY, state.bossArena.y + enemy.radius, state.bossArena.y + state.bossArena.h - enemy.radius);
+    } else if (enemy.type === 'wraith') {
+      // Wraiths ignore room and corridor collision while pursuing prey. World
+      // bounds still apply so they cannot disappear outside the generated map.
+      enemy.x = clamp(nextX, enemy.radius, world.width - enemy.radius);
+      enemy.y = clamp(nextY, enemy.radius, world.height - enemy.radius);
+      enemy.wraithPhasing = !getContainingRoom(enemy);
+      enemy.wraithTrailTimer = Math.max(0, (enemy.wraithTrailTimer || 0) - dt);
+      if (enemy.wraithPhasing && enemy.wraithTrailTimer === 0) {
+        enemy.wraithTrailTimer = 0.12;
+        spawnBurst(enemy.x, enemy.y - 8, 4, '#a78bfa', 28);
+      }
     } else {
       const safe = resolveRoomCollision(enemy, nextX, nextY);
       enemy.x = safe.x;
@@ -4451,6 +4938,56 @@ function updateEnemies(dt) {
         enemy.fireCharge = 0.55;
         enemy.lunge = 0.25;
         spawnBurst(enemy.x, enemy.y - 8, 8, '#f97316', 38);
+      }
+      continue;
+    }
+
+    // Arcane Orbs hold casting range and release a readable three-bolt hex
+    // burst instead of behaving like contact-damage melee enemies.
+    if (isArcaneOrb) {
+      if (len <= 470 && enemy.attackTimer <= 0) {
+        enemy.attackTimer = 1.75;
+        enemy.lunge = 0.65;
+        const baseAngle = Math.atan2(dirY, dirX);
+        const boltColor = world.themeIndex === 5 ? '#67e8f9' : '#c084fc';
+        for (const offset of [-0.14, 0, 0.14]) {
+          const angle = baseAngle + offset;
+          state.enemyProjectiles.push({
+            x: enemy.x + Math.cos(angle) * 24,
+            y: enemy.y + Math.sin(angle) * 24 - 6,
+            vx: Math.cos(angle) * 295,
+            vy: Math.sin(angle) * 295,
+            angle,
+            damage: enemy.damage * 0.62,
+            life: 2.1,
+            sourceType: 'arcaneOrb',
+            color: boltColor,
+          });
+        }
+        spawnBurst(enemy.x + dirX * 20, enemy.y + dirY * 20 - 6, 16, boltColor, 95);
+      }
+      continue;
+    }
+
+    // Chain Hexers hold range and fire a hooked rune that briefly roots the
+    // player, making them a control threat rather than another damage turret.
+    if (isChainHexer) {
+      if (len <= 500 && enemy.attackTimer <= 0) {
+        enemy.attackTimer = 2.15;
+        enemy.lunge = 0.55;
+        state.enemyProjectiles.push({
+          x: enemy.x + dirX * 26,
+          y: enemy.y + dirY * 26 - 7,
+          vx: dirX * 330,
+          vy: dirY * 330,
+          angle: Math.atan2(dirY, dirX),
+          damage: enemy.damage * 0.82,
+          life: 1.8,
+          sourceType: 'chainHexer',
+          color: '#60a5fa',
+          rootDuration: 0.8,
+        });
+        spawnBurst(enemy.x + dirX * 22, enemy.y + dirY * 22 - 7, 14, '#60a5fa', 90);
       }
       continue;
     }
@@ -4742,6 +5279,11 @@ function updateEnemyProjectiles(dt) {
       setMessage('The rider\'s ice staff freezes you for 4 seconds!');
       spawnBurst(player.x, player.y, 28, '#bfdbfe', 135);
     }
+    if (damageLanded && victim === player && projectile.rootDuration) {
+      player.frozenTimer = Math.max(player.frozenTimer || 0, projectile.rootDuration);
+      setMessage('Hooked chains bind your feet!');
+      spawnBurst(player.x, player.y, 20, '#60a5fa', 120);
+    }
     spawnBurst(projectile.x, projectile.y, 10, damageLanded ? (projectile.color || '#fbbf24') : '#67e8f9', 85);
     state.shake = Math.max(state.shake, 5);
     return false;
@@ -4752,7 +5294,13 @@ function updateEnemyProjectiles(dt) {
 function updatePlayerProjectiles(dt) {
   const damageTarget = (target, damage, projectile) => {
     const targetIsBoss = getActiveBosses().includes(target);
-    target.health -= damage;
+    const appliedDamage = applySentinelBlock(
+      target,
+      damage,
+      projectile.x - projectile.vx * 0.08,
+      projectile.y - projectile.vy * 0.08,
+    );
+    target.health -= appliedDamage;
     target.hitFlash = targetIsBoss ? 0.2 : 0.18;
     if (targetIsBoss && target.variant === 'lavaGolem' && target.attackWindup <= 0 && target.lungeTimer <= 0) {
       target.cooldown = Math.max(-0.1, target.cooldown - 0.08);
@@ -4810,6 +5358,7 @@ function updateProtectors(dt) {
   protector.attackCooldown = Math.max(0, protector.attackCooldown - dt);
   protector.attackPoseTimer = Math.max(0, (protector.attackPoseTimer || 0) - dt);
   protector.retreatTimer = Math.max(0, (protector.retreatTimer || 0) - dt);
+  protector.isMoving = false;
 
   const livingEnemies = state.enemies.filter((enemy) => !enemy.dead);
   const possibleTargets = livingEnemies.filter((enemy) => distance(protector, enemy) <= 850);
@@ -4833,6 +5382,8 @@ function updateProtectors(dt) {
   }
 
   if (protector.retreatTimer > 0 && protector.retreatFromX != null) {
+    protector.isMoving = true;
+    protector.walkPhase = (protector.walkPhase || 0) + dt * 8;
     const retreatDx = protector.x - protector.retreatFromX;
     const retreatDy = protector.y - protector.retreatFromY;
     const retreatDistance = Math.hypot(retreatDx, retreatDy) || 1;
@@ -4865,6 +5416,8 @@ function updateProtectors(dt) {
     : 12;
 
   if (targetDistance > stopDistance) {
+    protector.isMoving = true;
+    protector.walkPhase = (protector.walkPhase || 0) + dt * (target ? 7.5 : 9);
     const speed = player.speed * (target ? 1.15 : 1.35);
     const nextX = protector.x + (dx / targetDistance) * speed * dt;
     const nextY = protector.y + (dy / targetDistance) * speed * dt;
@@ -4921,7 +5474,7 @@ function openCrate(crate) {
 function updateOpeners(dt) {
   for (const opener of player.openers) {
     opener.openCooldown = Math.max(0, opener.openCooldown - dt);
-    opener.scurryPhase = (opener.scurryPhase || 0) + dt * (opener.isMoving ? 18 : 4);
+    opener.scurryPhase = (opener.scurryPhase || 0) + dt * (opener.isMoving ? 11 : 3);
     if ((opener.showcaseTimer || 0) > 0) {
       opener.showcaseTimer = Math.max(0, opener.showcaseTimer - dt);
       opener.isMoving = false;
@@ -5663,12 +6216,12 @@ function updateSingleBoss(dt) {
   const len = Math.hypot(dx, dy) || 1;
   const dirX = dx / len;
   const dirY = dy / len;
-  boss.movePhase += dt * 5;
+  boss.movePhase += dt * 3.5;
   boss.hitFlash = Math.max(0, boss.hitFlash - dt);
   boss.attackPulse = Math.max(0, boss.attackPulse - dt * 4);
   boss.retreatTimer = Math.max(0, (boss.retreatTimer || 0) - dt);
   boss.retreatDelay = Math.max(0, (boss.retreatDelay || 0) - dt);
-  boss.cooldown -= dt;
+  boss.cooldown -= dt * (boss.attackSpeedMultiplier || 1);
   if (boss.variant === 'dragonBoss') {
     boss.fireBreathCooldown = Math.max(0, (boss.fireBreathCooldown || 0) - dt);
   }
@@ -5811,8 +6364,9 @@ function updateSingleBoss(dt) {
         boss.fireBreathCooldown = 20;
         spawnBurst(boss.x + fireDirX * 180, boss.y + fireDirY * 180, 48, '#38bdf8', 260);
         state.shake = 18;
-      } else if (['lightningLance', 'stormArcVolley', 'forkedLightning', 'gearVolley', 'seraphClockburst', 'cogCrossfire', 'graveSeedVolley', 'graveThornCircle', 'corpsePetalBurst', 'lunarBolts', 'kitsuneStarfan', 'moonCrescentFan', 'hourglassVolley', 'eternityParadox', 'chronoSpiral'].includes(boss.attackType)) {
+      } else if (['drownedBellWave', 'lightningLance', 'stormArcVolley', 'forkedLightning', 'gearVolley', 'seraphClockburst', 'cogCrossfire', 'graveSeedVolley', 'graveThornCircle', 'corpsePetalBurst', 'lunarBolts', 'kitsuneStarfan', 'moonCrescentFan', 'hourglassVolley', 'eternityParadox', 'chronoSpiral'].includes(boss.attackType)) {
         const projectileSettings = {
+          drownedBellWave: { count: 7, spread: 0.13, speed: 345, color: '#22d3ee', scale: 0.62 },
           lightningLance: { count: 3, spread: 0.18, speed: 390, color: '#22d3ee', scale: 0.72 },
           stormArcVolley: { count: 8, radial: true, speed: 300, color: '#67e8f9', scale: 0.5 },
           forkedLightning: { count: 7, spread: 0.1, speed: 440, color: '#a5f3fc', scale: 0.44 },
@@ -5955,9 +6509,21 @@ function updateSingleBoss(dt) {
     if (Math.abs(movementX) > 3) boss.facingX = movementX;
     boss.x = clamp(boss.x + movementX * dt, state.bossArena.x + boss.radius, state.bossArena.x + state.bossArena.w - boss.radius);
     boss.y = clamp(boss.y + movementY * dt, state.bossArena.y + boss.radius, state.bossArena.y + state.bossArena.h - boss.radius);
-    if (!recovering && boss.cooldown <= 0 && len < (boss.variant === 'dragonBoss' ? 900 : 430)) {
+    const bossAttackRange = boss.tier >= 20 ? 760 : boss.variant === 'dragonBoss' ? 900 : 430;
+    if (!recovering && boss.cooldown <= 0 && len < bossAttackRange) {
       const attackRoll = Math.random();
-      if (boss.variant === 'stormglassLeviathan') {
+      const forcedLateRangedAttack = len > 320 ? {
+        meltedMonarch: 'meltedCandleburst',
+        drownedBell: 'drownedBellWave',
+        stormglassLeviathan: 'lightningLance',
+        clockworkSeraph: 'gearVolley',
+        gravebloomColossus: 'graveSeedVolley',
+        lunarKitsune: 'lunarBolts',
+        eternityWarden: 'hourglassVolley',
+      }[boss.variant] : null;
+      if (forcedLateRangedAttack) {
+        boss.attackType = forcedLateRangedAttack;
+      } else if (boss.variant === 'stormglassLeviathan') {
         boss.attackType = attackRoll < 0.19 ? 'tridentCrush' : attackRoll < 0.34 ? 'stormglassDash' : attackRoll < 0.48 ? 'lightningLance' : attackRoll < 0.61 ? 'stormArcVolley' : attackRoll < 0.72 ? 'forkedLightning' : attackRoll < 0.83 ? 'glassTempest' : attackRoll < 0.92 ? 'stormSurge' : 'shatteredTide';
       } else if (boss.variant === 'clockworkSeraph') {
         boss.attackType = attackRoll < 0.18 ? 'gearHalberd' : attackRoll < 0.33 ? 'clockworkDash' : attackRoll < 0.46 ? 'gearVolley' : attackRoll < 0.59 ? 'seraphClockburst' : attackRoll < 0.7 ? 'cogCrossfire' : attackRoll < 0.82 ? 'judgmentHour' : attackRoll < 0.92 ? 'timeLock' : 'rewindPulse';
@@ -6090,9 +6656,9 @@ function updateSingleBoss(dt) {
         boss.cooldown = boss.attackType === 'royalMeltdown' ? 4.8 : boss.attackType === 'summonWaxAcolytes' ? 3.1 : boss.attackType === 'meltedCandleburst' ? 2.05 : 1.75;
       }
       if (boss.variant === 'drownedBell') {
-        boss.attackWindupTotal = boss.attackType === 'deathKnell' ? 2.65 : boss.attackType === 'undertowDash' ? 1.08 : 1.5;
+        boss.attackWindupTotal = boss.attackType === 'deathKnell' ? 2.65 : boss.attackType === 'drownedBellWave' ? 0.95 : boss.attackType === 'undertowDash' ? 1.08 : 1.5;
         boss.attackWindup = boss.attackWindupTotal;
-        boss.cooldown = boss.attackType === 'deathKnell' ? 4.9 : boss.attackType === 'undertowDash' ? 1.85 : 1.75;
+        boss.cooldown = boss.attackType === 'deathKnell' ? 4.9 : boss.attackType === 'drownedBellWave' ? 1.9 : boss.attackType === 'undertowDash' ? 1.85 : 1.75;
       }
       if (['stormglassLeviathan', 'clockworkSeraph', 'gravebloomColossus', 'lunarKitsune', 'eternityWarden'].includes(boss.variant)) {
         const ultimateAttack = ['glassTempest', 'stormSurge', 'shatteredTide', 'judgmentHour', 'timeLock', 'rewindPulse', 'gravebloom', 'rootCage', 'tombVines', 'moonfall', 'eclipseNova', 'foxfireCircle', 'timeCollapse', 'endOfAges', 'finalSecond'].includes(boss.attackType);
@@ -6100,6 +6666,18 @@ function updateSingleBoss(dt) {
         boss.attackWindupTotal = ultimateAttack ? (boss.attackType === 'timeCollapse' || boss.attackType === 'endOfAges' ? 2.6 : 1.8) : projectileAttack ? 0.92 : boss.attackType.includes('Dash') ? 0.72 : 0.58;
         boss.attackWindup = boss.attackWindupTotal;
         boss.cooldown = ultimateAttack ? 3.8 : projectileAttack ? 1.9 : 1.35;
+      }
+      // Give illustrated boss poses enough screen time to read. Later bosses
+      // retain their aggressive cooldowns, but their wind-up frames no longer
+      // flick past in roughly half a second.
+      if (boss.tier >= 10) {
+        const animationScale = boss.tier >= 20 ? 1.3 : 1.18;
+        const slowedWindup = Math.min(
+          boss.attackWindupTotal * animationScale,
+          boss.attackWindupTotal + 0.45,
+        );
+        boss.attackWindupTotal = slowedWindup;
+        boss.attackWindup = slowedWindup;
       }
     }
   }
@@ -6862,6 +7440,7 @@ function drawActorSprite({
   wingFlap = 0,
   hitFlash = 0,
   deathProgress = 0,
+  opacity = 1,
 }) {
   const spriteKey = variant === 'hero' && state.retroMode && !state.boss
     ? 'retroHero'
@@ -6899,13 +7478,14 @@ function drawActorSprite({
 
   ctx.save();
   ctx.translate(x, y + bob);
-  ctx.globalAlpha = 1 - deathProgress;
+  ctx.globalAlpha = opacity * (1 - deathProgress);
   ctx.rotate(stride * 0.004 + deathProgress * Math.PI * 1.6);
   const enemyArtOrientation = {
     // Original and clearly side-on sprites.
     walker: 'right', runner: 'right', brute: 'right', spitter: 'right',
     assassin: 'right', crawler: 'right', sentinel: 'right', wraith: 'right',
     burrower: 'right', arcaneOrb: 'front', reaper: 'right',
+    riftHound: 'left', chainHexer: 'left', bellmawJuggernaut: 'left',
     skeletonMinion: 'left', desertArcher: 'left', desertScorpion: 'left',
     voidwingDrake: 'left', lavaTiger: 'left', crystalLion: 'left',
     crystalBobcat: 'left', sunfeatherGriffin: 'left', frosthornRam: 'left',
@@ -6957,7 +7537,10 @@ function drawActorSprite({
   if (hitFlash > 0) {
     ctx.filter = 'brightness(2.5) saturate(0)';
   }
-  const spriteWidth = ['magmaSerpent', 'voidSerpent', 'sandRoller'].includes(variant)
+  const spriteWidth = variant === 'bellmawJuggernaut' ? 136
+    : variant === 'riftHound' ? 122
+    : variant === 'chainHexer' ? 108
+    : ['magmaSerpent', 'voidSerpent', 'sandRoller'].includes(variant)
     ? 116
     : variant === 'lavaEagle' ? 150
     : ['glowBat', 'voidwingDrake', 'sunfeatherGriffin', 'frostwingDrake'].includes(variant) ? 126
@@ -6998,7 +7581,10 @@ function drawActorSprite({
     : variant === 'desertMummy' ? 94
       : variant === 'desertArcher' ? 82
         : variant === 'abyssKnight' ? 96 : variant === 'abyssJelly' ? 88 : 84;
-  const spriteHeight = ['magmaSerpent', 'voidSerpent', 'sandRoller'].includes(variant)
+  const spriteHeight = variant === 'bellmawJuggernaut' ? 132
+    : variant === 'riftHound' ? 88
+    : variant === 'chainHexer' ? 126
+    : ['magmaSerpent', 'voidSerpent', 'sandRoller'].includes(variant)
     ? 112
     : variant === 'lavaEagle' ? 120
     : ['glowBat', 'voidwingDrake'].includes(variant) ? 88
@@ -7059,40 +7645,7 @@ function drawEnemy(enemy) {
     ? 1 - Math.max(0, enemy.deathTimer) / 0.55
     : 0;
   const motion = Math.sin(enemy.movePhase || 0);
-  const flyingTypes = ['glowBat', 'voidwingDrake', 'sunfeatherGriffin', 'fungalFairyWitch', 'lavaEagle', 'frostwingDrake', 'boneRaven', 'gravewingRaven', 'prismMoth', 'sunscaleRay'];
-  const flying = flyingTypes.includes(enemy.type);
-  const wingFlap = flying ? Math.sin((enemy.movePhase || 0) * 2.8) : 0;
   const stride = motion * (enemy.type === 'crawler' || enemy.type === 'lushMossling' ? 15 : 9);
-  const floating = enemy.type === 'wraith'
-    || enemy.type === 'arcaneOrb'
-    || enemy.type === 'skeletonOrb'
-    || enemy.type === 'frostWraith'
-    || enemy.type === 'abyssJelly'
-    || enemy.type === 'tidefangEel'
-    || enemy.type === 'abyssalRazorfin'
-    || enemy.type === 'frostwingDrake'
-    || enemy.type === 'boneRaven'
-    || (world.themeIndex === 7
-      && baseEnemyTypes.has(enemy.type)
-      && getAbyssEnemyVariant(enemy.type) === 'abyssJelly');
-  const walkingAnimals = [
-    'crawler', 'burrower', 'lushMossling', 'crystalStalker', 'lavaSpider',
-    'magmaSerpent', 'skeletonSpider', 'desertScorpion', 'sandRoller',
-    'abyssSpider', 'voidSerpent', 'corruptedStag', 'fungalOozeSnail', 'crystalLion', 'crystalBobcat',
-    'shadowCat', 'shadowGator', 'oceanHippo', 'lavaTiger', 'woodJaguar', 'mechBear', 'frosthornRam',
-    'mossboundFungalWarden', 'mossboundFungalGuardian', 'waxAcolyte',
-    'cometHound',
-    'reefclawCrab', 'icefangBear',
-    'coralbackTurtle',
-  ];
-  const walkBob = walkingAnimals.includes(enemy.type)
-    ? Math.abs(motion) * 7
-    : Math.abs(motion) * 3;
-  const bob = flying
-    ? -18 + Math.sin((enemy.movePhase || 0) * 1.4) * 4
-    : floating
-    ? -14 + motion * 5
-    : walkBob - enemy.lunge * 5;
   const squashX = 1 + Math.abs(motion) * 0.07 - enemy.lunge * 0.14;
   const squashY = 1 - Math.abs(motion) * 0.06 + enemy.lunge * 0.18;
   const fastWeakTypes = ['runner', 'crawler', 'assassin', 'wraith', 'arcaneOrb'];
@@ -7143,6 +7696,18 @@ function drawEnemy(enemy) {
   if (enemy.type === 'frostwingDrake') themedVariant = 'frostwingDrake';
   if (enemy.type === 'boneRaven') themedVariant = 'boneRaven';
 
+  // Classify movement from the artwork actually being drawn. Ground enemies
+  // keep their feet planted; only winged and supernatural floaters receive a
+  // vertical offset. This also handles biome reskins such as Sunscale Rays.
+  const flyingTypes = ['glowBat', 'voidwingDrake', 'sunfeatherGriffin', 'fungalFairyWitch', 'lavaEagle', 'frostwingDrake', 'boneRaven', 'gravewingRaven', 'prismMoth', 'sunscaleRay'];
+  const floatingTypes = ['wraith', 'arcaneOrb', 'skeletonOrb', 'frostWraith', 'abyssJelly', 'tidefangEel', 'abyssalRazorfin'];
+  const flying = flyingTypes.includes(themedVariant);
+  const floating = floatingTypes.includes(themedVariant);
+  const wingFlap = flying ? Math.sin((enemy.movePhase || 0) * 2.8) : 0;
+  const bob = flying
+    ? -18 + Math.sin((enemy.movePhase || 0) * 1.4) * 4
+    : floating ? -14 + motion * 5 : 0;
+
   if (enemy.type === 'magmaSerpent' && (enemy.fireCharge || 0) > 0) {
     const charge = 1 - enemy.fireCharge / 0.55;
     const glow = ctx.createRadialGradient(enemy.x, enemy.y - 6, 6, enemy.x, enemy.y - 6, 64);
@@ -7173,6 +7738,197 @@ function drawEnemy(enemy) {
     ctx.restore();
   }
 
+  if (enemy.type === 'brute' && (enemy.bruteChargeWindup || 0) > 0) {
+    const charge = 1 - enemy.bruteChargeWindup / 0.68;
+    const target = enemy.bruteChargeTarget || player;
+    ctx.save();
+    ctx.strokeStyle = `rgba(251, 146, 60, ${0.35 + charge * 0.55})`;
+    ctx.lineWidth = 3 + charge * 3;
+    ctx.setLineDash([12, 9]);
+    ctx.beginPath();
+    ctx.moveTo(enemy.x, enemy.y);
+    ctx.lineTo(target.x, target.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.arc(enemy.x, enemy.y + 12, 30 + charge * 12, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (enemy.type === 'assassin' && (enemy.assassinStrikeWindup || 0) > 0) {
+    const charge = 1 - enemy.assassinStrikeWindup / 0.34;
+    const target = enemy.assassinTarget || player;
+    ctx.save();
+    ctx.strokeStyle = `rgba(244, 114, 182, ${0.45 + charge * 0.5})`;
+    ctx.lineWidth = 2 + charge * 3;
+    ctx.beginPath();
+    ctx.arc(target.x, target.y, target.radius + 16 - charge * 7, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(enemy.x, enemy.y - 8);
+    ctx.lineTo(target.x, target.y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (enemy.type === 'burrower' && (
+    (enemy.burrowSinkTimer || 0) > 0
+    || (enemy.burrowTravelTimer || 0) > 0
+    || (enemy.burrowEmergeTimer || 0) > 0
+  )) {
+    const emerging = (enemy.burrowEmergeTimer || 0) > 0;
+    const markerX = emerging ? enemy.x : (enemy.burrowMarkerX ?? enemy.x);
+    const markerY = emerging ? enemy.y : (enemy.burrowMarkerY ?? enemy.y);
+    const charge = emerging ? 1 - enemy.burrowEmergeTimer / 0.52 : 0.3;
+    ctx.save();
+    ctx.fillStyle = `rgba(120, 53, 15, ${0.18 + charge * 0.24})`;
+    ctx.strokeStyle = `rgba(251, 191, 36, ${0.42 + charge * 0.5})`;
+    ctx.lineWidth = 3 + charge * 3;
+    ctx.setLineDash([7, 6]);
+    ctx.beginPath();
+    ctx.ellipse(markerX, markerY + 17, 26 + charge * 24, 11 + charge * 12, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.setLineDash([]);
+    for (let i = 0; i < 5; i += 1) {
+      const angle = i / 5 * Math.PI * 2 + charge * 2;
+      ctx.fillStyle = '#b45309';
+      ctx.fillRect(
+        markerX + Math.cos(angle) * (18 + charge * 22) - 2,
+        markerY + 14 + Math.sin(angle) * (7 + charge * 10) - 2,
+        4,
+        4,
+      );
+    }
+    ctx.restore();
+  }
+
+  if (enemy.type === 'sentinel') {
+    const shieldX = enemy.sentinelShieldDirX ?? Math.sign(enemy.facingX || 1);
+    const shieldY = enemy.sentinelShieldDirY ?? 0;
+    const shieldAngle = Math.atan2(shieldY, shieldX);
+    const blocking = (enemy.sentinelBlockFlash || 0) > 0;
+    ctx.save();
+    ctx.translate(enemy.x, enemy.y + 2);
+    ctx.rotate(shieldAngle);
+    ctx.strokeStyle = blocking ? '#bfdbfe' : 'rgba(96, 165, 250, 0.72)';
+    ctx.lineWidth = blocking ? 8 : 5;
+    ctx.shadowColor = '#60a5fa';
+    ctx.shadowBlur = blocking ? 22 : 9;
+    ctx.beginPath();
+    ctx.arc(0, 0, 34, -Math.PI * 0.43, Math.PI * 0.43);
+    ctx.stroke();
+    if (enemy.sentinelWard) {
+      ctx.strokeStyle = 'rgba(147, 197, 253, 0.3)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 6]);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(enemy.sentinelWard.x - enemy.x, enemy.sentinelWard.y - enemy.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  if (enemy.type === 'wraith') {
+    const phasePulse = 0.5 + Math.sin((enemy.movePhase || 0) * 2.2) * 0.5;
+    const trailX = enemy.facingX < 0 ? 1 : -1;
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 3; i >= 1; i -= 1) {
+      ctx.globalAlpha = (enemy.wraithPhasing ? 0.16 : 0.08) * (4 - i) / 3;
+      ctx.fillStyle = i % 2 ? '#8b5cf6' : '#67e8f9';
+      ctx.beginPath();
+      ctx.ellipse(
+        enemy.x + trailX * i * 11,
+        enemy.y - 6 + Math.sin((enemy.movePhase || 0) - i) * 4,
+        13 - i * 2,
+        19 - i * 3,
+        0,
+        0,
+        Math.PI * 2,
+      );
+      ctx.fill();
+    }
+    ctx.globalAlpha = enemy.wraithPhasing ? 0.5 + phasePulse * 0.2 : 0.24;
+    ctx.strokeStyle = '#c4b5fd';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(enemy.x, enemy.y - 5, 25 + phasePulse * 5, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (enemy.type === 'reaper' && (
+    (enemy.reaperSweepWindup || 0) > 0
+    || (enemy.reaperSweepFlash || 0) > 0
+  )) {
+    const windingUp = (enemy.reaperSweepWindup || 0) > 0;
+    const charge = windingUp ? 1 - enemy.reaperSweepWindup / 0.88 : 1;
+    const fade = windingUp ? 1 : enemy.reaperSweepFlash / 0.22;
+    const sweepAngle = Math.atan2(
+      enemy.reaperSweepDirY || 0,
+      enemy.reaperSweepDirX || Math.sign(enemy.facingX || 1),
+    );
+    const sweepRadius = enemy.radius + 112;
+    ctx.save();
+    ctx.translate(enemy.x, enemy.y);
+    ctx.rotate(sweepAngle);
+    ctx.fillStyle = `rgba(168, 85, 247, ${0.08 + charge * 0.14 * fade})`;
+    ctx.strokeStyle = windingUp
+      ? `rgba(232, 121, 249, ${0.4 + charge * 0.5})`
+      : `rgba(250, 232, 255, ${fade})`;
+    ctx.lineWidth = windingUp ? 3 + charge * 4 : 9 * fade;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, sweepRadius, -82 * Math.PI / 180, 82 * Math.PI / 180);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, 0, 42 + charge * (sweepRadius - 42), -82 * Math.PI / 180, 82 * Math.PI / 180);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (enemy.type === 'bellmawJuggernaut' && (
+    (enemy.bellmawCharge || 0) > 0
+    || (enemy.bellmawFlash || 0) > 0
+  )) {
+    const charging = (enemy.bellmawCharge || 0) > 0;
+    const charge = charging ? 1 - enemy.bellmawCharge / 1.05 : 1;
+    const fade = charging ? 1 : enemy.bellmawFlash / 0.3;
+    ctx.save();
+    ctx.translate(enemy.x, enemy.y + 10);
+    ctx.globalCompositeOperation = 'lighter';
+    for (let ring = 0; ring < 3; ring += 1) {
+      ctx.strokeStyle = `rgba(251, 191, 36, ${(0.32 + charge * 0.45 - ring * 0.08) * fade})`;
+      ctx.lineWidth = charging ? 3 + charge * 3 : 8 * fade;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 42 + charge * 183 - ring * 18, 15 + charge * 64 - ring * 6, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  const assassinOpacity = enemy.type !== 'assassin'
+    ? 1
+    : (enemy.assassinVanishTimer || 0) > 0
+      ? 0.08
+      : (enemy.assassinVanishWindup || 0) > 0
+        ? 0.25 + enemy.assassinVanishWindup / 0.3 * 0.75
+        : 1;
+  const burrowOpacity = enemy.type !== 'burrower'
+    ? 1
+    : (enemy.burrowTravelTimer || 0) > 0
+      ? 0.03
+      : (enemy.burrowSinkTimer || 0) > 0
+        ? 0.2 + enemy.burrowSinkTimer / 0.42 * 0.8
+        : (enemy.burrowEmergeTimer || 0) > 0
+          ? 0.25 + (1 - enemy.burrowEmergeTimer / 0.52) * 0.75
+          : 1;
+  const wraithOpacity = enemy.type === 'wraith' && enemy.wraithPhasing ? 0.62 : 1;
   drawActorSprite({
     x: enemy.x,
     y: enemy.y,
@@ -7195,6 +7951,7 @@ function drawEnemy(enemy) {
     wingFlap,
     hitFlash: enemy.hitFlash,
     deathProgress,
+    opacity: assassinOpacity * burrowOpacity * wraithOpacity,
   });
 }
 
@@ -7457,6 +8214,7 @@ function drawBoss(boss) {
     if (attacking) {
       let frames = null;
       if (boss.attackType === 'drownedSweep') frames = [art.drownedSweep1, art.drownedSweep2, art.drownedSweep3];
+      if (boss.attackType === 'drownedBellWave') frames = [art.drownedKnell1, art.drownedKnell2, art.drownedKnell3];
       if (boss.attackType === 'undertowDash') frames = [art.drownedCharge1, art.drownedCharge2, art.drownedCharge3];
       if (boss.attackType === 'deathKnell') frames = [art.drownedKnell1, art.drownedKnell2, art.drownedKnell3];
       const frameIndex = boss.attackWindup <= 0 ? 2 : charge < 0.43 ? 0 : charge < 0.8 ? 1 : 2;
@@ -8007,10 +8765,13 @@ function drawPlayer() {
   const isMoving = movementControlMode === 'arrows'
     ? keys.has('arrowup') || keys.has('arrowleft') || keys.has('arrowdown') || keys.has('arrowright')
     : keys.has('w') || keys.has('a') || keys.has('s') || keys.has('d');
-  const stride = isMoving ? Math.sin(performance.now() * 0.012) * 7 : 0;
+  const walkPhase = performance.now() * 0.0095;
+  const walkStep = isMoving ? Math.sin(walkPhase) : 0;
+  const stride = walkStep * 8;
   const bob = isMoving
-    ? Math.sin(performance.now() * 0.012) * 2
+    ? -Math.abs(walkStep) * 1.8
     : Math.sin(performance.now() * 0.003) * 0.2;
+  const walkCompression = isMoving ? Math.abs(walkStep) : 0;
   const teleportProgress = state.teleportTimer > 0
     ? 1 - state.teleportTimer / state.teleportDuration
     : 0;
@@ -8051,6 +8812,8 @@ function drawPlayer() {
     maxHealth: player.maxHealth,
     facingX: player.visualFacingX,
     scale: (0.55 + teleportVisibility * 0.45) * (1 - chasmPhase * 0.7),
+    squashX: 1 + walkCompression * 0.018,
+    squashY: 1 - walkCompression * 0.014,
   });
 
   const equippedWeapon = getEquippedWeapon();
@@ -8064,12 +8827,17 @@ function drawPlayer() {
     ctx.save();
     const bowLift = equippedWeapon.kind === 'bow' ? 11 : 0;
     ctx.translate(transitionX + handOffsetX, transitionY - 7 - bowLift + bob);
+    // Follow the torso's walking sway so the weapon remains attached to the
+    // hand instead of sliding independently across the animated hero.
+    ctx.rotate(stride * 0.004);
     if (equippedWeapon.kind === 'bow') {
       // During vertical movement, follow the character's remembered left/right
       // visual facing instead of defaulting the curve to one side.
       ctx.rotate(player.visualFacingX > 0 ? -Math.PI / 2 : Math.PI / 2);
     } else if (equippedWeapon.kind === 'staff') {
-      ctx.rotate(Math.atan2(player.facing.y, player.facing.x));
+      // Staff artwork is authored vertically with its crystal/head at the
+      // top (-Y). Rotate that end—not the handle—onto the firing direction.
+      ctx.rotate(Math.atan2(player.facing.y, player.facing.x) + Math.PI / 2);
     } else if (player.attackDuration > 0) {
       const attackProgress = 1 - player.attackDuration / 0.24;
       const attackAngle = Math.atan2(player.facing.y, player.facing.x);
@@ -8214,9 +8982,15 @@ function drawTeleportEffect() {
 // Draws every Protector with neutral, paw-swipe, or bite artwork.
 function drawGuardians() {
   for (const protector of player.protectors) {
+    const walking = protector.isMoving && protector.attackPoseTimer <= 0;
+    const walkStep = walking ? Math.sin(protector.walkPhase || 0) : 0;
+    const pawLift = walking ? -Math.abs(walkStep) * 2.4 : 0;
+    const bodySway = walking ? walkStep * 0.035 : 0;
+    const strideCompression = walking ? Math.abs(walkStep) : 0;
     if (state.retroMode) {
       ctx.save();
-      ctx.translate(protector.x, protector.y);
+      ctx.translate(protector.x, protector.y + pawLift);
+      ctx.rotate(bodySway);
       ctx.shadowColor = '#60a5fa';
       ctx.shadowBlur = 12;
       ctx.fillStyle = '#60a5fa';
@@ -8233,8 +9007,19 @@ function drawGuardians() {
     const attackArt = protector.attackPose === 'bite' ? art.protectorBite : art.protectorPawSwipe;
     const sprite = protector.attackPoseTimer > 0 ? attackArt : art.protector;
     ctx.save();
-    ctx.translate(protector.x, protector.y);
-    ctx.scale(protector.facingX < 0 ? 1 : -1, 1);
+    ctx.translate(protector.x, protector.y + 25);
+    ctx.fillStyle = `rgba(15, 23, 42, ${0.32 - strideCompression * 0.06})`;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 27 - strideCompression * 2, 7, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    ctx.save();
+    ctx.translate(protector.x, protector.y + pawLift);
+    ctx.rotate(bodySway);
+    ctx.scale(
+      (protector.facingX < 0 ? 1 : -1) * (1 + strideCompression * 0.018),
+      1 - strideCompression * 0.014,
+    );
     ctx.shadowColor = '#60a5fa';
     ctx.shadowBlur = 16;
     ctx.imageSmoothingEnabled = true;
@@ -8257,7 +9042,10 @@ function drawGuardians() {
 function drawOpeners() {
   for (const opener of player.openers) {
     const scurry = opener.isMoving ? Math.sin(opener.scurryPhase || 0) : 0;
-    const bob = opener.isMoving ? -Math.abs(scurry) * 5 : 0;
+    const stepAmount = opener.isMoving ? Math.abs(scurry) : 0;
+    const bob = opener.isMoving ? -stepAmount * 2.5 : 0;
+    const scurryStretchX = 1 + stepAmount * 0.035;
+    const scurryStretchY = 1 - stepAmount * 0.025;
     const showcaseProgress = opener.showcaseDuration
       ? 1 - (opener.showcaseTimer || 0) / opener.showcaseDuration
       : 1;
@@ -8269,9 +9057,19 @@ function drawOpeners() {
     const danceX = isShowcasing ? Math.sin(showcaseProgress * Math.PI * 4) * 9 : 0;
     const danceY = isShowcasing ? -Math.abs(Math.sin(showcaseProgress * Math.PI * 5)) * 5 : 0;
     ctx.save();
+    ctx.translate(opener.x, opener.y + 28);
+    ctx.fillStyle = `rgba(15, 23, 42, ${0.3 - stepAmount * 0.05})`;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 21 - stepAmount * 2, 6, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    ctx.save();
     ctx.translate(opener.x + danceX, opener.y + bob + danceY);
-    ctx.rotate(opener.isMoving ? scurry * 0.055 : 0);
-    ctx.scale((opener.facingX < 0 ? 1 : -1) * showcaseScale, showcaseScale);
+    ctx.rotate(opener.isMoving ? scurry * 0.04 : 0);
+    ctx.scale(
+      (opener.facingX < 0 ? 1 : -1) * showcaseScale * scurryStretchX,
+      showcaseScale * scurryStretchY,
+    );
     ctx.shadowBlur = 0;
     if (state.retroMode) {
       ctx.fillStyle = '#f59e0b';
@@ -8300,7 +9098,27 @@ function drawEnemyProjectiles() {
     ctx.save();
     ctx.translate(projectile.x, projectile.y);
     ctx.rotate(projectile.angle);
-    if (projectile.sourceType === 'dragonBoss'
+    if (projectile.sourceType === 'chainHexer') {
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.shadowColor = '#60a5fa';
+      ctx.shadowBlur = 18;
+      ctx.strokeStyle = '#bfdbfe';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(-24, 0);
+      for (let link = -18; link <= 8; link += 7) {
+        ctx.ellipse(link, 0, 5, 3, 0, 0, Math.PI * 2);
+      }
+      ctx.stroke();
+      ctx.fillStyle = '#60a5fa';
+      ctx.beginPath();
+      ctx.moveTo(8, -8);
+      ctx.lineTo(20, 0);
+      ctx.lineTo(8, 8);
+      ctx.lineTo(12, 0);
+      ctx.closePath();
+      ctx.fill();
+    } else if (projectile.sourceType === 'dragonBoss'
       && art.dragonRiderFreezeAttack.complete
       && art.dragonRiderFreezeAttack.naturalWidth > 0) {
       ctx.globalCompositeOperation = 'lighter';
@@ -8343,6 +9161,58 @@ function drawEnemyProjectiles() {
       ctx.fillRect(-14, -3, 28, 6);
       ctx.fillStyle = '#f97316';
       ctx.fillRect(-18, -1, 7, 2);
+    } else if (projectile.sourceType === 'arcaneOrb') {
+      const pulse = 1 + Math.sin(performance.now() * 0.018 + projectile.x * 0.02) * 0.12;
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.shadowColor = projectile.color || '#c084fc';
+      ctx.shadowBlur = 20;
+      ctx.fillStyle = projectile.color || '#c084fc';
+      ctx.globalAlpha = 0.42;
+      ctx.beginPath();
+      ctx.moveTo(-30, 0);
+      ctx.lineTo(-7, -8);
+      ctx.lineTo(-7, 8);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = '#f5d0fe';
+      ctx.fillRect(-8 * pulse, -8 * pulse, 16 * pulse, 16 * pulse);
+      ctx.strokeStyle = projectile.color || '#c084fc';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(-12 * pulse, -12 * pulse, 24 * pulse, 24 * pulse);
+    } else if (['meltedMonarch', 'drownedBell', 'stormglassLeviathan', 'clockworkSeraph', 'gravebloomColossus', 'lunarKitsune', 'eternityWarden'].includes(projectile.sourceType)
+      && art.lateBossProjectiles.complete && art.lateBossProjectiles.naturalWidth > 0) {
+      const lateBossProjectileFrame = {
+        meltedMonarch: 0,
+        drownedBell: 1,
+        stormglassLeviathan: 2,
+        clockworkSeraph: 3,
+        gravebloomColossus: 4,
+        lunarKitsune: 5,
+        eternityWarden: 6,
+      }[projectile.sourceType];
+      if (lateBossProjectileFrame !== undefined) {
+        const frameWidth = art.lateBossProjectiles.naturalWidth / 7;
+        const sourceY = art.lateBossProjectiles.naturalHeight * 0.22;
+        const sourceHeight = art.lateBossProjectiles.naturalHeight * 0.56;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowColor = projectile.color || '#fef3c7';
+        ctx.shadowBlur = 22;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(
+          art.lateBossProjectiles,
+          frameWidth * lateBossProjectileFrame,
+          sourceY,
+          frameWidth,
+          sourceHeight,
+          -54,
+          -35,
+          108,
+          70,
+        );
+      }
     } else {
       ctx.shadowColor = '#fbbf24';
       ctx.shadowBlur = 9;

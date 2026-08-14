@@ -4,102 +4,17 @@
 
 - Keep additions readable, playable, and consistent with the existing dungeon style.
 - Introduce features gradually and test each one before expanding it.
-- Before implementing a boss or major attack, ask the user to create dedicated attack artwork. Final attacks should use illustrated lightning, projectiles, shockwaves, floor marks, explosions, hazards, and impact effects—not only SVG circles or basic canvas shapes.
 - Temporary geometric telegraphs are acceptable only as clearly marked prototypes.
 - Keep source URLs, prompts, licences, and attribution records for every imported or generated asset.
+- Keep artwork creation requests in `ART TODO.md`.
 
-## Immediate priorities
+## Art dependency
 
-### Art requests
-
-1. Create a dedicated Protector character picture for gameplay and UI.
-2. Create a bloodied, battle-worn hero portrait for death and close-call victory screens.
-3. Create illustrated sword-swing frames/effects to replace the temporary white attack arc.
-   - Create sword-free male and female gameplay versions of every armour set. The current combat pictures have a sword baked into the hero's hands, so it remains visible underneath an equipped weapon and during swings.
-   - Keep the hand position, body framing, scale, anchor point, facing direction, and transparency consistent across armour sets so every separate weapon sprite can attach to the same grip point.
-4. Create modern transparent-background PNG replacements for the advanced enemies that still use SVG artwork:
-   - Assassin
-   - Burrower
-   - Wraith
-   - Reaper
-   - Arcane Orb
-   - Replace their modern gameplay sprites and before-wave portraits while preserving the existing SVGs for Retro Mode.
-5. Preserve the SVG set for Retro Mode.
-6. emerald-sword-portrait and lava-blade-portrait have a white background, instead of transparent
-7. we want a dark theme where the rooms are hardly lit, and you can only see the hero and creatures slightly by torchlight that they carry. it doesn't have to be real lighting effect, if that's out of this scope.
-8. work with themes. png to create more creatures per theme, from those small thumbnails.
-
-### Minimum combat animation artwork
-
-- Give every active figure at least two compatible gameplay frames:
-  - Neutral/recovery pose: hands or weapon lowered.
-  - Attack/impact pose: hands, claws, staff, or weapon raised or extended.
-- Keep framing, scale, anchor point, facing direction, lighting, and transparency consistent between frames so the game can swap them without visible jumping.
-- Use the two frames to create a readable strike cycle: ready, attack, then recover.
-- Give important bosses additional frames for wind-up, rage transformation, special attacks, and death where practical.
-- Keep UI portraits separate from gameplay animation frames.
-- Use consistent filenames such as `creature-id-idle.png`, `creature-id-attack.png`, and `creature-id-windup.png`.
-
-### Fixes and small improvements
-
-## Art still needed
-
-### Room backgrounds
-
-- Bloomed Hollow room.
-- Future biome rooms.
-
-Existing room art:
-
-- Verdant Ruins: `lushcave.png`
-- Sunken Shrine: `cyan room.png`
-- Cinder Keep: `lavaroom.png`
-- Moonwood: `water room.png`
-- Ice biome: `ice-room.png`
-- Skeleton biome: `skeleton-room.png`
-- Desert biome: `sand-room.png`
-- Abyss biome: `abyss-room.png`
-- Shadow biome: `shadow-room.png`
-- Crystal biome: `crystal-room.png`
-- Mech biome: `mech-room.png`
-
-### Boss arenas
-
-- Stormbound Titan arena.
-- Generic/endless boss arena.
-
-Existing arena art:
-
-- Lush Golem: `lusharena.png`
-- Lava Golem: `lavaarena.png`
-- Ocean Boss: `water arena.png`
-- Ice Boss: `icearena.png`
-- Skeleton Warlord: `skeleton-arena.png`
-- Sand Tyrant and Gilded Dune Serpent: `sand-arena.png`
-- Umbral Warden: `shadow-arena.png`
-- Abyssal Devourer: `abyss-arena.png`
-- Scorpion Queen: `scorpio-arena.png`
-- Wood Boss: `wood-arena.png`
-- Mycelial Sovereign: `fungal-arena.png`
-- Furnace Overlord: `mech-arena.png`
-- Prismatic Guardian: `crystal-arena.png`
-
-### Enemy sets
-
-- Ice Tank.
-- Wood Tank.
-- Bloomed Hollow Minion and Tank.
-- Full picture replacements for advanced enemies still using SVGs.
-
-Existing complete themed sets:
-
-- Lush Minion and Tank.
-- Lava Minion and Tank.
-- Ocean Minion and Tank.
+Artwork to create separately is tracked in `ART TODO.md`.
 
 ## Boss roadmap
 
-Implemented unique bosses:
+Implemented unique bosses (reference):
 
 1. Lush Golem
 2. Lava Golem
@@ -118,21 +33,15 @@ Implemented unique bosses:
 
 Remaining boss work:
 
-- The generic boss threat screen still uses `brute.svg`.
 - The Stormbound Titan remains a future boss concept.
 - Existing bosses still need sound identities, richer death effects, and balance passes.
 
 Every new boss requires:
 
-- Boss portrait/sprite.
-- Arena background.
-- Minion or summon where appropriate.
 - Two or three distinctive attacks.
-- Dedicated attack and telegraph artwork supplied by the user.
 - Phase change or arena hazard.
 - Threat-screen description.
 - Sound identity and musical variation.
-- Death animation.
 - Reward choice.
 - Balance pass.
 
@@ -150,16 +59,6 @@ Every new boss requires:
 - Death: the Titan floats as electricity tears free, then explodes into dark fragments.
 - Reward idea — Storm Step: a lightning dash or a chance for sword damage to chain.
 - Environmental extension: lightning flashes reveal hidden enemies in dark rooms.
-- Art request before implementation:
-  - Titan picture.
-  - Lightning Wisp picture.
-  - Tower arena.
-  - Lightning bolt and impact.
-  - Floor strike marker.
-  - Chain Lightning effect.
-  - Storm Grid texture.
-  - Electrical ground hazard.
-  - Thunder Dash trail.
 
 ## Combat and player progression
 
@@ -186,13 +85,6 @@ Every new boss requires:
 
 ## Enemy intelligence
 
-- Arcane Orb: ranged magical bursts.
-- Assassin: vanish, reposition, and backstab.
-- Burrower: tunnel and emerge near its target.
-- Sentinel: block frontal attacks and protect priority enemies.
-- Wraith: phase through walls.
-- Reaper: slow, dangerous sweeping attacks.
-- Brute: charge and heavy knockback.
 - Add formations and coordinated room entry.
 - Add ambushes from doors, corners, hidden rooms, and burrow points.
 - Let wounded or fragile enemies retreat.
@@ -233,7 +125,6 @@ Every new boss requires:
 
 ## Protectors
 
-- Add the dedicated Protector picture.
 - Show individual Protector health clearly.
 - Add commands: Follow, Aggressive, and Defensive.
 - Add different Protector classes.
@@ -253,7 +144,6 @@ Every new boss requires:
   - Make the boss shake, grow dramatically, and remain at its existing low health.
   - Increase its damage and possibly its speed, reach, knockback, or attack frequency.
   - Give the transformation a clear warning animation before the stronger attacks begin.
-  - Create dedicated enlarged boss and rage-effect artwork before implementation.
 
 ### Difficulty
 
@@ -370,7 +260,6 @@ Every new boss requires:
 
 ## Technical work
 
-- Fix long-run dungeon generation exceeding the fixed world height.
 - Add loading/progress handling for large PNG assets.
 - Compress and optimize images.
 - Add performance profiles for desktop and mobile.
@@ -388,14 +277,13 @@ Every new boss requires:
 
 ## Suggested development order
 
-1. Protector artwork and integration.
+1. Integrate the next completed art assets from `ART TODO.md`.
 2. Sword animation and improved combat feedback.
-3. Arcane Orb ranged attacks.
-4. Challenge-room rewards and visual identity.
-5. Bloomed Hollow room art and biome hazards.
-6. Key remapping and settings screen.
-7. Audio Stage 1, then the first MIDI room theme.
-8. Mobile Safari controls and layout.
-9. Run recap and first Health graph.
-10. Boss 10 ending, Endless Mode, and Retro Mode.
-11. Stormbound Titan artwork and implementation.
+3. Challenge-room rewards and visual identity.
+4. Bloomed Hollow biome hazards.
+5. Key remapping and settings screen.
+6. Audio Stage 1, then the first MIDI room theme.
+7. Mobile Safari controls and layout.
+8. Run recap and first Health graph.
+9. Boss 10 ending, Endless Mode, and Retro Mode.
+10. Stormbound Titan implementation after its art set is ready.

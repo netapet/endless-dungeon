@@ -7,5 +7,9 @@ Celestial-observatory boss theme built around The Hollow Star.
 - `hollow-star-overhead-1.png` through `hollow-star-overhead-3.png` - complete overhead staff strike
 - `hollow-star-roundhouse-1.png` through `hollow-star-roundhouse-3.png` - complete roundhouse staff sweep
 - `hollow-star-ground-slam-1.png` through `hollow-star-ground-slam-3.png` - complete celestial ground slam
+- `hollow-star-roundhouse-separated.png` - isolated transparent roundhouse sequence
+- `hollow-star-ground-slam-separated.png` - isolated transparent starfall/impact sequence
+- `hollow-star-orb-vortex-separated.png` - isolated transparent orbital-vortex sequence
 
-Planned next: attack effects, encounter logic, and bestiary entry.
+The `*-separated.png` files contain classified animation strips with the
+original montage background removed around each irregular silhouette.

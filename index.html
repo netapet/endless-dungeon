@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Endless Dungeon Prototype</title>
-    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/style.css?v=20260828-1" />
   </head>
   <body>
     <button id="fullscreenButton" class="fullscreen-button" type="button" aria-label="Enter full screen" title="Enter full screen">
@@ -21,12 +21,17 @@
       <span><kbd>E</kbd> Protector</span>
       <span><kbd>T</kbd> Scout</span>
       <span><kbd>R</kbd> Shield</span>
+      <span><kbd>V</kbd> Lucky Coin</span>
+      <span><kbd>K</kbd> Arena Key</span>
+      <span><kbd>I</kbd> Inventory</span>
       <span><kbd>L</kbd> Zoom in/out</span>
       <span><kbd>Esc</kbd> Pause</span>
       <span><kbd>Q</kbd> Bandage</span>
+      <span><kbd>P</kbd> Arena potion</span>
     </aside>
     <div class="hud-shell">
       <div class="hud-left">
+        <div id="relicTitleStat" class="stat title-stat hidden"><span>Title</span><strong>Relicwarden of the Thirteen</strong></div>
         <div class="stat"><span>Wave</span><strong id="waveValue">1</strong></div>
         <div class="stat"><span>Score</span><strong id="scoreValue">0</strong></div>
         <div class="stat"><span>Health</span><strong id="healthValue">100</strong></div>
@@ -40,7 +45,10 @@
         <div class="stat"><span>Protectors</span><strong id="protectorValue">0</strong></div>
         <div class="stat"><span>Scouts</span><strong id="openerValue">0</strong></div>
         <div class="stat"><span>Shields</span><strong id="shieldValue">0</strong></div>
+        <div class="stat hidden"><span>Lucky Coins</span><strong id="luckyCoinValue">0</strong></div>
+        <div class="stat hidden"><span>Arena Keys</span><strong id="arenaKeyValue">0</strong></div>
         <div class="stat"><span>Bandages</span><strong id="bandageValue">0</strong></div>
+        <div class="stat hidden"><span>Arena Potions</span><strong id="arenaPotionValue">0</strong></div>
         <div class="stat"><span>Ranged Shots</span><strong id="ammoValue">0</strong></div>
         <div class="stat theme-stat hidden"><span>Theme</span><strong id="themeValue">Forest</strong></div>
       </div>
@@ -48,9 +56,29 @@
 
     <div id="messageBox" class="message-box hidden"></div>
     <div id="lootHighlight" class="loot-highlight hidden"></div>
+    <aside id="inventoryPanel" class="inventory-panel hidden" aria-label="Account inventory">
+      <header><div><span>Account Inventory</span><small>Shared across every mode and hero</small></div><button id="closeInventoryButton" type="button" aria-label="Close inventory">&times;</button></header>
+      <div class="inventory-grid">
+        <div class="inventory-item inventory-potion"><i aria-hidden="true">P</i><span>Arena Potions<small>Press P to drink</small></span><strong id="inventoryPotionValue">0</strong></div>
+        <div class="inventory-item inventory-potion"><i aria-hidden="true">M</i><span>Field Medic Potions<small>Press M to heal your surviving force</small></span><strong id="inventoryMedicPotionValue">0</strong></div>
+        <div class="inventory-item inventory-coin"><i aria-hidden="true">C</i><span>Lucky Coins<small>Press V to activate</small></span><strong id="inventoryCoinValue">0</strong></div>
+        <div class="inventory-item inventory-shard"><i aria-hidden="true">S</i><span>Armor Shards<small>Repair armour in the Armory</small></span><strong id="inventoryShardValue">0</strong></div>
+        <div class="inventory-item inventory-key"><i aria-hidden="true">K</i><span>Arena Keys<small>Press K for boss trials</small></span><strong id="inventoryKeyValue">0</strong></div>
+      </div>
+      <p class="inventory-danger">The dungeon does not pause while this is open.</p>
+    </aside>
     <div id="pauseOverlay" class="overlay hidden">
       <div class="overlay-card pause-card">
         <h1>Paused</h1>
+        <div class="pause-run-summary">
+          <div><span>Wave</span><strong id="pauseWaveValue">1</strong></div>
+          <div><span>Bosses defeated</span><strong id="pauseBossValue">0</strong></div>
+          <div><span>Relics</span><strong id="pauseRelicValue">0</strong></div>
+        </div>
+        <section class="pause-bonuses">
+          <h2>Active Bonuses</h2>
+          <ul id="pauseBonusList"></ul>
+        </section>
         <p><kbd>Enter</kbd> Resume · <kbd>Esc</kbd> Quit to Main Menu</p>
         <div class="pause-actions">
           <button id="resumeGameButton" type="button">Resume</button>
@@ -70,6 +98,87 @@
         </div>
       </div>
     </div>
+    <div id="arenaTrialOverlay" class="overlay hidden">
+      <div class="overlay-card arena-trial-card">
+        <div class="challenge-kicker">Arena Key</div>
+        <h1>Choose an Empowered Rematch</h1>
+        <p>The key is consumed only when a trial begins. Trial bosses have three times their original health and damage.</p>
+        <div id="arenaTrialGrid" class="arena-trial-grid"></div>
+        <button id="closeArenaTrialButton" class="armory-close" type="button">Keep the key</button>
+      </div>
+    </div>
+    <div id="survivalArenaOverlay" class="overlay hidden">
+      <div class="overlay-card survival-arena-card">
+        <div class="challenge-kicker">Training Grounds</div>
+        <h1>Endless Arena</h1>
+        <p>The arena drafts a different formation from the Bestiary every wave. Each wave grows stronger, the cover layout changes, and Arena Bosses begin appearing after Wave 10. From Wave 5 onward, warned disasters damage everyone in the arena.</p>
+        <p><strong>Permanent hard rewards:</strong> Wave 12 Arena Elixir, Wave 20 Veteran Supplies, Wave 30 Arena Conqueror Plate, and Wave 40 two more Elixirs.</p>
+        <div id="survivalArenaEnemyGrid" class="survival-arena-enemy-grid arena-random-roster">
+          <strong>Bestiary Draft</strong>
+          <span>The arena chooses a new difficulty-appropriate enemy formation every wave.</span>
+        </div>
+        <p id="survivalArenaSelectionCount" class="survival-arena-selection-count">Enemy types are revealed when each wave begins.</p>
+        <div class="survival-arena-actions">
+          <button id="beginSurvivalArenaButton" type="button">Enter Arena</button>
+          <button id="closeSurvivalArenaButton" type="button">Return to Main Menu</button>
+        </div>
+      </div>
+    </div>
+    <div id="survivalArenaTutorialOverlay" class="overlay hidden">
+      <div class="overlay-card survival-arena-tutorial-card">
+        <div class="challenge-kicker">Arena Tutorial</div>
+        <h1 id="survivalArenaTutorialTitle">Survive Without Limit</h1>
+        <div id="survivalArenaTutorialIcon" class="survival-arena-tutorial-icon">I</div>
+        <p id="survivalArenaTutorialText"></p>
+        <div class="survival-arena-tutorial-progress"><i id="survivalArenaTutorialProgress"></i></div>
+        <p id="survivalArenaTutorialCounter" class="survival-arena-tutorial-counter"></p>
+        <div class="survival-arena-actions">
+          <button id="startSurvivalArenaNowButton" type="button">Start Arena Now</button>
+          <button id="cancelSurvivalArenaTutorialButton" type="button">Back to Arena Entry</button>
+        </div>
+      </div>
+    </div>
+    <aside id="battlegroundPanel" class="battleground-panel hidden" aria-label="Battleground command panel">
+      <header><div><span>Endless Battlegrounds</span><small id="battlegroundThemeValue">Endless Wave 1</small></div><button id="exitBattlegroundButton" type="button">Exit</button></header>
+      <div class="battleground-resources"><span>Battle Shards</span><strong id="battleShardValue">0</strong></div>
+      <div class="battleground-zoom" aria-label="Battlefield zoom controls">
+        <button id="battleZoomOutButton" type="button" title="Zoom out">−</button>
+        <span id="battleZoomValue">100%</span>
+        <button id="battleZoomInButton" type="button" title="Zoom in">+</button>
+      </div>
+      <div id="battlegroundShop" class="battleground-shop">
+        <button type="button" data-battle-unit="dog"><img src="assets/protectors/roman-dog-clean.png" alt=""><span><b>Roman Dog</b><small>3 shards</small></span></button>
+        <button type="button" data-battle-unit="swordsman"><img src="assets/protectors/roman-1-guard.png" alt=""><span><b>Swordsman</b><small>6 shards</small></span></button>
+        <button type="button" data-battle-unit="legion"><img src="assets/protectors/roman-legion.png" alt=""><span><b>Legion ×4</b><small>23 shards</small></span></button>
+        <button type="button" data-battle-unit="spearman"><img src="assets/protectors/roman-spear-clean.png" alt=""><span><b>Spearman</b><small>10 shards</small></span></button>
+        <button type="button" data-battle-unit="archer"><img src="assets/protectors/roman bow stand.png" alt=""><span><b>Bowman</b><small>12 shards</small></span></button>
+        <button type="button" data-battle-unit="cavalry"><img src="assets/protectors/roman horse 2.png" alt=""><span><b>Cavalry</b><small>28 shards</small></span></button>
+        <button type="button" data-battle-unit="tenLegion"><img src="assets/protectors/10 rpmans.png" alt=""><span><b>Ten-Roman Line</b><small>35 shards</small></span></button>
+        <button type="button" data-battle-unit="oxen"><img src="assets/protectors/romn oxen.png" alt=""><span><b>War Oxen</b><small>45 shards</small></span></button>
+        <button type="button" data-battle-unit="elephant"><img src="assets/protectors/roman elaphant.png" alt=""><span><b>War Elephant</b><small>90 shards</small></span></button>
+      </div>
+      <p id="battlegroundStatus">Stop the enemy from crossing your line.</p>
+    </aside>
+    <div id="merchantOverlay" class="overlay hidden">
+      <div class="overlay-card merchant-card">
+        <div class="merchant-intro">
+          <img class="merchant-portrait" src="assets/events/traveling-merchant.png" alt="Traveling Merchant">
+          <div>
+            <div class="challenge-kicker">Rare Encounter</div>
+            <h1>Traveling Merchant</h1>
+            <p class="merchant-greeting">“What the dungeon takes, a prepared traveler can sometimes buy back.”</p>
+            <p id="merchantResources" class="merchant-resources"></p>
+          </div>
+        </div>
+        <div class="merchant-grid">
+          <button type="button" data-trade="medicine"><strong>Field Medicine</strong><span>Trade 14 arrows for 1 bandage</span></button>
+          <button type="button" data-trade="supplies"><strong>Supply Pack</strong><span>Trade 1 bandage for +35 food and hydration</span></button>
+          <button type="button" data-trade="shards"><strong>Defender Bundle</strong><span>Trade 2 Scout Shards for 1 Protector and 1 Shield Shard</span></button>
+          <button type="button" data-trade="edge"><strong>Honed Edge</strong><span>Trade 1 Protector and 1 Shield Shard for +25% damage this wave</span></button>
+        </div>
+        <button id="closeMerchantButton" class="armory-close" type="button">Leave merchant</button>
+      </div>
+    </div>
     <div id="waveSplash" class="overlay wave-splash hidden">
       <div class="wave-splash-card">
         <div id="waveSplashKicker" class="wave-splash-kicker">Incoming Threat</div>
@@ -78,6 +187,10 @@
         <p id="waveSplashText"></p>
         <div id="waveSplashWarning" class="wave-splash-warning">Stay moving. Watch the doors. Do not let them surround you.</div>
         <button id="waveArmoryButton" class="wave-armory-button hidden" type="button"><kbd>C</kbd> Open Armory and Apply New Gear</button>
+        <div id="hardWaveActions" class="hard-wave-actions hidden">
+          <button id="normalWaveButton" type="button">Normal Wave</button>
+          <button id="hardWaveButton" class="hard-wave-button" type="button">Hard Wave <span>2x enemy stats - earn a relic</span></button>
+        </div>
         <div class="continue-prompt">Press any key to continue</div>
       </div>
     </div>
@@ -90,6 +203,7 @@
           <img id="menuHero" class="menu-hero portrait-loading" src="assets/player/armor/male-wayfarer-portrait.png" alt="Dungeon hero" />
           <span class="menu-hero-hint">Click hero to customize</span>
           <span id="gearNotification" class="gear-notification hidden" aria-label="New gear available"></span>
+          <span id="relicTitleBadge" class="relic-title-badge hidden">Relicwarden of the Thirteen</span>
         </button>
         <p id="overlayText">Explore rooms, open crates, survive waves, and defeat the boss.</p>
         <p id="heroProverb" class="hero-proverb">“A steady blade outlives a reckless heart.”</p>
@@ -111,6 +225,8 @@
           Hall of Heroes · Best Score <strong id="menuHighScoreValue">0</strong>
         </button>
         <button id="openJournalButton" class="menu-journal" type="button">Beastiary</button>
+        <button id="openSurvivalArenaButton" class="menu-arena" type="button">Enter the Endless Arena</button>
+        <button id="openBattlegroundButton" class="menu-battleground" type="button">Enter Battlegrounds</button>
         <button id="startPantheonButton" class="menu-pantheon" type="button">Enter the Pantheon</button>
       </div>
       <div id="startButton" class="menu-continue-prompt">Press any key to begin</div>
@@ -123,9 +239,12 @@
           <span>E: Protector</span>
           <span>T: Scout</span>
           <span>R: Shield</span>
+          <span>V: Lucky Coin</span>
+          <span>K: Arena Key Trial</span>
           <span>L: Zoom in/out</span>
           <span>Esc: Pause</span>
           <span>Q: Use bandage</span>
+          <span>P: Arena potion</span>
       </div>
     </div>
     <div id="godModeOverlay" class="overlay god-mode-overlay hidden">
@@ -179,15 +298,19 @@
       <div class="overlay-card armory-card">
         <div class="armory-kicker">Hero Armory</div>
         <h1>Choose Your Battle Gear</h1>
-        <p>Armor remains unlocked between runs. Select a set to wear into the dungeon.</p>
+        <p>Armor, weapons, Protector styles, durability, and Armour Shards remain saved between runs. Worn armor can be repaired here; broken armor must be reforged by defeating its source boss.</p>
         <div class="armory-levels" aria-label="Current equipment levels">
           <span>Armour Level <strong id="armoryArmorLevel">1</strong></span>
           <span>Weapon Level <strong id="armoryWeaponLevel">1</strong></span>
+          <span>Armour Shards <strong id="armoryShardCount">0</strong></span>
         </div>
         <div id="armorGrid" class="armor-grid"></div>
         <h2 class="armory-section-title">Blades</h2>
         <p>Choose which unlocked sword the hero carries into battle.</p>
         <div id="weaponGrid" class="armor-grid weapon-grid"></div>
+        <h2 class="armory-section-title">Protectors</h2>
+        <p>Choose what answers when five Protector Shards are used.</p>
+        <div id="protectorGrid" class="armor-grid protector-grid"></div>
         <button id="closeArmoryButton" class="armory-close">Return to the fire</button>
         <div id="gearPreview" class="gear-preview hidden" role="dialog" aria-modal="true" aria-labelledby="gearPreviewName">
           <div class="gear-preview-card">
@@ -199,6 +322,7 @@
               <div id="gearPreviewStats" class="gear-preview-stats"></div>
               <div class="gear-preview-actions">
                 <button id="applyGearButton" class="gear-preview-apply">Apply</button>
+                <button id="repairArmorButton" class="gear-preview-repair hidden">Use Armour Shard (+20%)</button>
                 <button id="cancelGearButton" class="gear-preview-cancel">Cancel</button>
               </div>
             </div>
@@ -225,6 +349,6 @@
     </div>
     <canvas id="gameCanvas" width="1600" height="900"></canvas>
 
-    <script src="js/game.js"></script>
+    <script src="js/game.js?v=20260830-61"></script>
   </body>
 </html>

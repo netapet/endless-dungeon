@@ -12900,6 +12900,15 @@ function drawPlayer() {
     // Keep melee artwork faithful to its Armory preview. A coloured canvas
     // shadow tints the entire downscaled blade and makes several swords look
     // like different weapons in combat.
+    const weaponGlowColors = {
+      emeraldSword: '#34d399',
+      lavaBlade: '#f97316',
+      diamondSword: '#bfdbfe',
+      frostspire: '#67e8f9',
+      worldfireCleaver: '#fb923c',
+      voidRequiem: '#c084fc',
+      sunforgedJudgment: '#facc15',
+    };
     ctx.shadowColor = equippedWeapon.kind === 'staff'
       ? '#c084fc'
       : equippedWeapon.kind === 'bow'

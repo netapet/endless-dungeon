@@ -116,7 +116,7 @@
       if (coreGameStarted) return;
       coreGameStarted = true;
       const gameScript = document.createElement('script');
-      gameScript.src = 'js/game.js?v=20260911-7';
+      gameScript.src = 'js/game.js?v=20260912-8';
       document.body.appendChild(gameScript);
     };
     const rtcScript = document.createElement('script');

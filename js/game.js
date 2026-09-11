@@ -314,25 +314,12 @@ const bestiaryProfiles = {
   stormglassLeviathan: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '68', traits: 'Trident Crush / Storm Ring / Glass Tempest', backstory: 'Lightning trapped beneath the oldest sea hardened into scales and rose carrying a trident of shattered storms.' },
   clockworkArchon: { traits: 'Chronoblade / Gear Volley / Clockburst / Time Lock / Orb Summoning', backstory: 'Built to guard the master clock beneath the citadel, the Archon concluded that mortal time was a defect requiring correction.' },
   clockworkSeraph: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '86', traits: 'Chrono Halberd / Portal Lance / Feather Barrage / Clockfall', backstory: 'Aurelius was built as the celestial clock\'s last herald. Every wingbeat advances the arena toward an appointed ending.' },
-  darkMagicSovereign: { health: 'Final-tier scaling', damage: 'Final-tier scaling', speed: '90', traits: 'Void Claw / Umbral Rift Dash / Dark Lance Volley / Eclipse Nova', backstory: 'The Sovereign consumed a forbidden star and learned to wear its gravity as armour. Every spell tears a little more of the dungeon into the void orbiting its hand.' },
-  veilbornShade: { health: '74 + 11 per wave', damage: '12 + 1.8 per wave', speed: '132', traits: 'Umbral Grasp · slowing shadow claws · floating movement', backstory: 'A robe, a crown, and a hunger are all that remain of the first explorers swallowed by the Umbral Expanse.' },
-  eclipseShrike: { health: '66 + 10 per wave', damage: '13 + 1.9 per wave', speed: '184', traits: 'Nightfall Dive · feather streaks · rapid retreat', backstory: 'Eclipse Shrikes nest where light ends. Their white feathers remember the stars; their black wings remember what consumed them.' },
-  singularityEye: { health: '102 + 14 per wave', damage: '15 + 2.1 per wave', speed: '108', traits: 'Event Horizon · radial void bolts · gravity drain', backstory: 'This living aperture watches from both sides of reality and closes only when something has been pulled through it.' },
-  nightcoilDrake: { health: '138 + 17 per wave', damage: '18 + 2.5 per wave', speed: '154', traits: 'Crescent Coil · curving charge · stamina fracture', backstory: 'Nightcoil Drakes wind their bodies around fractures in space, striking along curves that ordinary creatures cannot follow.' },
-  duskweaver: { health: '94 + 13 per wave', damage: '14 + 2 per wave', speed: '116', traits: 'Veil Hex · triple seeking bolts · brief root', backstory: 'Duskweavers stitch scraps of night into servants, spells, and eventually replacements for their own fading bodies.' },
-  voidPanther: { health: '156 + 19 per wave', damage: '20 + 2.7 per wave', speed: '176', traits: 'Rift Pounce · afterimage slashes · stamina drain', backstory: 'Void Panthers hunt the moment between a footstep and its echo, arriving before prey understands it has moved.' },
-  eclipseReaper: { health: '224 + 24 per wave', damage: '24 + 3 per wave', speed: '78', traits: 'Black Moon Harvest · wide scythe cleave · heavy impact', backstory: 'The Expanse gives its oldest shadows a blade and sends them to harvest every spark that resists the dark.' },
-  gloomfinSerpent: { health: '118 + 16 per wave', damage: '17 + 2.3 per wave', speed: '164', traits: 'Abyssal Corkscrew · venom bite · long lunge', backstory: 'Gloomfins swim through darkness as though it were deep water, leaving pale wake-feathers in the air.' },
-  starlessCourser: { health: '172 + 20 per wave', damage: '21 + 2.8 per wave', speed: '192', traits: 'Midnight Stampede · chained charge · armour break', backstory: 'No rider has ever mastered a Starless Courser. They run toward the last light in every room solely to extinguish it.' },
-  eclipseSpider: { health: '196 + 22 per wave', damage: '18 + 2.5 per wave', speed: '86', traits: 'Eventide Web · radial snare · armoured body', backstory: 'Eclipse Spiders spin gravity into silk. Their webs are visible only when trapped light struggles against them.' },
-  astralrootColossus: { health: 'Final-tier scaling', damage: 'Final-tier scaling', speed: '64', traits: 'Worldroot Fist / Leyline Charge / Astral Shard Volley / Crystal Grove Cataclysm', backstory: 'The oldest tree in the crystal forest drank from a fallen constellation. Stone became its armour, roots became its sinews, and the star caught in its heart now dreams of reclaiming the sky.' },
-  mysticalWarden: { health: 'Final-tier scaling', damage: 'Final-tier scaling', speed: '72', traits: 'Worldroot Claw / Mystic Charge / Astral Spore Volley / Enchanted Grove Cataclysm', backstory: 'The oldest guardian of the drowned grove bound moonlit fungi, spectral tides, and living roots into one towering form. Its antlers carry the lanterns of every spirit that vanished beneath the shrine.' },
   clockworkOrb: { traits: 'Cog Bolt / hovering movement / Archon summon', backstory: 'Clockwork Orbs are discarded seconds given armour and a burning core. They circle the Archon until released to hunt anything moving out of rhythm.' },
   gravebloomColossus: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '48', traits: 'Tomb Maul / Gravebloom / Cemetery Quake', backstory: 'Every root beneath the royal cemetery grew around the same forgotten guardian and taught the stones to walk.' },
   lunarKitsune: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '112', traits: 'Crescent Cut / Ninefold Mirage / Moonfall', backstory: 'Nine lifetimes of moonlit duels gathered beneath one mask, each tail remembering a different victory.' },
   eternityWarden: { health: 'Final boss scaling', damage: 'Final boss scaling', speed: '82', traits: 'Epoch Blade / Time Collapse / End of Ages', backstory: 'The final guardian stands outside the dungeon’s history. Every failed hero is already reflected in its hourglass.' },
   yinYangBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '72', traits: 'Sword overhead / roundhouse sweep / Yin Yang Nova / rare arena-wide sword slam', backstory: 'Two champions reached the heart of the balance engine from opposite paths. Neither would yield, so the arena fused them into a single guardian whose light and shadow can only move together.' },
-  octopusBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '66', traits: 'Advancing Tentacle Slam / Constriction Vortex / Abyssal Blue Ink / deep-sea sovereignty', backstory: 'An ancient leviathan of the darkest trenches learned to walk on stone as if it were sediment. Its many arms remember every creature it consumed, and its hunger recognizes in the hero a meal that might finally sate an appetite ten thousand years old.' },
+  octopusBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '66', traits: 'Tentacle Slam / Constriction Vortex / Ink Cloud / deep-sea sovereignty', backstory: 'An ancient leviathan of the darkest trenches learned to walk on stone as if it were sediment. Its many arms remember every creature it consumed, and its hunger recognizes in the hero a meal that might finally sate an appetite ten thousand years old.' },
   hollowStarBoss: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '68', traits: 'Astral overhead / orbit sweep / rare celestial ground slam', backstory: 'The last astronomer of a ruined observatory stared into an impossible eclipse until the star looked back. Its armour now charts dead constellations around a living void.' },
   inkboundArchivist: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '70', traits: 'Quill strike / ink sweep / decree slam / very rare Runaway Grimoire', backstory: 'The last keeper of the drowned archive wrote forbidden names into a living ledger. The book grew hungry, bound itself to its author, and now closes around intruders before returning to the Archivist\'s back.' },
   crimsonMarionette: { health: 'Boss-tier scaling', damage: 'Boss-tier scaling', speed: '76', traits: 'Scissor Crosscut / Scissor Pirouette / String Snare / very rare arena-wide Final Curtain', backstory: 'A discarded royal performer learned to pull her own strings. Now the empty theater obeys every turn of her control cross, and her silver shears cut short anyone who interrupts the final act.' },
@@ -615,8 +602,8 @@ const armorSets = [
   { id: 'threadmaster', name: 'Crimson Threadmaster', boss: 17, portrait: 'assets/player/armor/male-threadmaster-portrait-clean-v2.png', combat: 'assets/player/armor/male-threadmaster-combat-swordless-clean-v2.png', femalePortrait: 'assets/player/armor/female-threadmaster-portrait-clean-v2.png', femaleCombat: 'assets/player/armor/female-threadmaster-combat-swordless-clean-v2.png', defense: 38, health: 64, stamina: 24, thorns: 23 },
   { id: 'royalArmor', name: 'Crownward Regalia', boss: 20, portrait: 'assets/player/armor/male-royal-armor-portrait.png', combat: 'assets/player/armor/male-royal-armor-combat-swordless.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat-swordless.png', defense: 40, health: 70, stamina: 25, thorns: 25 },
   { id: 'voidstar', name: 'Voidstar Regalia', boss: 21, portrait: 'assets/player/armor/male-voidstar-clean-v4.png', combat: 'assets/player/armor/male-voidstar-clean-v4.png', femalePortrait: 'assets/player/armor/female-voidstar-clean-v2.png', femaleCombat: 'assets/player/armor/female-voidstar-clean-v2.png', nativeFacing: 'front', defense: 42, health: 76, stamina: 27, thorns: 26 },
-  { id: 'stormglass', name: 'Stormglass Vanguard', boss: 22, portrait: 'assets/player/armor/male-stormglass-portrait.png', combat: 'assets/player/armor/male-stormglass-combat-swordless.png', femalePortrait: 'assets/player/armor/female-stormglass-portrait.png', femaleCombat: 'assets/player/armor/female-stormglass-combat-swordless.png', defense: 44, health: 82, stamina: 29, thorns: 27 },
-  { id: 'emeraldAegis', name: 'Emeraldwing Aegis', boss: 23, portrait: 'assets/player/armor/male-emerald-aegis-menu-cutout-v3.png', combat: 'assets/player/armor/male-emerald-aegis-masculine-v2.png', femalePortrait: 'assets/player/armor/new armour 3 f.png', femaleCombat: 'assets/player/armor/new armour 3 f.png', nativeFacing: 'front', defense: 46, health: 88, stamina: 31, thorns: 28 },
+  { id: 'stormglass', name: 'Stormglass Vanguard', boss: 22, portrait: 'assets/player/armor/male-stormglass-portrait.png', combat: 'assets/player/armor/male-stormglass-combat-swordless.png', femalePortrait: 'assets/player/armor/female-stormglass-portrait.png', femaleCombat: 'assets/player/armor/female-stormglass-combat-swordless.png', nativeFacing: 'right', defense: 44, health: 82, stamina: 29, thorns: 27 },
+  { id: 'emeraldAegis', name: 'Emeraldwing Aegis', boss: 23, portrait: 'assets/player/armor/male-emerald-aegis-menu-cutout-v3.png?v=2', combat: 'assets/player/armor/male-emerald-aegis-masculine-v2.png?v=2', femalePortrait: 'assets/player/armor/new armour 3 f.png', femaleCombat: 'assets/player/armor/new armour 3 f.png', nativeFacing: 'front', defense: 46, health: 88, stamina: 31, thorns: 28 },
   { id: 'sunspire', name: 'Sunspire Regalia', boss: 24, portrait: 'assets/player/armor/sheet-sets/male-sunspire.png', combat: 'assets/player/armor/sheet-sets/male-sunspire.png', femalePortrait: 'assets/player/armor/sheet-sets/female-sunspire.png', femaleCombat: 'assets/player/armor/sheet-sets/female-sunspire.png', nativeFacing: 'front', defense: 48, health: 94, stamina: 33, thorns: 29 },
   { id: 'worldforged', name: 'Worldforged Aegis', boss: 25, portrait: 'assets/player/armor/male-worldforged-portrait.png', combat: 'assets/player/armor/male-worldforged-combat-swordless.png', femalePortrait: 'assets/player/armor/female-dragon-plate-combat.png', femaleCombat: 'assets/player/armor/female-dragon-plate-combat-swordless.png', defense: 50, health: 100, stamina: 35, thorns: 30 },
   { id: 'frostveil', name: 'Frostveil Mantle', boss: 26, portrait: 'assets/player/armor/sheet-sets/male-frostveil.png', combat: 'assets/player/armor/sheet-sets/male-frostveil.png', femalePortrait: 'assets/player/armor/sheet-sets/female-frostveil.png', femaleCombat: 'assets/player/armor/sheet-sets/female-frostveil.png', nativeFacing: 'front', defense: 51, health: 103, stamina: 35, thorns: 30 },
@@ -632,8 +619,6 @@ const armorSets = [
 ];
 
 const weaponSets = [
-  { id: 'gladiatorsGladius', name: "Gladiator's Gladius", kind: 'melee', boss: -1, battlegroundWave: 10, portrait: 'assets/player/weapons/broad-sword.png', combat: 'assets/player/weapons/broad-sword.png', combatCrop: [318, 54, 387, 1420], combatWidth: 16, combatHeight: 66, gripY: 0.16, damage: 20, reach: 10, meleeCooldown: 0.3, championBossDamage: 1.55 },
-  { id: 'eternalConquerorSpatha', name: "Eternal Conqueror's Spatha", kind: 'melee', boss: -1, battlegroundWave: 80, portrait: 'assets/player/weapons/celestial-arsenal/silver-dawnblade.png', combat: 'assets/player/weapons/celestial-arsenal/silver-dawnblade.png', combatWidth: 25, combatHeight: 82, gripY: 0.14, damage: 205, reach: 58, meleeCooldown: 0.34, championBossDamage: 1.35 },
   { id: 'lavaBlade', name: 'Cinderfang', kind: 'melee', boss: 2, portrait: 'assets/player/weapons/lava-blade-portrait.png', combat: 'assets/player/weapons/lava-blade-combat.png', combatCrop: [277, 106, 469, 1274], combatWidth: 18, combatHeight: 80, gripY: 0.18, damage: 4, reach: 2 },
   { id: 'verdantBow', name: 'Verdant Longbow', kind: 'bow', boss: 3, portrait: 'assets/player/weapons/bow-01.png', combat: 'assets/player/weapons/bow-01.png', projectileDamage: 24, projectileSpeed: 620, cooldown: 0.7 },
   { id: 'broadSword', name: 'Oathkeeper Broadblade', kind: 'melee', boss: 4, portrait: 'assets/player/weapons/broad-sword.png', combat: 'assets/player/weapons/broad-sword.png', combatCrop: [318, 54, 387, 1420], combatWidth: 18, combatHeight: 80, gripY: 0.16, damage: 8, reach: 4 },
@@ -647,33 +632,20 @@ const weaponSets = [
   { id: 'voidBow', name: 'Voidcaller Bow', kind: 'bow', boss: 11, portrait: 'assets/player/weapons/bow-05.png', combat: 'assets/player/weapons/bow-05.png', projectileDamage: 68, projectileSpeed: 810, cooldown: 0.46 },
   { id: 'voidRequiem', name: 'Void Requiem', kind: 'melee', boss: 12, portrait: 'assets/player/weapons/void-requiem.png', combat: 'assets/player/weapons/void-requiem.png', combatCrop: [430, 106, 513, 1947], combatWidth: 20, combatHeight: 86, gripY: 0.17, damage: 54, reach: 22 },
   { id: 'sunforgedJudgment', name: 'Sunforged Judgment', kind: 'melee', boss: 14, portrait: 'assets/player/weapons/sunforged-judgment.png', combat: 'assets/player/weapons/sunforged-judgment.png', combatCrop: [468, 188, 441, 1813], combatWidth: 20, combatHeight: 84, gripY: 0.17, damage: 68, reach: 26 },
-  { id: 'emberStaff', name: 'Emberheart Staff', kind: 'staff', boss: 12, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 0, sheetFrames: 3, previewCrop: [62, 166, 244, 1270], combatCrop: [62, 166, 244, 1270], combatGripY: 0.7, projectileDamage: 86, projectileSpeed: 500, cooldown: 0.72, splashRadius: 54 },
-  { id: 'astralStaff', name: 'Astral Bloom Staff', kind: 'staff', boss: 13, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 1, sheetFrames: 3, previewCrop: [318, 180, 300, 1110], combatCrop: [318, 180, 300, 1110], combatGripY: 0.7, projectileDamage: 116, projectileSpeed: 540, cooldown: 0.64, splashRadius: 68 },
-  { id: 'worldStaff', name: 'Worldroot Staff', kind: 'staff', boss: 14, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 2, sheetFrames: 3, previewCrop: [630, 148, 340, 1192], combatCrop: [630, 148, 340, 1192], combatGripY: 0.7, projectileDamage: 152, projectileSpeed: 580, cooldown: 0.56, splashRadius: 82 },
+  { id: 'emberStaff', name: 'Emberheart Staff', kind: 'staff', boss: 12, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 0, sheetFrames: 3, projectileDamage: 86, projectileSpeed: 500, cooldown: 0.72, splashRadius: 54 },
+  { id: 'astralStaff', name: 'Astral Bloom Staff', kind: 'staff', boss: 13, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 1, sheetFrames: 3, projectileDamage: 116, projectileSpeed: 540, cooldown: 0.64, splashRadius: 68 },
+  { id: 'worldStaff', name: 'Worldroot Staff', kind: 'staff', boss: 14, sheet: 'staffs', sheetPath: 'assets/player/weapons/staff.png', sheetDirection: 'horizontal', sheetFrame: 2, sheetFrames: 3, projectileDamage: 152, projectileSpeed: 580, cooldown: 0.56, splashRadius: 82 },
   { id: 'thornsilverBlade', name: 'Thornsilver Blade', kind: 'melee', boss: 15, portrait: 'assets/player/weapons/thornsilver-blade.png', combat: 'assets/player/weapons/thornsilver-blade.png', combatCrop: [122, 1, 204, 417], combatWidth: 21, combatHeight: 80, gripX: 0.72, gripY: 0.12, combatArtRotation: -0.35, damage: 76, reach: 29 },
-  { id: 'glacierBow', name: 'Glacier Arc', kind: 'bow', boss: 16, portrait: 'assets/player/weapons/glacier-bow.png', combat: 'assets/player/weapons/glacier-bow.png', verticalBowArt: true, bowArtRotation: -Math.PI / 2, bowGripX: 0.39, bowGripY: 0.45, projectileDamage: 82, projectileSpeed: 850, cooldown: 0.44 },
-  { id: 'clockworkSpear', name: 'Clockwork Lance', kind: 'melee', boss: 17, portrait: 'assets/player/weapons/clockwork-spear.png', combat: 'assets/player/weapons/clockwork-spear.png', combatCrop: [69, 4, 230, 414], combatWidth: 24, combatHeight: 80, gripX: 0.32, gripY: 0.72, combatArtRotation: 2.45, damage: 84, reach: 34 },
-  { id: 'crimsonShear', name: 'Crimson Shear', kind: 'melee', boss: 18, portrait: 'assets/player/weapons/crimson-shear.png', combat: 'assets/player/weapons/crimson-shear.png', combatCrop: [98, 4, 215, 414], combatWidth: 22, combatHeight: 80, gripX: 0.45, gripY: 0.68, combatArtRotation: 2.50, damage: 92, reach: 31 },
+  { id: 'glacierBow', name: 'Glacier Arc', kind: 'bow', boss: 16, portrait: 'assets/player/weapons/glacier-bow.png', combat: 'assets/player/weapons/glacier-bow.png', projectileDamage: 82, projectileSpeed: 850, cooldown: 0.44 },
+  { id: 'clockworkSpear', name: 'Clockwork Lance', kind: 'melee', boss: 17, portrait: 'assets/player/weapons/clockwork-spear.png', combat: 'assets/player/weapons/clockwork-spear.png', combatCrop: [69, 4, 230, 414], combatWidth: 24, combatHeight: 80, gripX: 0.12, gripY: 0.86, combatArtRotation: 2.45, damage: 84, reach: 34 },
+  { id: 'crimsonShear', name: 'Crimson Shear', kind: 'melee', boss: 18, portrait: 'assets/player/weapons/crimson-shear.png', combat: 'assets/player/weapons/crimson-shear.png', combatCrop: [98, 4, 215, 414], combatWidth: 22, combatHeight: 80, gripX: 0.15, gripY: 0.80, combatArtRotation: 2.50, damage: 92, reach: 31 },
   { id: 'stormglassBow', name: 'Stormglass Bow', kind: 'bow', boss: 21, portrait: 'assets/player/weapons/stormglass-bow.png', combat: 'assets/player/weapons/stormglass-bow.png', verticalBowArt: true, bowArtRotation: -Math.PI / 2, bowGripX: 0.31, bowGripY: 0.42, projectileDamage: 108, projectileSpeed: 910, cooldown: 0.39 },
-  { id: 'gravebloomMaul', name: 'Gravebloom Maul', kind: 'melee', boss: 23, portrait: 'assets/player/weapons/gravebloom-maul.png', combat: 'assets/player/weapons/gravebloom-maul.png', combatCrop: [24, 7, 267, 411], combatWidth: 28, combatHeight: 80, gripX: 0.28, gripY: 0.72, combatArtRotation: 2.62, damage: 112, reach: 36 },
-  { id: 'lunarGlaive', name: 'Lunar Crescent', kind: 'melee', boss: 24, portrait: 'assets/player/weapons/lunar-glaive.png', combat: 'assets/player/weapons/lunar-glaive.png', combatCrop: [90, 0, 216, 409], combatWidth: 22, combatHeight: 80, gripX: 0.38, gripY: 0.70, combatArtRotation: 2.77, damage: 122, reach: 40 },
-  { id: 'hourglassStaff', name: 'Hourglass Scepter', kind: 'staff', boss: 25, portrait: 'assets/player/weapons/hourglass-staff.png', combat: 'assets/player/weapons/hourglass-staff.png', combatCrop: [55, 4, 245, 392], combatGripX: 0.28, combatGripY: 0.72, projectileDamage: 190, projectileSpeed: 650, cooldown: 0.46, splashRadius: 96 },
+  { id: 'gravebloomMaul', name: 'Gravebloom Maul', kind: 'melee', boss: 23, portrait: 'assets/player/weapons/gravebloom-maul-clean-v2.png', combat: 'assets/player/weapons/gravebloom-maul-clean-v2.png', combatCrop: [200, 20, 783, 1191], combatWidth: 53, combatHeight: 80, gripX: 0.28, gripY: 0.72, combatArtRotation: 2.62, damage: 112, reach: 36 },
+  { id: 'lunarGlaive', name: 'Lunar Crescent', kind: 'melee', boss: 24, portrait: 'assets/player/weapons/lunar-glaive.png', combat: 'assets/player/weapons/lunar-glaive.png', combatCrop: [90, 0, 216, 409], combatWidth: 22, combatHeight: 80, gripX: 0.18, gripY: 0.86, combatArtRotation: 2.77, damage: 122, reach: 40 },
+  { id: 'hourglassStaff', name: 'Hourglass Scepter', kind: 'staff', boss: 25, portrait: 'assets/player/weapons/hourglass-staff.png', combat: 'assets/player/weapons/hourglass-staff.png', projectileDamage: 190, projectileSpeed: 650, cooldown: 0.46, splashRadius: 96 },
   { id: 'eternityGreatsword', name: 'Eternity Greatsword', kind: 'melee', boss: 26, portrait: 'assets/player/weapons/eternity-greatsword.png', combat: 'assets/player/weapons/eternity-greatsword.png', combatCrop: [70, 0, 244, 408], combatWidth: 26, combatHeight: 82, gripX: 0.82, gripY: 0.08, combatArtRotation: -0.63, damage: 145, reach: 46 },
-  { id: 'verdantOathblade', name: 'Verdant Oathblade', kind: 'melee', boss: 23, portrait: 'assets/player/weapons/celestial-arsenal/verdant-oathblade.png', combat: 'assets/player/weapons/celestial-arsenal/verdant-oathblade.png', combatWidth: 22, combatHeight: 84, gripY: 0.14, damage: 116, reach: 38 },
-  { id: 'froststarGreatsword', name: 'Froststar Greatsword', kind: 'melee', boss: 24, portrait: 'assets/player/weapons/celestial-arsenal/froststar-greatsword-clean-v2.png', combat: 'assets/player/weapons/celestial-arsenal/froststar-greatsword-clean-v2.png', combatWidth: 22, combatHeight: 84, gripY: 0.14, damage: 124, reach: 40 },
-  { id: 'infernoRiftblade', name: 'Inferno Riftblade', kind: 'melee', boss: 25, portrait: 'assets/player/weapons/celestial-arsenal/inferno-riftblade-clean.png', combat: 'assets/player/weapons/celestial-arsenal/inferno-riftblade-clean.png', combatWidth: 23, combatHeight: 85, gripY: 0.14, damage: 132, reach: 42 },
-  { id: 'sunspireGreatsword', name: 'Sunspire Greatsword', kind: 'melee', boss: 26, portrait: 'assets/player/weapons/celestial-arsenal/sunspire-greatsword-clean-v2.png', combat: 'assets/player/weapons/celestial-arsenal/sunspire-greatsword-clean-v2.png', combatWidth: 23, combatHeight: 85, gripY: 0.14, damage: 140, reach: 44 },
-  { id: 'violetEclipseBlade', name: 'Violet Eclipse Blade', kind: 'melee', boss: 27, portrait: 'assets/player/weapons/celestial-arsenal/violet-eclipse-blade-clean.png', combat: 'assets/player/weapons/celestial-arsenal/violet-eclipse-blade-clean.png', combatWidth: 24, combatHeight: 86, gripY: 0.14, damage: 148, reach: 46 },
-  { id: 'bloodthornGreatsword', name: 'Bloodthorn Greatsword', kind: 'melee', boss: 28, portrait: 'assets/player/weapons/celestial-arsenal/bloodthorn-greatsword-clean.png', combat: 'assets/player/weapons/celestial-arsenal/bloodthorn-greatsword-clean.png', combatWidth: 24, combatHeight: 86, gripY: 0.14, damage: 156, reach: 48 },
-  { id: 'stormglassGreatsword', name: 'Stormglass Greatsword', kind: 'melee', boss: 29, portrait: 'assets/player/weapons/celestial-arsenal/stormglass-greatsword-clean-v2.png', combat: 'assets/player/weapons/celestial-arsenal/stormglass-greatsword-clean-v2.png', combatWidth: 24, combatHeight: 87, gripY: 0.14, damage: 164, reach: 50 },
-  { id: 'worldvineGreatsword', name: 'Worldvine Greatsword', kind: 'melee', boss: 30, portrait: 'assets/player/weapons/celestial-arsenal/worldvine-greatsword-clean.png', combat: 'assets/player/weapons/celestial-arsenal/worldvine-greatsword-clean.png', combatWidth: 25, combatHeight: 87, gripY: 0.14, damage: 172, reach: 52 },
-  { id: 'silverDawnblade', name: 'Silver Dawnblade', kind: 'melee', boss: 31, portrait: 'assets/player/weapons/celestial-arsenal/silver-dawnblade.png', combat: 'assets/player/weapons/celestial-arsenal/silver-dawnblade.png', combatWidth: 25, combatHeight: 88, gripY: 0.14, damage: 180, reach: 54 },
-  { id: 'voidCrownGreatsword', name: 'Void Crown Greatsword', kind: 'melee', boss: 32, portrait: 'assets/player/weapons/celestial-arsenal/void-crown-greatsword.png', combat: 'assets/player/weapons/celestial-arsenal/void-crown-greatsword.png', combatWidth: 26, combatHeight: 88, gripY: 0.14, damage: 190, reach: 56 },
-  { id: 'trialbreaker', name: 'Trialbreaker', kind: 'melee', boss: -1, trialOnly: true, portrait: 'assets/player/weapons/trialbreaker.png', combat: 'assets/player/weapons/trialbreaker.png', combatWidth: 27, combatHeight: 86, gripX: 0.82, gripY: 0.08, combatArtRotation: -0.63, damage: 0, reach: 0 },
 ];
-// The starter blade reuses the broad-sword artwork, so it must reuse that
-// artwork's crop and handle position as well. Without these values the entire
-// portrait was squeezed into combat and its handle floated away from the hand.
+
 const starterWeapon = {
   id: 'starterBlade',
   name: 'Starter Blade',
@@ -687,11 +659,12 @@ const starterWeapon = {
   damage: 0,
   reach: 0,
 };
+
 const protectorStyles = [
-  { id: 'guardian', name: 'Guardian Protector', boss: 0, preview: 'assets/protectors/guardian-wolf.png', description: 'Summons one loyal Guardian with the player’s maximum health.' },
+  { id: 'guardian', name: 'Guardian Protector', boss: 0, preview: 'assets/protectors/guardian-wolf.png', description: 'Summons one loyal Guardian with the player\'s maximum health.' },
   { id: 'romanLegion', name: 'Roman Legion', boss: 20, preview: 'assets/protectors/roman-legion.png', description: 'Legionaries merge into shield-wall ranks of up to ten, hold formation while jabbing, and block 45% damage before armour. Costs 15 shards.' },
   { id: 'romanSpearCohort', name: 'Roman Spear Cohort', boss: 23, preview: 'assets/protectors/roman-spear-clean.png', description: 'Four spear Legionaries with Roman health, damage, armour, and shield block, but twice the attack reach. Costs 18 shards.' },
-  { id: 'romanArcherCohort', name: 'Roman Legion with Bowman', boss: 25, preview: 'assets/protectors/roman bow.png', description: 'Four sword Legionaries plus one rear-line bowman whose arrows deal half the damage of the playerâ€™s equipped bow. Costs 21 shards.' },
+  { id: 'romanArcherCohort', name: 'Roman Legion with Bowman', boss: 25, preview: 'assets/protectors/roman bow.png', description: 'Four sword Legionaries plus one rear-line bowman whose arrows deal half the damage of the player\'s equipped bow. Costs 21 shards.' },
 ];
 
 let unlockedArmor = new Set(['wayfarer']);
@@ -1830,22 +1803,6 @@ const art = {
   stormglassLeviathan: new Image(),
   clockworkArchon: new Image(),
   clockworkSeraph: new Image(),
-  darkMagicSovereign: new Image(),
-  astralrootColossus: new Image(),
-  mysticalWarden: new Image(),
-  mobFireBoltEffect: new Image(),
-  mobIceShardEffect: new Image(),
-  mobWaterOrbEffect: new Image(),
-  mobNatureBoltEffect: new Image(),
-  mobShadowBoltEffect: new Image(),
-  mobHolyBoltEffect: new Image(),
-  mobArcaneBoltEffect: new Image(),
-  bossFirePillarEffect: new Image(),
-  bossIceNovaEffect: new Image(),
-  bossNatureThornsEffect: new Image(),
-  bossShadowGateEffect: new Image(),
-  bossHolyStarEffect: new Image(),
-  bossArcaneVortexEffect: new Image(),
   seraphHalberdSeparated: new Image(),
   seraphPortalSeparated: new Image(),
   seraphFeatherSeparated: new Image(),
@@ -2343,22 +2300,6 @@ function preloadArt() {
     stormglassLeviathan: 'assets/themes/stormglass-leviathan/stormglass-leviathan.png',
     clockworkArchon: 'assets/themes/clockwork-citadel/clockwork-archon.png',
     clockworkSeraph: 'assets/themes/clockwork-seraph/clockwork-seraph.png',
-    darkMagicSovereign: 'assets/themes/umbral-expanse/boss dark.png',
-    astralrootColossus: 'assets/themes/astralroot-colossus/astralroot-colossus.png',
-    mysticalWarden: 'assets/themes/sunken-shrine/mystical-boss-clean.png',
-    mobFireBoltEffect: 'assets/effects/attacks/mob-fire-bolt.png',
-    mobIceShardEffect: 'assets/effects/attacks/mob-ice-shard.png',
-    mobWaterOrbEffect: 'assets/effects/attacks/mob-water-orb.png',
-    mobNatureBoltEffect: 'assets/effects/attacks/mob-nature-bolt.png',
-    mobShadowBoltEffect: 'assets/effects/attacks/mob-shadow-bolt.png',
-    mobHolyBoltEffect: 'assets/effects/attacks/mob-holy-bolt.png',
-    mobArcaneBoltEffect: 'assets/effects/attacks/mob-arcane-bolt.png',
-    bossFirePillarEffect: 'assets/effects/attacks/boss-fire-pillar.png',
-    bossIceNovaEffect: 'assets/effects/attacks/boss-ice-nova.png',
-    bossNatureThornsEffect: 'assets/effects/attacks/boss-nature-thorns.png',
-    bossShadowGateEffect: 'assets/effects/attacks/boss-shadow-gate.png',
-    bossHolyStarEffect: 'assets/effects/attacks/boss-holy-star.png',
-    bossArcaneVortexEffect: 'assets/effects/attacks/boss-arcane-vortex.png',
     seraphHalberdSeparated: 'assets/themes/clockwork-seraph/seraph-halberd-sweep-separated.png',
     seraphPortalSeparated: 'assets/themes/clockwork-seraph/seraph-portal-lance-separated.png',
     seraphFeatherSeparated: 'assets/themes/clockwork-seraph/seraph-feather-barrage-separated.png',
@@ -2598,7 +2539,7 @@ function preloadArt() {
     clockworkSpear: 'assets/player/weapons/clockwork-spear.png',
     crimsonShear: 'assets/player/weapons/crimson-shear.png',
     stormglassBow: 'assets/player/weapons/stormglass-bow.png',
-    gravebloomMaul: 'assets/player/weapons/gravebloom-maul.png',
+    gravebloomMaul: 'assets/player/weapons/gravebloom-maul-clean-v2.png',
     lunarGlaive: 'assets/player/weapons/lunar-glaive.png',
     hourglassStaff: 'assets/player/weapons/hourglass-staff.png',
     eternityGreatsword: 'assets/player/weapons/eternity-greatsword.png',
@@ -4151,9 +4092,6 @@ function showBossSplash() {
     stormglassLeviathan: { name: 'Stormglass Leviathan', image: 'assets/themes/stormglass-leviathan/stormglass-leviathan.png', warning: 'Its trident crushes at close range while storm rings force constant movement.' },
     clockworkArchon: { name: 'Clockwork Archon', image: 'assets/themes/clockwork-citadel/clockwork-archon.png', warning: 'The Archon alternates Chronoblade rushes, radial clockbursts, freezing Time Locks, and Clockwork Orb summons.' },
     clockworkSeraph: { name: 'Aurelius, the Clockwork Seraph', image: 'assets/themes/clockwork-seraph/clockwork-seraph.png', warning: 'Aurelius sweeps with a chrono-halberd, opens lance portals, launches feather barrages, and calls down Clockfall.' },
-    darkMagicSovereign: { name: 'The Dark Magic Sovereign', image: 'assets/themes/umbral-expanse/boss dark.png', warning: 'Dodge its Dark Lance volleys, escape the Umbral Rift Dash, and retreat before Eclipse Nova consumes the arena.' },
-    astralrootColossus: { name: 'The Astralroot Colossus', image: 'assets/themes/astralroot-colossus/astralroot-colossus.png', warning: 'Evade its Leyline Charge, slip between Astral Shards, and flee the roots before Crystal Grove Cataclysm fractures the arena.' },
-    mysticalWarden: { name: 'The Mystical Warden', image: 'assets/themes/sunken-shrine/mystical-boss-clean.png', warning: 'Dodge its spectral charge, weave through luminous spore volleys, and escape the enchanted roots before the grove erupts.' },
     gravebloomColossus: { name: 'Gravebloom Colossus', image: 'assets/themes/gravebloom-colossus/gravebloom-colossus.png', warning: 'Stay clear of the tombstone maul and the poisonous gravebloom spreading beneath it.' },
     lunarKitsune: { name: 'Lunar Kitsune Sovereign', image: 'assets/themes/lunar-kitsune/lunar-kitsune.png', warning: 'Its crescent glaive is swift; watch the tails before a moon-powered rush.' },
     eternityWarden: { name: 'The Eternity Warden', image: 'assets/themes/eternity-warden/eternity-warden.png', warning: 'The final guardian bends time around enormous blade strikes. Spend every resource you have.' },
@@ -5319,12 +5257,11 @@ const pantheonFinalEnemyRoster = {
   meltedMonarch: ['waxAcolyte', 'waxAcolyte'],
   stormglassLeviathan: ['oceanHippo', 'voidSerpent'],
   clockworkArchon: ['clockworkOrb', 'mechMinion'],
-  clockworkSeraph: ['clockworkOrb', 'mechMinion'],
+  clockworkSeraph: ['clockworkOrb', 'sentinel'],
   gravebloomColossus: ['corruptedStag', 'fungalOozeSnail'],
   lunarKitsune: ['shadowCat', 'frostWraith'],
-  eternityWarden: ['astralSentinel', 'eclipseReaper'],
+  eternityWarden: ['sentinel', 'reaper'],
   octopusBoss: ['octopusMinion', 'abyssalRazorfin'],
-  mysticalWarden: ['fungalFairyWitch', 'corruptedStag'],
 };
 
 // Adds one of every regular enemy associated with the active final-trial bosses.
@@ -5373,11 +5310,10 @@ function summonMatchedBossMinion(boss, type, angle = 0) {
 
 // Creates the next tiered boss and places the party inside its arena.
 function spawnBoss(pantheonTierOverride = null) {
-  state.bossFightTimer = 0;
-  if (state.pantheonMode && state.bossDefeated >= 31 && pantheonTierOverride == null) {
+  if (state.pantheonMode && state.bossDefeated >= 28 && pantheonTierOverride == null) {
     state.pantheonFinalTrial = true;
     const firstTier = state.pantheonFinalBatch * 3 + 1;
-    const lastTier = Math.min(31, firstTier + 2);
+    const lastTier = Math.min(28, firstTier + 2);
     const group = [];
     for (let tier = firstTier; tier <= lastTier; tier += 1) {
       spawnBoss(tier);
@@ -5430,21 +5366,19 @@ function spawnBoss(pantheonTierOverride = null) {
   const isTwentySixthBoss = bossTier === 26;
   const isTwentySeventhBoss = bossTier === 27;
   const isTwentyEighthBoss = bossTier === 28;
-  const isTwentyNinthBoss = bossTier === 29;
-  const isThirtiethBoss = bossTier === 30;
-  const isThirtyFirstBoss = bossTier === 31;
-  // The Dragon Rider begins the late-game gauntlet. Boss 15 receives an
-  // immediate step up, followed by a continuous ramp through Boss 32.
-  const lateBossProgress = clamp((bossTier - 15) / 17, 0, 1);
-  const lateBossHealthMultiplier = bossTier >= 15 ? 1.35 + lateBossProgress * 2.15 : 1;
-  const lateBossDamageMultiplier = bossTier >= 15 ? 1.22 + lateBossProgress * 1.15 : 1;
+  // Bosses 16-26 form the late-game gauntlet. Their old linear scaling was
+  // overtaken too easily by upgraded armour, weapons, and companions, so this
+  // ramp makes every step through the final eleven encounters more dangerous.
+  const lateBossProgress = clamp((bossTier - 15) / 11, 0, 1);
+  const lateBossHealthMultiplier = 1 + lateBossProgress * 1.85;
+  const lateBossDamageMultiplier = 1 + lateBossProgress * 0.8;
   const lateBossAttackSpeedMultiplier = 1 + lateBossProgress * 0.55;
   const bossHealth = Math.round((470 + bossTier * 230 + Math.max(0, bossTier - 2) * 90) * lateBossHealthMultiplier);
   const bossDamage = (14 + bossTier * 5 + Math.max(0, bossTier - 2) * 1.5) * lateBossDamageMultiplier;
   state.boss = {
     x: world.width / 2,
     y: world.height / 2,
-    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isFifthBoss ? 57 : isSixthBoss ? 58 : isSeventhBoss ? 60 : isEighthBoss ? 62 : isNinthBoss ? 64 : isTenthBoss ? 58 : isEleventhBoss ? 65 : isTwelfthBoss ? 66 : isThirteenthBoss ? 67 : isFourteenthBoss ? 68 : isFifteenthBoss ? 76 : isSixteenthBoss ? 72 : isSeventeenthBoss ? 74 : isEighteenthBoss ? 72 : isNineteenthBoss ? 76 : isTwentiethBoss ? 78 : isTwentyFirstBoss ? 82 : isTwentySecondBoss ? 76 : isTwentyThirdBoss ? 74 : isTwentyFourthBoss ? 82 : isTwentyFifthBoss ? 70 : isTwentySixthBoss ? 84 : isTwentySeventhBoss ? 88 : isTwentyEighthBoss ? 82 : isTwentyNinthBoss ? 90 : isThirtiethBoss ? 94 : isThirtyFirstBoss ? 96 : 36,
+    radius: isFirstBoss ? 48 : isSecondBoss ? 52 : isThirdBoss ? 54 : isFourthBoss ? 55 : isFifthBoss ? 57 : isSixthBoss ? 58 : isSeventhBoss ? 60 : isEighthBoss ? 62 : isNinthBoss ? 64 : isTenthBoss ? 58 : isEleventhBoss ? 65 : isTwelfthBoss ? 66 : isThirteenthBoss ? 67 : isFourteenthBoss ? 68 : isFifteenthBoss ? 76 : isSixteenthBoss ? 72 : isSeventeenthBoss ? 74 : isEighteenthBoss ? 72 : isNineteenthBoss ? 76 : isTwentiethBoss ? 78 : isTwentyFirstBoss ? 82 : isTwentySecondBoss ? 76 : isTwentyThirdBoss ? 74 : isTwentyFourthBoss ? 82 : isTwentyFifthBoss ? 70 : isTwentySixthBoss ? 84 : isTwentySeventhBoss ? 88 : isTwentyEighthBoss ? 82 : 36,
     health: bossHealth,
     maxHealth: bossHealth,
     damage: bossDamage,
@@ -5453,7 +5387,7 @@ function spawnBoss(pantheonTierOverride = null) {
     cooldown: 1.1,
     attackWindup: 0,
     attackWindupTotal: 0.38,
-    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isFifthBoss ? 'boneSlam' : isSixthBoss ? 'sandSlam' : isSeventhBoss ? 'shadowSlam' : isEighthBoss ? 'abyssSlam' : isNinthBoss ? 'pincerSlam' : isTenthBoss ? 'woodSlam' : isEleventhBoss ? 'myceliumSlam' : isTwelfthBoss ? 'drillSlam' : isThirteenthBoss ? 'crystalSlam' : isFourteenthBoss ? 'staffCrush' : isFifteenthBoss ? 'dragonSwipe' : isSixteenthBoss ? 'yinYangOverhead' : isSeventeenthBoss ? 'hollowStarOverhead' : isEighteenthBoss ? 'inkboundQuill' : isNineteenthBoss ? 'crimsonScissor' : isTwentiethBoss ? 'meltedCleave' : isTwentyFirstBoss ? 'drownedSweep' : isTwentySecondBoss ? 'tridentCrush' : isTwentyThirdBoss ? 'gearHalberd' : isTwentyFourthBoss ? 'tombMaul' : isTwentyFifthBoss ? 'crescentCut' : isTwentySixthBoss ? 'epochBlade' : isTwentySeventhBoss ? 'tentacleSlam' : isTwentyEighthBoss ? 'seraphHalberd' : isTwentyNinthBoss ? 'darkVoidClaw' : isThirtiethBoss || isThirtyFirstBoss ? 'worldrootFist' : 'slam',
+    attackType: isFirstBoss ? 'rootSlam' : isSecondBoss ? 'hammerSlam' : isThirdBoss ? 'tideSlam' : isFourthBoss ? 'iceSlam' : isFifthBoss ? 'boneSlam' : isSixthBoss ? 'sandSlam' : isSeventhBoss ? 'shadowSlam' : isEighthBoss ? 'abyssSlam' : isNinthBoss ? 'pincerSlam' : isTenthBoss ? 'woodSlam' : isEleventhBoss ? 'myceliumSlam' : isTwelfthBoss ? 'drillSlam' : isThirteenthBoss ? 'crystalSlam' : isFourteenthBoss ? 'staffCrush' : isFifteenthBoss ? 'dragonSwipe' : isSixteenthBoss ? 'yinYangOverhead' : isSeventeenthBoss ? 'hollowStarOverhead' : isEighteenthBoss ? 'inkboundQuill' : isNineteenthBoss ? 'crimsonScissor' : isTwentiethBoss ? 'meltedCleave' : isTwentyFirstBoss ? 'drownedSweep' : isTwentySecondBoss ? 'tridentCrush' : isTwentyThirdBoss ? 'gearHalberd' : isTwentyFourthBoss ? 'tombMaul' : isTwentyFifthBoss ? 'crescentCut' : isTwentySixthBoss ? 'epochBlade' : isTwentySeventhBoss ? 'tentacleSlam' : isTwentyEighthBoss ? 'seraphHalberd' : 'slam',
     attackPulse: 0,
     hitFlash: 0,
     lungeTimer: 0,
@@ -5488,7 +5422,7 @@ function spawnBoss(pantheonTierOverride = null) {
     phase: 1,
     yinYangSequenceIndex: 0,
     fireBreathCooldown: isFifteenthBoss ? 7 : 0,
-    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isFifthBoss ? 'skeletonWarlord' : isSixthBoss ? 'sandBoss' : isSeventhBoss ? 'shadowBoss' : isEighthBoss ? 'abyssBoss' : isNinthBoss ? 'scorpionQueen' : isTenthBoss ? 'woodBoss' : isEleventhBoss ? 'fungalBoss' : isTwelfthBoss ? 'mechOverlord' : isThirteenthBoss ? 'crystalBoss' : isFourteenthBoss ? 'sandSnake' : isFifteenthBoss ? 'dragonBoss' : isSixteenthBoss ? 'yinYangBoss' : isSeventeenthBoss ? 'hollowStarBoss' : isEighteenthBoss ? 'inkboundArchivist' : isNineteenthBoss ? 'crimsonMarionette' : isTwentiethBoss ? 'meltedMonarch' : isTwentyFirstBoss ? 'drownedBell' : isTwentySecondBoss ? 'stormglassLeviathan' : isTwentyThirdBoss ? 'clockworkArchon' : isTwentyFourthBoss ? 'gravebloomColossus' : isTwentyFifthBoss ? 'lunarKitsune' : isTwentySixthBoss ? 'eternityWarden' : isTwentySeventhBoss ? 'octopusBoss' : isTwentyEighthBoss ? 'clockworkSeraph' : isTwentyNinthBoss ? 'darkMagicSovereign' : isThirtiethBoss ? 'astralrootColossus' : isThirtyFirstBoss ? 'mysticalWarden' : 'standard',
+    variant: isFirstBoss ? 'lushGolem' : isSecondBoss ? 'lavaGolem' : isThirdBoss ? 'oceanBoss' : isFourthBoss ? 'iceBoss' : isFifthBoss ? 'skeletonWarlord' : isSixthBoss ? 'sandBoss' : isSeventhBoss ? 'shadowBoss' : isEighthBoss ? 'abyssBoss' : isNinthBoss ? 'scorpionQueen' : isTenthBoss ? 'woodBoss' : isEleventhBoss ? 'fungalBoss' : isTwelfthBoss ? 'mechOverlord' : isThirteenthBoss ? 'crystalBoss' : isFourteenthBoss ? 'sandSnake' : isFifteenthBoss ? 'dragonBoss' : isSixteenthBoss ? 'yinYangBoss' : isSeventeenthBoss ? 'hollowStarBoss' : isEighteenthBoss ? 'inkboundArchivist' : isNineteenthBoss ? 'crimsonMarionette' : isTwentiethBoss ? 'meltedMonarch' : isTwentyFirstBoss ? 'drownedBell' : isTwentySecondBoss ? 'stormglassLeviathan' : isTwentyThirdBoss ? 'clockworkArchon' : isTwentyFourthBoss ? 'gravebloomColossus' : isTwentyFifthBoss ? 'lunarKitsune' : isTwentySixthBoss ? 'eternityWarden' : isTwentySeventhBoss ? 'octopusBoss' : isTwentyEighthBoss ? 'clockworkSeraph' : 'standard',
   };
   if (state.forcedBossVariant) {
     const forcedBossAttacks = {
@@ -5496,7 +5430,7 @@ function spawnBoss(pantheonTierOverride = null) {
       iceBoss: 'iceSlam', skeletonWarlord: 'boneSlam', sandBoss: 'sandSlam',
       shadowBoss: 'shadowSlam', abyssBoss: 'abyssSlam', scorpionQueen: 'pincerSlam',
       woodBoss: 'woodSlam', fungalBoss: 'myceliumSlam', mechOverlord: 'drillSlam',
-      crystalBoss: 'crystalSlam', sandSnake: 'staffCrush', dragonBoss: 'dragonSwipe', yinYangBoss: 'yinYangOverhead', hollowStarBoss: 'hollowStarOverhead', inkboundArchivist: 'inkboundQuill', crimsonMarionette: 'crimsonScissor', meltedMonarch: 'meltedCleave', drownedBell: 'drownedSweep', stormglassLeviathan: 'tridentCrush', clockworkArchon: 'gearHalberd', gravebloomColossus: 'tombMaul', lunarKitsune: 'crescentCut', eternityWarden: 'epochBlade', octopusBoss: 'tentacleSlam', clockworkSeraph: 'seraphHalberd', darkMagicSovereign: 'darkVoidClaw', astralrootColossus: 'worldrootFist', mysticalWarden: 'worldrootFist', standard: 'slam',
+      crystalBoss: 'crystalSlam', sandSnake: 'staffCrush', dragonBoss: 'dragonSwipe', yinYangBoss: 'yinYangOverhead', hollowStarBoss: 'hollowStarOverhead', inkboundArchivist: 'inkboundQuill', crimsonMarionette: 'crimsonScissor', meltedMonarch: 'meltedCleave', drownedBell: 'drownedSweep', stormglassLeviathan: 'tridentCrush', clockworkArchon: 'gearHalberd', gravebloomColossus: 'tombMaul', lunarKitsune: 'crescentCut', eternityWarden: 'epochBlade', octopusBoss: 'tentacleSlam', clockworkSeraph: 'seraphHalberd', standard: 'slam',
     };
     state.boss.variant = state.forcedBossVariant;
     state.boss.attackType = forcedBossAttacks[state.forcedBossVariant] || 'slam';
@@ -5525,9 +5459,6 @@ function spawnBoss(pantheonTierOverride = null) {
   });
   const arenaArrivalPhrases = {
     clockworkSeraph: 'Celestial gears ignite as Aurelius descends into the Clockwork Heaven...',
-    darkMagicSovereign: 'The last light collapses as the Dark Magic Sovereign opens the Umbral Crucible...',
-    astralrootColossus: 'Starlit roots split the stone as the Astralroot Colossus awakens in the Crystal Grove...',
-    mysticalWarden: 'Bioluminescent roots awaken as the Mystical Warden claims the enchanted grove...',
     octopusBoss: 'The floor floods as the Abyssal Leviathan rises from the black tide...',
     crystalBoss: 'Prismatic gates fracture open around the crystal battleground…',
     sandSnake: 'Ancient dunes coil aside as the Sand Arena opens beneath the serpent…',
@@ -7339,7 +7270,7 @@ function updateEnemies(dt) {
     const isMechSentinel = enemy.type === 'mechMinion';
     const isClockworkOrb = enemy.type === 'clockworkOrb';
     const isMechanicalShooter = isMechSentinel || isClockworkOrb;
-    const isArcaneOrb = enemy.type === 'arcaneOrb' || enemy.type === 'leyshardWisp' || enemy.type === 'skell4' || enemy.type === 'ghost1';
+    const isArcaneOrb = enemy.type === 'arcaneOrb';
     const isChainHexer = enemy.type === 'chainHexer';
     const isUmbralCaster = ['singularityEye', 'duskweaver', 'eclipseSpider'].includes(enemy.type);
     const holdingRange = (enemy.type === 'lushSporeShroom' && len < 180)
@@ -7466,37 +7397,6 @@ function updateEnemies(dt) {
       continue;
     }
 
-    // Umbral casters each shape darkness differently: a radial gravity burst,
-    // a three-pronged hex, or a broad web fan that briefly snares its target.
-    if (isUmbralCaster) {
-      if (len <= 520 && enemy.attackTimer <= 0) {
-        enemy.attackTimer = enemy.type === 'eclipseSpider' ? 2.25 : 1.9;
-        enemy.lunge = 0.75;
-        const targetAngle = Math.atan2(dirY, dirX);
-        const offsets = enemy.type === 'singularityEye'
-          ? Array.from({ length: 8 }, (_, index) => index * Math.PI / 4 - targetAngle)
-          : enemy.type === 'eclipseSpider' ? [-0.48, -0.24, 0, 0.24, 0.48] : [-0.16, 0, 0.16];
-        for (const offset of offsets) {
-          const angle = targetAngle + offset;
-          state.enemyProjectiles.push({
-            x: enemy.x + Math.cos(angle) * 26,
-            y: enemy.y + Math.sin(angle) * 26 - 7,
-            vx: Math.cos(angle) * (enemy.type === 'singularityEye' ? 245 : 310),
-            vy: Math.sin(angle) * (enemy.type === 'singularityEye' ? 245 : 310),
-            angle,
-            damage: enemy.damage * (enemy.type === 'singularityEye' ? 0.55 : 0.62),
-            life: 2.2,
-            sourceType: enemy.type,
-            color: enemy.type === 'duskweaver' ? '#e9d5ff' : '#9333ea',
-            rootDuration: enemy.type === 'duskweaver' ? 0.4 : enemy.type === 'eclipseSpider' ? 0.7 : 0,
-            useAttackSheet: shouldEnemyUseAttackSheet(enemy),
-          });
-        }
-        spawnBurst(enemy.x, enemy.y - 8, enemy.type === 'singularityEye' ? 26 : 18, '#c084fc', 115);
-      }
-      continue;
-    }
-
     // Bone Archers and clockwork enemies hold range for their projectiles.
     if (isDesertArcher || isMechanicalShooter) {
       if (len <= 440 && enemy.attackTimer <= 0) {
@@ -7511,9 +7411,8 @@ function updateEnemies(dt) {
           angle: Math.atan2(dirY, dirX),
           damage: enemy.damage,
           life: 1.5,
-          sourceType: isClockworkOrb ? 'clockworkOrb' : isMechSentinel ? 'mechMinion' : isSkeletonArcher ? 'skell2' : isGhostArcher ? 'ghost3' : 'desertArcher',
+          sourceType: isClockworkOrb ? 'clockworkOrb' : isMechSentinel ? 'mechMinion' : 'desertArcher',
           color: isClockworkOrb ? '#facc15' : isMechSentinel ? '#fb923c' : '#fde68a',
-          useAttackSheet: shouldEnemyUseAttackSheet(enemy),
         });
         spawnBurst(enemy.x + dirX * 18, enemy.y - 10 + dirY * 18, 7, isClockworkOrb ? '#facc15' : isMechSentinel ? '#fb923c' : '#fde68a', 65);
       }
@@ -9280,7 +9179,6 @@ function summonOctopusMinions(boss, requestedCount = 2) {
     minion.x = clamp(boss.x + Math.cos(angle) * 190, state.bossArena.x + 42, state.bossArena.x + state.bossArena.w - 42);
     minion.y = clamp(boss.y + Math.sin(angle) * 150, state.bossArena.y + 42, state.bossArena.y + state.bossArena.h - 42);
     minion.bossMinion = true;
-    minion.attackSheetEnabled = Math.random() < getMobAttackSheetChance(state.wave, true);
     minion.aggro = true;
     minion.elite = false;
     minion.health = 76 + boss.tier * 10;
@@ -9533,7 +9431,7 @@ function updateSingleBoss(dt) {
     boss.attackWindup -= dt;
     if (boss.attackWindup <= 0) {
       boss.attackPulse = 1;
-      const effectColor = boss.variant === 'mysticalWarden' ? '#22d3ee' : boss.variant === 'astralrootColossus' ? '#a855f7' : boss.variant === 'darkMagicSovereign' ? '#8b5cf6' : boss.variant === 'stormglassLeviathan' ? '#22d3ee' : boss.variant === 'octopusBoss' ? '#38bdf8' : boss.variant === 'clockworkArchon' ? '#facc15' : boss.variant === 'gravebloomColossus' ? '#c084fc' : boss.variant === 'lunarKitsune' ? '#93c5fd' : boss.variant === 'eternityWarden' ? '#fde68a' : boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'skeletonWarlord' ? '#67e8f9' : boss.variant === 'sandBoss' || boss.variant === 'sandSnake' ? '#fbbf24' : boss.variant === 'shadowBoss' ? '#a855f7' : boss.variant === 'abyssBoss' ? '#38bdf8' : boss.variant === 'scorpionQueen' ? '#f59e0b' : boss.variant === 'fungalBoss' ? '#a3e635' : boss.variant === 'mechOverlord' ? '#fb923c' : boss.variant === 'crystalBoss' ? '#22d3ee' : boss.variant === 'woodBoss' ? '#84cc16' : boss.variant === 'yinYangBoss' ? '#e2e8f0' : boss.variant === 'inkboundArchivist' ? '#fca5a5' : boss.variant === 'crimsonMarionette' ? '#dc2626' : boss.variant === 'meltedMonarch' ? '#f59e0b' : boss.variant === 'drownedBell' ? '#22d3ee' : '#fb7185';
+      const effectColor = boss.variant === 'stormglassLeviathan' ? '#22d3ee' : boss.variant === 'clockworkArchon' ? '#facc15' : boss.variant === 'gravebloomColossus' ? '#c084fc' : boss.variant === 'lunarKitsune' ? '#93c5fd' : boss.variant === 'eternityWarden' ? '#fde68a' : boss.variant === 'lavaGolem' ? '#f97316' : boss.variant === 'lushGolem' ? '#4ade80' : boss.variant === 'oceanBoss' ? '#38bdf8' : boss.variant === 'iceBoss' ? '#bfdbfe' : boss.variant === 'skeletonWarlord' ? '#67e8f9' : boss.variant === 'sandBoss' || boss.variant === 'sandSnake' ? '#fbbf24' : boss.variant === 'shadowBoss' ? '#a855f7' : boss.variant === 'abyssBoss' ? '#38bdf8' : boss.variant === 'scorpionQueen' ? '#f59e0b' : boss.variant === 'fungalBoss' ? '#a3e635' : boss.variant === 'mechOverlord' ? '#fb923c' : boss.variant === 'crystalBoss' ? '#22d3ee' : boss.variant === 'woodBoss' ? '#84cc16' : boss.variant === 'yinYangBoss' ? '#e2e8f0' : boss.variant === 'inkboundArchivist' ? '#fca5a5' : boss.variant === 'crimsonMarionette' ? '#dc2626' : boss.variant === 'meltedMonarch' ? '#f59e0b' : boss.variant === 'drownedBell' ? '#22d3ee' : '#fb7185';
 
       if (boss.attackType === 'summonWaxAcolytes') {
         summonWaxAcolytes(boss, 2);
@@ -9605,7 +9503,7 @@ function updateSingleBoss(dt) {
         boss.fireBreathCooldown = 20;
         spawnBurst(boss.x + fireDirX * 180, boss.y + fireDirY * 180, 48, '#38bdf8', 260);
         state.shake = 18;
-      } else if (['drownedBellWave', 'lightningLance', 'stormArcVolley', 'forkedLightning', 'gearVolley', 'archonClockburst', 'cogCrossfire', 'graveSeedVolley', 'graveThornCircle', 'corpsePetalBurst', 'lunarBolts', 'kitsuneStarfan', 'moonCrescentFan', 'hourglassVolley', 'eternityParadox', 'chronoSpiral', 'seraphPortalLance', 'seraphFeatherBarrage', 'darkLanceVolley', 'astralShardVolley'].includes(boss.attackType)) {
+      } else if (['drownedBellWave', 'lightningLance', 'stormArcVolley', 'forkedLightning', 'gearVolley', 'archonClockburst', 'cogCrossfire', 'graveSeedVolley', 'graveThornCircle', 'corpsePetalBurst', 'lunarBolts', 'kitsuneStarfan', 'moonCrescentFan', 'hourglassVolley', 'eternityParadox', 'chronoSpiral', 'seraphPortalLance', 'seraphFeatherBarrage'].includes(boss.attackType)) {
         const projectileSettings = {
           drownedBellWave: { count: 7, spread: 0.13, speed: 345, color: '#22d3ee', scale: 0.62 },
           lightningLance: { count: 3, spread: 0.18, speed: 390, color: '#22d3ee', scale: 0.72 },
@@ -9625,8 +9523,6 @@ function updateSingleBoss(dt) {
           chronoSpiral: { count: 18, radial: true, speed: 245, color: '#fcd34d', scale: 0.38 },
           seraphPortalLance: { count: 5, spread: 0.105, speed: 455, color: '#38bdf8', scale: 0.62 },
           seraphFeatherBarrage: { count: 15, spread: 0.065, speed: 405, color: '#fbbf24', scale: 0.38 },
-          darkLanceVolley: { count: 9, spread: 0.09, speed: 430, color: '#a78bfa', scale: 0.52 },
-          astralShardVolley: { count: 9, spread: 0.1, speed: 365, color: '#a78bfa', scale: 0.58 },
         }[boss.attackType];
         const baseAngle = Math.atan2(dy, dx);
         for (let index = 0; index < projectileSettings.count; index += 1) {
@@ -9692,12 +9588,12 @@ function updateSingleBoss(dt) {
           player.stamina = Math.max(0, player.stamina - 28);
           player.frozenTimer = Math.max(player.frozenTimer, 0.55);
         }
-        spawnBurst(boss.x, boss.y, 52, boss.attackType === 'inkCloud' ? '#2563eb' : '#67e8f9', 250);
+        spawnBurst(boss.x, boss.y, 52, boss.attackType === 'inkCloud' ? '#312e81' : '#67e8f9', 250);
         state.shake = boss.attackType === 'inkCloud' ? 16 : 13;
-      } else if (boss.attackType === 'thornRing' || boss.attackType === 'heartwoodEruption' || boss.attackType === 'eruption' || boss.attackType === 'tidalWave' || boss.attackType === 'blizzard' || boss.attackType === 'nova' || boss.attackType === 'abyssNova' || boss.attackType === 'venomNova' || boss.attackType === 'sporeburst' || boss.attackType === 'reactorNova' || boss.attackType === 'crystalEruption' || boss.attackType === 'scarabStorm' || boss.attackType === 'yinYangNova' || boss.attackType === 'yinYangRoundhouse' || boss.attackType === 'yinYangArenaSlam' || boss.attackType === 'hollowStarRoundhouse' || boss.attackType === 'hollowStarGroundSlam' || boss.attackType === 'inkboundSweep' || boss.attackType === 'inkboundDecree' || boss.attackType === 'crimsonSnare' || boss.attackType === 'crimsonFinalCurtain' || boss.attackType === 'royalMeltdown' || boss.attackType === 'drownedSweep' || boss.attackType === 'deathKnell' || boss.attackType === 'glassTempest' || boss.attackType === 'stormSurge' || boss.attackType === 'shatteredTide' || boss.attackType === 'judgmentHour' || boss.attackType === 'timeLock' || boss.attackType === 'rewindPulse' || boss.attackType === 'gravebloom' || boss.attackType === 'rootCage' || boss.attackType === 'tombVines' || boss.attackType === 'moonfall' || boss.attackType === 'eclipseNova' || boss.attackType === 'foxfireCircle' || boss.attackType === 'timeCollapse' || boss.attackType === 'endOfAges' || boss.attackType === 'finalSecond' || boss.attackType === 'seraphClockfall' || boss.attackType === 'darkEclipseNova' || boss.attackType === 'crystalGroveCataclysm') {
-        const lateBossRadius = { glassTempest: 330, stormSurge: 260, shatteredTide: 365, judgmentHour: 380, timeLock: 300, rewindPulse: 335, gravebloom: 345, rootCage: 275, tombVines: 315, moonfall: 410, eclipseNova: 350, foxfireCircle: 290, timeCollapse: Infinity, endOfAges: Infinity, finalSecond: 390, seraphClockfall: 420, darkEclipseNova: 440, crystalGroveCataclysm: 455 }[boss.attackType];
+      } else if (boss.attackType === 'thornRing' || boss.attackType === 'heartwoodEruption' || boss.attackType === 'eruption' || boss.attackType === 'tidalWave' || boss.attackType === 'blizzard' || boss.attackType === 'nova' || boss.attackType === 'abyssNova' || boss.attackType === 'venomNova' || boss.attackType === 'sporeburst' || boss.attackType === 'reactorNova' || boss.attackType === 'crystalEruption' || boss.attackType === 'scarabStorm' || boss.attackType === 'yinYangNova' || boss.attackType === 'yinYangRoundhouse' || boss.attackType === 'yinYangArenaSlam' || boss.attackType === 'hollowStarRoundhouse' || boss.attackType === 'hollowStarGroundSlam' || boss.attackType === 'inkboundSweep' || boss.attackType === 'inkboundDecree' || boss.attackType === 'crimsonSnare' || boss.attackType === 'crimsonFinalCurtain' || boss.attackType === 'royalMeltdown' || boss.attackType === 'drownedSweep' || boss.attackType === 'deathKnell' || boss.attackType === 'glassTempest' || boss.attackType === 'stormSurge' || boss.attackType === 'shatteredTide' || boss.attackType === 'judgmentHour' || boss.attackType === 'timeLock' || boss.attackType === 'rewindPulse' || boss.attackType === 'gravebloom' || boss.attackType === 'rootCage' || boss.attackType === 'tombVines' || boss.attackType === 'moonfall' || boss.attackType === 'eclipseNova' || boss.attackType === 'foxfireCircle' || boss.attackType === 'timeCollapse' || boss.attackType === 'endOfAges' || boss.attackType === 'finalSecond' || boss.attackType === 'seraphClockfall') {
+        const lateBossRadius = { glassTempest: 330, stormSurge: 260, shatteredTide: 365, judgmentHour: 380, timeLock: 300, rewindPulse: 335, gravebloom: 345, rootCage: 275, tombVines: 315, moonfall: 410, eclipseNova: 350, foxfireCircle: 290, timeCollapse: Infinity, endOfAges: Infinity, finalSecond: 390, seraphClockfall: 420 }[boss.attackType];
         const attackRadius = lateBossRadius ?? (boss.attackType === 'yinYangArenaSlam' || boss.attackType === 'crimsonFinalCurtain' || boss.attackType === 'royalMeltdown' || boss.attackType === 'deathKnell' ? Infinity : boss.attackType === 'drownedSweep' ? 225 : boss.attackType === 'crimsonSnare' ? 285 : boss.attackType === 'inkboundDecree' ? 365 : boss.attackType === 'inkboundSweep' ? 205 : boss.attackType === 'hollowStarGroundSlam' ? 390 : boss.attackType === 'hollowStarRoundhouse' ? 195 : boss.attackType === 'yinYangRoundhouse' ? 175 : boss.attackType === 'yinYangNova' ? 345 : boss.attackType === 'thornRing' ? 165 : boss.attackType === 'heartwoodEruption' ? 305 : boss.attackType === 'eruption' ? 285 : boss.attackType === 'tidalWave' ? 250 : boss.attackType === 'blizzard' ? 265 : boss.attackType === 'abyssNova' ? (boss.phase === 2 ? 330 : 270) : boss.attackType === 'venomNova' ? 295 : boss.attackType === 'sporeburst' ? 300 : boss.attackType === 'reactorNova' ? 320 : boss.attackType === 'crystalEruption' ? 335 : boss.attackType === 'scarabStorm' ? 325 : 210 + boss.tier * 8);
-        const lateBossDamage = { glassTempest: 1.12, stormSurge: 0.9, shatteredTide: 1.02, judgmentHour: 1.18, timeLock: 0.72, rewindPulse: 0.78, gravebloom: 1.08, rootCage: 0.84, tombVines: 0.76, moonfall: 1.25, eclipseNova: 1, foxfireCircle: 0.92, timeCollapse: 1.5, endOfAges: 1.35, finalSecond: 1.12, seraphClockfall: 1.32, darkEclipseNova: 1.38, crystalGroveCataclysm: 1.42 }[boss.attackType];
+        const lateBossDamage = { glassTempest: 1.12, stormSurge: 0.9, shatteredTide: 1.02, judgmentHour: 1.18, timeLock: 0.72, rewindPulse: 0.78, gravebloom: 1.08, rootCage: 0.84, tombVines: 0.76, moonfall: 1.25, eclipseNova: 1, foxfireCircle: 0.92, timeCollapse: 1.5, endOfAges: 1.35, finalSecond: 1.12, seraphClockfall: 1.32 }[boss.attackType];
         const damageScale = lateBossDamage ?? (boss.attackType === 'deathKnell' ? 1.38 : boss.attackType === 'drownedSweep' ? 1.02 : boss.attackType === 'royalMeltdown' ? 1.4 : boss.attackType === 'crimsonFinalCurtain' ? 1.42 : boss.attackType === 'crimsonSnare' ? 0.82 : boss.attackType === 'yinYangArenaSlam' ? 1.3 : boss.attackType === 'inkboundDecree' ? 1.35 : boss.attackType === 'inkboundSweep' ? 1 : boss.attackType === 'hollowStarGroundSlam' ? 1.45 : boss.attackType === 'hollowStarRoundhouse' ? 0.96 : boss.attackType === 'yinYangRoundhouse' ? 0.92 : boss.attackType === 'yinYangNova' ? 1.18 : boss.attackType === 'thornRing' ? 0.65 : boss.attackType === 'heartwoodEruption' ? 1.15 : boss.attackType === 'eruption' ? 1.05 : boss.attackType === 'tidalWave' ? 0.9 : boss.attackType === 'blizzard' ? 0.95 : boss.attackType === 'abyssNova' ? (boss.phase === 2 ? 1.15 : 0.9) : boss.attackType === 'venomNova' ? 1.05 : boss.attackType === 'sporeburst' ? 1.05 : boss.attackType === 'reactorNova' ? 1.2 : boss.attackType === 'crystalEruption' ? 1.25 : boss.attackType === 'scarabStorm' ? 1.1 : 0.75);
         for (const victim of [player, ...player.protectors, ...player.openers]) {
           if (distance(boss, victim) <= attackRadius) applyCombatDamage(victim, boss.damage * damageScale, boss);
@@ -9733,8 +9629,8 @@ function updateSingleBoss(dt) {
         boss.lungeRemaining = lungeDistance;
         boss.lungeDirX = dirX;
         boss.lungeDirY = dirY;
-        boss.lungeDamageScale = boss.attackType === 'worldrootFist' ? 2.25 : boss.attackType === 'darkVoidClaw' ? 2.2 : boss.attackType === 'seraphHalberd' ? 2.05 : boss.attackType === 'epochBlade' ? 2.15 : boss.attackType === 'crescentCut' ? 1.78 : boss.attackType === 'tombMaul' ? 2.05 : boss.attackType === 'gearHalberd' ? 1.9 : boss.attackType === 'tridentCrush' ? 1.88 : boss.attackType === 'meltedCleave' ? 1.82 : boss.attackType === 'crimsonScissor' ? 1.8 : boss.attackType === 'inkboundQuill' ? 1.75 : boss.attackType === 'hollowStarOverhead' ? 1.72 : boss.attackType === 'yinYangOverhead' ? 1.6 : boss.attackType === 'tentacleSlam' ? 1.45 : boss.attackType === 'dragonSwipe' ? 0.68 : boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'staffCrush' ? 1.9 : boss.attackType === 'abyssRend' ? 1.7 : boss.attackType === 'abyssSlam' ? 1.4 : boss.attackType === 'pincerSlam' ? 1.75 : boss.attackType === 'myceliumSlam' ? 1.65 : boss.attackType === 'drillSlam' ? 1.85 : boss.attackType === 'crystalSlam' ? 1.8 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
-        boss.lungeHitRange = advancingTentacleSlam ? 112 : boss.attackType === 'yinYangOverhead' ? 88 : 75;
+        boss.lungeDamageScale = boss.attackType === 'seraphHalberd' ? 2.05 : boss.attackType === 'epochBlade' ? 2.15 : boss.attackType === 'crescentCut' ? 1.78 : boss.attackType === 'tombMaul' ? 2.05 : boss.attackType === 'gearHalberd' ? 1.9 : boss.attackType === 'tridentCrush' ? 1.88 : boss.attackType === 'meltedCleave' ? 1.82 : boss.attackType === 'crimsonScissor' ? 1.8 : boss.attackType === 'inkboundQuill' ? 1.75 : boss.attackType === 'hollowStarOverhead' ? 1.72 : boss.attackType === 'yinYangOverhead' ? 1.6 : boss.attackType === 'dragonSwipe' ? 0.68 : boss.attackType === 'hammerSlam' ? 1.55 : boss.attackType === 'rootSlam' ? 1.05 : boss.attackType === 'tideSlam' ? 1.35 : boss.attackType === 'iceSlam' ? 1.4 : boss.attackType === 'boneSlam' ? 1.5 : boss.attackType === 'sandSlam' ? 1.48 : boss.attackType === 'staffCrush' ? 1.9 : boss.attackType === 'abyssRend' ? 1.7 : boss.attackType === 'abyssSlam' ? 1.4 : boss.attackType === 'pincerSlam' ? 1.75 : boss.attackType === 'myceliumSlam' ? 1.65 : boss.attackType === 'drillSlam' ? 1.85 : boss.attackType === 'crystalSlam' ? 1.8 : boss.attackType === 'woodSlam' ? 1.45 : 1.25;
+        boss.lungeHitRange = boss.attackType === 'yinYangOverhead' ? 88 : 75;
         boss.lungeEffectColor = effectColor;
         boss.lungeIsDash = false;
       }
@@ -9785,9 +9681,6 @@ function updateSingleBoss(dt) {
         eternityWarden: 'hourglassVolley',
         octopusBoss: 'inkCloud',
         clockworkSeraph: 'seraphPortalLance',
-        darkMagicSovereign: 'darkLanceVolley',
-        astralrootColossus: 'astralShardVolley',
-        mysticalWarden: 'astralShardVolley',
       }[boss.variant] : null;
       if (boss.phaseAttack) {
         boss.attackType = boss.phaseAttack;
@@ -9818,14 +9711,6 @@ function updateSingleBoss(dt) {
         boss.attackType = attackRoll < 0.32 ? 'seraphHalberd'
           : attackRoll < 0.61 ? 'seraphPortalLance'
             : attackRoll < 0.86 ? 'seraphFeatherBarrage' : 'seraphClockfall';
-      } else if (boss.variant === 'darkMagicSovereign') {
-        boss.attackType = attackRoll < 0.28 ? 'darkVoidClaw'
-          : attackRoll < 0.52 ? 'darkRiftDash'
-            : attackRoll < 0.82 ? 'darkLanceVolley' : 'darkEclipseNova';
-      } else if (boss.variant === 'astralrootColossus' || boss.variant === 'mysticalWarden') {
-        boss.attackType = attackRoll < 0.3 ? 'worldrootFist'
-          : attackRoll < 0.52 ? 'leylineChargeDash'
-            : attackRoll < 0.82 ? 'astralShardVolley' : 'crystalGroveCataclysm';
       } else if (boss.variant === 'drownedBell') {
         boss.attackType = attackRoll < 0.03 ? 'deathKnell'
           : attackRoll < 0.52 ? 'drownedSweep' : 'undertowDash';
@@ -9919,7 +9804,7 @@ function updateSingleBoss(dt) {
       } else {
         boss.attackType = attackRoll < 0.36 ? 'slam' : attackRoll < 0.68 ? 'Dash' : 'nova';
       }
-      const radialAttack = ['thornRing', 'heartwoodEruption', 'healingBloom', 'eruption', 'tidalWave', 'blizzard', 'nova', 'abyssNova', 'venomNova', 'summonBrood', 'summonNightclaw', 'summonDreadscale', 'sporeburst', 'reactorNova', 'deploySentinel', 'deployBear', 'crystalEruption', 'scarabStorm', 'yinYangNova', 'yinYangRoundhouse', 'yinYangArenaSlam', 'hollowStarRoundhouse', 'hollowStarGroundSlam', 'inkboundSweep', 'inkboundDecree', 'crimsonSnare', 'crimsonFinalCurtain', 'royalMeltdown', 'drownedSweep', 'deathKnell', 'glassTempest', 'stormSurge', 'shatteredTide', 'summonClockworkOrbs', 'judgmentHour', 'timeLock', 'rewindPulse', 'gravebloom', 'rootCage', 'tombVines', 'moonfall', 'eclipseNova', 'foxfireCircle', 'timeCollapse', 'endOfAges', 'finalSecond', 'darkEclipseNova'].includes(boss.attackType);
+      const radialAttack = ['thornRing', 'heartwoodEruption', 'healingBloom', 'eruption', 'tidalWave', 'blizzard', 'nova', 'abyssNova', 'venomNova', 'summonBrood', 'summonNightclaw', 'summonDreadscale', 'sporeburst', 'reactorNova', 'deploySentinel', 'deployBear', 'crystalEruption', 'scarabStorm', 'yinYangNova', 'yinYangRoundhouse', 'yinYangArenaSlam', 'hollowStarRoundhouse', 'hollowStarGroundSlam', 'inkboundSweep', 'inkboundDecree', 'crimsonSnare', 'crimsonFinalCurtain', 'royalMeltdown', 'drownedSweep', 'deathKnell', 'glassTempest', 'stormSurge', 'shatteredTide', 'summonClockworkOrbs', 'judgmentHour', 'timeLock', 'rewindPulse', 'gravebloom', 'rootCage', 'tombVines', 'moonfall', 'eclipseNova', 'foxfireCircle', 'timeCollapse', 'endOfAges', 'finalSecond'].includes(boss.attackType);
       boss.attackWindupTotal = radialAttack ? 0.9 : boss.attackType.includes('Dash') ? 0.58 : 0.46;
       boss.attackWindup = boss.attackWindupTotal;
       boss.cooldown = Math.max(boss.variant === 'abyssBoss' && boss.phase === 2 ? 0.62 : 0.85, (radialAttack ? 2.15 : 1.55) - boss.tier * 0.07 - (boss.variant === 'abyssBoss' && boss.phase === 2 ? 0.25 : 0));
@@ -9991,22 +9876,6 @@ function updateSingleBoss(dt) {
         boss.attackWindup = boss.attackWindupTotal;
         boss.cooldown = boss.attackType === 'seraphClockfall' ? 3.6 : 1.75;
       }
-      if (boss.variant === 'darkMagicSovereign') {
-        boss.attackWindupTotal = boss.attackType === 'darkEclipseNova' ? 2.2
-          : boss.attackType === 'darkLanceVolley' ? 1.05
-            : boss.attackType === 'darkRiftDash' ? 0.82 : 0.72;
-        boss.attackWindup = boss.attackWindupTotal;
-        boss.cooldown = boss.attackType === 'darkEclipseNova' ? 4.2
-          : boss.attackType === 'darkLanceVolley' ? 1.9 : 1.55;
-      }
-      if (boss.variant === 'astralrootColossus' || boss.variant === 'mysticalWarden') {
-        boss.attackWindupTotal = boss.attackType === 'crystalGroveCataclysm' ? 2.35
-          : boss.attackType === 'astralShardVolley' ? 1.15
-            : boss.attackType === 'leylineChargeDash' ? 0.9 : 0.82;
-        boss.attackWindup = boss.attackWindupTotal;
-        boss.cooldown = boss.attackType === 'crystalGroveCataclysm' ? 4.4
-          : boss.attackType === 'astralShardVolley' ? 2 : 1.65;
-      }
       // Give illustrated boss poses enough screen time to read. Later bosses
       // retain their aggressive cooldowns, but their wind-up frames no longer
       // flick past in roughly half a second.
@@ -10075,7 +9944,7 @@ function updateBoss(dt) {
     state.enemyProjectiles = [];
     state.playerProjectiles = [];
     state.enemies = [];
-    if (state.pantheonFinalTrial && state.pantheonFinalBatch * 3 >= 31) {
+    if (state.pantheonFinalTrial && state.pantheonFinalBatch * 3 >= 28) {
       completePantheon();
     } else {
       spawnBoss();
@@ -10215,7 +10084,7 @@ function completePantheon() {
   state.paused = false;
   pauseOverlay.classList.add('hidden');
   keys.clear();
-  const leaderboardRank = recordCompletedRun(state.score, state.wave, 30);
+  const leaderboardRank = recordCompletedRun(state.score, state.wave, 28);
   overlayTitle.textContent = 'Pantheon Conquered';
   deathCauseText.textContent = 'Every boss and its army has fallen.';
   deathCauseText.classList.remove('hidden');
@@ -10670,7 +10539,7 @@ function drawAttractMode() {
 const godBossOrder = [
   'lushGolem', 'lavaGolem', 'oceanBoss', 'iceBoss', 'skeletonWarlord',
   'sandBoss', 'shadowBoss', 'abyssBoss', 'scorpionQueen', 'woodBoss',
-  'fungalBoss', 'mechOverlord', 'crystalBoss', 'sandSnake', 'dragonBoss', 'yinYangBoss', 'hollowStarBoss', 'inkboundArchivist', 'crimsonMarionette', 'meltedMonarch', 'drownedBell', 'stormglassLeviathan', 'clockworkArchon', 'gravebloomColossus', 'lunarKitsune', 'eternityWarden', 'octopusBoss', 'clockworkSeraph', 'darkMagicSovereign', 'astralrootColossus', 'mysticalWarden', 'standard',
+  'fungalBoss', 'mechOverlord', 'crystalBoss', 'sandSnake', 'dragonBoss', 'yinYangBoss', 'hollowStarBoss', 'inkboundArchivist', 'crimsonMarionette', 'meltedMonarch', 'drownedBell', 'stormglassLeviathan', 'clockworkArchon', 'gravebloomColossus', 'lunarKitsune', 'eternityWarden', 'octopusBoss', 'clockworkSeraph', 'standard',
 ];
 
 function getGodBiome(entry) {
@@ -10700,10 +10569,6 @@ function getGodBiome(entry) {
     'stormglass-leviathan': { themeIndex: 1, roomArtwork: 'stormglassArena', name: 'Stormglass Deep' },
     'clockwork-citadel': { themeIndex: 8, roomArtwork: 'clockworkArchonArena', name: 'Clockwork Citadel' },
     'clockwork-seraph': { themeIndex: 8, roomArtwork: 'clockworkSeraphArena', name: 'Celestial Clockworks' },
-    'dark-magic-sovereign': { themeIndex: 8, roomArtwork: 'darkMagicArena', name: 'Umbral Crucible' },
-    'astralroot-colossus': { themeIndex: 11, roomArtwork: 'astralrootRoom', name: 'Astralroot Grove' },
-    'umbral-expanse': { themeIndex: 12, roomArtwork: 'umbralRoom', name: 'Umbral Expanse' },
-    'haunted-reliquary': { themeIndex: 13, roomArtwork: 'hauntedRoom', name: 'Haunted Reliquary' },
     'gravebloom-colossus': { themeIndex: 0, roomArtwork: 'gravebloomArena', name: 'Gravebloom Cemetery' },
     'lunar-kitsune': { themeIndex: 7, roomArtwork: 'lunarKitsuneArena', name: 'Moonlit Court' },
     'eternity-warden': { themeIndex: 7, roomArtwork: 'eternityWardenArena', name: 'End of Time' },
@@ -11247,9 +11112,6 @@ function drawActorSprite({
     reefclawCrab: 'left', icefangBear: 'left', gravewingRaven: 'left', prismMoth: 'front',
     sunscaleRay: 'left', coralbackTurtle: 'left', tidefangEel: 'left',
     octopusMinion: 'front',
-    boneShieldbearer: 'right', frostDirewolf: 'right', cinderImp: 'right',
-    amethystColossus: 'front', abyssJellyNew: 'front',
-    ghost1: 'front', ghost2: 'right', ghost3: 'right', ghost4: 'right', ghost5: 'right',
   };
   const nativeOrientation = enemyArtOrientation[variant] || 'right';
   const facingScale = variant === 'hero'
@@ -11280,11 +11142,6 @@ function drawActorSprite({
     ctx.filter = 'brightness(2.5) saturate(0)';
   }
   const spriteWidth = variant === 'bellmawJuggernaut' ? 136
-    : variant === 'amethystColossus' ? 146
-    : variant === 'frostDirewolf' ? 142
-    : variant === 'boneShieldbearer' ? 104
-    : variant === 'cinderImp' ? 90
-    : variant === 'abyssJellyNew' ? 98
     : variant === 'octopusMinion' ? 118
     : variant === 'riftHound' ? 122
     : variant === 'chainHexer' ? 108
@@ -11338,11 +11195,6 @@ function drawActorSprite({
       : variant === 'desertArcher' ? 82
         : variant === 'abyssKnight' ? 96 : variant === 'abyssJelly' ? 88 : 84;
   const spriteHeight = variant === 'bellmawJuggernaut' ? 132
-    : variant === 'amethystColossus' ? 132
-    : variant === 'frostDirewolf' ? 108
-    : variant === 'boneShieldbearer' ? 126
-    : variant === 'cinderImp' ? 104
-    : variant === 'abyssJellyNew' ? 118
     : variant === 'octopusMinion' ? 126
     : variant === 'riftHound' ? 88
     : variant === 'chainHexer' ? 126
@@ -11396,9 +11248,7 @@ function drawActorSprite({
   // Treat the configured dimensions as a bounding box and contain the source
   // image inside it. This preserves every mob's native aspect ratio instead of
   // forcing differently shaped artwork into the same rectangle.
-  const sourceWidth = spriteSheet ? sprite.naturalWidth / spriteSheet.columns : sprite.naturalWidth;
-  const sourceHeight = spriteSheet ? sprite.naturalHeight / spriteSheet.rows : sprite.naturalHeight;
-  const sourceAspect = sourceWidth / sourceHeight;
+  const sourceAspect = sprite.naturalWidth / sprite.naturalHeight;
   const boxAspect = spriteWidth / spriteHeight;
   const drawWidth = sourceAspect > boxAspect
     ? spriteWidth
@@ -11406,24 +11256,10 @@ function drawActorSprite({
   const drawHeight = sourceAspect > boxAspect
     ? spriteWidth / sourceAspect
     : spriteHeight;
-  const equippedArmor = variant === 'hero' ? getEquippedArmor() : null;
-  const combatOffsetX = equippedArmor?.combatOffsetX || 0;
-  const combatOffsetY = equippedArmor?.combatOffsetY || 0;
-  if (spriteSheet) {
-    const frame = ((spriteSheet.frame % 4) + 4) % 4;
-    const sourceX = (frame % spriteSheet.columns) * sourceWidth;
-    const sourceY = Math.floor(frame / spriteSheet.columns) * sourceHeight;
-    ctx.drawImage(
-      sprite,
-      sourceX, sourceY, sourceWidth, sourceHeight,
-      -drawWidth / 2 + combatOffsetX, 38 - drawHeight + combatOffsetY, drawWidth, drawHeight,
-    );
-  } else {
-    ctx.drawImage(sprite, -drawWidth / 2 + combatOffsetX, 38 - drawHeight + combatOffsetY, drawWidth, drawHeight);
-  }
+  ctx.drawImage(sprite, -drawWidth / 2, 38 - drawHeight, drawWidth, drawHeight);
   ctx.restore();
 
-  if (deathProgress === 0 && !(variant === 'hero' && state.victoryPoseTimer > 0)) {
+  if (deathProgress === 0) {
     const spriteTop = y + bob + 38 - drawHeight * scale;
     const healthBarY = variant === 'hero'
       ? y - 76
@@ -11595,8 +11431,8 @@ function drawEnemy(enemy) {
   // Classify movement from the artwork actually being drawn. Ground enemies
   // keep their feet planted; only winged and supernatural floaters receive a
   // vertical offset. This also handles biome reskins such as Sunscale Rays.
-  const flyingTypes = ['glowBat', 'voidwingDrake', 'sunfeatherGriffin', 'fungalFairyWitch', 'lavaEagle', 'frostwingDrake', 'boneRaven', 'gravewingRaven', 'prismMoth', 'sunscaleRay', 'eclipseShrike', 'nightcoilDrake'];
-  const floatingTypes = ['wraith', 'arcaneOrb', 'skeletonOrb', 'skell4', 'skell10', 'frostWraith', 'abyssJelly', 'abyssJellyNew', 'tidefangEel', 'abyssalRazorfin', 'clockworkOrb', 'leyshardWisp', 'veilbornShade', 'singularityEye', 'duskweaver', 'eclipseReaper', 'gloomfinSerpent', 'ghost1', 'ghost2', 'ghost3', 'ghost4', 'ghost5'];
+  const flyingTypes = ['glowBat', 'voidwingDrake', 'sunfeatherGriffin', 'fungalFairyWitch', 'lavaEagle', 'frostwingDrake', 'boneRaven', 'gravewingRaven', 'prismMoth', 'sunscaleRay'];
+  const floatingTypes = ['wraith', 'arcaneOrb', 'skeletonOrb', 'frostWraith', 'abyssJelly', 'tidefangEel', 'abyssalRazorfin', 'clockworkOrb'];
   const flying = flyingTypes.includes(themedVariant);
   const floating = floatingTypes.includes(themedVariant);
   const wingFlap = flying ? Math.sin((enemy.movePhase || 0) * 2.8) : 0;
@@ -11865,22 +11701,25 @@ function drawEnemy(enemy) {
       : null,
   });
 
-  if (enemy.champion && !enemy.dead) {
+  // A small permanent rift sigil makes enemies with unusual traversal rules
+  // recognizable before they vanish, burrow, or phase through a wall.
+  if (enemy.type === 'wraith' || enemy.type === 'assassin' || enemy.type === 'burrower') {
+    const sigilColor = enemy.type === 'wraith' ? '#a78bfa'
+      : enemy.type === 'assassin' ? '#f472b6' : '#fbbf24';
+    const sigilPulse = 1 + Math.sin(performance.now() * 0.005 + enemy.x) * 0.12;
     ctx.save();
-    ctx.font = '800 10px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'bottom';
-    const labelWidth = Math.min(190, ctx.measureText(enemy.championName).width + 16);
-    ctx.fillStyle = 'rgba(30, 16, 3, 0.92)';
-    ctx.strokeStyle = '#fbbf24';
-    ctx.lineWidth = 1.5;
-    ctx.fillRect(enemy.x - labelWidth / 2, enemy.y - 88, labelWidth, 18);
-    ctx.strokeRect(enemy.x - labelWidth / 2, enemy.y - 88, labelWidth, 18);
-    ctx.fillStyle = '#fef3c7';
-    ctx.fillText(enemy.championName, enemy.x, enemy.y - 74);
+    ctx.translate(enemy.x, enemy.y - enemy.radius - 17);
+    ctx.rotate(Math.PI / 4);
+    ctx.globalAlpha = (1 - deathProgress) * 0.82;
+    ctx.strokeStyle = sigilColor;
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.72)';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = sigilColor;
+    ctx.shadowBlur = 8;
+    ctx.fillRect(-5 * sigilPulse, -5 * sigilPulse, 10 * sigilPulse, 10 * sigilPulse);
+    ctx.strokeRect(-5 * sigilPulse, -5 * sigilPulse, 10 * sigilPulse, 10 * sigilPulse);
     ctx.restore();
   }
-
 }
 
 // Counter-flips an embedded boss health bar so it always reads left to right.
@@ -11914,16 +11753,6 @@ const bossPoseLayouts = {
 function drawBossSpritePreservingAspect(sprite, centerX, centerY, height) {
   const width = height * (sprite.naturalWidth / sprite.naturalHeight);
   ctx.drawImage(sprite, centerX - width / 2, centerY - height / 2, width, height);
-}
-
-function drawCroppedBossSprite(sprite, bounds, centerX, bottomY, height) {
-  const [sourceX, sourceY, sourceWidth, sourceHeight] = bounds;
-  const width = height * sourceWidth / sourceHeight;
-  ctx.drawImage(
-    sprite,
-    sourceX, sourceY, sourceWidth, sourceHeight,
-    centerX - width / 2, bottomY - height, width, height,
-  );
 }
 
 function drawHeadAnchoredBossPose(variant, idleSprite, raisedSprite, raised, poseCharge) {
@@ -12067,59 +11896,16 @@ function drawInkboundBook(boss) {
 
 // Draws one frame from an evenly divided transparent attack strip while
 // preserving that frame's native proportions.
-function drawSeparatedAttackFrame(image, frameCount, frameIndex, width, centerX = 0, centerY = 0, sourceFrames = null, fixedHeight = null) {
+function drawSeparatedAttackFrame(image, frameCount, frameIndex, width, centerX = 0, centerY = 0) {
   if (!image?.complete || image.naturalWidth <= 0 || image.naturalHeight <= 0) return;
+  const sourceWidth = image.naturalWidth / frameCount;
   const safeIndex = clamp(frameIndex, 0, frameCount - 1);
-  const sourceFrame = sourceFrames?.[safeIndex];
-  const sourceX = sourceFrame?.[0] ?? image.naturalWidth / frameCount * safeIndex;
-  const sourceY = sourceFrame?.[1] ?? 0;
-  const sourceWidth = sourceFrame?.[2] ?? image.naturalWidth / frameCount;
-  const sourceHeight = sourceFrame?.[3] ?? image.naturalHeight;
-  const height = fixedHeight ?? width * sourceHeight / sourceWidth;
-  const drawWidth = fixedHeight ? fixedHeight * sourceWidth / sourceHeight : width;
+  const height = width * image.naturalHeight / sourceWidth;
   ctx.drawImage(
     image,
-    sourceX, sourceY, sourceWidth, sourceHeight,
-    centerX - drawWidth / 2, centerY - height / 2, drawWidth, height,
+    sourceWidth * safeIndex, 0, sourceWidth, image.naturalHeight,
+    centerX - width / 2, centerY - height / 2, width, height,
   );
-}
-
-function getMobAttackSheetEffect(projectile) {
-  if (!projectile.useAttackSheet) return null;
-  if (projectile.sourceType === 'magmaSerpent') return art.mobFireBoltEffect;
-  if (projectile.sourceType === 'dragonBoss') return art.mobIceShardEffect;
-  if (['chainHexer', 'singularityEye', 'duskweaver', 'eclipseSpider'].includes(projectile.sourceType)) return art.mobShadowBoltEffect;
-  if (world.themeIndex === 0 || world.themeIndex === 11) return art.mobNatureBoltEffect;
-  if (world.themeIndex === 1 || world.themeIndex === 10) return art.mobWaterOrbEffect;
-  if (world.themeIndex === 2 || world.themeIndex === 6) return art.mobFireBoltEffect;
-  if (world.themeIndex === 3) return art.mobIceShardEffect;
-  if (world.themeIndex === 7 || world.themeIndex === 12 || world.themeIndex === 13) return art.mobShadowBoltEffect;
-  if (world.themeIndex === 8) return art.mobHolyBoltEffect;
-  return art.mobArcaneBoltEffect;
-}
-
-function getBossAttackSheetEffect(boss) {
-  if (['lavaGolem', 'sandBoss', 'sandSnake', 'meltedMonarch'].includes(boss.variant)) return art.bossFirePillarEffect;
-  if (['iceBoss', 'oceanBoss', 'dragonBoss', 'drownedBell', 'stormglassLeviathan', 'octopusBoss'].includes(boss.variant)) return art.bossIceNovaEffect;
-  if (['lushGolem', 'woodBoss', 'fungalBoss', 'gravebloomColossus', 'astralrootColossus', 'mysticalWarden'].includes(boss.variant)) return art.bossNatureThornsEffect;
-  if (['shadowBoss', 'abyssBoss', 'hollowStarBoss', 'darkMagicSovereign'].includes(boss.variant)) return art.bossShadowGateEffect;
-  if (['crystalBoss', 'yinYangBoss', 'lunarKitsune', 'eternityWarden'].includes(boss.variant)) return art.bossHolyStarEffect;
-  return art.bossArcaneVortexEffect;
-}
-
-function drawContainedEffect(image, centerX, centerY, maxWidth, maxHeight, opacity = 1) {
-  if (!image?.complete || image.naturalWidth <= 0 || image.naturalHeight <= 0) return false;
-  const scale = Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight);
-  const width = image.naturalWidth * scale;
-  const height = image.naturalHeight * scale;
-  ctx.save();
-  ctx.globalAlpha = opacity;
-  ctx.globalCompositeOperation = 'lighter';
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(image, centerX - width / 2, centerY - height / 2, width, height);
-  ctx.restore();
-  return true;
 }
 
 // Renders boss-specific art with wind-up, lunge, hit, and death animation.
@@ -12220,8 +12006,7 @@ function drawBoss(boss) {
   ctx.rotate(movementRotation + deathProgress * Math.PI * 2.5);
   const deathScale = (1 - deathProgress * 0.9) * (0.78 + introEase * 0.22);
   const bossVisualScale = boss.variant === 'iceBoss' ? 1.08 : 1.4;
-  const bossSourceFacesRight = boss.variant === 'crystalBoss' || boss.variant === 'yinYangBoss' || boss.variant === 'hollowStarBoss' || boss.variant === 'inkboundArchivist' || boss.variant === 'crimsonMarionette' || boss.variant === 'meltedMonarch' || boss.variant === 'drownedBell' || boss.variant === 'stormglassLeviathan' || boss.variant === 'clockworkArchon' || boss.variant === 'clockworkSeraph' || boss.variant === 'darkMagicSovereign' || boss.variant === 'gravebloomColossus' || boss.variant === 'lunarKitsune' || boss.variant === 'eternityWarden';
-  const bossFacesFront = boss.variant === 'astralrootColossus' || boss.variant === 'mysticalWarden';
+  const bossSourceFacesRight = boss.variant === 'crystalBoss' || boss.variant === 'yinYangBoss' || boss.variant === 'hollowStarBoss' || boss.variant === 'inkboundArchivist' || boss.variant === 'crimsonMarionette' || boss.variant === 'meltedMonarch' || boss.variant === 'drownedBell' || boss.variant === 'stormglassLeviathan' || boss.variant === 'clockworkArchon' || boss.variant === 'clockworkSeraph' || boss.variant === 'gravebloomColossus' || boss.variant === 'lunarKitsune' || boss.variant === 'eternityWarden';
   ctx.scale(
     (bossFacesFront ? 1 : bossSourceFacesRight
       ? (boss.facingX < 0 ? -1 : 1)
@@ -12373,24 +12158,52 @@ function drawBoss(boss) {
 
   if (boss.variant === 'hollowStarBoss' && art.hollowStarBoss.complete && art.hollowStarBoss.naturalWidth > 0) {
     const attacking = boss.attackWindup > 0 || boss.attackPulse > 0 || boss.lungeTimer > 0;
+    let sprite = art.hollowStarBoss;
+    const frames = {
+      hollowStarOverhead: [art.hollowStarOverhead1, art.hollowStarOverhead2, art.hollowStarOverhead3],
+      hollowStarRoundhouse: [art.hollowStarRoundhouse1, art.hollowStarRoundhouse2, art.hollowStarRoundhouse3],
+      hollowStarGroundSlam: [art.hollowStarGroundSlam1, art.hollowStarGroundSlam2, art.hollowStarGroundSlam3],
+    }[boss.attackType];
+    let attackFrameIndex = 0;
+    if (frames && attacking) {
+      // Run the complete three-pose sequence during anticipation, then hold
+      // the impact pose through the damage pulse and melee lunge.
+      attackFrameIndex = boss.attackWindup <= 0 ? 2 : Math.min(2, Math.floor(charge * 3));
+      const requestedFrame = frames[attackFrameIndex];
+      const loadedFrame = requestedFrame?.complete && requestedFrame.naturalWidth > 0
+        ? requestedFrame
+        : frames.find((frame) => frame?.complete && frame.naturalWidth > 0);
+      if (loadedFrame) sprite = loadedFrame;
+    }
     ctx.shadowColor = '#a78bfa';
     ctx.shadowBlur = 42 + windup * 46 + pulse * 28;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    const separatedAttack = attacking ? {
-      hollowStarOverhead: { image: art.hollowStarOrbVortexSeparated, count: 4, frames: [[0, 0, 420, 724], [420, 0, 525, 724], [945, 0, 575, 724], [1520, 0, 652, 724]] },
-      hollowStarRoundhouse: { image: art.hollowStarRoundhouseSeparated, count: 3, frames: [[0, 0, 620, 724], [620, 0, 890, 724], [1510, 0, 662, 724]] },
-      hollowStarGroundSlam: { image: art.hollowStarGroundSlamSeparated, count: 4, frames: [[0, 0, 520, 724], [520, 0, 530, 724], [1050, 0, 545, 724], [1595, 0, 577, 724]] },
-    }[boss.attackType] : null;
-    if (separatedAttack?.image.complete && separatedAttack.image.naturalWidth > 0) {
-      const attackFrame = boss.attackWindup <= 0
-        ? separatedAttack.count - 1
-        : Math.min(separatedAttack.count - 1, Math.floor(charge * separatedAttack.count));
-      // Attack exports are the boss itself, not an effect layered over the
-      // idle boss. Every pose is normalized to the same 264px height.
-      drawSeparatedAttackFrame(separatedAttack.image, separatedAttack.count, attackFrame, 0, 0, 0, separatedAttack.frames, 264);
-    } else {
-      drawBossSpritePreservingAspect(art.hollowStarBoss, 0, 0, 264);
+    drawBossSpritePreservingAspect(sprite, 0, 0, 264);
+    if (frames && attacking) {
+      const separatedAttack = {
+        hollowStarOverhead: { image: art.hollowStarOrbVortexSeparated, count: 4, width: 300 },
+        hollowStarRoundhouse: { image: art.hollowStarRoundhouseSeparated, count: 3, width: 350 },
+        hollowStarGroundSlam: { image: art.hollowStarGroundSlamSeparated, count: 4, width: 350 },
+      }[boss.attackType];
+      if (separatedAttack) {
+        const effectFrame = boss.attackWindup <= 0
+          ? separatedAttack.count - 1
+          : Math.min(separatedAttack.count - 1, Math.floor(charge * separatedAttack.count));
+        ctx.save();
+        ctx.globalAlpha *= boss.attackWindup > 0 ? 0.78 : 0.96;
+        ctx.shadowColor = '#8b5cf6';
+        ctx.shadowBlur = 38;
+        drawSeparatedAttackFrame(
+          separatedAttack.image,
+          separatedAttack.count,
+          effectFrame,
+          separatedAttack.width,
+          0,
+          -12,
+        );
+        ctx.restore();
+      }
     }
     drawBossHealthBar(boss, -76, -160, 152, 10, '#020617', '#a78bfa');
     ctx.restore();
@@ -12405,7 +12218,7 @@ function drawBoss(boss) {
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
       ctx.globalAlpha = 0.25 + charge * 0.48 + pulse * 0.22;
-      ctx.strokeStyle = boss.attackType === 'inkCloud' ? '#3b82f6' : '#67e8f9';
+      ctx.strokeStyle = boss.attackType === 'inkCloud' ? '#6366f1' : '#67e8f9';
       ctx.lineWidth = 5 + charge * 5;
       ctx.setLineDash([18, 12]);
       ctx.rotate(performance.now() * 0.0025);
@@ -12418,7 +12231,7 @@ function drawBoss(boss) {
       ctx.stroke();
       ctx.restore();
     }
-    ctx.shadowColor = boss.attackType === 'inkCloud' ? '#2563eb' : '#22d3ee';
+    ctx.shadowColor = boss.attackType === 'inkCloud' ? '#4f46e5' : '#22d3ee';
     ctx.shadowBlur = 44 + windup * 46 + pulse * 30;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
@@ -12452,8 +12265,8 @@ function drawBoss(boss) {
         ctx.clip();
         ctx.globalCompositeOperation = 'screen';
         ctx.globalAlpha *= boss.attackWindup > 0 ? 0.68 : 0.9;
-        ctx.filter = 'hue-rotate(-55deg) contrast(1.45) saturate(1.45)';
-        ctx.shadowColor = '#38bdf8';
+        ctx.filter = 'contrast(1.45) saturate(1.35)';
+        ctx.shadowColor = '#a855f7';
         ctx.shadowBlur = 40;
         ctx.drawImage(
           art.octopusAttackSheet,
@@ -12472,9 +12285,6 @@ function drawBoss(boss) {
     stormglassLeviathan: { idle: art.stormglassLeviathan, frames: [art.stormglassAttack1, art.stormglassAttack2, art.stormglassAttack3], glow: '#22d3ee' },
     clockworkArchon: { idle: art.clockworkArchon, frames: [art.clockworkArchon, art.clockworkArchon, art.clockworkArchon], glow: '#facc15' },
     clockworkSeraph: { idle: art.clockworkSeraph, frames: [art.clockworkSeraph, art.clockworkSeraph, art.clockworkSeraph], glow: '#38bdf8' },
-    darkMagicSovereign: { idle: art.darkMagicSovereign, frames: [art.darkMagicSovereign, art.darkMagicSovereign, art.darkMagicSovereign], glow: '#8b5cf6' },
-    astralrootColossus: { idle: art.astralrootColossus, frames: [art.astralrootColossus, art.astralrootColossus, art.astralrootColossus], glow: '#a855f7' },
-    mysticalWarden: { idle: art.mysticalWarden, frames: [art.mysticalWarden, art.mysticalWarden, art.mysticalWarden], glow: '#22d3ee' },
     gravebloomColossus: { idle: art.gravebloomColossus, frames: [art.gravebloomAttack1, art.gravebloomAttack2, art.gravebloomAttack3], glow: '#c084fc' },
     lunarKitsune: { idle: art.lunarKitsune, frames: [art.lunarAttack1, art.lunarAttack2, art.lunarAttack3], glow: '#93c5fd' },
     eternityWarden: { idle: art.eternityWarden, frames: [art.eternityAttack1, art.eternityAttack2, art.eternityAttack3], glow: '#fde68a' },
@@ -12485,8 +12295,8 @@ function drawBoss(boss) {
     const requestedFrame = boss.attackWindup > 0 ? (charge < 0.58 ? frames[0] : frames[1]) : frames[2];
     const sprite = attacking && requestedFrame?.complete && requestedFrame.naturalWidth > 0 ? requestedFrame : idle;
     const strike = boss.attackWindup > 0 ? charge : pulse;
-    const projectileAttack = ['lightningLance', 'stormArcVolley', 'forkedLightning', 'gearVolley', 'archonClockburst', 'cogCrossfire', 'graveSeedVolley', 'graveThornCircle', 'corpsePetalBurst', 'lunarBolts', 'kitsuneStarfan', 'moonCrescentFan', 'hourglassVolley', 'eternityParadox', 'chronoSpiral', 'darkLanceVolley', 'astralShardVolley'].includes(boss.attackType);
-    const ultimateAttack = ['glassTempest', 'stormSurge', 'shatteredTide', 'judgmentHour', 'timeLock', 'rewindPulse', 'gravebloom', 'rootCage', 'tombVines', 'moonfall', 'eclipseNova', 'foxfireCircle', 'timeCollapse', 'endOfAges', 'finalSecond', 'darkEclipseNova', 'crystalGroveCataclysm'].includes(boss.attackType);
+    const projectileAttack = ['lightningLance', 'stormArcVolley', 'forkedLightning', 'gearVolley', 'archonClockburst', 'cogCrossfire', 'graveSeedVolley', 'graveThornCircle', 'corpsePetalBurst', 'lunarBolts', 'kitsuneStarfan', 'moonCrescentFan', 'hourglassVolley', 'eternityParadox', 'chronoSpiral'].includes(boss.attackType);
+    const ultimateAttack = ['glassTempest', 'stormSurge', 'shatteredTide', 'judgmentHour', 'timeLock', 'rewindPulse', 'gravebloom', 'rootCage', 'tombVines', 'moonfall', 'eclipseNova', 'foxfireCircle', 'timeCollapse', 'endOfAges', 'finalSecond'].includes(boss.attackType);
     if ((projectileAttack || ultimateAttack) && (boss.attackWindup > 0 || pulse > 0)) {
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
@@ -12616,9 +12426,9 @@ function drawBoss(boss) {
         spriteBounds = frameBounds[frameIndex];
       }
     }
-    // Normalize the visible figure rather than the empty 1024x1536 canvas.
-    // Every pose now keeps the same body scale and grounded foot position.
-    drawCroppedBossSprite(sprite, spriteBounds, 0, 132, 250);
+    // Every animation frame is a complete 1024x1536 boss sprite. There are
+    // no composited hand crops, rotating loose swords, or opaque patch boxes.
+    drawBossSpritePreservingAspect(sprite, 0, 0, 264);
     drawBossHealthBar(boss, -72, -158, 144, 10, '#020617', '#f8fafc');
     ctx.restore();
     return;
@@ -12987,23 +12797,12 @@ function drawPlayer() {
   const isMoving = !victoryPose && (movementControlMode === 'arrows'
     ? keys.has('arrowup') || keys.has('arrowleft') || keys.has('arrowdown') || keys.has('arrowright')
     : keys.has('w') || keys.has('a') || keys.has('s') || keys.has('d'));
-  const animationTime = performance.now();
-  const animationDt = clamp((animationTime - player.walkAnimationTime) / 1000, 0, 0.05);
-  player.walkAnimationTime = animationTime;
-  // Ease into and out of the gait so tapping a movement key cannot snap the
-  // full-body illustration abruptly between idle and its maximum lean.
-  const walkResponse = 1 - Math.exp(-animationDt * (isMoving ? 10 : 14));
-  player.walkBlend += ((isMoving ? 1 : 0) - player.walkBlend) * walkResponse;
-  player.walkPhase += animationDt * (7.6 + player.walkBlend * 1.5);
-  const primaryStep = Math.sin(player.walkPhase);
-  const passingStep = Math.sin(player.walkPhase * 2);
-  // A slight second harmonic gives alternate steps different weight, while a
-  // twice-per-cycle rise and fall resembles two grounded footfalls.
-  const stride = (primaryStep + passingStep * 0.12) * 5.6 * player.walkBlend;
-  const footfall = (1 - Math.cos(player.walkPhase * 2)) * 0.5;
-  const idleBreath = Math.sin(animationTime * 0.0024) * 0.18 * (1 - player.walkBlend);
-  const victoryLift = victoryPose ? -3 - Math.sin(animationTime * 0.004) * 1.2 : 0;
-  const bob = -footfall * 1.15 * player.walkBlend + idleBreath + victoryLift;
+  const walkPhase = performance.now() * 0.0095;
+  const walkStep = isMoving ? Math.sin(walkPhase) : 0;
+  const stride = walkStep * 8;
+  const bob = isMoving
+    ? -Math.abs(walkStep) * 1.8
+    : Math.sin(performance.now() * 0.003) * 0.2;
   const teleportProgress = state.teleportTimer > 0
     ? 1 - state.teleportTimer / state.teleportDuration
     : 0;
@@ -13043,7 +12842,7 @@ function drawPlayer() {
     health: player.health,
     maxHealth: player.maxHealth,
     facingX: player.visualFacingX,
-    scale: (0.55 + teleportVisibility * 0.45) * (1 - chasmPhase * 0.7) * (victoryPose ? 1.08 : 1),
+    scale: (0.55 + teleportVisibility * 0.45) * (1 - chasmPhase * 0.7),
   });
   drawArmorWearOverlay(
     transitionX,
@@ -13105,8 +12904,8 @@ function drawPlayer() {
       ? '#c084fc'
       : equippedWeapon.kind === 'bow'
         ? '#fde68a'
-        : 'transparent';
-    ctx.shadowBlur = equippedWeapon.kind === 'melee' ? 0 : 14;
+        : weaponGlowColors[equippedWeapon.id] || '#fca5a5';
+    ctx.shadowBlur = 14;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     if (equippedWeapon.sheet) {
@@ -13179,29 +12978,27 @@ function drawPlayer() {
     } else {
       const combatWidth = equippedWeapon.combatWidth || 24;
       const combatHeight = equippedWeapon.combatHeight || 86;
-      const [sourceX, sourceY, sourceWidth, sourceHeight] = equippedWeapon.combatCrop || [
-        0,
-        0,
-        equippedWeaponArt.naturalWidth,
-        equippedWeaponArt.naturalHeight,
-      ];
-      const gripX = equippedWeapon.gripX ?? 0.5;
-      const gripY = equippedWeapon.gripY ?? 0.12;
-      // Every melee weapon is positioned by its actual handle. This also
-      // covers full-image weapons such as Trialbreaker, whose grip settings
-      // were previously ignored by the uncropped drawing path.
-      ctx.rotate(equippedWeapon.combatArtRotation || 0);
-      ctx.drawImage(
-        equippedWeaponArt,
-        sourceX,
-        sourceY,
-        sourceWidth,
-        sourceHeight,
-        -combatWidth * gripX,
-        -combatHeight * gripY,
-        combatWidth,
-        combatHeight,
-      );
+      if (equippedWeapon.combatCrop) {
+        const [sourceX, sourceY, sourceWidth, sourceHeight] = equippedWeapon.combatCrop;
+        const gripX = equippedWeapon.gripX ?? 0.5;
+        const gripY = equippedWeapon.gripY ?? 0.5;
+        // Later weapon paintings include large transparent side margins. Crop
+        // those before downscaling, then pin the actual grip to the hero's hand.
+        ctx.rotate(equippedWeapon.combatArtRotation || 0);
+        ctx.drawImage(
+          equippedWeaponArt,
+          sourceX,
+          sourceY,
+          sourceWidth,
+          sourceHeight,
+          -combatWidth * gripX,
+          -combatHeight * gripY,
+          combatWidth,
+          combatHeight,
+        );
+      } else {
+        ctx.drawImage(equippedWeaponArt, -combatWidth / 2, -9, combatWidth, combatHeight);
+      }
     }
     ctx.restore();
   }
@@ -15308,7 +15105,7 @@ function requestBattlegroundExit() {
 }
 
 function renderSurvivalArenaSelection() {
-  survivalArenaSelectionCount.textContent = 'Enemy types are revealed when each wave begins.';
+  survivalArenaSelectionCount.textContent = 'Your first enemies are revealed when the gates close.';
   beginSurvivalArenaButton.disabled = false;
 }
 

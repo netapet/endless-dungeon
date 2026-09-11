@@ -4,9 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Endless Dungeon Prototype</title>
-    <link rel="stylesheet" href="styles/style.css?v=20260828-1" />
+    <link rel="stylesheet" href="styles/style.css?v=20260911-1" />
   </head>
   <body>
+    <div id="accountLoginOverlay" class="overlay account-login-overlay">
+      <form id="accountLoginForm" class="overlay-card account-login-card">
+        <div class="account-login-kicker">Endless Dungeon Account</div>
+        <h1>Load Your Hero</h1>
+        <p>Your inventory, Armory, Hall of Heroes, and Bestiary travel with this account.</p>
+        <label for="accountNameInput">Account name</label>
+        <input id="accountNameInput" type="text" minlength="2" maxlength="28" autocomplete="username" required>
+        <label for="accountPinInput">Four-digit code</label>
+        <input id="accountPinInput" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" required>
+        <button id="accountLoginButton" type="submit">Log In or Create Account</button>
+        <button id="accountForgotPinButton" class="account-secondary-button" type="button">I Forgot My Code</button>
+        <div id="accountLoginStatus" class="account-login-status" role="status">Use the same name and code on every device.</div>
+      </form>
+    </div>
+    <div id="accountRecoveryOverlay" class="overlay account-login-overlay hidden">
+      <form id="accountRecoveryForm" class="overlay-card account-login-card">
+        <div class="account-login-kicker">Account Recovery</div>
+        <h1>Recover Your Hero</h1>
+        <p>Answer three simple questions about your saved progress.</p>
+        <div id="accountRecoveryQuestions"></div>
+        <label for="accountRecoveryPinInput">Choose a new four-digit code</label>
+        <input id="accountRecoveryPinInput" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required>
+        <button type="submit">Reset My Code</button>
+        <button id="accountRecoveryCancelButton" class="account-secondary-button" type="button">Back to Login</button>
+        <div id="accountRecoveryStatus" class="account-login-status" role="status"></div>
+      </form>
+    </div>
+    <button id="accountSettingsButton" class="account-settings-button hidden" type="button">Account</button>
+    <div id="accountSettingsOverlay" class="overlay hidden">
+      <div class="overlay-card account-settings-card">
+        <div class="account-login-kicker">Account Settings</div>
+        <h1 id="accountSettingsName">Player Account</h1>
+        <p>Progress is synchronized automatically while you play.</p>
+        <button id="accountSaveNowButton" type="button">Save Now</button>
+        <button id="accountLogoutButton" class="account-logout-button" type="button">Log Out on This Device</button>
+        <button id="accountSettingsCloseButton" type="button">Return to Game</button>
+        <div id="accountSettingsStatus" class="account-login-status"></div>
+      </div>
+    </div>
     <button id="fullscreenButton" class="fullscreen-button" type="button" aria-label="Enter full screen" title="Enter full screen">
       <span class="fullscreen-enter-icon" aria-hidden="true">⛶</span>
       <span class="fullscreen-exit-icon" aria-hidden="true">×</span>
@@ -109,17 +148,24 @@
     </div>
     <div id="survivalArenaOverlay" class="overlay hidden">
       <div class="overlay-card survival-arena-card">
-        <div class="challenge-kicker">Training Grounds</div>
+        <div class="arena-entry-emblem" aria-hidden="true"><span></span></div>
+        <div class="challenge-kicker">The Endless Trial</div>
         <h1>Endless Arena</h1>
-        <p>The arena drafts a different formation from the Bestiary every wave. Each wave grows stronger, the cover layout changes, and Arena Bosses begin appearing after Wave 10. From Wave 5 onward, warned disasters damage everyone in the arena.</p>
-        <p><strong>Permanent hard rewards:</strong> Wave 12 Arena Elixir, Wave 20 Veteran Supplies, Wave 30 Arena Conqueror Plate, and Wave 40 two more Elixirs.</p>
+        <p class="arena-entry-lead">Enter alone. Survive changing enemy formations for as long as you can.</p>
         <div id="survivalArenaEnemyGrid" class="survival-arena-enemy-grid arena-random-roster">
-          <strong>Bestiary Draft</strong>
-          <span>The arena chooses a new difficulty-appropriate enemy formation every wave.</span>
+          <div class="arena-rule"><b>I</b><strong>Changing Foes</strong><span>A new Bestiary formation is chosen every wave.</span></div>
+          <div class="arena-rule"><b>II</b><strong>Hostile Ground</strong><span>Cover shifts, and disasters begin after Wave 5.</span></div>
+          <div class="arena-rule"><b>III</b><strong>Arena Bosses</strong><span>Bosses can enter the trial after Wave 10.</span></div>
         </div>
-        <p id="survivalArenaSelectionCount" class="survival-arena-selection-count">Enemy types are revealed when each wave begins.</p>
+        <div class="arena-reward-path">
+          <span><small>Wave 12</small>Arena Elixir</span>
+          <span><small>Wave 20</small>Veteran Supplies</span>
+          <span><small>Wave 30</small>Conqueror Plate</span>
+          <span><small>Wave 40</small>Two Elixirs</span>
+        </div>
+        <p id="survivalArenaSelectionCount" class="survival-arena-selection-count">Your first enemies are revealed when the gates close.</p>
         <div class="survival-arena-actions">
-          <button id="beginSurvivalArenaButton" type="button">Enter Arena</button>
+          <button id="beginSurvivalArenaButton" class="arena-enter-primary" type="button">Begin the Trial</button>
           <button id="closeSurvivalArenaButton" type="button">Return to Main Menu</button>
         </div>
       </div>
@@ -139,12 +185,16 @@
       </div>
     </div>
     <aside id="battlegroundPanel" class="battleground-panel hidden" aria-label="Battleground command panel">
+      <button id="battlePanelToggle" class="battle-panel-toggle" type="button" aria-expanded="true" title="Hide Battleground controls">&#9660;</button>
       <header><div><span>Endless Battlegrounds</span><small id="battlegroundThemeValue">Endless Wave 1</small></div><button id="exitBattlegroundButton" type="button">Exit</button></header>
       <div class="battleground-resources"><span>Battle Shards</span><strong id="battleShardValue">0</strong></div>
       <div class="battleground-zoom" aria-label="Battlefield zoom controls">
         <button id="battleZoomOutButton" type="button" title="Zoom out">−</button>
         <span id="battleZoomValue">100%</span>
         <button id="battleZoomInButton" type="button" title="Zoom in">+</button>
+      </div>
+      <div class="battle-speed-row">
+        <button id="battleSpeedButton" class="battle-speed-toggle" type="button" title="Toggle Battleground speed" aria-pressed="false">Speed 1&times;</button>
       </div>
       <div id="battlegroundShop" class="battleground-shop">
         <button type="button" data-battle-unit="dog"><img src="assets/protectors/roman-dog-clean.png" alt=""><span><b>Roman Dog</b><small>3 shards</small></span></button>
@@ -245,6 +295,42 @@
           <span>Esc: Pause</span>
           <span>Q: Use bandage</span>
           <span>P: Arena potion</span>
+      </div>
+      <button id="openRtcTestButton" class="menu-rtc-test rtc-test-launch" type="button">Multiplayer</button>
+    </div>
+    <div id="rtcTestOverlay" class="overlay rtc-test-overlay hidden">
+      <div class="overlay-card rtc-test-card">
+        <div class="rtc-test-kicker">Endless Dungeon Multiplayer</div>
+        <h1>Same-Wi-Fi Game</h1>
+        <p>Host a room or join a friend. Once connected, both heroes automatically enter the co-op Arena as the blue team against the red enemy army.</p>
+        <div class="rtc-room-connect">
+          <label for="rtcRoomCode">Six-character room code</label>
+          <input id="rtcRoomCode" type="text" maxlength="6" autocomplete="off" spellcheck="false" placeholder="ABC234">
+          <div class="rtc-room-actions">
+            <button id="rtcCreateRoomButton" type="button">Host a Room</button>
+            <button id="rtcJoinRoomButton" type="button">Join This Room</button>
+          </div>
+        </div>
+        <details class="rtc-technical-fallback">
+          <summary>Technical fallback: manual connection text</summary>
+          <div class="rtc-test-actions">
+            <button id="rtcHostButton" type="button">1. Host: Create Offer</button>
+            <button id="rtcJoinButton" type="button">2. Join: Accept Offer</button>
+            <button id="rtcAcceptAnswerButton" type="button">3. Host: Accept Answer</button>
+          </div>
+          <label for="rtcSignalInput">Paste the other PC's connection text here</label>
+          <textarea id="rtcSignalInput" rows="5" spellcheck="false" placeholder="Paste offer or answer here"></textarea>
+          <label for="rtcSignalOutput">Send this connection text to the other PC</label>
+          <textarea id="rtcSignalOutput" rows="5" readonly placeholder="Generated connection text appears here"></textarea>
+          <button id="rtcCopyButton" type="button">Copy Generated Text</button>
+        </details>
+        <div id="rtcStatus" class="rtc-status" role="status">Not connected.</div>
+        <div class="rtc-message-test">
+          <input id="rtcMessageInput" type="text" maxlength="120" placeholder="Message the other player" disabled>
+          <button id="rtcSendButton" type="button" disabled>Send Message</button>
+        </div>
+        <div id="rtcMessageLog" class="rtc-message-log" aria-live="polite"></div>
+        <button id="closeRtcTestButton" class="journal-close" type="button">Return to Main Menu</button>
       </div>
     </div>
     <div id="godModeOverlay" class="overlay god-mode-overlay hidden">
@@ -349,6 +435,6 @@
     </div>
     <canvas id="gameCanvas" width="1600" height="900"></canvas>
 
-    <script src="js/game.js?v=20260830-61"></script>
+    <script src="js/account.js?v=20260911-8"></script>
   </body>
 </html>
